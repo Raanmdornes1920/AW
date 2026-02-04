@@ -1,18 +1,23 @@
 body {
     margin: 0;
     display: flex;
-    justify-content: center; /* Centra la caja horizontalmente */
-    align-items: center;     /* Centra la caja verticalmente */
+    flex-direction: column; 
     min-height: 100vh;
-    background-color: #f4f4f4;
-    text-align: center;      /* Centra el texto dentro de la caja */
+}
+
+.navegacion {
+    display: flex;
+    justify-content: center; 
+    padding: 20px;
+    background-color: #888888;
 }
 
 .contenedor-centro {
+    flex-grow: 1;    /*Para que ocupe todo el espacio vacio*/
     display: flex;
-    flex-direction: column;  /* Alinea los hijos (img, h1, p) hacia abajo */
-    align-items: center;     /* Asegura que la imagen y el texto estén centrados entre sí */
-    gap: 20px;               /* Añade espacio uniforme entre la imagen y el texto */
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;     
 }
 
 #Logo-Inicio {
@@ -27,4 +32,11 @@ body {
 .enlaces{
     font-family: 'Times New Roman', Times, serif;
     font-size: 20px;
+    padding: 10px;
+    color: white;
+    text-decoration: none;
+}
+
+.enlaces:hover {
+    text-decoration: underline;
 }
