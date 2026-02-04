@@ -1,0 +1,30 @@
+body {
+    margin: 0;
+    display: flex;
+    justify-content: center; /* Centra la caja horizontalmente */
+    align-items: center;     /* Centra la caja verticalmente */
+    min-height: 100vh;
+    background-color: #f4f4f4;
+    text-align: center;      /* Centra el texto dentro de la caja */
+}
+
+.contenedor-centro {
+    display: flex;
+    flex-direction: column;  /* Alinea los hijos (img, h1, p) hacia abajo */
+    align-items: center;     /* Asegura que la imagen y el texto estén centrados entre sí */
+    gap: 20px;               /* Añade espacio uniforme entre la imagen y el texto */
+}
+
+#Logo-Inicio {
+    height: auto;
+}
+
+#texto-descripcion{
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 18px;
+}
+
+.enlaces{
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 20px;
+}
