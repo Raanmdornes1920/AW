@@ -40,3 +40,67 @@ body {
 .enlaces:hover {
     text-decoration: underline;
 }
+
+/* Estilo específico para el formulario de contacto */
+form {
+    background-color: #f9f9f9;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    max-width: 500px;
+    width: 100%;
+    margin: 20px 0;
+    text-align: left; /* Alineamos el texto a la izquierda para los campos */
+}
+
+/* Estilo para las etiquetas de los campos */
+label {
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* Estilo para los campos de texto y email */
+input[type="text"],
+input[type="email"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Para que el padding no ensanche el campo */
+    font-family: Arial, sans-serif;
+}
+
+/* Estilo para el grupo de radio buttons (Motivo de consulta) */
+fieldset {
+    border: 1px solid #888888;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    padding: 15px;
+}
+
+legend {
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bold;
+    padding: 0 10px;
+}
+
+/* Estilo para el botón de enviar */
+button[type="submit"] {
+    background-color: #888888; /* Color a juego con tu navegación */
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 18px;
+    font-family: 'Times New Roman', Times, serif;
+    width: 100%;
+}
+
+button[type="submit"]:hover {
+    background-color: #555555; /* Oscurece al pasar el ratón */
+}

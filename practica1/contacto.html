@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>Contacto - BISTRO FDI</title>
+    <link rel="icon" type="image/png" href="LogosBistroFDI/logo1.png">
+    <link rel="stylesheet" href="default.css">
+</head>
+<body>
+    <div class="navegacion">
+        <nav>
+            <a class="enlaces" href="index.html">Inicio</a>
+            <a class="enlaces" href="bocetos.html">Bocetos</a>
+            <a class="enlaces" href="contacto.html">Contacto</a>
+            <a class="enlaces" href="detalles.html">Detalles</a>
+            <a class="enlaces" href="miembros.html">Miembros</a>
+            <a class="enlaces" href="planificacion.html">Planificación</a>
+        </nav>
+    </div>
+
+    <div class="contenedor-centro">
+        <h1>Contacto</h1>
+        <!-- Method (post) -> Indica que los datos van dentro del paquete del mensaje no en la url -->
+        <form action="mailto:ejemplo@ucm.es" method="post" enctype="text/plain">
+            <p>
+                <label for="nombre">Nombre:</label><br>
+                <input type="text" id="nombre" name="nombre">
+            </p>
+
+            <p>
+                <label for="email">Dirección de email:</label><br>
+                <input type="email" id="email" name="email">
+            </p>
+
+            <fieldset>
+                <legend>Motivo de la consulta:</legend>
+                <input type="radio" id="evaluacion" name="motivo" value="evaluacion">
+                <label for="evaluacion">Evaluación</label><br>
+                <input type="radio" id="sugerencias" name="motivo" value="sugerencias">
+                <label for="sugerencias">Sugerencias</label><br>
+                <input type="radio" id="criticas" name="motivo" value="criticas">
+                <label for="criticas">Críticas</label>
+            </fieldset>
+
+            <p>
+                <input type="checkbox" id="terminos" name="terminos">
+                <label for="terminos">Marque esta casilla para verificar que ha leído nuestros términos y condiciones del servicio</label>
+            </p>
+
+            <p>
+                <label for="consulta">Su consulta:</label><br>
+                <textarea id="consulta" name="consulta" rows="4" cols="40"></textarea>
+            </p>
+
+            <button type="submit">Enviar Correo</button>
+        </form>
+    </div>
+</body>
+</html>
