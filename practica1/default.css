@@ -121,6 +121,8 @@ button[type="submit"]:hover {
 
 .descripcion-miembro{
     text-align: justify;
+    max-width: 45%;
+    justify-content: center;
 }
 
 .imagen{
