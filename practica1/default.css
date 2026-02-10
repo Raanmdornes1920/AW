@@ -122,3 +122,9 @@ button[type="submit"]:hover {
 .descripcion-miembro{
     text-align: justify;
 }
+
+.imagen{
+    border-radius: 20px; /* Bordes suaves */
+    width: 300px;
+    height: auto;
+}
