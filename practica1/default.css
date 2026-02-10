@@ -24,6 +24,11 @@ body {
     height: auto;
 }
 
+#contenedor-descripcion{
+    max-width: 25%;
+    justify-content: center;
+}
+
 #texto-descripcion{
     font-family: 'Times New Roman', Times, serif;
     font-size: 18px;
