@@ -32,6 +32,7 @@ body {
 #texto-descripcion{
     font-family: 'Times New Roman', Times, serif;
     font-size: 18px;
+    text-align: justify;
 }
 
 .enlaces{
