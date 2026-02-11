@@ -19,7 +19,9 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center; 
-    align-items: center;     
+    align-items: center;   
+    padding-top: 100px; 
+    box-sizing: border-box;  
 }
 
 #Logo-Inicio {
