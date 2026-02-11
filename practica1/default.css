@@ -130,3 +130,8 @@ button[type="submit"]:hover {
     width: 300px;
     height: auto;
 }
+
+.margenes-laterales{
+    margin-left: 2%;
+    margin-right: 2%;
+}
