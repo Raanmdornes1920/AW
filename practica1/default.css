@@ -6,6 +6,8 @@ body {
 }
 
 .navegacion {
+    position: fixed;
+    width: 100%;
     display: flex;
     justify-content: center; 
     padding: 20px;
@@ -17,7 +19,9 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center; 
-    align-items: center;     
+    align-items: center;   
+    padding-top: 100px; 
+    box-sizing: border-box;  
 }
 
 #Logo-Inicio {
@@ -129,4 +133,19 @@ button[type="submit"]:hover {
     border-radius: 20px; /* Bordes suaves */
     width: 300px;
     height: auto;
+}
+
+.margenes-laterales{
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+.contenedor-imagen {
+    flex-grow: 1;    /*Para que ocupe todo el espacio vacio*/
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;   
+    padding-top: 100px; 
+    box-sizing: border-box;  
 }
