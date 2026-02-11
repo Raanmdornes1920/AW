@@ -149,3 +149,13 @@ button[type="submit"]:hover {
     margin-left: 2%;
     margin-right: 2%;
 }
+
+.contenedor-imagen {
+    flex-grow: 1;    /*Para que ocupe todo el espacio vacio*/
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;   
+    padding-top: 100px; 
+    box-sizing: border-box;  
+}
