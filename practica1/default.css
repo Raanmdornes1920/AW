@@ -145,9 +145,10 @@ button[type="submit"]:hover {
     height: auto;
 }
 
-.margenes-laterales{
+.margenes{
     margin-left: 2%;
     margin-right: 2%;
+    padding-top: 60px;
 }
 
 .contenedor-imagen {
@@ -156,10 +157,6 @@ button[type="submit"]:hover {
     flex-direction: column;
     justify-content: center; 
     align-items: center;   
-    padding-top: 100px; 
+    padding-top: 60px; 
     box-sizing: border-box;  
-}
-
-.padding-superior {
-    padding-top: 65px !important;
 }
