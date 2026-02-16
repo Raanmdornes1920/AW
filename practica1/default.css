@@ -159,3 +159,7 @@ button[type="submit"]:hover {
     padding-top: 100px; 
     box-sizing: border-box;  
 }
+
+.padding-superior {
+    padding-top: 65px !important;
+}
