@@ -66,6 +66,18 @@ body {
     text-decoration: underline;
 }
 
+.enlace_seleccionado{
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 20px;
+    padding: 10px;
+    color: #000000;
+    text-decoration: none;
+}
+
+.enlace_seleccionado:hover {
+    text-decoration: underline;
+}
+
 /* Estilo específico para el formulario de contacto */
 form {
     background-color: #f9f9f9;
