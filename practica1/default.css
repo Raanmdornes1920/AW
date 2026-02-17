@@ -142,14 +142,6 @@ button[type="submit"]:hover {
     background-color: #555555; /* Oscurece al pasar el ratón */
 }
 
-#miembros{
-    flex-grow: 1;    /*Para que ocupe todo el espacio vacio*/
-    display: flex;
-    flex-direction: column;
-    justify-content: center; 
-    align-items: center; 
-}
-
 .descripcion-miembro{
     text-align: justify;
     max-width: 45%;
@@ -176,4 +168,18 @@ button[type="submit"]:hover {
     align-items: center;   
     padding-top: 60px; 
     box-sizing: border-box;  
+}
+
+h1 {
+    font-size: 33px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+h2 {
+    font-size: 26px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+table, tr, th, td {
+    border: 1px solid black;
 }
