@@ -14,5 +14,6 @@ public function login(Usuario $user) {
         <?php
             echo '<h1>Prueba PHP</h1>';
         ?>
+        
     </body>
 </html>
