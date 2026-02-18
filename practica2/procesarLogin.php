@@ -18,7 +18,7 @@ if ($userPost === "admin" && $passPost === "1234") {
     $_SESSION['nombre'] = $user->username();
     $_SESSION['roles'] = $user->roles();
 
-    header("Location: dashboard.php"); // Redirige a una funcionalidad
+    header("Location: index.php"); // Redirige a una funcionalidad
 } else {
     echo "Error: Usuario o contraseña incorrectos.";
     echo "<a href='login.php'>Volver</a>";
