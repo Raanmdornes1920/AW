@@ -1,6 +1,6 @@
 <?php
 session_start();
-// 1. Aquí incluirías tus clases (Usuario.php)
+require_once 'Usuario.php';
 // 2. Aquí conectarías con la Base de Datos (Estructura BD)
 
 $userPost = $_POST['username'];
@@ -19,6 +19,7 @@ if ($userPost === "admin" && $passPost === "1234") {
     $_SESSION['roles'] = $user->roles();
 
     header("Location: index.php"); // Redirige a una funcionalidad
+    exit();
 } else {
     echo "Error: Usuario o contraseña incorrectos.";
     echo "<a href='login.php'>Volver</a>";

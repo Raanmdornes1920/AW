@@ -1,3 +1,4 @@
+<?php
 class Usuario {
     private $nombreUsuario;
     private $rol;
@@ -14,4 +15,4 @@ class Usuario {
     public function roles() {
         return $this->rol;
     }
-}
+}?>
