@@ -1,10 +1,3 @@
-<?php 
-public function login(Usuario $user) {
-    $_SESSION['login'] = true;
-    $_SESSION['nombre'] = $user->username();
-    $_SESSION['roles'] = $user->roles();
-}?>
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -13,6 +6,7 @@ public function login(Usuario $user) {
     <body>
         <?php
             echo '<h1>Prueba PHP</h1>';
+            
         ?>
         
     </body>
