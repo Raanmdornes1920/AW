@@ -19,114 +19,149 @@
     </div>
 
     <main class="margenes">
-        <div>
-            <h1>Bocetos del sistema BISTRO FDI</h1>
+    <nav>
+      <a class="enlaces" href="index.html">Inicio</a>
+      <a class="enlaces" href="bocetos.html">Bocetos</a>
+      <a class="enlaces" href="contacto.html">Contacto</a>
+      <a class="enlaces" href="detalles.html">Detalles</a>
+      <a class="enlaces" href="miembros.html">Miembros</a>
+      <a class="enlaces" href="planificacion.html">Planificación</a>
+    </nav>
+  </div>
 
-            <!-- PANTALLA 1 -->
-            <section>
-                <h2>Pantalla 1: Página Principal</h2>
-                <p><strong>Funcionalidad:</strong> acceso general al sistema y visualización destacada de productos/menús.</p>
+  <main class="contenido">
+    <h1>Bocetos y navegación por roles - BISTRO FDI</h1>
+    <p>
+      Todos los bocetos se plantean para uso en ordenador. Se muestra qué ve cada rol
+      (Cliente, Camarero, Cocinero, Gerente) y cómo navega entre pantallas.
+    </p>
 
-                <!-- AQUÍ VA LA FOTO -->
-                <img src="../img/boceto-home.jpg" alt="Boceto página principal" width="750">
+    <h2>Cliente </h2>
 
-                <h3>Elementos principales</h3>
-                <ul>
-                    <li>Cabecera con logo y menú de navegación</li>
-                    <li>Zona destacada con menú del día o productos populares</li>
-                    <li>Botón para explorar la carta completa</li>
-                </ul>
+    <section>
+      <h3>Pantalla 1: Login / Registro</h3>
+      <p><strong>Rol:</strong> Cliente (y resto de roles).</p>
+      <p><strong>Funcionalidad:</strong> identificación obligatoria; registro de nuevos clientes.</p>
+      <img src="../img/boceto-01-login.jpg" alt="Boceto login " width="850">
+      <p><strong>Navegación:</strong> Entrar → Pantalla 2.</p>
+    </section>
 
-                <h3>Navegación</h3>
-                <ul>
-                    <li>Botón "Ver carta" → Pantalla de listado</li>
-                    <li>Botón "Iniciar sesión" → Pantalla de login</li>
-                </ul>
-            </section>
+    <section>
+      <h3>Pantalla 2: Elegir tipo de pedido</h3>
+      <p><strong>Rol:</strong> Cliente.</p>
+      <p><strong>Funcionalidad:</strong> seleccionar pedido Local o Llevar.</p>
+      <img src="../img/boceto-02-tipo-pedido.jpg" alt="Boceto tipo pedido" width="850">
+      <p><strong>Navegación:</strong> Local/Llevar → Pantalla 3.</p>
+    </section>
 
-            <!-- PANTALLA 2 -->
-            <section>
-                <h2>Pantalla 2: Carta / Listado de productos</h2>
-                <p><strong>Funcionalidad:</strong> exploración y filtrado de platos disponibles.</p>
+    <section>
+      <h3>Pantalla 3: Categorías + listado de productos</h3>
+      <p><strong>Rol:</strong> Cliente.</p>
+      <p><strong>Funcionalidad:</strong> navegar por categorías y ver productos disponibles.</p>
+      <img src="../img/boceto-03-categorias-listado.jpg" alt="Boceto categorías y listado" width="850">
+      <ul>
+        <li>Click en categoría → filtra el listado</li>
+        <li>Click en producto → Pantalla 4</li>
+      </ul>
+    </section>
 
-                <!-- AQUÍ VA LA FOTO -->
-                <img src="../img/boceto-listado.jpg" alt="Boceto listado productos" width="750">
+    <section>
+      <h3>Pantalla 4: Detalle de producto</h3>
+      <p><strong>Rol:</strong> Cliente.</p>
+      <p><strong>Funcionalidad:</strong> ver detalle; elegir cantidad; añadir al carrito.</p>
+      <img src="../img/boceto-04-detalle-producto.jpg" alt="Boceto detalle producto" width="850">
+      <p><strong>Navegación:</strong> “Añadir” → Carrito (Pantalla 5) o volver al listado.</p>
+    </section>
 
-                <h3>Elementos principales</h3>
-                <ul>
-                    <li>Buscador por nombre</li>
-                    <li>Filtros por tipo o alérgenos</li>
-                    <li>Tarjetas con imagen, nombre y precio</li>
-                </ul>
+    <section>
+      <h3>Pantalla 5: Carrito (pedido en creación)</h3>
+      <p><strong>Rol:</strong> Cliente.</p>
+      <p><strong>Funcionalidad:</strong> modificar unidades; eliminar productos del carrito; confirmar o cancelar.</p>
+      <img src="../img/boceto-05-carrito.jpg" alt="Boceto carrito" width="850">
+      <ul>
+        <li>Confirmar → Pago (Pantalla 6)</li>
+        <li>Cancelar → vuelve al inicio / tipo de pedido (según diseño)</li>
+      </ul>
+    </section>
 
-                <h3>Navegación</h3>
-                <ul>
-                    <li>Click en un producto → Pantalla de detalle</li>
-                    <li>Volver → Página principal</li>
-                </ul>
-            </section>
+    <section>
+      <h3>Pantalla 6: Pago</h3>
+      <p><strong>Rol:</strong> Cliente.</p>
+      <p><strong>Funcionalidad:</strong> pagar con tarjeta (simulado con validaciones) o solicitar pagar al camarero.</p>
+      <img src="../img/boceto-06-pago.jpg" alt="Boceto pago" width="850">
+      <p><strong>Navegación:</strong> Pagar → Confirmación (Pantalla 7).</p>
+    </section>
 
-            <!-- PANTALLA 3 -->
-            <section>
-                <h2>Pantalla 3: Detalle de producto</h2>
-                <p><strong>Funcionalidad:</strong> visualización completa de información del plato.</p>
+    <section>
+      <h3>Pantalla 7: Confirmación</h3>
+      <p><strong>Rol:</strong> Cliente.</p>
+      <p><strong>Funcionalidad:</strong> mostrar nº de pedido, estado y botón “volver al inicio”.</p>
+      <img src="../img/boceto-07-confirmacion.jpg" alt="Boceto confirmación" width="850">
+      <p><strong>Navegación:</strong> “Volver al inicio” → Pantalla 1 (reinicio del flujo).</p>
+    </section>
 
-                <!-- AQUÍ VA LA FOTO -->
-                <img src="../img/boceto-detalle.jpg" alt="Boceto detalle producto" width="750">
+    <h2>Personal </h2>
 
-                <h3>Elementos principales</h3>
-                <ul>
-                    <li>Imagen del plato</li>
-                    <li>Descripción completa</li>
-                    <li>Información de alérgenos</li>
-                    <li>Botón para realizar pedido o acción principal</li>
-                </ul>
+    <section>
+      <h3>Pantalla 8: Camarero - Pedidos “Recibido”</h3>
+      <p><strong>Rol:</strong> Camarero.</p>
+      <p><strong>Funcionalidad:</strong> cobrar pedidos cuando el cliente elige pagar al camarero; confirmar pago → “En preparación”.</p>
+      <img src="../img/boceto-08-camarero-recibido.jpg" alt="Boceto camarero recibido" width="850">
+    </section>
 
-                <h3>Navegación</h3>
-                <ul>
-                    <li>Botón "Pedir" → Confirmación / Login si no está autenticado</li>
-                    <li>Volver → Listado</li>
-                </ul>
-            </section>
+    <section>
+      <h3>Pantalla 9: Cocinero - Pedidos “En preparación”</h3>
+      <p><strong>Rol:</strong> Cocinero.</p>
+      <p><strong>Funcionalidad:</strong> quedarse con un pedido; al asignarlo pasa a “Cocinando”.</p>
+      <img src="../img/boceto-09-cocinero-lista.jpg" alt="Boceto cocinero lista" width="850">
+    </section>
 
-            <!-- PANTALLA 4 -->
-            <section>
-                <h2>Pantalla 4: Login / Registro</h2>
-                <p><strong>Funcionalidad:</strong> autenticación del usuario para realizar pedidos o guardar favoritos.</p>
+    <section>
+      <h3>Pantalla 10: Cocinero - Detalle de pedido</h3>
+      <p><strong>Rol:</strong> Cocinero.</p>
+      <p><strong>Funcionalidad:</strong> marcar productos preparados y finalizar → “Listo cocina”.</p>
+      <img src="../img/boceto-10-cocinero-detalle.jpg" alt="Boceto cocinero detalle" width="850">
+    </section>
 
-                <!-- AQUÍ VA LA FOTO -->
-                <img src="../img/boceto-login.jpg" alt="Boceto login" width="750">
+    <section>
+      <h3>Pantalla 11: Camarero - “Listo cocina / Terminado / Entregado”</h3>
+      <p><strong>Rol:</strong> Camarero.</p>
+      <p><strong>Funcionalidad:</strong> completar lo que falta (p.ej. bebidas / empaquetado para llevar), pasar a “Terminado” y confirmar entrega → “Entregado”.</p>
+      <img src="../img/boceto-11-camarero-entrega.jpg" alt="Boceto camarero entrega" width="850">
+    </section>
 
-                <h3>Navegación</h3>
-                <ul>
-                    <li>Enviar formulario → Perfil del usuario</li>
-                    <li>Enlace "Crear cuenta" → Registro</li>
-                </ul>
-            </section>
+    <h2>Gerente </h2>
 
-            <!-- RECORRIDOS -->
-            <section>
-                <h2>Recorridos principales del sistema</h2>
+    <section>
+      <h3>Pantalla 12: Gerente - Gestión de productos y categorías (CRUD)</h3>
+      <p><strong>Rol:</strong> Gerente.</p>
+      <p><strong>Funcionalidad:</strong> listar/crear/editar/retirar (ofertado) productos; selector de categoría; mostrar precio final con IVA.</p>
+      <img src="../img/boceto-12-gerente-productos.jpg" alt="Boceto gerente productos" width="850">
+    </section>
 
-                <h3>Recorrido A: Usuario realiza un pedido</h3>
-                <ol>
-                    <li>Accede a la página principal</li>
-                    <li>Explora la carta</li>
-                    <li>Selecciona un producto</li>
-                    <li>Pulsa "Pedir"</li>
-                    <li>Inicia sesión si es necesario</li>
-                    <li>Confirma la acción</li>
-                </ol>
+    <section>
+      <h2>Recorridos principales (paso a paso)</h2>
 
-                <h3>Recorrido B: Usuario consulta información de alérgenos</h3>
-                <ol>
-                    <li>Accede a la carta</li>
-                    <li>Aplica filtro por alérgenos</li>
-                    <li>Consulta detalle del producto</li>
-                </ol>
-            </section>
-        </div>
-    </main>
+      <h3>Recorrido Cliente (compra completa)</h3>
+      <ol>
+        <li>Login/Registro</li>
+        <li>Elegir tipo de pedido (Local/Llevar)</li>
+        <li>Navegar por categorías y seleccionar productos</li>
+        <li>Detalle producto → elegir cantidad → añadir al carrito</li>
+        <li>Carrito → modificar unidades / eliminar → confirmar</li>
+        <li>Pago → tarjeta (simulada) o pagar al camarero</li>
+        <li>Confirmación → volver al inicio</li>
+      </ol>
 
+      <h3>Recorrido Personal (cambio de estados)</h3>
+      <ol>
+        <li>Camarero confirma pago: “Recibido” → “En preparación”</li>
+        <li>Cocinero se asigna: “En preparación” → “Cocinando”</li>
+        <li>Cocinero finaliza: “Cocinando” → “Listo cocina”</li>
+        <li>Camarero completa y entrega: “Listo cocina” → “Terminado” → “Entregado”</li>
+      </ol>
+    </section>
+
+  </main>
 </body>
 </html>
