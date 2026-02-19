@@ -6,13 +6,66 @@ body {
 }
 
 .navegacion {
+    top: 0;
+    left: 0;
     position: fixed;
     width: 100%;
-    height: 3%;
+    min-height: 3%;
     display: flex;
     justify-content: center; 
-    padding: 20px;
+    padding: 10px 0;
     background-color: #888888;
+}
+
+.navegacion_principal{
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    gap: 10px;
+}
+
+.enlaces{
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 20px;
+    padding: 10px;
+    color: white;
+    text-decoration: none;
+    align-items: center;
+}
+
+.enlaces:hover {
+    text-decoration: underline;
+}
+
+.enlace_seleccionado{
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 20px;
+    padding: 10px;
+    color: #000000;
+    text-decoration: none;
+}
+
+.enlace_seleccionado:hover {
+    text-decoration: underline;
+}
+
+#boton-cerrar-sesion{
+    
+    background-color: #000000;
+    color: white;
+    padding: 10px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: 'Times New Roman', Times, serif;
+    margin-right: 1%;
+}
+
+#boton-cerrar-sesion:hover{
+    
+    text-decoration: none;
 }
 
 .contenedor-centro {
@@ -54,29 +107,7 @@ body {
     text-align: justify;
 }
 
-.enlaces{
-    font-family: 'Times New Roman', Times, serif;
-    font-size: 20px;
-    padding: 10px;
-    color: white;
-    text-decoration: none;
-}
 
-.enlaces:hover {
-    text-decoration: underline;
-}
-
-.enlace_seleccionado{
-    font-family: 'Times New Roman', Times, serif;
-    font-size: 20px;
-    padding: 10px;
-    color: #000000;
-    text-decoration: none;
-}
-
-.enlace_seleccionado:hover {
-    text-decoration: underline;
-}
 
 /* Estilo específico para el formulario de contacto */
 form {
@@ -184,3 +215,4 @@ h2 {
 table, tr, th, td {
     border: 1px solid black;
 }
+

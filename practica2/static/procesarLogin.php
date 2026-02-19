@@ -28,7 +28,8 @@ if ($resultado && mysqli_num_rows($resultado) === 1) {
         $_SESSION['nombre'] = $user->username();
         $_SESSION['roles'] = $user->roles();
 
-        header("Location: " . RAIZ_APP . "/");
+        $return_to = !empty($_POST['return']) ? RAIZ_APP . '/' . $_POST['return'] : RAIZ_APP . '/';
+        header("Location: " . $return_to);
         exit();
     } else {
         echo "Error: Contraseña incorrecta.";
