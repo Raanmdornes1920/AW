@@ -17,6 +17,7 @@ require_once 'config.php'; // El archivo inteligente de arriba
             
             if ($fila = mysqli_fetch_assoc($resultado)) {
                 echo '<h1>Bienvenido ' . htmlspecialchars($fila['nombre_usuario']) . '!</h1>';
+                echo '<button onclick="window.location.href=\'logout.php\'">Cerrar Sesión</button>';
             }
         } else {
             echo '<h1>Bienvenido invitado!</h1><br>';

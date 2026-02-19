@@ -24,3 +24,4 @@ if ($userPost === "admin" && $passPost === "1234") {
     echo "Error: Usuario o contraseña incorrectos.";
     echo "<a href='login.php'>Volver</a>";
 }
+?>
