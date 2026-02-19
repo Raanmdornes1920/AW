@@ -99,6 +99,7 @@ label {
 }
 
 /* Estilo para los campos de texto y email */
+input[type="password"],
 input[type="text"],
 input[type="email"],
 textarea {
