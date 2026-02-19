@@ -1,6 +1,6 @@
 <?php 
 session_start(); 
-require_once 'config.php'; // El archivo inteligente de arriba
+require_once 'config.php';
 ?>
 <!DOCTYPE html>
 <html>
@@ -16,12 +16,10 @@ require_once 'config.php'; // El archivo inteligente de arriba
             $resultado = mysqli_query($db_connection, $sql);
             
             if ($fila = mysqli_fetch_assoc($resultado)) {
-                echo '<h1>Bienvenido ' . htmlspecialchars($fila['nombre_usuario']) . '!</h1>';
-                echo '<button onclick="window.location.href=\'logout.php\'">Cerrar Sesión</button>';
+                include 'inicio.php';
             }
         } else {
-            echo '<h1>Bienvenido invitado!</h1><br>';
-            echo '<button onclick="window.location.href=\'login.php\'">Iniciar Sesión</button>';
+            include 'login.php';
         }
         ?>
     </body>
