@@ -17,7 +17,7 @@ require_once '../static/config.php';
 
     <main class="contenedor-centro">    
         <h1 id="titulo-registro">Registro</h1>
-        <form action="<?php echo RUTA_STATIC ?>/procesarRegistro.php" method="POST">
+        <form action="<?php echo RUTA_STATIC ?>/procesarRegistro.php" method="POST" enctype="multipart/form-data">
             <label>Nombre:</label>
             <br>
             <input type="text" name="nombre" required>

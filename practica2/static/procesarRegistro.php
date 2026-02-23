@@ -1,8 +1,4 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 require_once 'Usuario.php';
 require_once 'config.php';
 
@@ -32,14 +28,13 @@ if ($resultado && mysqli_num_rows($resultado) === 0) {
         $fileTmpPath = $_FILES['foto_perfil']['tmp_name'];
         $fileName = $_FILES['foto_perfil']['name'];
         
-        // Limpiamos el nombre para evitar problemas con espacios o caracteres raros
         $fileNameClean = time() . "_" . preg_replace("/[^a-zA-Z0-9.]/", "_", $fileName);
         
-        // Definimos dónde se va a guardar (Asegúrate de que la carpeta exista)
-        $dest_path = "img/perfiles/" . $fileNameClean;
-
+        $dest_path = "../img/perfiles/" . $fileNameClean;
+        
         if(move_uploaded_file($fileTmpPath, $dest_path)) {
-            $nombreImagen = $fileNameClean; // Este es el nombre que irá a la BD
+            $nombreImagen = $fileNameClean;
+            chmod($dest_path, 0666); 
         }
     }
 
