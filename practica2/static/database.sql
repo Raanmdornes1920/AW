@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.2
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: vm016.db.swarm.test
--- Tiempo de generación: 19-02-2026 a las 12:54:01
--- Versión del servidor: 10.4.28-MariaDB-1:10.4.28+maria~ubu2004
--- Versión de PHP: 8.2.27
+-- Servidor: localhost
+-- Tiempo de generación: 23-02-2026 a las 21:54:06
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -44,8 +44,10 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `nombre_usuario`, `email`, `nombre`, `apellidos`, `password`, `rol`, `avatar`) VALUES
-(1, 'admin', 'admin@bistrofdi.es', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 'gerente', 'default.png'),
-(2, 'cliente', 'rsalaz01@ucm.es', 'cliente', '', '4983a0ab83ed86e0e7213c8783940193', 'cliente', 'default.png');
+(1, 'admin', 'admin@bistrofdi.es', '', '', '$2y$10$CGRqz7Ue7A16x0w9TRuK/.Y8OQocy5ksGKVqhWhKcqFpV3FmCjyeO', 'gerente', 'default.png'),
+(2, 'cliente', 'cliente@ucm.es', '', '', '$2y$10$2gsbg4/807iDyWG4b6il0uxVFIlP.eaKovNxfqnoTcLhlXvSE1tNy', 'cliente', 'default.png'),
+(3, 'cliente1', 'cliente1@ucm.es', 'cliente', 'cliente', '$2y$10$.AHgUipO78yoXi/bRB3EXOMR3QQhRZqMFaNdOFNHnhBWVMBdjrrJC', 'cliente', 'default.png'),
+(4, 'ramon', 'rsalaz01@ucm.es', 'Ramon', 'Salazar', '$2y$10$pMaD94..5pGDceR9NlNHcuKWjUtiApNopMoJ6CP0wb.V22Kcz5WWO', 'cliente', '1771879787_Logo.png');
 
 --
 -- Índices para tablas volcadas
@@ -67,7 +69,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
