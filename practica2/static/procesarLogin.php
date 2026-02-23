@@ -19,8 +19,7 @@ $resultado = mysqli_query($db_connection, $sql);
 if ($resultado && mysqli_num_rows($resultado) === 1) {
     $fila = mysqli_fetch_assoc($resultado);
 
-
-    if (md5($passPost) === $fila['password']) {
+    if (password_verify($passPost, $fila['password'])) {
     
         $user = new Usuario($fila['nombre_usuario'], [$fila['rol']]); 
 
@@ -29,7 +28,7 @@ if ($resultado && mysqli_num_rows($resultado) === 1) {
         $_SESSION['roles'] = $user->roles();
 
         $return_to = !empty($_POST['return']) ? RAIZ_APP . '/' . $_POST['return'] : RAIZ_APP . '/';
-        header("Location: " . $return_to);
+        header("Location: " . RAIZ_APP);
         exit();
     } else {
         echo "Error: Contraseña incorrecta.";

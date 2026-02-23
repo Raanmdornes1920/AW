@@ -10,7 +10,7 @@ body {
     left: 0;
     position: fixed;
     width: 100%;
-    min-height: 3%;
+    height: 5.5%;
     display: flex;
     justify-content: center; 
     padding: 10px 0;
@@ -91,6 +91,24 @@ body {
     height: auto;
 }
 
+#Logo-Header {
+    margin-top: -6%;
+    height: auto;
+    max-height: 300%;
+}
+
+#boton-registro{
+    background-color: #000000;
+    color: white;
+    padding: 10px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: 'Times New Roman', Times, serif;
+    margin-right: 1%;
+}
+
 #contenedor-descripcion{
     max-width: 25%;
     justify-content: center;
@@ -107,7 +125,27 @@ body {
     text-align: justify;
 }
 
-
+input[type="file"] {
+    padding: 10px;
+    width: 100%;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Para que el padding no ensanche el campo */
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 14px;
+}
+input[type="file"]::file-selector-button {
+    background-color: #000000;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 14px;
+    margin-right: 15px;
+}
 
 /* Estilo específico para el formulario de contacto */
 form {
@@ -215,4 +253,3 @@ h2 {
 table, tr, th, td {
     border: 1px solid black;
 }
-
