@@ -4,15 +4,13 @@
 
 // Arrancamos sesión (necesario siempre)
 session_start();
+require_once '../static/config.php';
 
 // Comprobación básica: usuario logueado
 if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
     header("Location: ../index.php");
-    exit;
+    exit();
 }
-
-// Conexión a BD
-require_once '../static/config.php';
 
 // Consulta de categorías
 $sql = "SELECT id, nombre, descripcion, activa FROM categorias ORDER BY nombre";

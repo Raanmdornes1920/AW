@@ -8,9 +8,6 @@ require_once 'static/config.php';
         <title>Bistro FDI</title>
     </head>
     <body>
-        <!-- Header -->
-        <?php include 'static/header_login.php'; ?>
-        <!-- Header -->
         <?php
         if(isset($_SESSION['login']) && $_SESSION['login']){
 

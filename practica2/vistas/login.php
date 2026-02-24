@@ -8,6 +8,10 @@
     
 </head>
 <body>
+    <!-- Header -->
+    <?php include 'static/header_login.php'; ?>
+    <!-- Header -->
+     
     <main class="contenedor-centro">    
         <h1>Inicio de Sesion</h1>
         <form action="<?php echo RUTA_STATIC ?>/procesarLogin.php" method="POST">
