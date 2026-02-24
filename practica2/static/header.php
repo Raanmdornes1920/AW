@@ -15,7 +15,7 @@ function clase_activa($nombre_archivo, $pagina_actual) {
         <?php echo '<a class="'.clase_activa('index.php', $pagina_actual).'" href="'.RAIZ_APP.'/">Inicio</a>'; ?>
         
         <?php if(in_array('gerente', $_SESSION['roles'])) {
-            echo '<a class="'.clase_activa('categoria_crear.php', $pagina_actual).'" href="'.RUTA_VISTAS.'/categoria_crear.php">Categorias</a>';
+            echo '<a class="'.clase_activa('categorias.php', $pagina_actual).'" href="'.RUTA_VISTAS.'/categorias.php">Categorias</a>';
         } ?>
 
         <a class="<?php echo clase_activa('prueba1.php', $pagina_actual); ?>" href="<?php echo RUTA_VISTAS ?>/prueba1.php">Prueba1</a>

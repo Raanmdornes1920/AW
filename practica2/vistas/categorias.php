@@ -22,9 +22,12 @@ $resultado = mysqli_query($db_connection, $sql);
 <head>
     <meta charset="UTF-8">
     <title>Categorías - Bistro FDI</title>
+    <link rel="stylesheet" href="<?php echo RUTA_CSS; ?>/default.css">
 </head>
 <body>
-
+<!-- Header -->
+<?php include '../static/header.php'; ?>
+<!-- Header -->
 <h1>Gestión de Categorías</h1>
 
 <p>
