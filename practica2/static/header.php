@@ -10,6 +10,8 @@ function clase_activa($nombre_archivo, $pagina_actual) {
 ?>
     
 <header class="navegacion">
+    <div class="header-izquierdo"></div>
+
     <nav class="navegacion_principal" aria-label="Navegación principal">
         
         <?php echo '<a class="'.clase_activa('index.php', $pagina_actual).'" href="'.RAIZ_APP.'/">Inicio</a>'; ?>
@@ -25,5 +27,21 @@ function clase_activa($nombre_archivo, $pagina_actual) {
         <a class="<?php echo clase_activa('prueba5.php', $pagina_actual); ?>" href="<?php echo RUTA_VISTAS ?>/prueba5.php">Prueba5</a>
         
     </nav>
-    <button class="enlaces" id="boton-cerrar-sesion" onclick="window.location.href='<?php echo RAIZ_APP; ?>/static/logout.php?return=<?php echo basename($_SERVER['PHP_SELF']); ?>'">Cerrar Sesión</button>
+    <div class="header-derecho">
+        <div class="usuario-menu-container">
+            <figure class="avatar-container" onclick="toggleMenu()">
+                <img src="<?php echo RUTA_IMG . '/perfiles/' . $_SESSION['foto_perfil']; ?>" alt="Icono de usuario" class="avatar">
+            </figure>
+
+            <div id="menuDesplegable" class="dropdown-content">
+                <p class="usuario-nombre"><?php echo $_SESSION['nombre']; ?></p>
+                <hr>
+                <a href="<?php echo RUTA_VISTAS; ?>/editar_perfil.php">Mi Perfil</a>
+                <?php if(in_array('gerente', $_SESSION['roles'])): ?>
+                    <a href="<?php echo RUTA_VISTAS; ?>/ajustes_admin.php">Ajustes</a>
+                <?php endif; ?>
+                <a href="<?php echo RUTA_STATIC; ?>/logout.php" class="logout-link">Cerrar Sesión</a>
+            </div>
+        </div>    
+    </div>
 </header>

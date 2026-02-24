@@ -13,16 +13,31 @@ body {
     height: 5.5%;
     display: flex;
     justify-content: center; 
+    justify-content: space-between;
     padding: 10px 0;
     background-color: #888888;
 }
 
 .navegacion_principal{
+    flex: 2;
     height: 100%;
     margin-left: auto;
     margin-right: auto;
     display: flex;
     gap: 10px;
+    justify-content: center;
+}
+
+.header-izquierdo,
+.header-derecho {
+    display: flex;
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.header-derecho {
+    justify-content: flex-end;
 }
 
 .enlaces{
@@ -212,6 +227,43 @@ button[type="submit"]:hover {
     background-color: #555555; /* Oscurece al pasar el ratón */
 }
 
+#boton_cancelar, #boton_aceptar {
+    background-color: #888888; /* Color a juego con tu navegación */
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 18px;
+    font-family: 'Times New Roman', Times, serif;
+    width: 50%;
+}
+
+#boton_cancelar:hover, #boton_aceptar:hover {
+    background-color: #555555; /* Oscurece al pasar el ratón */
+}
+
+#botones_formulario {
+    padding-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.titulo-formulario {
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.centrado {
+    padding-top: 4%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
 .descripcion-miembro{
     text-align: justify;
     max-width: 45%;
@@ -252,4 +304,196 @@ h2 {
 
 table, tr, th, td {
     border: 1px solid black;
+}
+
+.avatar {
+    height: 50px;
+    border-radius: 50%;
+}
+
+.avatar-container{
+    margin-right: 15px;
+    cursor: pointer;
+}
+
+.usuario-menu-container {
+    position: relative;
+    display: inline-block;
+    
+    margin-bottom: 0;
+    padding: 0;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: #474747;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1000;
+    border-radius: 8px;
+    margin-top: 0;
+    padding: 5px 0;
+}
+
+/* Mostrar cuando se añade la clase 'show' con JS */
+.dropdown-content.show {
+    display: block;
+}
+
+/* Enlaces del menú */
+.dropdown-content a {
+    color: #d3d3d3;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-size: 14px;
+}
+
+.dropdown-content a:hover {
+    background-color: #000000;
+}
+
+.usuario-nombre {
+    padding: 0 15px;
+    font-weight: bold;
+    color: #ffffff;
+    font-size: 16px;
+    text-transform: uppercase;
+    text-decoration: bold;
+
+}
+
+.perfil-container {
+    background-color: #f9f9f9;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    max-width: 500px;
+    width: 100%;
+    margin: 20px 0;
+    text-align: left; /* Alineamos el texto a la izquierda para los campos */
+}
+
+#titulo-perfil {
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+#contenedor-avatar {
+    position: relative; /* Importante para posicionar el lápiz */
+    width: 80px;        /* Ajusta al tamaño de tu avatar */
+    height: 80px;
+    border-radius: 50%; /* Si quieres que sea circular */
+    overflow: hidden;   /* Para que nada sobresalga */
+    cursor: pointer;
+}
+
+#Logo-Usuario {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: filter 0.3s ease; /* Suaviza el oscurecimiento */
+}
+
+/* Capa que contiene el lápiz */
+.capa-editar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* Fondo oscuro semitransparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0; /* Oculto por defecto */
+    transition: opacity 0.3s ease;
+}
+
+.icono-lapiz {
+    color: white;
+    font-size: 24px;
+}
+
+.icono-lapiz-img {
+    width: 30px;      /* Ajusta el tamaño a tu gusto */
+    height: 30px;
+    object-fit: contain; /* Evita que el lápiz se deforme */
+    /* No necesitas ponerle color blanco porque ya es una imagen */
+}
+
+/* Efecto HOVER */
+#contenedor-avatar:hover .capa-editar {
+    opacity: 1; /* Mostramos la capa */
+}
+
+#contenedor-avatar:hover #Logo-Usuario {
+    filter: blur(1px); /* Opcional: desenfoque ligero al pasar el ratón */
+}
+
+.imagen-usarname-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+#nombre-usuario {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 24px;
+    font-weight: bold;
+    flex-grow: 1; 
+    margin: 0;
+}
+
+#boton-editar-usuario{
+    max-height: 24px;
+    margin-right: 20px;
+    height: 24px;
+    object-fit: contain;
+    transition: transform 0.2s; /* Efecto suave al pasar el ratón */
+}
+
+#boton-editar-usuario:hover{
+    cursor: pointer;
+    transform: scale(1.2); /* El lápiz crece un poco al pasar el ratón */
+}
+
+.fila-dato {
+    display: flex;      
+    align-items: center;
+    gap: 10px;         
+    margin-bottom: 5px;
+}
+
+.tipo-dato-usuario {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0; 
+}
+
+.datos-usuario {
+    flex: 1;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 24px;
+    font-weight: normal;
+    text-align: center;
+    margin: 0;
+}
+
+.lapiz-negro {
+    height: 24px;
+    object-fit: contain;
+    transition: transform 0.2s; /* Efecto suave al pasar el ratón */
+    margin-right: 20px;
+}
+
+.lapiz-negro:hover {
+    transform: scale(1.2); /* El lápiz crece un poco al pasar el ratón */
 }

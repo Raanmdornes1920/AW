@@ -14,6 +14,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
     <meta charset="UTF-8">
     <title>Nueva categoría</title>
     <link rel="stylesheet" href="<?php echo RUTA_CSS; ?>/default.css">
+    <script src="<?php echo RAIZ_APP; ?>/js/script.js"></script>
 </head>
 <body>
 <!-- Header -->

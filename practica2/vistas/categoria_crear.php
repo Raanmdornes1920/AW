@@ -14,23 +14,32 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
     <meta charset="UTF-8">
     <title>Nueva categoría</title>
     <link rel="stylesheet" href="<?php echo RUTA_CSS; ?>/default.css">
+    <script src="<?php echo RAIZ_APP; ?>/js/script.js"></script>
 </head>
 <body>
 <!-- Header -->
 <?php include '../static/header.php'; ?>
 <!-- Header -->
-<h1>Nueva categoría</h1>
+<section class="centrado">
+    <h1 class="titulo-formulario">Nueva categoría</h1>
 
-<form action="../static/categoria_crear.php" method="post">
-    <label>Nombre:</label><br>
-    <input type="text" name="nombre" required><br><br>
+    <form action="../static/categoria_crear.php" method="post" enctype="multipart/form-data">
+        <label>Nombre:</label><br>
+        <input type="text" name="nombre" required><br>
 
-    <label>Descripción:</label><br>
-    <textarea name="descripcion" rows="4" cols="40"></textarea><br><br>
+        <label>Descripción:</label><br>
+        <textarea name="descripcion" rows="4" cols="40" required></textarea><br>
 
-    <button type="submit">Crear</button>
-    <a href="categorias.php">Cancelar</a>
-</form>
+        <label>Imagen:</label><br>
+        <input type="file" name="imagen" accept="image/*"><br><br>
+
+        <div id="botones_formulario">
+        <button id="boton_aceptar" type="submit">Crear</button>
+        <button id="boton_cancelar" type="button" onclick="window.location.href='categorias.php'">Cancelar</button>
+        </div>
+    </form>
+
+</section>
 
 </body>
 </html>

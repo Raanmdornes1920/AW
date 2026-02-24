@@ -6,6 +6,7 @@
         <title>BISTRO FDI</title>
         <link rel="icon" type="image/svg+xml" href="<?php echo RUTA_IMG; ?>/logo1.svg">
         <link rel="stylesheet" href="<?php echo RUTA_CSS; ?>/default.css">
+        <script src="<?php echo RAIZ_APP; ?>/js/script.js"></script>
     </head>
     <body>
         <!-- Header -->
@@ -15,7 +16,7 @@
         <!-- Contenido -->
         <main class="contenedor-centro-index">
             <article id="contenedor-descripcion">
-                <h1 id="titulo-descripcion">Bienvenido <?php echo $_SESSION['nombre']?></h1>
+                <h1 id="titulo-descripcion">Bienvenido <?php echo $_SESSION['usuario']?></h1>
                 <p id="texto-descripcion">
                     Esto es una prueba de como se vería la pagina de inicio
                 </p>
