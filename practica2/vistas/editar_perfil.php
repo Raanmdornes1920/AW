@@ -16,7 +16,6 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
         <title>Perfil- BISTRO FDI</title>
         <link rel="icon" type="image/svg+xml" href="<?php echo RUTA_IMG; ?>/logo1.svg">
         <link rel="stylesheet" href="<?php echo RUTA_CSS; ?>/default.css">
-        <script src="<?php echo RAIZ_APP; ?>/js/script.js"></script>
     </head>
     <body>
         <!-- Header -->
@@ -36,42 +35,59 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
                         
                     </figure>
                     <h2 id="nombre-usuario"><?php echo $_SESSION['usuario']; ?></h2>
-                    <img onclick="editarUsername()" src="<?php echo RUTA_IMG; ?>/iconos/lapiz.png" id="boton-editar-usuario" alt="Editar">
+                    <img onclick="abrirModal('Username')" src="<?php echo RUTA_IMG; ?>/iconos/lapiz.png" id="boton-editar-usuario" alt="Editar">
                 </div>
                 <br>
                 <article>
                     <div class="fila-dato">
                         <h2 class="tipo-dato-usuario">Nombre:</h2>
                         <h2 class="datos-usuario"><?php echo $_SESSION['nombre']; ?></h2>
-                        <a href="#" class="enlace-editar">
-                            <img onclick="editarNombre()" src="<?php echo RUTA_IMG; ?>/iconos/lapiz.png" class="lapiz-negro" id="boton-editar-nombre" alt="Editar">
-                        </a>
+                        <img onclick="abrirModal('Nombre')" src="<?php echo RUTA_IMG; ?>/iconos/lapiz.png" class="lapiz-negro" id="boton-editar-nombre" alt="Editar">
                     </div>
                     <br>
                     <div class="fila-dato">
                         <h2 class="tipo-dato-usuario">Apellidos:</h2>
                         <h2 class="datos-usuario"><?php echo $_SESSION['apellidos']; ?></h2>
-                        <a href="#" class="enlace-editar">
-                            <img onclick="editarApellidos()" src="<?php echo RUTA_IMG; ?>/iconos/lapiz.png" class="lapiz-negro" id="boton-editar-apellidos" alt="Editar">
-                        </a>
+                        <img onclick="abrirModal('Apellidos')" src="<?php echo RUTA_IMG; ?>/iconos/lapiz.png" class="lapiz-negro" id="boton-editar-apellidos" alt="Editar">
                     </div>
                     <br>
                     <div class="fila-dato">
                         <h2 class="tipo-dato-usuario">Email:</h2>
                         <h2 class="datos-usuario"><?php echo $_SESSION['email']; ?></h2>
-                        <a href="#" class="enlace-editar">
-                            <img onclick="editarEmail()" src="<?php echo RUTA_IMG; ?>/iconos/lapiz.png" class="lapiz-negro" id="boton-editar-email" alt="Editar">
-                        </a>
+                        <img onclick="abrirModal('Email')" src="<?php echo RUTA_IMG; ?>/iconos/lapiz.png" class="lapiz-negro" id="boton-editar-email" alt="Editar">
                     </div>
                     <br>
                     <div class="centrado">
-                        <button id="boton_aceptar" onclick="editarPassword()">Cambiar Contraseña</button>
+                        <button id="boton_aceptar" onclick="abrirModalPassword()">Cambiar Contraseña</button>
                         <br><br>
                         <button id="boton_cancelar" onclick="window.location.href='<?php echo RAIZ_APP; ?>/'">Volver</button>
                     </div>
                 </article>
             </div>
         </main>
+        <div id="modalEditar" class="modal">
+            <div class="modal-contenido">
+                <span class="cerrar-modal">&times;</span>
+                <h3>Editar <span id="campo-a-editar"></span></h3>
+                <form id="formEditar" method="POST">
+                    <input type="text" id="nuevo-valor" name="nuevo-valor" required>
+                    <button type="submit" onclick="guardarCambios()" class="boton-guardar">Guardar cambios</button>
+                </form>
+            </div>
+        </div>
+        <div id="modalEditarPassword" class="modal">
+            <div class="modal-contenido">
+                <span class="cerrar-modal-pass">&times;</span>
+                <h3>Editar Contraseña</h3>
+                <form id="formEditarPassword" method="POST">
+                <input type="password" id="contrasena" name="contrasena" placeholder="Contraseña actual" required>    
+                <input type="password" id="nueva-contrasena" name="nueva-contrasena" placeholder="Nueva contraseña"required>
+                    <input type="password" id="confirmar-contrasena" name="confirmar-contrasena" placeholder="Confirmar nueva contraseña"required>
+                    <button type="submit" class="boton-guardar">Guardar cambios</button>
+                </form>
+            </div>
+        </div>
         <!-- Contenido -->
+        <script src="<?php echo RAIZ_APP; ?>/js/script.js"></script>
     </body>
 </html>
