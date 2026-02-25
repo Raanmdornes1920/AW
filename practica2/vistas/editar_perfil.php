@@ -35,26 +35,26 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
                         
                     </figure>
                     <h2 id="nombre-usuario"><?php echo $_SESSION['usuario']; ?></h2>
-                    <img onclick="abrirModal('Username')" src="<?php echo RUTA_IMG; ?>/iconos/lapiz.png" id="boton-editar-usuario" alt="Editar">
+                    <img onclick="abrirModal('Usuario', '<?php echo $_SESSION['usuario']; ?>')" src="<?php echo RUTA_IMG; ?>/iconos/lapiz.png" id="boton-editar-usuario" alt="Editar">
                 </div>
                 <br>
                 <article>
                     <div class="fila-dato">
                         <h2 class="tipo-dato-usuario">Nombre:</h2>
                         <h2 class="datos-usuario"><?php echo $_SESSION['nombre']; ?></h2>
-                        <img onclick="abrirModal('Nombre')" src="<?php echo RUTA_IMG; ?>/iconos/lapiz.png" class="lapiz-negro" id="boton-editar-nombre" alt="Editar">
+                        <img onclick="abrirModal('Nombre', '<?php echo $_SESSION['nombre']; ?>')" src="<?php echo RUTA_IMG; ?>/iconos/lapiz.png" class="lapiz-negro" id="boton-editar-nombre" alt="Editar">
                     </div>
                     <br>
                     <div class="fila-dato">
                         <h2 class="tipo-dato-usuario">Apellidos:</h2>
                         <h2 class="datos-usuario"><?php echo $_SESSION['apellidos']; ?></h2>
-                        <img onclick="abrirModal('Apellidos')" src="<?php echo RUTA_IMG; ?>/iconos/lapiz.png" class="lapiz-negro" id="boton-editar-apellidos" alt="Editar">
+                        <img onclick="abrirModal('Apellidos', '<?php echo $_SESSION['apellidos']; ?>')" src="<?php echo RUTA_IMG; ?>/iconos/lapiz.png" class="lapiz-negro" id="boton-editar-apellidos" alt="Editar">
                     </div>
                     <br>
                     <div class="fila-dato">
                         <h2 class="tipo-dato-usuario">Email:</h2>
                         <h2 class="datos-usuario"><?php echo $_SESSION['email']; ?></h2>
-                        <img onclick="abrirModal('Email')" src="<?php echo RUTA_IMG; ?>/iconos/lapiz.png" class="lapiz-negro" id="boton-editar-email" alt="Editar">
+                        <img onclick="abrirModal('Email', '<?php echo $_SESSION['email']; ?>')" src="<?php echo RUTA_IMG; ?>/iconos/lapiz.png" class="lapiz-negro" id="boton-editar-email" alt="Editar">
                     </div>
                     <br>
                     <div class="centrado">
@@ -69,9 +69,11 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
             <div class="modal-contenido">
                 <span class="cerrar-modal">&times;</span>
                 <h3>Editar <span id="campo-a-editar"></span></h3>
-                <form id="formEditar" method="POST">
+                <form action="../static/editar_dato.php" id="formEditar" method="POST">
+                    <input type="hidden" id="campo-editar" name="campo-editar" value="error">
+                    <label id="label-nuevo-valor"></label>
                     <input type="text" id="nuevo-valor" name="nuevo-valor" required>
-                    <button type="submit" onclick="guardarCambios()" class="boton-guardar">Guardar cambios</button>
+                    <button type="submit" class="boton-guardar">Guardar cambios</button>
                 </form>
             </div>
         </div>
@@ -80,14 +82,40 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
                 <span class="cerrar-modal-pass">&times;</span>
                 <h3>Editar Contraseña</h3>
                 <form id="formEditarPassword" method="POST">
-                <input type="password" id="contrasena" name="contrasena" placeholder="Contraseña actual" required>    
-                <input type="password" id="nueva-contrasena" name="nueva-contrasena" placeholder="Nueva contraseña"required>
-                    <input type="password" id="confirmar-contrasena" name="confirmar-contrasena" placeholder="Confirmar nueva contraseña"required>
+                    <label>Contraseña Actual:</label>
+                    <input type="password" id="contrasena" name="contrasena" placeholder="Contraseña actual" required>
+                    <label>Nueva Contraseña:</label>
+                    <input type="password" id="nueva-contrasena" name="nueva-contrasena" placeholder="Nueva contraseña"required>
+                    <label>Confirmar Nueva Contraseña:</label>
+                    <input type="password" id="confirmar-contrasena" name="confirmar-contrasena" placeholder="Confirmar nueva contraseña"required><br>
                     <button type="submit" class="boton-guardar">Guardar cambios</button>
                 </form>
             </div>
         </div>
         <!-- Contenido -->
+        <?php 
+        
+        if (isset($_SESSION['error_editar_perfil']) && $_SESSION['error_editar_perfil'] !== "Ninguno"){
+            echo '<div id="modalError" class="modal">';
+            echo '<div class="modal-contenido">';
+            echo '<span class="cerrar-modal-error">&times;</span>';
+            echo '<h3>Error al editar perfil</h3>';
+            echo '<p>'.$_SESSION['error_editar_perfil'].'</p>';
+            echo '</div>';
+            echo '</div>';
+            unset($_SESSION['error_editar_perfil']);
+        }
+        else if(isset($_SESSION['error_editar_perfil']) && $_SESSION['error_editar_perfil'] === "Ninguno"){
+            echo '<div id="modalError" class="modal">';
+            echo '<div class="modal-contenido">';
+            echo '<span class="cerrar-modal-error">&times;</span>';
+            echo '<h3>Perfil actualizado correctamente</h3>';
+            echo '</div>';
+            echo '</div>';
+            unset($_SESSION['error_editar_perfil']);
+        }
+        ?>
         <script src="<?php echo RAIZ_APP; ?>/js/script.js"></script>
+        <script src="<?php echo RAIZ_APP; ?>/js/editar_perfil.js"></script>
     </body>
 </html>
