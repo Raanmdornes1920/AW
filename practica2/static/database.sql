@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 24-02-2026 a las 14:58:10
+-- Tiempo de generación: 25-02-2026 a las 22:08:25
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -27,22 +27,20 @@ SET time_zone = "+00:00";
 -- Estructura de tabla para la tabla `categorias`
 --
 
-CREATE TABLE IF NOT EXISTS `categorias` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `categorias` (
+  `id` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
   `descripcion` text DEFAULT NULL,
   `imagen` varchar(255) DEFAULT 'default_cat.png',
-  `activa` tinyint(1) DEFAULT 1,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `nombre` (`nombre`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `activa` tinyint(1) DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `categorias`
 --
 
 INSERT INTO `categorias` (`id`, `nombre`, `descripcion`, `imagen`, `activa`) VALUES
-(1, 'Hamburguesas', 'Que quieres que te describa de una hambuerquesa mostro?', 'categoria_default.png', 1);
+(1, 'Hamburguesas', 'Que quieres que te describa de una hambuerquesa mostro?', 'categoria_default.jpg', 1);
 
 -- --------------------------------------------------------
 
@@ -50,17 +48,15 @@ INSERT INTO `categorias` (`id`, `nombre`, `descripcion`, `imagen`, `activa`) VAL
 -- Estructura de tabla para la tabla `productos`
 --
 
-CREATE TABLE IF NOT EXISTS `productos` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `productos` (
+  `id` int(11) NOT NULL,
   `id_categoria` int(11) NOT NULL,
   `nombre` varchar(150) NOT NULL,
   `descripcion` text DEFAULT NULL,
   `precio_base` decimal(10,2) NOT NULL,
   `iva` int(11) NOT NULL CHECK (`iva` in (4,10,21)),
   `disponible` tinyint(1) DEFAULT 1,
-  `ofertado` tinyint(1) DEFAULT 1,
-  PRIMARY KEY (`id`),
-  KEY `fk_prod_cat` (`id_categoria`)
+  `ofertado` tinyint(1) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -69,13 +65,11 @@ CREATE TABLE IF NOT EXISTS `productos` (
 -- Estructura de tabla para la tabla `productos_imagenes`
 --
 
-CREATE TABLE IF NOT EXISTS `productos_imagenes` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `productos_imagenes` (
+  `id` int(11) NOT NULL,
   `id_producto` int(11) NOT NULL,
   `ruta_imagen` varchar(255) NOT NULL,
-  `orden` int(11) DEFAULT 0,
-  PRIMARY KEY (`id`),
-  KEY `fk_img_prod` (`id_producto`)
+  `orden` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -84,19 +78,16 @@ CREATE TABLE IF NOT EXISTS `productos_imagenes` (
 -- Estructura de tabla para la tabla `usuarios`
 --
 
-CREATE TABLE IF NOT EXISTS `usuarios` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `usuarios` (
+  `id` int(11) NOT NULL,
   `nombre_usuario` varchar(50) NOT NULL,
   `email` varchar(100) NOT NULL,
   `nombre` varchar(50) NOT NULL,
   `apellidos` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL,
   `rol` enum('cliente','camarero','cocinero','gerente') DEFAULT 'cliente',
-  `avatar` varchar(255) DEFAULT 'default.png',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `nombre_usuario` (`nombre_usuario`),
-  UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `avatar` varchar(255) DEFAULT 'default.png'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `usuarios`
@@ -107,6 +98,67 @@ INSERT INTO `usuarios` (`id`, `nombre_usuario`, `email`, `nombre`, `apellidos`, 
 (2, 'cliente', 'cliente@ucm.es', '', '', '$2y$10$2gsbg4/807iDyWG4b6il0uxVFIlP.eaKovNxfqnoTcLhlXvSE1tNy', 'cliente', 'default.png'),
 (3, 'cliente1', 'cliente1@ucm.es', 'cliente', 'cliente', '$2y$10$.AHgUipO78yoXi/bRB3EXOMR3QQhRZqMFaNdOFNHnhBWVMBdjrrJC', 'cliente', 'default.png'),
 (4, 'ramon', 'rsalaz01@ucm.es', 'Ramon', 'Salazar', '$2y$10$pMaD94..5pGDceR9NlNHcuKWjUtiApNopMoJ6CP0wb.V22Kcz5WWO', 'cliente', '1771879787_Logo.png');
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `categorias`
+--
+ALTER TABLE `categorias`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `nombre` (`nombre`);
+
+--
+-- Indices de la tabla `productos`
+--
+ALTER TABLE `productos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_prod_cat` (`id_categoria`);
+
+--
+-- Indices de la tabla `productos_imagenes`
+--
+ALTER TABLE `productos_imagenes`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_img_prod` (`id_producto`);
+
+--
+-- Indices de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `nombre_usuario` (`nombre_usuario`),
+  ADD UNIQUE KEY `email` (`email`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `categorias`
+--
+ALTER TABLE `categorias`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `productos`
+--
+ALTER TABLE `productos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `productos_imagenes`
+--
+ALTER TABLE `productos_imagenes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Restricciones para tablas volcadas
