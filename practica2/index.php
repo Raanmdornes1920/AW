@@ -11,7 +11,7 @@ require_once 'static/config.php';
         <?php
         if(isset($_SESSION['login']) && $_SESSION['login']){
 
-            $nombre_sesion = $_SESSION['nombre'];
+            $nombre_sesion = $_SESSION['usuario'];
             $sql = "SELECT nombre_usuario FROM usuarios WHERE nombre_usuario = '$nombre_sesion'";
             $resultado = mysqli_query($db_connection, $sql);
             
