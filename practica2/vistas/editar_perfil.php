@@ -30,31 +30,31 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
                     <figure id="contenedor-avatar">
                         <img id="Logo-Usuario" src="<?php echo RUTA_IMG . '/perfiles/' . $_SESSION['foto_perfil']; ?>" alt="Logo de Usuario">
                         <div class="capa-editar">
-                            <img src="<?php echo RUTA_IMG; ?>/iconos/lapiz_blanco.png" class="icono-lapiz-img" alt="Editar">
+                            <a onclick="abrirModalAvatar()"><img src="<?php echo RUTA_IMG; ?>/iconos/lapiz_blanco.png" class="icono-lapiz-img" alt="Editar"></a>
                         </div>
                         
                     </figure>
                     <h2 id="nombre-usuario"><?php echo $_SESSION['usuario']; ?></h2>
-                    <img onclick="abrirModal('Usuario', '<?php echo $_SESSION['usuario']; ?>')" src="<?php echo RUTA_IMG; ?>/iconos/lapiz.png" id="boton-editar-usuario" alt="Editar">
+                    <img onclick="abrirModal('Usuario', '<?php echo base64_encode($_SESSION['usuario']); ?>')"src="<?php echo RUTA_IMG; ?>/iconos/lapiz.png" id="boton-editar-usuario" alt="Editar">
                 </div>
                 <br>
                 <article>
                     <div class="fila-dato">
                         <h2 class="tipo-dato-usuario">Nombre:</h2>
                         <h2 class="datos-usuario"><?php echo $_SESSION['nombre']; ?></h2>
-                        <img onclick="abrirModal('Nombre', '<?php echo $_SESSION['nombre']; ?>')" src="<?php echo RUTA_IMG; ?>/iconos/lapiz.png" class="lapiz-negro" id="boton-editar-nombre" alt="Editar">
+                        <img onclick="abrirModal('Nombre', '<?php echo base64_encode($_SESSION['nombre']); ?>')" src="<?php echo RUTA_IMG; ?>/iconos/lapiz.png" class="lapiz-negro" id="boton-editar-nombre" alt="Editar">
                     </div>
                     <br>
                     <div class="fila-dato">
                         <h2 class="tipo-dato-usuario">Apellidos:</h2>
                         <h2 class="datos-usuario"><?php echo $_SESSION['apellidos']; ?></h2>
-                        <img onclick="abrirModal('Apellidos', '<?php echo $_SESSION['apellidos']; ?>')" src="<?php echo RUTA_IMG; ?>/iconos/lapiz.png" class="lapiz-negro" id="boton-editar-apellidos" alt="Editar">
+                        <img onclick="abrirModal('Apellidos', '<?php echo base64_encode($_SESSION['apellidos']); ?>')" src="<?php echo RUTA_IMG; ?>/iconos/lapiz.png" class="lapiz-negro" id="boton-editar-apellidos" alt="Editar">
                     </div>
                     <br>
                     <div class="fila-dato">
                         <h2 class="tipo-dato-usuario">Email:</h2>
                         <h2 class="datos-usuario"><?php echo $_SESSION['email']; ?></h2>
-                        <img onclick="abrirModal('Email', '<?php echo $_SESSION['email']; ?>')" src="<?php echo RUTA_IMG; ?>/iconos/lapiz.png" class="lapiz-negro" id="boton-editar-email" alt="Editar">
+                        <img onclick="abrirModal('Email', '<?php echo base64_encode($_SESSION['email']); ?>')" src="<?php echo RUTA_IMG; ?>/iconos/lapiz.png" class="lapiz-negro" id="boton-editar-email" alt="Editar">
                     </div>
                     <br>
                     <div class="centrado">
@@ -65,6 +65,17 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
                 </article>
             </div>
         </main>
+        
+        <div id="modalEditarAvatar" class="modal">
+            <div class="modal-contenido">
+                <span class="cerrar-modal-avatar">&times;</span>
+                <h3>Editar Avatar</h3>
+                <form action="../static/editar_avatar.php" id="formEditar" method="POST" enctype="multipart/form-data">
+                    <input type="file" id="avatar-nuevo" name="avatar-nuevo" accept="image/*" required>
+                    <button type="submit" class="boton-guardar">Guardar cambios</button>
+                </form>
+            </div>
+        </div>
         <div id="modalEditar" class="modal">
             <div class="modal-contenido">
                 <span class="cerrar-modal">&times;</span>
@@ -81,7 +92,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
             <div class="modal-contenido">
                 <span class="cerrar-modal-pass">&times;</span>
                 <h3>Editar Contraseña</h3>
-                <form id="formEditarPassword" method="POST">
+                <form action="../static/editar_password.php" id="formEditarPassword" method="POST">
                     <label>Contraseña Actual:</label>
                     <input type="password" id="contrasena" name="contrasena" placeholder="Contraseña actual" required>
                     <label>Nueva Contraseña:</label>
@@ -109,9 +120,14 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
             echo '<div id="modalError" class="modal">';
             echo '<div class="modal-contenido">';
             echo '<span class="cerrar-modal-error">&times;</span>';
-            echo '<h3>Perfil actualizado correctamente</h3>';
+            if (isset($_SESSION['cambio']) && $_SESSION['cambio'] === 'Password') {
+                echo '<h3>Contraseña actualizada correctamente</h3>';
+            } else {
+                echo '<h3>' . $_SESSION['cambio'] . ' actualizado correctamente</h3>';
+            }
             echo '</div>';
             echo '</div>';
+            unset($_SESSION['cambio']);
             unset($_SESSION['error_editar_perfil']);
         }
         ?>

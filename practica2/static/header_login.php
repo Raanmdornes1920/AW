@@ -4,5 +4,5 @@
             <img id="Logo-Header" src="<?php echo RUTA_IMG; ?>/logo1.png" alt="Logo de Bistro FDI">
         </figure>
     </nav>
-    <button class="enlaces" id="boton-registro" onclick="window.location.href='<?php echo RAIZ_APP; ?>/vistas/registro.php?return=<?php echo basename($_SERVER['PHP_SELF']); ?>'">Registrarse</button>
+    <button class="enlaces" id="boton-registro" onclick="window.location.href='<?php echo RAIZ_APP; ?>/vistas/registro.php'">Registrarse</button>
 </header>
