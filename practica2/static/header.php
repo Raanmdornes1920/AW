@@ -18,6 +18,7 @@ function clase_activa($nombre_archivo, $pagina_actual) {
         
         <?php if(in_array('gerente', $_SESSION['roles'])) {
             echo '<a class="'.clase_activa('categorias.php', $pagina_actual).'" href="'.RUTA_VISTAS.'/categorias.php">Categorias</a>';
+            echo '<a class="'.clase_activa('productos.php', $pagina_actual).'" href="'.RUTA_VISTAS.'/productos.php">Productos</a>';
         } ?>
 
         <a class="<?php echo clase_activa('prueba1.php', $pagina_actual); ?>" href="<?php echo RUTA_VISTAS ?>/prueba1.php">Prueba1</a>
