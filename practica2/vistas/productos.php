@@ -7,9 +7,10 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
     exit();
 }
 
-$sql = "SELECT p.id, p.nombre, p.descripcion, p.precio_base, p.iva, p.disponible, p.ofertado, c.nombre AS categoria
+$sql = "SELECT p.id, p.nombre, p.descripcion, p.precio_base, p.iva, p.disponible, p.ofertado, c.nombre AS categoria, pi.ruta_imagen
         FROM productos p
         JOIN categorias c ON p.id_categoria = c.id
+        LEFT JOIN productos_imagenes pi ON p.id = pi.id_producto AND pi.orden = 0
         ORDER BY p.nombre";
 $resultado = mysqli_query($db_connection, $sql); 
 ?>
@@ -23,9 +24,10 @@ $resultado = mysqli_query($db_connection, $sql);
     <script src="<?php echo RAIZ_APP; ?>/js/script.js"></script>
 </head>
 <body>
-
+    <!-- Header -->
     <?php include '../static/header.php'; ?>
-    
+    <!-- Header -->
+
     <h1>Gestión de Productos</h1>
     <p>
         <a href="producto_crear.php">➕ Nuevo producto</a>
@@ -33,6 +35,7 @@ $resultado = mysqli_query($db_connection, $sql);
 
     <table border="1" cellpadding="6">
         <tr>
+            <th>Imagen</th>
             <th>Nombre</th>
             <th>Descripción</th>
             <th>Categoría</th>
@@ -46,6 +49,14 @@ $resultado = mysqli_query($db_connection, $sql);
             $precioFinal = $fila['precio_base'] * (1 + $fila['iva']/100);
         ?>
         <tr>
+            <td>
+                <?php if ($fila['ruta_imagen']): ?>
+                    <img src="../img/productos/<?php echo $fila['ruta_imagen']; ?>" 
+                         width="80" height="60">
+                <?php else: ?>
+                    Sin imagen
+                <?php endif; ?>
+            </td>
             <td><?php echo htmlspecialchars($fila['nombre']); ?></td>
             <td><?php echo htmlspecialchars($fila['descripcion']); ?></td>
             <td><?php echo htmlspecialchars($fila['categoria']); ?></td>

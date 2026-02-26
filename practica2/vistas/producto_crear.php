@@ -28,9 +28,9 @@ $categorias = mysqli_query($db_connection, $sqlCat);
 
 </head>
 <body>
-<!-- Header -->
+
 <?php include '../static/header.php'; ?>
-<!-- Header -->
+
 <section class="centrado">
     <h1 class="titulo-formulario">Nuevo Producto</h1>
 

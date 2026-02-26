@@ -25,17 +25,27 @@ $id_categoria,$nombre,$descripcion,$precio_base,$iva,$disponible);
 mysqli_stmt_execute($stmt);
 $id_producto = mysqli_insert_id($db_connection);
 
+$carpetaDestino = "../img/productos/";
+if (!is_dir($carpetaDestino)) {
+    mkdir($carpetaDestino, 0755, true); // crea la carpeta si no existe
+}
+
 if (!empty($_FILES['imagenes']['name'][0])) {
     foreach ($_FILES['imagenes']['tmp_name'] as $key => $tmp_name) {
-        $nombreArchivo = time()."_".basename($_FILES['imagenes']['name'][$key]);
-        $destino = "../img/productos/".$nombreArchivo;
-        move_uploaded_file($tmp_name,$destino);
+        $nombreOriginal = basename($_FILES['imagenes']['name'][$key]);
+        $nombreArchivo = time() . "_" . $nombreOriginal;
+        $destino = $carpetaDestino . $nombreArchivo;
 
-        $sqlImg = "INSERT INTO productos_imagenes (id_producto,ruta_imagen,orden)
-                   VALUES (?,?,?)";
-        $stmtImg = mysqli_prepare($db_connection,$sqlImg);
-        mysqli_stmt_bind_param($stmtImg,"isi",$id_producto,$nombreArchivo,$key);
-        mysqli_stmt_execute($stmtImg);
+        if (move_uploaded_file($tmp_name, $destino)) {
+            // Guardamos la ruta en la base de datos
+            $sqlImg = "INSERT INTO productos_imagenes (id_producto,ruta_imagen,orden) VALUES (?,?,?)";
+            $stmtImg = mysqli_prepare($db_connection, $sqlImg);
+            mysqli_stmt_bind_param($stmtImg, "isi", $id_producto, $nombreArchivo, $key);
+            mysqli_stmt_execute($stmtImg);
+        } else {
+            // Opcional: mostrar error si falla la subida
+            error_log("Error al subir la imagen: $nombreOriginal");
+        }
     }
 }
 
