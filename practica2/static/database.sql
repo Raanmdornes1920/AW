@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 25-02-2026 a las 22:08:25
+-- Tiempo de generación: 26-02-2026 a las 01:11:33
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -97,7 +97,7 @@ INSERT INTO `usuarios` (`id`, `nombre_usuario`, `email`, `nombre`, `apellidos`, 
 (1, 'admin', 'admin@bistrofdi.es', '', '', '$2y$10$CGRqz7Ue7A16x0w9TRuK/.Y8OQocy5ksGKVqhWhKcqFpV3FmCjyeO', 'gerente', 'default.png'),
 (2, 'cliente', 'cliente@ucm.es', '', '', '$2y$10$2gsbg4/807iDyWG4b6il0uxVFIlP.eaKovNxfqnoTcLhlXvSE1tNy', 'cliente', 'default.png'),
 (3, 'cliente1', 'cliente1@ucm.es', 'cliente', 'cliente', '$2y$10$.AHgUipO78yoXi/bRB3EXOMR3QQhRZqMFaNdOFNHnhBWVMBdjrrJC', 'cliente', 'default.png'),
-(4, 'ramon', 'rsalaz01@ucm.es', 'Ramon', 'Salazar', '$2y$10$pMaD94..5pGDceR9NlNHcuKWjUtiApNopMoJ6CP0wb.V22Kcz5WWO', 'cliente', '1771879787_Logo.png');
+(4, 'ramon', 'rsalaz01@ucm.es', 'Ramon', 'Salazar', '$2y$10$ApDkcTdsuYe0Vkrfbo4dLuy0WQ71m7smIByd7VZB3RRibneP2jyQa', 'cliente', '1772064636_Logo.png');
 
 --
 -- Índices para tablas volcadas
