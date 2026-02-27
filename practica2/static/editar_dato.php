@@ -10,6 +10,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $campo = $_POST['campo-editar'];
     $nuevoValor = $_POST['nuevo-valor'];
+    $nuevoRol = $_POST['nuevo-rol'] ?? null; // Para el caso de editar rol
     $user = $_SESSION['usuario'];
     
     if (strtolower($campo) === 'usuario'){

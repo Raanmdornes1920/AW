@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 26-02-2026 a las 01:11:33
+-- Tiempo de generación: 27-02-2026 a las 00:59:54
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -94,10 +94,11 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `nombre_usuario`, `email`, `nombre`, `apellidos`, `password`, `rol`, `avatar`) VALUES
-(1, 'admin', 'admin@bistrofdi.es', '', '', '$2y$10$CGRqz7Ue7A16x0w9TRuK/.Y8OQocy5ksGKVqhWhKcqFpV3FmCjyeO', 'gerente', 'default.png'),
+(1, 'admin', 'admin@bistrofdi.es', '', '', '$2y$10$QOUxomzkP/RTr4EhHP8OVOx.9TiIbztfx1AOTKRma72u.dAvyLlvO', 'gerente', 'admin.png'),
 (2, 'cliente', 'cliente@ucm.es', '', '', '$2y$10$2gsbg4/807iDyWG4b6il0uxVFIlP.eaKovNxfqnoTcLhlXvSE1tNy', 'cliente', 'default.png'),
-(3, 'cliente1', 'cliente1@ucm.es', 'cliente', 'cliente', '$2y$10$.AHgUipO78yoXi/bRB3EXOMR3QQhRZqMFaNdOFNHnhBWVMBdjrrJC', 'cliente', 'default.png'),
-(4, 'ramon', 'rsalaz01@ucm.es', 'Ramon', 'Salazar', '$2y$10$ApDkcTdsuYe0Vkrfbo4dLuy0WQ71m7smIByd7VZB3RRibneP2jyQa', 'cliente', '1772064636_Logo.png');
+(3, 'camarero', 'camarero@bistrofdi.es', '', '', '$2y$10$Bv5eepK6aWZn53kDdw8Zvu01W99eB4whkjAWWJ1xaeNmnb9wwklz2', 'camarero', 'camarero.png'),
+(4, 'cocinero', 'cocinero@bistrofdi.es', '', '', '$2y$10$Bc6aW8U1mi62WxM3QYSU/umpiSiMikYpsaubnCYOlDYS8hJEI.SJS', 'cocinero', 'cocinero.png'),
+(5, 'ramon', 'rsalaz01@ucm.es', 'Ramon', 'Salazar', '$2y$10$C4MHiZoQff5JzIQdIlSbIOIrrY/MmQAq7HgsuUd1yFGQbV9q938bC', 'cliente', '1772146880_Logo.png');
 
 --
 -- Índices para tablas volcadas
@@ -158,7 +159,7 @@ ALTER TABLE `productos_imagenes`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Restricciones para tablas volcadas

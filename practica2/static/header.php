@@ -16,16 +16,22 @@ function clase_activa($nombre_archivo, $pagina_actual) {
         
         <?php echo '<a class="'.clase_activa('index.php', $pagina_actual).'" href="'.RAIZ_APP.'/">Inicio</a>'; ?>
         
-        <?php if(in_array('gerente', $_SESSION['roles'])) {
+        <?php if($_SESSION['rol'] === 'gerente') {
             echo '<a class="'.clase_activa('categorias.php', $pagina_actual).'" href="'.RUTA_VISTAS.'/categorias.php">Categorias</a>';
             echo '<a class="'.clase_activa('productos.php', $pagina_actual).'" href="'.RUTA_VISTAS.'/productos.php">Productos</a>';
-        } ?>
+        }
+        else if($_SESSION['rol'] === 'cocinero') {
+            echo '<a class="'.clase_activa('pedidos_cocinero.php', $pagina_actual).'" href="'.RAIZ_APP.'/">Pedidos</a>';
+        }
+        else if($_SESSION['rol'] === 'camarero') {
+            echo '<a class="'.clase_activa('pedidos_camarero.php', $pagina_actual).'" href="'.RAIZ_APP.'/">Pedidos</a>';
+        }
+        else if($_SESSION['rol'] === 'cliente') {
+            echo '<a class="'.clase_activa('pedidos_cliente.php', $pagina_actual).'" href="'.RAIZ_APP.'/">Pedidos</a>';
+        }
+        ?>
 
         <a class="<?php echo clase_activa('prueba1.php', $pagina_actual); ?>" href="<?php echo RUTA_VISTAS ?>/prueba1.php">Prueba1</a>
-        <a class="<?php echo clase_activa('prueba2.php', $pagina_actual); ?>" href="<?php echo RUTA_VISTAS ?>/prueba2.php">Prueba2</a>
-        <a class="<?php echo clase_activa('prueba3.php', $pagina_actual); ?>" href="<?php echo RUTA_VISTAS ?>/prueba3.php">Prueba3</a>
-        <a class="<?php echo clase_activa('prueba4.php', $pagina_actual); ?>" href="<?php echo RUTA_VISTAS ?>/prueba4.php">Prueba4</a>
-        <a class="<?php echo clase_activa('prueba5.php', $pagina_actual); ?>" href="<?php echo RUTA_VISTAS ?>/prueba5.php">Prueba5</a>
         
     </nav>
     <div class="header-derecho">
@@ -38,8 +44,8 @@ function clase_activa($nombre_archivo, $pagina_actual) {
                 <p class="usuario-nombre"><?php echo $_SESSION['nombre']; ?></p>
                 <hr>
                 <a href="<?php echo RUTA_VISTAS; ?>/editar_perfil.php">Mi Perfil</a>
-                <?php if(in_array('gerente', $_SESSION['roles'])): ?>
-                    <a href="<?php echo RUTA_VISTAS; ?>/ajustes_admin.php">Ajustes</a>
+                <?php if($_SESSION['rol'] === 'gerente'): ?>
+                    <a href="<?php echo RUTA_VISTAS; ?>/ajustes_admin.php">Ajustes Perfiles</a>
                 <?php endif; ?>
                 <a href="<?php echo RUTA_STATIC; ?>/logout.php" class="logout-link">Cerrar Sesión</a>
             </div>

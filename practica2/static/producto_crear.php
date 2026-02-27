@@ -2,8 +2,8 @@
 session_start();
 require_once 'config.php';
 
-if (!isset($_SESSION['login']) || !in_array('gerente', $_SESSION['roles'])) {
-    header("Location: " . RAIZ_APP . "/index.php");
+if (!isset($_SESSION['login']) || $_SESSION['rol'] !== 'gerente') {
+    header("Location: " . RAIZ_APP . "/");
     exit;
 }
 

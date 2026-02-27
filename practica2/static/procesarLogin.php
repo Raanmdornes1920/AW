@@ -21,14 +21,14 @@ if ($resultado && mysqli_num_rows($resultado) === 1) {
 
     if (password_verify($passPost, $fila['password'])) {
     
-        $user = new Usuario($fila['nombre_usuario'], $fila['nombre'], $fila['apellidos'], $fila['email'], [$fila['rol']], $fila['avatar']); 
+        $user = new Usuario($fila['nombre_usuario'], $fila['nombre'], $fila['apellidos'], $fila['email'], $fila['rol'], $fila['avatar']); 
 
         $_SESSION['login'] = true;
         $_SESSION['usuario'] = $user->username();
         $_SESSION['nombre'] = $user->nombre();
         $_SESSION['apellidos'] = $user->apellidos();
         $_SESSION['email'] = $user->email();
-        $_SESSION['roles'] = $user->roles();
+        $_SESSION['rol'] = $user->roles();
         $_SESSION['foto_perfil'] = $user->fotoPerfil();
         
         header("Location: " . RAIZ_APP . "/");

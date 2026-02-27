@@ -48,7 +48,7 @@ if ($resultado && mysqli_num_rows($resultado) === 0) {
                 session_start();
             }
             
-            $user = new Usuario($userPost, $nombrePost, $apellidosPost, $mailPost, ['cliente'], $nombreImagen); 
+            $user = new Usuario($userPost, $nombrePost, $apellidosPost, $mailPost, 'cliente', $nombreImagen); 
 
             $_SESSION['login'] = true;
             $_SESSION['usuario'] = $user->username();
@@ -56,7 +56,7 @@ if ($resultado && mysqli_num_rows($resultado) === 0) {
             $_SESSION['apellidos'] = $user->apellidos();
             $_SESSION['email'] = $user->email();
             $_SESSION['foto_perfil'] = $user->fotoPerfil();
-            $_SESSION['roles'] = $user->roles();
+            $_SESSION['rol'] = $user->roles();
 
             header("Location: " . RAIZ_APP ."/");
             exit();

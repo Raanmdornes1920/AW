@@ -1,0 +1,211 @@
+<?php 
+session_start(); 
+require_once '../static/config.php';
+
+if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
+    header("Location: ../");
+    exit();
+}
+
+$sql = "SELECT id, nombre_usuario, nombre, apellidos, email, rol, avatar FROM usuarios ORDER BY rol DESC, id";
+$resultado = mysqli_query($db_connection, $sql);
+?>
+<!DOCTYPE html>
+
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <title>BISTRO FDI</title>
+        <link rel="icon" type="image/svg+xml" href="<?php echo RUTA_IMG; ?>/logo1.svg">
+        <link rel="stylesheet" href="<?php echo RUTA_CSS; ?>/default.css">
+    </head>
+    <body>
+        <!-- Header -->
+        <?php include '../static/header.php'; ?>
+        <!-- Header -->
+        
+        <!-- Contenido -->
+        <main class="contenedor-centro-index">
+            <h1 id="titulo-descripcion">Editar Usuarios</h1>
+            <table border="1" cellpadding="6">
+                <tr>
+                    <th>Usuario</th>
+                    <th>Nombre</th>
+                    <th>Apellidos</th>
+                    <th>Email</th>
+                    <th>Rol</th>
+                    <th>Opciones</th>
+                </tr>
+                <?php $usuarios_por_id = []; // Diccionario para guardar usuarios?>
+                <?php if ($resultado) { ?>
+                    <?php while ($fila = mysqli_fetch_assoc($resultado)) { ?>
+                        <?php $usuarios_por_id[$fila['id']] = $fila; // Guardamos cada fila con clave id usuario?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($fila['nombre_usuario']); ?></td>
+                            <td><?php echo htmlspecialchars($fila['nombre']); ?></td>
+                            <td><?php echo htmlspecialchars($fila['apellidos']); ?></td>
+                            <td><?php echo htmlspecialchars($fila['email']); ?></td>
+                            <td><?php echo htmlspecialchars($fila['rol']); ?></td>
+                            <td>
+                                <button class="boton-editar-admin" onclick="abrirModalEditarUsuario(<?php echo $fila['id'] . ', \'' . $fila['nombre_usuario'] . '\', \'' . $fila['nombre'] . '\', \'' . $fila['apellidos'] . '\', \'' . $fila['email'] . '\', \'' . $fila['rol'] . '\', \'' . $fila['avatar'] . '\''; ?>)">Editar</button>
+                                <!-- | -->
+                                
+                            </td>
+                        </tr>
+                    <?php } ?>
+                <?php } ?>
+            </table>
+        </main>
+        <!-- Interfaz para editar usuarios -->
+        <section id="contenedor-centro-edit-admin">    
+            <div class="perfil-container-edit-admin">
+                <span class="cerrar-modal-edit-admin">&times;</span>
+                <h1 id="titulo-perfil">Editar Perfil</h1>
+                <div class="imagen-usarname-container">
+                    <figure id="contenedor-avatar">
+                        <img id="Logo-Usuario" src="" alt="Logo de Usuario">
+                        <div class="capa-editar">
+                            <a onclick="abrirModalAdminAvatar()"><img src="<?php echo RUTA_IMG; ?>/iconos/lapiz_blanco.png" class="icono-lapiz-img" alt="Editar"></a>
+                        </div>
+                        
+                    </figure>
+                    <h2 id="nombre-usuario"></h2>
+                    <img onclick="abrirModalAdmin('Usuario')"src="<?php echo RUTA_IMG; ?>/iconos/lapiz.png" id="boton-editar-usuario" alt="Editar">
+                </div>
+                <br>
+                <div>
+                    <div class="fila-dato">
+                        <h2 class="tipo-dato-usuario">Nombre:</h2>
+                        <h2 id="nombre-usuario-edit" class="datos-usuario"></h2>
+                        <img onclick="abrirModalAdmin('Nombre')" src="<?php echo RUTA_IMG; ?>/iconos/lapiz.png" class="lapiz-negro" id="boton-editar-nombre" alt="Editar">
+                    </div>
+                    <br>
+                    <div class="fila-dato">
+                        <h2 class="tipo-dato-usuario">Apellidos:</h2>
+                        <h2 id="apellidos-usuario-edit" class="datos-usuario"></h2>
+                        <img onclick="abrirModalAdmin('Apellidos')" src="<?php echo RUTA_IMG; ?>/iconos/lapiz.png" class="lapiz-negro" id="boton-editar-apellidos" alt="Editar">
+                    </div>
+                    <br>
+                    <div class="fila-dato">
+                        <h2 class="tipo-dato-usuario">Email:</h2>
+                        <h2 id="email-usuario-edit" class="datos-usuario"></h2>
+                        <img onclick="abrirModalAdmin('Email')" src="<?php echo RUTA_IMG; ?>/iconos/lapiz.png" class="lapiz-negro" id="boton-editar-email" alt="Editar">
+                    </div>
+                    <br>
+                    <div class="fila-dato">
+                        <h2 class="tipo-dato-usuario">Rol:</h2>
+                        <h2 id="rol-usuario-edit" class="datos-usuario"></h2>
+                        <img onclick="abrirModalAdminRol()" src="<?php echo RUTA_IMG; ?>/iconos/lapiz.png" class="lapiz-negro" id="boton-editar-rol" alt="Editar">
+                    </div>
+                    <br>
+                    <div class="centrado">
+                        <button id="boton_aceptar" onclick="abrirModalAdminPassword()">Resetear Contraseña</button>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Interfaz para editar usuarios -->
+        <!-- Editar Avatar -->
+        <div id="modalAdminEditarAvatar" class="modal">
+            <div class="modal-contenido">
+                <span class="cerrar-modal-avatar">&times;</span>
+                <h3>Editar Avatar</h3>
+                <form action="../static/admin_edit.php" class="formEditar" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" class="input-id-usuario" name="id-usuario" value="">    
+                    <input type="hidden" name="campo-editar" value="Avatar">
+                    <input type="file" id="avatar-nuevo" name="avatar-nuevo" accept="image/*" required>
+                    <button type="submit" class="boton-guardar">Guardar cambios</button>
+                </form>
+            </div>
+        </div>
+        <!-- Editar Avatar -->
+        <!-- Editar Datos -->
+        <div id="modalAdminEditar" class="modal">
+            <div class="modal-contenido">
+                <span class="cerrar-modal">&times;</span>
+                <h3>Editar <span id="campo-a-editar"></span></h3>
+                <form action="../static/admin_edit.php" class="formEditar" method="POST">
+                    <input type="hidden" class="input-id-usuario" name="id-usuario" value="">
+                    <input type="hidden" id="campo-editar" name="campo-editar" value="error">
+                    <label id="label-nuevo-valor"></label>
+                    <input type="text" id="nuevo-valor" name="nuevo-valor" required>
+                    <button type="submit" class="boton-guardar">Guardar cambios</button>
+                </form>
+            </div>
+        </div>
+        <!-- Editar Datos -->
+        <!-- Editar Rol -->
+        <div id="modalAdminEditarRol" class="modal">
+            <div class="modal-contenido">
+                <span class="cerrar-modal-rol">&times;</span>
+                <h3>Editar Rol</h3>
+                <form action="../static/admin_edit.php" class="formEditar" method="POST" novalidate>
+                    <input type="hidden" class="input-id-usuario" name="id-usuario" value="">
+                    <input type="hidden" name="campo-editar" value="Rol">
+                    <label>Rol:</label>
+                    <select name="nuevo-valor" id="select-rol-usuario">
+                        <option value="gerente">Gerente</option>
+                        <option value="cocinero">Cocinero</option>
+                        <option value="camarero">Camarero</option>
+                        <option value="cliente">Cliente</option>
+                    </select>
+                    <button type="submit" class="boton-guardar">Guardar cambios</button>
+                </form>
+            </div>
+        </div>
+        <!-- Editar Rol -->
+        <!-- Resetear Password -->
+        <div id="modalAdminEditarPassword" class="modal">
+            <div class="modal-contenido">
+                <span class="cerrar-modal-pass">&times;</span>
+                <h3>Estas seguro que deseas resetear la contraseña de <span id="usuario-reset-contrasena"></span>?</h3>
+                <br>
+                <form action="../static/admin_edit.php" id="formEditarPassword" method="POST">
+                    <input type="hidden" class="input-id-usuario" name="id-usuario" value="">    
+                    <input type="hidden" name="campo-editar" value="Password">
+                    <div class="contenedor-botones">
+                        <button type="submit" class="boton-guardar">Si</button>
+                        <button type="button" onclick="btnCerrarPassword.click()" class="boton-cancelar">No</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- Resetear Password -->
+        <!-- Errores y Confirma-->
+        <?php 
+        if (isset($_SESSION['error_editar_perfil']) && $_SESSION['error_editar_perfil'] !== "Ninguno"){
+            echo '<div id="modalError" class="modal">';
+            echo '<div class="modal-contenido">';
+            echo '<span class="cerrar-modal-error">&times;</span>';
+            echo '<h3>Error al editar perfil</h3>';
+            echo '<p>'.$_SESSION['error_editar_perfil'].'</p>';
+            echo '</div>';
+            echo '</div>';
+            unset($_SESSION['error_editar_perfil']);
+        }?>
+        <!-- Errores -->
+        <!-- Confirmaciones -->
+        <?php
+        if(isset($_SESSION['error_editar_perfil']) && $_SESSION['error_editar_perfil'] === "Ninguno"){
+            echo '<div id="modalError" class="modal">';
+            echo '<div class="modal-contenido">';
+            echo '<span class="cerrar-modal-error">&times;</span>';
+            if (isset($_SESSION['cambio']) && $_SESSION['cambio'] === 'Password') {
+                echo '<h3>Se ha realizado la modificacion correctamente</h3>';
+            } else {
+                echo '<h3>' . $_SESSION['cambio'] . ' actualizado correctamente</h3>';
+            }
+            echo '</div>';
+            echo '</div>';
+            unset($_SESSION['cambio']);
+            unset($_SESSION['error_editar_perfil']);
+        }
+        ?>
+        <!-- Confirmaciones -->
+        <!-- Contenido -->
+        <script>var diccionario_usuarios = <?php echo json_encode($usuarios_por_id); ?>;</script>
+        <script src="<?php echo RAIZ_APP; ?>/js/script.js"></script>
+        <script src="<?php echo RAIZ_APP; ?>/js/editar_perfil.js"></script>
+    </body>
+</html>

@@ -2,7 +2,7 @@
 session_start();
 require_once 'config.php';
 
-if (!isset($_SESSION['login']) || !in_array('gerente', $_SESSION['roles'])) {
+if (!isset($_SESSION['login']) || $_SESSION['rol'] !== 'gerente') {
     header("Location: ../index.php");
     exit;
 }

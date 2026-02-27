@@ -8,7 +8,7 @@ unset($_SESSION['nombre']);
 unset($_SESSION['apellidos']);
 unset($_SESSION['email']);
 unset($_SESSION['foto_perfil']);
-unset($_SESSION['roles']);
+unset($_SESSION['rol']);
 
 session_destroy();
 header("Location: " . RAIZ_APP . '/');

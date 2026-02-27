@@ -4,7 +4,7 @@ require_once '../static/config.php';
 
 // Comprobación básica: usuario logueado
 if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
-    header("Location: ../index.php");
+    header("Location: ../");
     exit();
 }
 ?>
