@@ -321,6 +321,99 @@ table, tr, th, td {
     border: 1px solid black;
 }
 
+.titulo-tabla{
+    background-color: #333;
+    color: white;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+.tabla-usuarios{
+    width: 80%;
+}
+
+.boton-taba-usuarios{
+    background-color: #888888; /* Color a juego con tu navegación */
+    color: white;
+    padding: 2px 5px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: 'Times New Roman', Times, serif;
+    width: auto;
+}
+
+.columna-boton-editar{
+    text-align: center;
+    vertical-align: middle;
+    padding: none;
+    width: 8%;
+}
+
+#archivo-avatar{
+    display: none;
+}
+
+.seleccion-avatares {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+
+.opcion-avatar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    gap: 10px;
+}
+
+.opcion-imagen-avatar {
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid transparent;
+    transition: 0.3s;
+}
+
+.opcion-avatar:hover .opcion-imagen-avatar {
+    border-color: #007bff;
+}
+
+.cuadro-subir-archivo {
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f0f0;
+    border: 2px dashed #ccc;
+    text-align: center;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.botones-gestion-usuarios{
+    background-color: #888888;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: 'Times New Roman', Times, serif;
+    width: auto;
+    margin: 0 15px;
+}
+
 .avatar {
     height: 50px;
     border-radius: 50%;
@@ -532,11 +625,21 @@ table, tr, th, td {
     margin: 5.5% auto;
     padding: 20px;
     border-radius: 8px;
-    width: 500px;
+    width: 90%;
+    max-width: 500px;
     text-align: center;
     position: relative;
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     z-index: 1002;
+    box-sizing: border-box;
+}
+
+.modal-contenido form {
+    background-color: transparent; /* Quitamos el fondo gris del form global */
+    box-shadow: none;              /* Quitamos la sombra para no duplicar */
+    padding: 10px 0;               /* Reducimos padding lateral */
+    margin: 0 auto;
+    max-width: 100%;               /* Que use el 100% del modal */
 }
 
 /* Botón de cerrar (X) */

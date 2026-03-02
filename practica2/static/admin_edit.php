@@ -36,7 +36,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
     else{
-        // Volver con error
+        $_SESSION['error_editar_perfil'] = "Ha habido un error al intentar editar al usuario.";
+        header("Location: " . RUTA_VISTAS . "/ajustes_admin.php");
+        exit();
     }
 
     switch($campo){
@@ -44,14 +46,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $campo = 'nombre_usuario';
             
             // Comprobar usuario libre
-            $query = "SELECT * FROM usuarios WHERE id = ?";
+            $query = "SELECT * FROM usuarios WHERE nombre_usuario = ?";
             $stmt = mysqli_prepare($db_connection, $query);
-            mysqli_stmt_bind_param($stmt, "i", $id);
+            mysqli_stmt_bind_param($stmt, "s", $valor);
             
             if (mysqli_stmt_execute($stmt)) {
                 $resultado = mysqli_stmt_get_result($stmt);
                 if ($fila = mysqli_fetch_assoc($resultado)) {
-                    if($fila['id'] !== $id && $fila['usuario'] === $valor){
+                    if($fila['id'] !== $id && $fila['nombre_usuario'] === $valor){
                         // Usuario existente con id diferente
                         $_SESSION['error_editar_perfil'] = "El usuario ".$valor." ya existe.";
                         header("Location: " . RUTA_VISTAS . "/ajustes_admin.php");
@@ -98,14 +100,57 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit();
         }
     }
-    else{
-        // Editar Avatar
-        if (isset($_FILES['avatar-nuevo']) && $_FILES['avatar-nuevo']['error'] === UPLOAD_ERR_OK) {
-        
+    else{// Editar Avatar
+        // Verificamos si seleccionó alguna imagen default
+        if (isset($_POST['foto_perfil']) && $_POST['foto_perfil'] !== 'custom'){
+            
+            $rutaAlArchivo = "../img/perfiles/" . $img_actual;
+            $nombreImagen = mysqli_real_escape_string($db_connection, $_POST['foto_perfil']);
+
+            $query = "UPDATE usuarios SET avatar = ? WHERE id = ?";
+            $stmt = mysqli_prepare($db_connection, $query);
+            mysqli_stmt_bind_param($stmt, "si", $nombreImagen, $id);
+            
+            if (mysqli_stmt_execute($stmt)) {
+                // Si el usuario es el de la sesión
+                if($usuario_actual){
+                    // Corregimos sesion
+                    $_SESSION['foto_perfil'] = $nombreImagen;
+                }
+                $_SESSION['cambio'] = 'Avatar';
+                $_SESSION['error_editar_perfil'] = "Ninguno";
+            }
+            else{
+                $_SESSION['error_editar_perfil'] = "Error al subir la imagen.";
+                header("Location: " . RUTA_VISTAS . "/ajustes_admin.php");
+                exit();
+            }
+            
+            // Si nadie mas tiene la imagen, y no es de las basicas la eliminamos
+            if(!in_array($img_actual, IMAGENES_BASE)){
+                // Comprobar imagen libre
+                $query = "SELECT * FROM usuarios WHERE avatar = ? AND id != ?";
+                $stmt = mysqli_prepare($db_connection, $query);
+                mysqli_stmt_bind_param($stmt, "si", $img_actual, $id);
+                
+                if (mysqli_stmt_execute($stmt)) {
+                    $resultado = mysqli_stmt_get_result($stmt);
+                    // Si nadie usa la imagen la eliminamos
+                    if (!($fila = mysqli_fetch_assoc($resultado))) {
+                        if (file_exists($rutaAlArchivo)) {
+                            unlink($rutaAlArchivo);
+                        }   
+                    }
+                }   
+            }
+        }
+        // Si no eligio una default la procesamos
+        elseif (isset($_FILES['foto_perfil']) && $_FILES['foto_perfil']['error'] === UPLOAD_ERR_OK) {
+            
             $rutaAlArchivo = "../img/perfiles/" . $img_actual;
 
-            $fileTmpPath = $_FILES['avatar-nuevo']['tmp_name'];
-            $fileName = $_FILES['avatar-nuevo']['name'];
+            $fileTmpPath = $_FILES['foto_perfil']['tmp_name'];
+            $fileName = $_FILES['foto_perfil']['name'];
             
             $fileNameClean = time() . "_" . preg_replace("/[^a-zA-Z0-9.]/", "_", $fileName);
             

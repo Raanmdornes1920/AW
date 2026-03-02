@@ -7,7 +7,7 @@ $apellidosPost = $_POST['apellidos'];
 $mailPost = $_POST['mail'];
 $fotoPost = $_POST['foto_perfil'];
 $nombreImagen = "default.png";
-
+$rolPost = (isset($_POST['rol']) && (isset($_POST['modo-admin']) && $_POST['modo-admin'] === "Verdadero") ? $_POST['rol'] : 'cliente');
 
 $userPost = $_POST['username'];
 $passPost = $_POST['password'];
@@ -23,7 +23,7 @@ $resultado = mysqli_query($db_connection, $sql);
 
 if ($resultado && mysqli_num_rows($resultado) === 0) {
 
-    if (isset($_FILES['foto_perfil']) && $_FILES['foto_perfil']['error'] === UPLOAD_ERR_OK) {
+    if (isset($_POST['foto_perfil']) && $_POST['foto_perfil'] === 'custom' && isset($_FILES['foto_perfil']) && $_FILES['foto_perfil']['error'] === UPLOAD_ERR_OK) {
     
         $fileTmpPath = $_FILES['foto_perfil']['tmp_name'];
         $fileName = $_FILES['foto_perfil']['name'];
@@ -37,18 +37,29 @@ if ($resultado && mysqli_num_rows($resultado) === 0) {
             chmod($dest_path, 0666); 
         }
     }
+    else{
+        $nombreImagen = $_POST['foto_perfil'];
+        $dest_path = "../img/perfiles/" . $fileNameClean;
+    }
 
     $passwordHasheada = password_hash($passPost, PASSWORD_DEFAULT);
-    $sql = "INSERT INTO usuarios (nombre_usuario, email, nombre, apellidos, password, rol, avatar) VALUES ('$userPost', '$mailPost', '$nombrePost', '$apellidosPost', '$passwordHasheada', 'cliente', '$nombreImagen')";
+    $sql = "INSERT INTO usuarios (nombre_usuario, email, nombre, apellidos, password, rol, avatar) VALUES ('$userPost', '$mailPost', '$nombrePost', '$apellidosPost', '$passwordHasheada', '$rolPost', '$nombreImagen')";
 
     
     if (mysqli_query($db_connection, $sql)) {
-
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        if(isset($_POST['modo-admin']) && $_POST['modo-admin'] === "Verdadero"){
+            $_SESSION['cambio'] = "Crear Usuario";
+            $_SESSION['error_editar_perfil'] = "Ninguno";
+        }
+        else{
             if (session_status() === PHP_SESSION_NONE) {
                 session_start();
             }
             
-            $user = new Usuario($userPost, $nombrePost, $apellidosPost, $mailPost, 'cliente', $nombreImagen); 
+            $user = new Usuario($userPost, $nombrePost, $apellidosPost, $mailPost, $rolPost, $nombreImagen); 
 
             $_SESSION['login'] = true;
             $_SESSION['usuario'] = $user->username();
@@ -56,18 +67,37 @@ if ($resultado && mysqli_num_rows($resultado) === 0) {
             $_SESSION['apellidos'] = $user->apellidos();
             $_SESSION['email'] = $user->email();
             $_SESSION['foto_perfil'] = $user->fotoPerfil();
-            $_SESSION['rol'] = $user->roles();
-
-            header("Location: " . RAIZ_APP ."/");
-            exit();
+            $_SESSION['rol'] = $user->roles();            
+        }
+        header("Location: " . (isset($_POST['volver']) ? $_POST['volver'] : RAIZ_APP . "/"));
+        exit();
+        
     }
 } else {
-    $fila = mysqli_fetch_assoc($resultado);
+    if(isset($_POST['modo-admin']) && $_POST['modo-admin'] === "Verdadero"){
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }      
+        $fila = mysqli_fetch_assoc($resultado);
     
-    if ($fila['nombre_usuario'] === $userPost) {
-        include 'usuario_existente.php';
-    } else if ($fila['email'] === $mailPost) {
-        include 'correo_existente.php';
+        if ($fila['nombre_usuario'] === $userPost) {
+            $_SESSION['error_crear_perfil'] = "El usuario '".$userPost."' ya existe.";
+            header("Location: " . RUTA_VISTAS . "/ajustes_admin.php");
+            exit();
+        } else if ($fila['email'] === $mailPost) {
+            $_SESSION['error_crear_perfil'] = "El correo '".$mailPost."' ya esta registrado.";
+            header("Location: " . RUTA_VISTAS . "/ajustes_admin.php");
+            exit();
+        }
+    }
+    else{
+        $fila = mysqli_fetch_assoc($resultado);
+    
+        if ($fila['nombre_usuario'] === $userPost) {
+            include 'usuario_existente.php';
+        } else if ($fila['email'] === $mailPost) {
+            include 'correo_existente.php';
+        }
     }
 }
 ?>

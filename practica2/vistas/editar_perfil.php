@@ -71,7 +71,31 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
                 <span class="cerrar-modal-avatar">&times;</span>
                 <h3>Editar Avatar</h3>
                 <form action="../static/editar_avatar.php" id="formEditar" method="POST" enctype="multipart/form-data">
-                    <input type="file" id="avatar-nuevo" name="avatar-nuevo" accept="image/*" required>
+                
+                    <div class="seleccion-avatares">
+                        <?php foreach (AVATARES_INICIALES as $indice => $archivo): ?>
+                            <label class="opcion-avatar">
+                                <img class="opcion-imagen-avatar" src="../img/perfiles/<?= $archivo; ?>" alt="Avatar <?= $indice; ?>">
+                                <input type="radio" name="foto_perfil" value="<?= $archivo; ?>">
+                            </label>
+                        <?php endforeach; ?>
+
+                        <label class="opcion-avatar">
+                            <div class="cuadro-subir-archivo">
+                                <p>Elegir<br>Archivo</p>
+                            </div>
+                            <input type="radio" name="foto_perfil" value="custom" id="radio-custom">
+                        </label>
+                    </div>
+
+                    <div id="archivo-avatar">
+                        <br>
+                        <input type="file" id="avatar-nuevo" name="foto_perfil" accept="image/*">
+                        <br>
+                        <br>
+                        <br>
+                    </div>
+                    
                     <button type="submit" class="boton-guardar">Guardar cambios</button>
                 </form>
             </div>

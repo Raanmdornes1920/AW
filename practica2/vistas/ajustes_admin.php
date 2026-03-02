@@ -7,15 +7,18 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
     exit();
 }
 
-$sql = "SELECT id, nombre_usuario, nombre, apellidos, email, rol, avatar FROM usuarios ORDER BY rol DESC, id";
-$resultado = mysqli_query($db_connection, $sql);
+$sql = "SELECT id, nombre_usuario, nombre, apellidos, email, rol, avatar FROM usuarios WHERE rol != 'cliente' ORDER BY rol DESC, id";
+$resultado_empleados = mysqli_query($db_connection, $sql);
+
+$sql = "SELECT id, nombre_usuario, nombre, apellidos, email, rol, avatar FROM usuarios WHERE rol = 'cliente' ORDER BY rol DESC, id";
+$resultado_clientes = mysqli_query($db_connection, $sql);
 ?>
 <!DOCTYPE html>
 
 <html lang="es">
     <head>
         <meta charset="utf-8">
-        <title>BISTRO FDI</title>
+        <title>Gestionar Usuarios - BISTRO FDI</title>
         <link rel="icon" type="image/svg+xml" href="<?php echo RUTA_IMG; ?>/logo1.svg">
         <link rel="stylesheet" href="<?php echo RUTA_CSS; ?>/default.css">
     </head>
@@ -27,7 +30,13 @@ $resultado = mysqli_query($db_connection, $sql);
         <!-- Contenido -->
         <main class="contenedor-centro-index">
             <h1 id="titulo-descripcion">Editar Usuarios</h1>
-            <table border="1" cellpadding="6">
+            
+            <table class="tabla-usuarios" cellpadding="6">
+                <tr>
+                    <th colspan="6" class="titulo-tabla">
+                        EMPLEADOS
+                    </th>
+                </tr>    
                 <tr>
                     <th>Usuario</th>
                     <th>Nombre</th>
@@ -37,8 +46,8 @@ $resultado = mysqli_query($db_connection, $sql);
                     <th>Opciones</th>
                 </tr>
                 <?php $usuarios_por_id = []; // Diccionario para guardar usuarios?>
-                <?php if ($resultado) { ?>
-                    <?php while ($fila = mysqli_fetch_assoc($resultado)) { ?>
+                <?php if ($resultado_empleados) { ?>
+                    <?php while ($fila = mysqli_fetch_assoc($resultado_empleados)) { ?>
                         <?php $usuarios_por_id[$fila['id']] = $fila; // Guardamos cada fila con clave id usuario?>
                         <tr>
                             <td><?php echo htmlspecialchars($fila['nombre_usuario']); ?></td>
@@ -46,8 +55,8 @@ $resultado = mysqli_query($db_connection, $sql);
                             <td><?php echo htmlspecialchars($fila['apellidos']); ?></td>
                             <td><?php echo htmlspecialchars($fila['email']); ?></td>
                             <td><?php echo htmlspecialchars($fila['rol']); ?></td>
-                            <td>
-                                <button class="boton-editar-admin" onclick="abrirModalEditarUsuario(<?php echo $fila['id'] . ', \'' . $fila['nombre_usuario'] . '\', \'' . $fila['nombre'] . '\', \'' . $fila['apellidos'] . '\', \'' . $fila['email'] . '\', \'' . $fila['rol'] . '\', \'' . $fila['avatar'] . '\''; ?>)">Editar</button>
+                            <td class="columna-boton-editar">
+                                <button class="boton-taba-usuarios" onclick="abrirModalEditarUsuario(<?php echo $fila['id'] . ', \'' . $fila['nombre_usuario'] . '\', \'' . $fila['nombre'] . '\', \'' . $fila['apellidos'] . '\', \'' . $fila['email'] . '\', \'' . $fila['rol'] . '\', \'' . $fila['avatar'] . '\''; ?>)">Editar</button>
                                 <!-- | -->
                                 
                             </td>
@@ -55,6 +64,44 @@ $resultado = mysqli_query($db_connection, $sql);
                     <?php } ?>
                 <?php } ?>
             </table>
+            <br><br>
+            <table class="tabla-usuarios" cellpadding="6">
+                <tr>
+                    <th colspan="6" class="titulo-tabla">
+                        CLIENTES
+                    </th>
+                </tr>    
+                <tr>
+                    <th>Usuario</th>
+                    <th>Nombre</th>
+                    <th>Apellidos</th>
+                    <th>Email</th>
+                    <th>Rol</th>
+                    <th>Opciones</th>
+                </tr>
+                <?php if ($resultado_clientes) { ?>
+                    <?php while ($fila = mysqli_fetch_assoc($resultado_clientes)) { ?>
+                        <?php $usuarios_por_id[$fila['id']] = $fila; // Guardamos cada fila con clave id usuario?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($fila['nombre_usuario']); ?></td>
+                            <td><?php echo htmlspecialchars($fila['nombre']); ?></td>
+                            <td><?php echo htmlspecialchars($fila['apellidos']); ?></td>
+                            <td><?php echo htmlspecialchars($fila['email']); ?></td>
+                            <td><?php echo htmlspecialchars($fila['rol']); ?></td>
+                            <td class="columna-boton-editar">
+                                <button class="boton-taba-usuarios" onclick="abrirModalEditarUsuario(<?php echo $fila['id'] . ', \'' . $fila['nombre_usuario'] . '\', \'' . $fila['nombre'] . '\', \'' . $fila['apellidos'] . '\', \'' . $fila['email'] . '\', \'' . $fila['rol'] . '\', \'' . $fila['avatar'] . '\''; ?>)">Editar</button>
+                                <!-- | -->
+                                
+                            </td>
+                        </tr>
+                    <?php } ?>
+                <?php } ?>
+            </table>
+            <br><br>
+            <div>
+                <a href="<?php echo RUTA_VISTAS . "/crear_usuario.php";?>"><button  class="botones-gestion-usuarios">Crear Usuario</button></a>
+                <button class="botones-gestion-usuarios">Eliminar Usuario</button>
+            </div>
         </main>
         <!-- Interfaz para editar usuarios -->
         <section id="contenedor-centro-edit-admin">    
@@ -114,7 +161,30 @@ $resultado = mysqli_query($db_connection, $sql);
                 <form action="../static/admin_edit.php" class="formEditar" method="POST" enctype="multipart/form-data">
                     <input type="hidden" class="input-id-usuario" name="id-usuario" value="">    
                     <input type="hidden" name="campo-editar" value="Avatar">
-                    <input type="file" id="avatar-nuevo" name="avatar-nuevo" accept="image/*" required>
+                                        <div class="seleccion-avatares">
+                        <?php foreach (IMAGENES_BASE as $indice => $archivo): ?>
+                            <label class="opcion-avatar">
+                                <img class="opcion-imagen-avatar" src="../img/perfiles/<?= $archivo; ?>" alt="Avatar <?= $indice; ?>">
+                                <input type="radio" name="foto_perfil" value="<?= $archivo; ?>">
+                            </label>
+                        <?php endforeach; ?>
+
+                        <label class="opcion-avatar">
+                            <div class="cuadro-subir-archivo">
+                                <p>Elegir<br>Archivo</p>
+                            </div>
+                            <input type="radio" name="foto_perfil" value="custom" id="radio-custom">
+                        </label>
+                    </div>
+
+                    <div id="archivo-avatar">
+                        <br>
+                        <input type="file" id="avatar-nuevo" name="foto_perfil" accept="image/*">
+                        <br>
+                        <br>
+                        <br>
+                    </div>
+                    
                     <button type="submit" class="boton-guardar">Guardar cambios</button>
                 </form>
             </div>
@@ -172,7 +242,7 @@ $resultado = mysqli_query($db_connection, $sql);
             </div>
         </div>
         <!-- Resetear Password -->
-        <!-- Errores y Confirma-->
+        <!-- Errores -->
         <?php 
         if (isset($_SESSION['error_editar_perfil']) && $_SESSION['error_editar_perfil'] !== "Ninguno"){
             echo '<div id="modalError" class="modal">';
@@ -184,6 +254,17 @@ $resultado = mysqli_query($db_connection, $sql);
             echo '</div>';
             unset($_SESSION['error_editar_perfil']);
         }?>
+        <?php 
+        if (isset($_SESSION['error_crear_perfil']) && $_SESSION['error_crear_perfil'] !== "Ninguno"){
+            echo '<div id="modalError" class="modal">';
+            echo '<div class="modal-contenido">';
+            echo '<span class="cerrar-modal-error">&times;</span>';
+            echo '<h3>Error al crear perfil</h3>';
+            echo '<p>'.$_SESSION['error_crear_perfil'].'</p>';
+            echo '</div>';
+            echo '</div>';
+            unset($_SESSION['error_crear_perfil']);
+        }?>
         <!-- Errores -->
         <!-- Confirmaciones -->
         <?php
@@ -193,6 +274,8 @@ $resultado = mysqli_query($db_connection, $sql);
             echo '<span class="cerrar-modal-error">&times;</span>';
             if (isset($_SESSION['cambio']) && $_SESSION['cambio'] === 'Password') {
                 echo '<h3>Se ha realizado la modificacion correctamente</h3>';
+            } elseif (isset($_SESSION['cambio']) && $_SESSION['cambio'] === 'Crear Usuario') {
+                echo '<h3>Usuario creado correctamente</h3>';
             } else {
                 echo '<h3>' . $_SESSION['cambio'] . ' actualizado correctamente</h3>';
             }

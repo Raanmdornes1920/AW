@@ -9,12 +9,37 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
-    if (isset($_FILES['avatar-nuevo']) && $_FILES['avatar-nuevo']['error'] === UPLOAD_ERR_OK) {
+    // Verificamos si seleccionó alguna imagen default
+    if (isset($_POST['foto_perfil']) && $_POST['foto_perfil'] !== 'custom'){
+        $rutaAlArchivo = "../img/perfiles/" . $_SESSION['foto_perfil'];
+        $nombreImagen = mysqli_real_escape_string($db_connection, $_POST['foto_perfil']);
+
+        $query = "UPDATE usuarios SET avatar = ? WHERE BINARY nombre_usuario = ?";
+        $stmt = mysqli_prepare($db_connection, $query);
+        mysqli_stmt_bind_param($stmt, "ss", $nombreImagen, $_SESSION['usuario']);
+        
+        if (mysqli_stmt_execute($stmt)) {
+            $_SESSION['foto_perfil'] = $nombreImagen;
+        }
+        else{
+            $_SESSION['error_editar_perfil'] = "Error al cambiar la imagen.";
+            header("Location: " . RUTA_VISTAS . "/editar_perfil.php");
+            exit();
+        }
+        
+        
+        if (!in_array($_SESSION['foto_perfil'], IMAGENES_BASE) && file_exists($rutaAlArchivo)) {
+            unlink($rutaAlArchivo);
+        }
+
+    }
+    // Si no eligio una default la procesamos
+    elseif (isset($_FILES['foto_perfil']) && $_FILES['foto_perfil']['error'] === UPLOAD_ERR_OK) {
         
         $rutaAlArchivo = "../img/perfiles/" . $_SESSION['foto_perfil'];
 
-        $fileTmpPath = $_FILES['avatar-nuevo']['tmp_name'];
-        $fileName = $_FILES['avatar-nuevo']['name'];
+        $fileTmpPath = $_FILES['foto_perfil']['tmp_name'];
+        $fileName = $_FILES['foto_perfil']['name'];
         
         $fileNameClean = time() . "_" . preg_replace("/[^a-zA-Z0-9.]/", "_", $fileName);
         

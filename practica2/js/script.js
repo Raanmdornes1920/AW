@@ -15,3 +15,19 @@ window.addEventListener('click', function(event) {
         }
     }
 });
+
+// Si existen las opciones de avatar, añadimos funcion de mosrar/ocultar al hacer click
+if(document.querySelector(".opcion-avatar")){
+    
+    document.querySelectorAll(".opcion-avatar").forEach(opcion => {
+        
+        opcion.addEventListener('click', function() {
+            
+            if (opcion.querySelector("#radio-custom")) {
+                document.getElementById("archivo-avatar").style.display = "block";
+            } else {
+                document.getElementById("archivo-avatar").style.display = "none";
+            }
+        });
+    });
+}

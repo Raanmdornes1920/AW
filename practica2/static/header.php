@@ -45,7 +45,7 @@ function clase_activa($nombre_archivo, $pagina_actual) {
                 <hr>
                 <a href="<?php echo RUTA_VISTAS; ?>/editar_perfil.php">Mi Perfil</a>
                 <?php if($_SESSION['rol'] === 'gerente'): ?>
-                    <a href="<?php echo RUTA_VISTAS; ?>/ajustes_admin.php">Ajustes Perfiles</a>
+                    <a href="<?php echo RUTA_VISTAS; ?>/ajustes_admin.php">Administrar Perfiles</a>
                 <?php endif; ?>
                 <a href="<?php echo RUTA_STATIC; ?>/logout.php" class="logout-link">Cerrar Sesión</a>
             </div>

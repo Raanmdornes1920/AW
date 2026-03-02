@@ -6,17 +6,17 @@ require_once '../static/config.php';
 <html lang="es">
 <head>
     <meta charset="utf-8">
-    <title>Registro - Bistro FDI</title>
+    <title>Gestionar Usuarios - BISTRO FDI</title>
     <link rel="icon" type="image/svg+xml" href="<?php echo RUTA_IMG; ?>/logo1.svg">
     <link rel="stylesheet" href="<?php echo RUTA_CSS; ?>/default.css">    
 </head>
 <body>
     <!-- Header -->
-    <?php include '../static/header_registro.php'; ?>
+    <?php include '../static/header.php'; ?>
     <!-- Header -->
 
     <main class="contenedor-centro">    
-        <h1 id="titulo-registro">Registro</h1>
+        <h1 id="titulo-registro">Nuevo Usuario</h1>
         <form action="<?php echo RUTA_STATIC ?>/procesarRegistro.php" method="POST" enctype="multipart/form-data">
             <label>Nombre:</label>
             <br>
@@ -44,7 +44,7 @@ require_once '../static/config.php';
                 <?php foreach (AVATARES_INICIALES as $indice => $archivo): ?>
                     <label class="opcion-avatar">
                         <img class="opcion-imagen-avatar" src="../img/perfiles/<?= $archivo; ?>" alt="Avatar <?= $indice; ?>">
-                        <input type="radio" name="foto_perfil" value="<?= $archivo; ?>">
+                        <input type="radio" name="foto_perfil" value="<?= $archivo; ?>" required>
                     </label>
                 <?php endforeach; ?>
 
@@ -52,7 +52,7 @@ require_once '../static/config.php';
                     <div class="cuadro-subir-archivo">
                         <p>Elegir<br>Archivo</p>
                     </div>
-                    <input type="radio" name="foto_perfil" value="custom" id="radio-custom">
+                    <input type="radio" name="foto_perfil" value="custom" id="radio-custom" required>
                 </label>
             </div>
 
@@ -64,22 +64,17 @@ require_once '../static/config.php';
                 <br>
             </div>
 
-            <label>Contraseña:</label>
-            <br>
-            <input id="password" type="password" name="password" required>
-            <br>
-
-            <label>Repetir Contraseña:</label>
-            <br>
-            <input type="password" name="password_confirm" required oninput="
-            if(document.getElementById('password').value != this.value) {
-                this.setCustomValidity('Las contraseñas no coinciden');
-            } else {
-                this.setCustomValidity('');
-            }">
-            <br><br>
-
-            <button type="submit">Registrarme</button>
+            <input id="password" type="hidden" name="password" value="1234" required>
+            <input type="hidden" name="password_confirm" value="1234" required>
+            
+            <input type="hidden" name="modo-admin" value="Verdadero">
+            <input type="hidden" name="volver" value="<?php echo htmlspecialchars(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : RAIZ_APP . "/"); ?>">
+            
+            <div class="contenedor-botones">
+            <button type="submit" id="boton_aceptar">Crear Usuario</button>
+            
+            <button onclick="window.location.href='<?php echo htmlspecialchars(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : RUTA_VISTAS . '/ajustes_admin.php'); ?>'" type="button" id="boton_cancelar">Volver</button>
+            </div>
         </form>
 
     </main>
