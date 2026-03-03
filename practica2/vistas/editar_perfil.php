@@ -16,6 +16,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
         <title>Perfil- BISTRO FDI</title>
         <link rel="icon" type="image/svg+xml" href="<?php echo RUTA_IMG; ?>/logo1.svg">
         <link rel="stylesheet" href="<?php echo RUTA_CSS; ?>/default.css">
+        <link rel="stylesheet" href="<?php echo RUTA_CSS; ?>/modales.css">
     </head>
     <body>
         <!-- Header -->

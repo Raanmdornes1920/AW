@@ -22,6 +22,7 @@ $resultado_clientes = mysqli_query($db_connection, $sql);
         <title>Gestionar Usuarios - BISTRO FDI</title>
         <link rel="icon" type="image/svg+xml" href="<?php echo RUTA_IMG; ?>/logo1.svg">
         <link rel="stylesheet" href="<?php echo RUTA_CSS; ?>/default.css">
+        <link rel="stylesheet" href="<?php echo RUTA_CSS; ?>/modales.css">
     </head>
     <body>
         <!-- Header -->
