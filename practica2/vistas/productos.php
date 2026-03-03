@@ -20,6 +20,7 @@ $resultado = mysqli_query($db_connection, $sql);
 <head>
     <meta charset="UTF-8">
     <title>Productos - Bistro FDI</title>
+    <link rel="icon" type="image/svg+xml" href="<?php echo RUTA_IMG; ?>/logo1.svg">
     <link rel="stylesheet" href="<?php echo RUTA_CSS; ?>/default.css">
     <script src="<?php echo RAIZ_APP; ?>/js/script.js"></script>
 </head>
@@ -58,7 +59,11 @@ $resultado = mysqli_query($db_connection, $sql);
                 <?php endif; ?>
             </td>
             <td><?php echo htmlspecialchars($fila['nombre']); ?></td>
-            <td><?php echo htmlspecialchars($fila['descripcion']); ?></td>
+            <td><?php 
+            // Cambio para que interprete saltos de linea
+            echo nl2br(htmlspecialchars(str_replace('\r\n', "\n", $fila['descripcion']))); 
+            //echo nl2br(htmlspecialchars($fila['descripcion'])); 
+            ?></td>
             <td><?php echo htmlspecialchars($fila['categoria']); ?></td>
             <td><?php echo number_format($precioFinal,2); ?> €</td>
             <td><?php echo $fila['disponible'] ? 'Sí' : 'No'; ?></td>

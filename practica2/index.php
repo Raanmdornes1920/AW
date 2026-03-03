@@ -5,7 +5,10 @@ require_once 'static/config.php';
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="utf-8">
         <title>Bistro FDI</title>
+        <link rel="icon" type="image/svg+xml" href="<?php echo RUTA_IMG; ?>/logo1.svg">
+        <link rel="stylesheet" href="<?php echo RUTA_CSS; ?>/default.css">
     </head>
     <body>
         <?php

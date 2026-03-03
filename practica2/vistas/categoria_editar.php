@@ -33,6 +33,9 @@ if (!$categoria) {
 <head>
     <meta charset="UTF-8">
     <title>Editar categoría</title>
+    <link rel="icon" type="image/svg+xml" href="<?php echo RUTA_IMG; ?>/logo1.svg">
+    <link rel="stylesheet" href="<?php echo RUTA_CSS; ?>/default.css">
+    <script src="<?php echo RAIZ_APP; ?>/js/script.js"></script>
 </head>
 <body>
 

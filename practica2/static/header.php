@@ -27,12 +27,17 @@ function clase_activa($nombre_archivo, $pagina_actual) {
             echo '<a class="'.clase_activa('pedidos_camarero.php', $pagina_actual).'" href="'.RAIZ_APP.'/">Pedidos</a>';
         }
         else if($_SESSION['rol'] === 'cliente') {
-            echo '<a class="'.clase_activa('pedidos_cliente.php', $pagina_actual).'" href="'.RAIZ_APP.'/">Pedidos</a>';
+
+            echo '<a class="'.clase_activa('pedidos_cliente.php', $pagina_actual).'" href="'.RAIZ_APP.'/">Mis Pedidos</a>';
+
+            echo '<a class="'.clase_activa('pedidos_cliente.php', $pagina_actual).'" href="'.RUTA_VISTAS.'/bocetos.html">Bocetos</a>';
+            echo '<a class="'.clase_activa('pedidos_cliente.php', $pagina_actual).'" href="'.RAIZ_APP.'/contacto.html">Contacto</a>';
+            echo '<a class="'.clase_activa('pedidos_cliente.php', $pagina_actual).'" href="'.RAIZ_APP.'/detalles.html">Detalles</a>';
+            echo '<a class="'.clase_activa('pedidos_cliente.php', $pagina_actual).'" href="'.RAIZ_APP.'/miembros.html">Miembros</a>';
+            echo '<a class="'.clase_activa('pedidos_cliente.php', $pagina_actual).'" href="'.RAIZ_APP.'/planificacion.html">Planificación</a>';
         }
         ?>
 
-        <a class="<?php echo clase_activa('prueba1.php', $pagina_actual); ?>" href="<?php echo RUTA_VISTAS ?>/prueba1.php">Prueba1</a>
-        
     </nav>
     <div class="header-derecho">
         <div class="usuario-menu-container">
@@ -44,9 +49,16 @@ function clase_activa($nombre_archivo, $pagina_actual) {
                 <p class="usuario-nombre"><?php echo $_SESSION['nombre']; ?></p>
                 <hr>
                 <a href="<?php echo RUTA_VISTAS; ?>/editar_perfil.php">Mi Perfil</a>
+                <!-- Rol Cliente -->
+                <?php if($_SESSION['rol'] === 'cliente'): ?>
+                    <a href="<?php echo RUTA_VISTAS; ?>/carrito.php">Carrito</a>
+                <?php endif; ?>
+                <!-- Rol Cliente -->
+                 <!-- Rol Gerente -->
                 <?php if($_SESSION['rol'] === 'gerente'): ?>
                     <a href="<?php echo RUTA_VISTAS; ?>/ajustes_admin.php">Administrar Perfiles</a>
                 <?php endif; ?>
+                <!-- Rol Gerente -->
                 <a href="<?php echo RUTA_STATIC; ?>/logout.php" class="logout-link">Cerrar Sesión</a>
             </div>
         </div>    

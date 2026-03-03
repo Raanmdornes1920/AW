@@ -16,6 +16,7 @@ $categorias = mysqli_query($db_connection, $sqlCat);
 <head>
     <meta charset="UTF-8">
     <title>Nuevo Producto</title>
+    <link rel="icon" type="image/svg+xml" href="<?php echo RUTA_IMG; ?>/logo1.svg">
     <link rel="stylesheet" href="<?php echo RUTA_CSS; ?>/default.css">
     <script>
     function calcularPrecioFinal() {

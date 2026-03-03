@@ -13,6 +13,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
 <head>
     <meta charset="UTF-8">
     <title>Nueva categoría</title>
+    <link rel="icon" type="image/svg+xml" href="<?php echo RUTA_IMG; ?>/logo1.svg">
     <link rel="stylesheet" href="<?php echo RUTA_CSS; ?>/default.css">
     <script src="<?php echo RAIZ_APP; ?>/js/script.js"></script>
 </head>

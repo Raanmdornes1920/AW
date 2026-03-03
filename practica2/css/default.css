@@ -125,8 +125,11 @@ body {
 }
 
 #contenedor-descripcion{
+    display: flex;
+    flex-direction: column;
     max-width: 25%;
     justify-content: center;
+    align-items: center;
 }
 
 #titulo-descripcion{
@@ -893,4 +896,51 @@ table, tr, th, td {
     display:none;
     color:red;
     font-weight:bold;
+}
+
+.recuadro-iniciar-pedido{
+    display: flex;
+    flex-direction: column;
+    background-color: #c5c5c5;
+    min-width: 600px;
+    min-height: 200px;
+    align-items: center;
+    border-radius: 20px;
+}
+
+.titulo-iniciar-pedido{
+    display: flex;
+    flex: 1;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.contenedor-botones-iniciar-pedido{
+    display: flex;
+    flex: 2;
+    width: 100%;
+    justify-content: center;
+    padding: auto;
+    gap: 20px;
+}
+
+.boton-iniciar-pedido{
+    background-color: #82a9ff;
+    border-radius: 20px;
+    height: 50px;
+    width: 40%; 
+    color: #333;               
+    padding: 10px;
+    font-weight: bold; 
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    margin-bottom: auto;
+    margin-top: auto;
+    transition: 0.3s;
+}
+
+.boton-iniciar-pedido:hover{
+    background-color: #9dbcff;
+    cursor: pointer;
 }

@@ -34,8 +34,9 @@ $categorias = mysqli_query($db_connection, $sqlCat);
 <head>
     <meta charset="UTF-8">
     <title>Editar Producto</title>
+    <link rel="icon" type="image/svg+xml" href="<?php echo RUTA_IMG; ?>/logo1.svg">
     <link rel="stylesheet" href="<?php echo RUTA_CSS; ?>/default.css">
-    <script>
+    <script> // TODO Mover a script.js
     function calcularPrecioFinal() {
         let base = parseFloat(document.getElementById("precio_base").value) || 0;
         let iva = parseInt(document.getElementById("iva").value) || 0;
@@ -67,7 +68,9 @@ $categorias = mysqli_query($db_connection, $sqlCat);
     <input type="text" name="nombre" value="<?php echo htmlspecialchars($producto['nombre']); ?>" required><br><br>
 
     <label>Descripción:</label><br>
-    <textarea name="descripcion" rows="4" cols="40" required><?php echo htmlspecialchars($producto['descripcion']); ?></textarea><br><br>
+    <!-- Cambiamos para interpretar saltos de linea -->
+    <textarea name="descripcion" rows="4" cols="40" required><?php echo htmlspecialchars(str_replace('\r\n', "\n", $producto['descripcion'])); ?></textarea><br><br>
+    <!-- <textarea name="descripcion" rows="4" cols="40" required><?php //echo htmlspecialchars($producto['descripcion']); ?></textarea><br><br> -->
 
     <label>Precio Base:</label><br>
     <input type="number" step="0.01" id="precio_base" name="precio_base"
