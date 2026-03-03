@@ -32,72 +32,76 @@ $resultado_clientes = mysqli_query($db_connection, $sql);
         <main class="contenedor-centro-index">
             <h1 id="titulo-descripcion">Editar Usuarios</h1>
             
-            <table class="tabla-usuarios" cellpadding="6">
-                <tr>
-                    <th colspan="6" class="titulo-tabla">
-                        EMPLEADOS
-                    </th>
-                </tr>    
-                <tr>
-                    <th>Usuario</th>
-                    <th>Nombre</th>
-                    <th>Apellidos</th>
-                    <th>Email</th>
-                    <th>Rol</th>
-                    <th>Opciones</th>
-                </tr>
-                <?php $usuarios_por_id = []; // Diccionario para guardar usuarios?>
-                <?php if ($resultado_empleados) { ?>
-                    <?php while ($fila = mysqli_fetch_assoc($resultado_empleados)) { ?>
-                        <?php $usuarios_por_id[$fila['id']] = $fila; // Guardamos cada fila con clave id usuario?>
-                        <tr>
-                            <td><?php echo htmlspecialchars($fila['nombre_usuario']); ?></td>
-                            <td><?php echo htmlspecialchars($fila['nombre']); ?></td>
-                            <td><?php echo htmlspecialchars($fila['apellidos']); ?></td>
-                            <td><?php echo htmlspecialchars($fila['email']); ?></td>
-                            <td><?php echo htmlspecialchars($fila['rol']); ?></td>
-                            <td class="columna-boton-editar">
-                                <button class="boton-taba-usuarios" onclick="abrirModalEditarUsuario(<?php echo $fila['id'] . ', \'' . $fila['nombre_usuario'] . '\', \'' . $fila['nombre'] . '\', \'' . $fila['apellidos'] . '\', \'' . $fila['email'] . '\', \'' . $fila['rol'] . '\', \'' . $fila['avatar'] . '\''; ?>)">Editar</button>
-                                <!-- | -->
-                                
-                            </td>
-                        </tr>
+            <div class="contenedor-tabla-usuarios">
+                <table class="tabla-usuarios" cellpadding="6">
+                    <tr>
+                        <th colspan="6" class="titulo-tabla">
+                            EMPLEADOS
+                        </th>
+                    </tr>    
+                    <tr>
+                        <th>Usuario</th>
+                        <th>Nombre</th>
+                        <th>Apellidos</th>
+                        <th>Email</th>
+                        <th>Rol</th>
+                        <th>Opciones</th>
+                    </tr>
+                    <?php $usuarios_por_id = []; // Diccionario para guardar usuarios?>
+                    <?php if ($resultado_empleados) { ?>
+                        <?php while ($fila = mysqli_fetch_assoc($resultado_empleados)) { ?>
+                            <?php $usuarios_por_id[$fila['id']] = $fila; // Guardamos cada fila con clave id usuario?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($fila['nombre_usuario']); ?></td>
+                                <td><?php echo htmlspecialchars($fila['nombre']); ?></td>
+                                <td><?php echo htmlspecialchars($fila['apellidos']); ?></td>
+                                <td><?php echo htmlspecialchars($fila['email']); ?></td>
+                                <td><?php echo htmlspecialchars($fila['rol']); ?></td>
+                                <td class="columna-boton-editar">
+                                    <button class="boton-taba-usuarios" onclick="abrirModalEditarUsuario(<?php echo $fila['id'] . ', \'' . $fila['nombre_usuario'] . '\', \'' . $fila['nombre'] . '\', \'' . $fila['apellidos'] . '\', \'' . $fila['email'] . '\', \'' . $fila['rol'] . '\', \'' . $fila['avatar'] . '\''; ?>)">Editar</button>
+                                    <!-- | -->
+                                    
+                                </td>
+                            </tr>
+                        <?php } ?>
                     <?php } ?>
-                <?php } ?>
-            </table>
+                </table>
+            </div>
             <br><br>
-            <table class="tabla-usuarios" cellpadding="6">
-                <tr>
-                    <th colspan="6" class="titulo-tabla">
-                        CLIENTES
-                    </th>
-                </tr>    
-                <tr>
-                    <th>Usuario</th>
-                    <th>Nombre</th>
-                    <th>Apellidos</th>
-                    <th>Email</th>
-                    <th>Rol</th>
-                    <th>Opciones</th>
-                </tr>
-                <?php if ($resultado_clientes) { ?>
-                    <?php while ($fila = mysqli_fetch_assoc($resultado_clientes)) { ?>
-                        <?php $usuarios_por_id[$fila['id']] = $fila; // Guardamos cada fila con clave id usuario?>
-                        <tr>
-                            <td><?php echo htmlspecialchars($fila['nombre_usuario']); ?></td>
-                            <td><?php echo htmlspecialchars($fila['nombre']); ?></td>
-                            <td><?php echo htmlspecialchars($fila['apellidos']); ?></td>
-                            <td><?php echo htmlspecialchars($fila['email']); ?></td>
-                            <td><?php echo htmlspecialchars($fila['rol']); ?></td>
-                            <td class="columna-boton-editar">
-                                <button class="boton-taba-usuarios" onclick="abrirModalEditarUsuario(<?php echo $fila['id'] . ', \'' . $fila['nombre_usuario'] . '\', \'' . $fila['nombre'] . '\', \'' . $fila['apellidos'] . '\', \'' . $fila['email'] . '\', \'' . $fila['rol'] . '\', \'' . $fila['avatar'] . '\''; ?>)">Editar</button>
-                                <!-- | -->
-                                
-                            </td>
-                        </tr>
+            <div class="contenedor-tabla-usuarios">
+                <table class="tabla-usuarios" cellpadding="6">
+                    <tr>
+                        <th colspan="6" class="titulo-tabla">
+                            CLIENTES
+                        </th>
+                    </tr>    
+                    <tr>
+                        <th>Usuario</th>
+                        <th>Nombre</th>
+                        <th>Apellidos</th>
+                        <th>Email</th>
+                        <th>Rol</th>
+                        <th>Opciones</th>
+                    </tr>
+                    <?php if ($resultado_clientes) { ?>
+                        <?php while ($fila = mysqli_fetch_assoc($resultado_clientes)) { ?>
+                            <?php $usuarios_por_id[$fila['id']] = $fila; // Guardamos cada fila con clave id usuario?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($fila['nombre_usuario']); ?></td>
+                                <td><?php echo htmlspecialchars($fila['nombre']); ?></td>
+                                <td><?php echo htmlspecialchars($fila['apellidos']); ?></td>
+                                <td><?php echo htmlspecialchars($fila['email']); ?></td>
+                                <td><?php echo htmlspecialchars($fila['rol']); ?></td>
+                                <td class="columna-boton-editar">
+                                    <button class="boton-taba-usuarios" onclick="abrirModalEditarUsuario(<?php echo $fila['id'] . ', \'' . $fila['nombre_usuario'] . '\', \'' . $fila['nombre'] . '\', \'' . $fila['apellidos'] . '\', \'' . $fila['email'] . '\', \'' . $fila['rol'] . '\', \'' . $fila['avatar'] . '\''; ?>)">Editar</button>
+                                    <!-- | -->
+                                    
+                                </td>
+                            </tr>
+                        <?php } ?>
                     <?php } ?>
-                <?php } ?>
-            </table>
+                </table>
+            </div>
             <br><br>
             <div>
                 <a href="<?php echo RUTA_VISTAS . "/crear_usuario.php";?>"><button  class="botones-gestion-usuarios">Crear Usuario</button></a>

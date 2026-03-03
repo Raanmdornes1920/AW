@@ -330,9 +330,29 @@ table, tr, th, td {
     text-align: center;
     font-size: 1.2rem;
 }
+.contenedor-tabla-usuarios{
+    width: 80%; 
+    border: 1px solid #000; 
+    border-radius: 20px; 
+    overflow: hidden;
+}
 
 .tabla-usuarios{
-    width: 80%;
+    width: 100%;
+    border-collapse: collapse;
+    border: none;
+    margin: 0;
+}
+
+/* Tabla estilo zebra */
+.tabla-usuarios tr:nth-child(even) {
+    background-color: #e6e6e6;
+}
+
+/* Estilo de cabeceras */
+.tabla-usuarios tr:nth-child(2) {
+    background: linear-gradient(to bottom, #2c3e60, #2c3e40);
+    color: white;
 }
 
 .boton-taba-usuarios{
