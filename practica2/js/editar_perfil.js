@@ -22,6 +22,8 @@ const btnCerrarRol = document.querySelector(".cerrar-modal-rol");
 
 const inputsId = document.querySelectorAll('.input-id-usuario');
 
+const modalEliminarusuario = document.getElementById("modalAdminEliminarusuario");
+
 // Funciones para abrir el modal
 function abrirModalAvatar() {
     modalEditarAvatar.style.display = "block";
@@ -93,10 +95,15 @@ window.addEventListener('click', function(event) {
 
         modalEditarUsuario.style.display = "none";
     }
+    if (event.target == modalEliminarusuario) {
+        document.getElementById("span-nombre-usuario").innerText = null; 
+        document.getElementById("input-id-eliminar").value = null;
+        modalEliminarusuario.style.display = "none";
+    }
 });
 
 // Eventos para cerrar al hacer clic en las X
-if (!modalEditarUsuario) {
+if (!modalEditarUsuario && !modalEliminarusuario) {
     btnCerrarAvatar.addEventListener('click', function() {
         document.getElementById("avatar-nuevo").value = "";
         modalEditarAvatar.style.display = "none";
@@ -110,6 +117,13 @@ if (!modalEditarUsuario) {
         document.getElementById("nueva-contrasena").value = "";
         document.getElementById("confirmar-contrasena").value = "";
         modalPassword.style.display = "none";
+    });
+}
+else if(modalEliminarusuario){
+    document.querySelector(".cerrar-modal-del").addEventListener('click', function() {
+        document.getElementById("span-nombre-usuario").innerText = null; 
+        document.getElementById("input-id-eliminar").value = null;
+        modalEliminarusuario.style.display = "none";
     });
 }
 else{
@@ -205,7 +219,23 @@ function abrirModalAdminRol() {
     
     select.blur(); // Des seleccionar el desplegable
 }
-function abrirModalAdminPassword() {
-    document.getElementById("usuario-reset-contrasena").innerText = diccionario_usuarios[id_a_editar]['nombre_usuario']; 
-    modalAdminPassword.style.display = "block";
+
+function CerrarEliminarUsuario(){
+    document.getElementById("span-nombre-usuario").innerText = null; 
+    document.getElementById("input-id-eliminar").value = null;
+    document.getElementById("modalAdminEliminarusuario").style.display = "none"; 
+}
+
+function abrirConfirmacionDelete(id, usuario, usuarioLogueado){
+    document.getElementById("span-nombre-usuario").innerText = usuario; 
+    document.getElementById("input-id-eliminar").value = id;
+
+    if(usuarioLogueado == usuario){
+        document.getElementById('advertencia-propio-usuario').style.display = 'block';
+    }
+    else{
+        document.getElementById('advertencia-propio-usuario').style.display = 'none';
+    }
+
+    document.getElementById("modalAdminEliminarusuario").style.display = "block";
 }

@@ -1,6 +1,11 @@
 <?php
 session_start();
 require_once '../static/config.php';
+
+if (!isset($_SESSION['login']) || $_SESSION['login'] !== true || $_SESSION['rol'] !== 'gerente') {
+    header("Location: ".RAIZ_APP."/");
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -41,7 +46,7 @@ require_once '../static/config.php';
             <label>Foto de perfil:</label>
             <br>
             <div class="seleccion-avatares">
-                <?php foreach (AVATARES_INICIALES as $indice => $archivo): ?>
+                <?php foreach (IMAGENES_BASE as $indice => $archivo): ?>
                     <label class="opcion-avatar">
                         <img class="opcion-imagen-avatar" src="../img/perfiles/<?= $archivo; ?>" alt="Avatar <?= $indice; ?>">
                         <input type="radio" name="foto_perfil" value="<?= $archivo; ?>" required>
@@ -63,6 +68,14 @@ require_once '../static/config.php';
                 <br>
                 <br>
             </div>
+            
+            <label>Rol:</label>
+            <select name="rol" id="select-rol-usuario">
+                <option value="gerente">Gerente</option>
+                <option value="cocinero">Cocinero</option>
+                <option value="camarero">Camarero</option>
+                <option value="cliente" selected>Cliente</option>
+            </select>
 
             <input id="password" type="hidden" name="password" value="1234" required>
             <input type="hidden" name="password_confirm" value="1234" required>

@@ -2,8 +2,8 @@
 session_start(); 
 require_once '../static/config.php';
 
-if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
-    header("Location: ../");
+if (!isset($_SESSION['login']) || $_SESSION['login'] !== true || $_SESSION['rol'] !== 'gerente') {
+    header("Location: ".RAIZ_APP."/");
     exit();
 }
 
@@ -100,7 +100,7 @@ $resultado_clientes = mysqli_query($db_connection, $sql);
             <br><br>
             <div>
                 <a href="<?php echo RUTA_VISTAS . "/crear_usuario.php";?>"><button  class="botones-gestion-usuarios">Crear Usuario</button></a>
-                <button class="botones-gestion-usuarios">Eliminar Usuario</button>
+                <a href="<?php echo RUTA_VISTAS . "/eliminar_usuario.php";?>"><button class="botones-gestion-usuarios">Eliminar Usuario</button></a>
             </div>
         </main>
         <!-- Interfaz para editar usuarios -->

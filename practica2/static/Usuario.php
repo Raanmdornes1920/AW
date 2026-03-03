@@ -7,13 +7,18 @@ class Usuario {
     private $apellidos;
     private $email;
 
-    public function __construct($usuario, $nombre, $apellidos, $email, $rol, $fotoPerfil) {
+    public function __construct($id, $usuario, $nombre, $apellidos, $email, $rol, $fotoPerfil) {
+        $this->idUsuario = $id;
         $this->nombreUsuario = $usuario;
         $this->nombre = $nombre;
         $this->apellidos = $apellidos;
         $this->email = $email;
         $this->rol = $rol;
         $this->fotoPerfil = $fotoPerfil;
+    }
+
+    public function id() {
+        return $this->idUsuario;
     }
 
     public function username() {

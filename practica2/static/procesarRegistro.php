@@ -59,9 +59,16 @@ if ($resultado && mysqli_num_rows($resultado) === 0) {
                 session_start();
             }
             
-            $user = new Usuario($userPost, $nombrePost, $apellidosPost, $mailPost, $rolPost, $nombreImagen); 
+            $sql = "SELECT id FROM usuarios WHERE nombre_usuario = '$userPost¡'";
+
+            $resultado = mysqli_query($db_connection, $sql);
+            $fila = mysqli_fetch_assoc($resultado);
+            $idPost = $fila['id'];
+
+            $user = new Usuario($idPost, $userPost, $nombrePost, $apellidosPost, $mailPost, $rolPost, $nombreImagen); 
 
             $_SESSION['login'] = true;
+            $_SESSION['id'] = $user->id();
             $_SESSION['usuario'] = $user->username();
             $_SESSION['nombre'] = $user->nombre();
             $_SESSION['apellidos'] = $user->apellidos();

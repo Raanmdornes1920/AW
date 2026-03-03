@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 02-03-2026 a las 22:20:41
+-- Tiempo de generación: 03-03-2026 a las 14:24:56
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -98,12 +98,7 @@ INSERT INTO `usuarios` (`id`, `nombre_usuario`, `email`, `nombre`, `apellidos`, 
 (2, 'cliente', 'cliente@ucm.es', '', '', '$2y$10$2gsbg4/807iDyWG4b6il0uxVFIlP.eaKovNxfqnoTcLhlXvSE1tNy', 'cliente', 'default.png'),
 (3, 'camarero', 'camarero@bistrofdi.es', '', '', '$2y$10$Bv5eepK6aWZn53kDdw8Zvu01W99eB4whkjAWWJ1xaeNmnb9wwklz2', 'camarero', 'camarero.png'),
 (4, 'cocinero', 'cocinero@bistrofdi.es', '', '', '$2y$10$Bc6aW8U1mi62WxM3QYSU/umpiSiMikYpsaubnCYOlDYS8hJEI.SJS', 'cocinero', 'cocinero.png'),
-(5, 'ramon', 'rsalaz01@ucm.es', 'Ramon', 'Salazar', '$2y$10$tpTHTrPSOaDG1P94s5.Uq.dfwmUWF6Efy3f7/c8JTxiTDRzLAojQ2', 'cliente', '1772146880_Logo.png'),
-(6, 'a', 'a@a.a', 'a', 'a', '$2y$10$xGpK716UUF/ALKFFeh3bJOK2kRIwzktXkQIswAfUAmb/aYBZWBvaW', 'cliente', 'base/base1.png'),
-(7, 'b', 'b@b.b', 'b', 'b', '$2y$10$3AKjIISbSlfqvJMrMt4vQeNJGZMGQ1tEPWhcf70/4ZcHs.2/y3Npe', 'cliente', 'base/base1.png'),
-(8, 'c', 'c@c.c', 'c', 'c', '$2y$10$GeNudd3k9GTtkbTTh7fZFu03HNZDAG3jn607ygX6UoaMDFstv4/Am', 'cliente', 'base/base1.png'),
-(9, 'd', 'd@d.d', 'd', 'd', '$2y$10$VLx4YCqVFS5Lk8CW5lub9.hpFyC664JM2qhxNA6TRWLPy3MBC5wRu', 'cliente', 'base/base4.png'),
-(10, 'e', 'e@e.e', 'e', 'e', '$2y$10$yrICaqTnWzYKhfGhCP1SiO47202P4wwiDYZ6WQn8/LKsfLFwsLzIa', 'cliente', '1772485506_default.png');
+(5, 'ramon', 'rsalaz01@ucm.es', 'Ramon', 'Salazar', '$2y$10$tpTHTrPSOaDG1P94s5.Uq.dfwmUWF6Efy3f7/c8JTxiTDRzLAojQ2', 'cliente', '1772146880_Logo.png');
 
 --
 -- Índices para tablas volcadas
@@ -164,7 +159,7 @@ ALTER TABLE `productos_imagenes`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Restricciones para tablas volcadas

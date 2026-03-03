@@ -73,13 +73,36 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
                 <form action="../static/editar_avatar.php" id="formEditar" method="POST" enctype="multipart/form-data">
                 
                     <div class="seleccion-avatares">
-                        <?php foreach (AVATARES_INICIALES as $indice => $archivo): ?>
-                            <label class="opcion-avatar">
-                                <img class="opcion-imagen-avatar" src="../img/perfiles/<?= $archivo; ?>" alt="Avatar <?= $indice; ?>">
-                                <input type="radio" name="foto_perfil" value="<?= $archivo; ?>">
-                            </label>
-                        <?php endforeach; ?>
-
+                        <?php if($_SESSION['rol'] === 'cliente'){
+                                foreach (AVATARES_INICIALES as $indice => $archivo): ?>
+                                <label class="opcion-avatar">
+                                    <img class="opcion-imagen-avatar" src="../img/perfiles/<?= $archivo; ?>" alt="Avatar <?= $indice; ?>">
+                                    <input type="radio" name="foto_perfil" value="<?= $archivo; ?>">
+                                </label>
+                            <?php endforeach;
+                        }
+                        elseif($_SESSION['rol'] === 'camarero'){
+                                foreach (AVATARES_CAMARERO as $indice => $archivo): ?>
+                                <label class="opcion-avatar">
+                                    <img class="opcion-imagen-avatar" src="../img/perfiles/<?= $archivo; ?>" alt="Avatar <?= $indice; ?>">
+                                    <input type="radio" name="foto_perfil" value="<?= $archivo; ?>">
+                                </label>
+                            <?php endforeach;
+                        }elseif($_SESSION['rol'] === 'cocinero'){
+                                foreach (AVATARES_COCINERO as $indice => $archivo): ?>
+                                <label class="opcion-avatar">
+                                    <img class="opcion-imagen-avatar" src="../img/perfiles/<?= $archivo; ?>" alt="Avatar <?= $indice; ?>">
+                                    <input type="radio" name="foto_perfil" value="<?= $archivo; ?>">
+                                </label>
+                            <?php endforeach;
+                        }else{
+                                foreach (IMAGENES_BASE as $indice => $archivo): ?>
+                                <label class="opcion-avatar">
+                                    <img class="opcion-imagen-avatar" src="../img/perfiles/<?= $archivo; ?>" alt="Avatar <?= $indice; ?>">
+                                    <input type="radio" name="foto_perfil" value="<?= $archivo; ?>">
+                                </label>
+                            <?php endforeach;
+                        }?>
                         <label class="opcion-avatar">
                             <div class="cuadro-subir-archivo">
                                 <p>Elegir<br>Archivo</p>

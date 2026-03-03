@@ -2,9 +2,6 @@
 session_start();
 require_once 'config.php';
 
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
 if (!isset($_SESSION['login']) || $_SESSION['login'] !== true || $_SESSION['rol'] !== 'gerente') {
     header("Location: ".RAIZ_APP."/");
     exit();
