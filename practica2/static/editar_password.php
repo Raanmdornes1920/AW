@@ -1,6 +1,6 @@
 <?php
-session_start();
 require_once '../static/config.php';
+session_start();
 
 if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
     header("Location: ../index.php");
@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pass = $_POST['contrasena'];
     $nuevaPass = $_POST['nueva-contrasena'];
     $confirmarPass = $_POST['confirmar-contrasena'];
-    $user = $_SESSION['usuario'];
+    $user = $_SESSION['usuario']->username();
     
     $userEscaped = mysqli_real_escape_string($db_connection, $user);
     $sql = "SELECT * FROM usuarios WHERE nombre_usuario = '$userEscaped'";

@@ -1,6 +1,6 @@
 <?php
-session_start(); 
-require_once '../static/config.php';
+require_once 'config.php';
+session_start();
 
 $rutas_error_msj = [RUTA_VISTAS . "/ajustes_admin.php", RUTA_VISTAS . "/crear_usuario.php", RUTA_VISTAS . "/eliminar_usuario.php"];
 
@@ -8,7 +8,7 @@ function tiene_error_msj($ruta) {
     return in_array($ruta, $rutas_error_msj);
 }
 
-if (!isset($_SESSION['login']) || $_SESSION['login'] !== true || $_SESSION['rol'] !== 'gerente') {
+if (!isset($_SESSION['login']) || $_SESSION['login'] !== true || $_SESSION['usuario']->rol() !== 'gerente') {
     if(isset($_POST['volver']) && tiene_error_msj($_POST['volver'])){
         $_SESSION['error_editar_perfil'] = "No tienes permisos para realizar esta accion";
     }
@@ -16,7 +16,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true || $_SESSION['rol'
     exit();
 }
 
-$usuario_propio = ($_POST['id-usuario'] === $_SESSION['id']);
+$usuario_propio = ($_POST['id-usuario'] === $_SESSION['usuario']->id());
 
 if(isset($_POST['modo-admin']) && $_POST['modo-admin'] === "Verdadero"){
     

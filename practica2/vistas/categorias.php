@@ -3,8 +3,8 @@
 // Página para listar categorías (Gerente)
 
 // Arrancamos sesión (necesario siempre)
-session_start();
 require_once '../static/config.php';
+session_start();
 
 // Comprobación básica: usuario logueado
 if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
@@ -13,7 +13,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
 }
 
 // Consulta de categorías
-$sql = "SELECT id, nombre, descripcion, activa FROM categorias ORDER BY nombre";
+$sql = "SELECT id, nombre, descripcion, activa FROM categorias ORDER BY nombre";  // TODO No se pueden hacer consultas en vistas
 $resultado = mysqli_query($db_connection, $sql);
 ?>
 

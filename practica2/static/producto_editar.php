@@ -1,8 +1,8 @@
 <?php
-session_start();
 require_once 'config.php';
+session_start();
 
-if (!isset($_SESSION['login']) || $_SESSION['rol'] !== 'gerente') {
+if (!isset($_SESSION['login']) || $_SESSION['usuario']->rol() !== 'gerente') {
     header("Location: ../index.php");
     exit;
 }

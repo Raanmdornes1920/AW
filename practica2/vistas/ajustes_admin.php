@@ -1,17 +1,12 @@
 <?php 
-session_start(); 
 require_once '../static/config.php';
+session_start(); 
 
-if (!isset($_SESSION['login']) || $_SESSION['login'] !== true || $_SESSION['rol'] !== 'gerente') {
+if (!isset($_SESSION['login']) || $_SESSION['login'] !== true || $_SESSION['usuario']->rol() !== 'gerente') {
     header("Location: ".RAIZ_APP."/");
     exit();
 }
 
-$sql = "SELECT id, nombre_usuario, nombre, apellidos, email, rol, avatar FROM usuarios WHERE rol != 'cliente' ORDER BY rol DESC, id";
-$resultado_empleados = mysqli_query($db_connection, $sql);
-
-$sql = "SELECT id, nombre_usuario, nombre, apellidos, email, rol, avatar FROM usuarios WHERE rol = 'cliente' ORDER BY rol DESC, id";
-$resultado_clientes = mysqli_query($db_connection, $sql);
 ?>
 <!DOCTYPE html>
 
@@ -47,24 +42,31 @@ $resultado_clientes = mysqli_query($db_connection, $sql);
                         <th>Rol</th>
                         <th>Opciones</th>
                     </tr>
-                    <?php $usuarios_por_id = []; // Diccionario para guardar usuarios?>
-                    <?php if ($resultado_empleados) { ?>
-                        <?php while ($fila = mysqli_fetch_assoc($resultado_empleados)) { ?>
-                            <?php $usuarios_por_id[$fila['id']] = $fila; // Guardamos cada fila con clave id usuario?>
+                    <?php 
+                        $usuarios_por_id = [];
+                        $lista_usuarios = Usuario::listaUsuarios();
+                        if ($lista_usuarios) { 
+                            foreach ($lista_usuarios as $usuario){
+                                $rolActual = $usuario->rol(); 
+                                
+                                if($rolActual !== 'cliente'){
+                        ?>
                             <tr>
-                                <td><?php echo htmlspecialchars($fila['nombre_usuario']); ?></td>
-                                <td><?php echo htmlspecialchars($fila['nombre']); ?></td>
-                                <td><?php echo htmlspecialchars($fila['apellidos']); ?></td>
-                                <td><?php echo htmlspecialchars($fila['email']); ?></td>
-                                <td><?php echo htmlspecialchars($fila['rol']); ?></td>
+                                <td><?php echo htmlspecialchars($usuario->username()); ?></td>
+                                <td><?php echo htmlspecialchars($usuario->nombre()); ?></td>
+                                <td><?php echo htmlspecialchars($usuario->apellidos()); ?></td>
+                                <td><?php echo htmlspecialchars($usuario->email()); ?></td>
+                                <td><?php echo htmlspecialchars($rolActual); ?></td>
                                 <td class="columna-boton-editar">
-                                    <button class="boton-taba-usuarios" onclick="abrirModalEditarUsuario(<?php echo $fila['id'] . ', \'' . $fila['nombre_usuario'] . '\', \'' . $fila['nombre'] . '\', \'' . $fila['apellidos'] . '\', \'' . $fila['email'] . '\', \'' . $fila['rol'] . '\', \'' . $fila['avatar'] . '\''; ?>)">Editar</button>
-                                    <!-- | -->
-                                    
+                                    <button class="boton-taba-usuarios" onclick='abrirModalEditarUsuario(<?php echo $usuario->id() . ", " . json_encode($usuario); ?>)'>Editar</button>
                                 </td>
                             </tr>
-                        <?php } ?>
-                    <?php } ?>
+                        <?php 
+                                }
+                            } 
+                            $lista_usuarios->rewind();
+                        }
+                    ?>
                 </table>
             </div>
             <br><br>
@@ -83,23 +85,29 @@ $resultado_clientes = mysqli_query($db_connection, $sql);
                         <th>Rol</th>
                         <th>Opciones</th>
                     </tr>
-                    <?php if ($resultado_clientes) { ?>
-                        <?php while ($fila = mysqli_fetch_assoc($resultado_clientes)) { ?>
-                            <?php $usuarios_por_id[$fila['id']] = $fila; // Guardamos cada fila con clave id usuario?>
+                    <?php 
+                        if ($lista_usuarios) { 
+                            foreach ($lista_usuarios as $usuario){
+                                $rolActual = $usuario->rol(); 
+                                
+                                if($rolActual === 'cliente'){
+                        ?>
                             <tr>
-                                <td><?php echo htmlspecialchars($fila['nombre_usuario']); ?></td>
-                                <td><?php echo htmlspecialchars($fila['nombre']); ?></td>
-                                <td><?php echo htmlspecialchars($fila['apellidos']); ?></td>
-                                <td><?php echo htmlspecialchars($fila['email']); ?></td>
-                                <td><?php echo htmlspecialchars($fila['rol']); ?></td>
+                                <td><?php echo htmlspecialchars($usuario->username()); ?></td>
+                                <td><?php echo htmlspecialchars($usuario->nombre()); ?></td>
+                                <td><?php echo htmlspecialchars($usuario->apellidos()); ?></td>
+                                <td><?php echo htmlspecialchars($usuario->email()); ?></td>
+                                <td><?php echo htmlspecialchars($rolActual); ?></td>
                                 <td class="columna-boton-editar">
-                                    <button class="boton-taba-usuarios" onclick="abrirModalEditarUsuario(<?php echo $fila['id'] . ', \'' . $fila['nombre_usuario'] . '\', \'' . $fila['nombre'] . '\', \'' . $fila['apellidos'] . '\', \'' . $fila['email'] . '\', \'' . $fila['rol'] . '\', \'' . $fila['avatar'] . '\''; ?>)">Editar</button>
-                                    <!-- | -->
-                                    
+                                    <button class="boton-taba-usuarios" onclick='abrirModalEditarUsuario(<?php echo $usuario->id() . ", " . json_encode($usuario); ?>)'>Editar</button>
                                 </td>
                             </tr>
-                        <?php } ?>
-                    <?php } ?>
+                        <?php 
+                                }
+                            } 
+                            $lista_usuarios->rewind();
+                        }
+                    ?>
                 </table>
             </div>
             <br><br>
@@ -166,7 +174,7 @@ $resultado_clientes = mysqli_query($db_connection, $sql);
                 <form action="../static/admin_edit.php" class="formEditar" method="POST" enctype="multipart/form-data">
                     <input type="hidden" class="input-id-usuario" name="id-usuario" value="">    
                     <input type="hidden" name="campo-editar" value="Avatar">
-                                        <div class="seleccion-avatares">
+                    <div class="seleccion-avatares">
                         <?php foreach (IMAGENES_BASE as $indice => $archivo): ?>
                             <label class="opcion-avatar">
                                 <img class="opcion-imagen-avatar" src="../img/perfiles/<?= $archivo; ?>" alt="Avatar <?= $indice; ?>">

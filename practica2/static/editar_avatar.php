@@ -1,6 +1,6 @@
 <?php
-session_start();
 require_once '../static/config.php';
+session_start();
 
 if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
     header("Location: ../index.php");
@@ -11,15 +11,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     // Verificamos si seleccionó alguna imagen default
     if (isset($_POST['foto_perfil']) && $_POST['foto_perfil'] !== 'custom'){
-        $rutaAlArchivo = "../img/perfiles/" . $_SESSION['foto_perfil'];
+        $rutaAlArchivo = "../img/perfiles/" . $_SESSION['usuario']->fotoPerfil();
         $nombreImagen = mysqli_real_escape_string($db_connection, $_POST['foto_perfil']);
 
         $query = "UPDATE usuarios SET avatar = ? WHERE BINARY nombre_usuario = ?";
         $stmt = mysqli_prepare($db_connection, $query);
-        mysqli_stmt_bind_param($stmt, "ss", $nombreImagen, $_SESSION['usuario']);
+        mysqli_stmt_bind_param($stmt, "ss", $nombreImagen, $_SESSION['usuario']->username());
         
         if (mysqli_stmt_execute($stmt)) {
-            $_SESSION['foto_perfil'] = $nombreImagen;
+            $_SESSION['usuario']->set_value('avatar', $nombreImagen);
         }
         else{
             $_SESSION['error_editar_perfil'] = "Error al cambiar la imagen.";
@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         
         
-        if (!in_array($_SESSION['foto_perfil'], IMAGENES_BASE) && file_exists($rutaAlArchivo)) {
+        if (!in_array($_SESSION['usuario']->fotoPerfil(), IMAGENES_BASE) && file_exists($rutaAlArchivo)) {
             unlink($rutaAlArchivo);
         }
 
@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Si no eligio una default la procesamos
     elseif (isset($_FILES['foto_perfil']) && $_FILES['foto_perfil']['error'] === UPLOAD_ERR_OK) {
         
-        $rutaAlArchivo = "../img/perfiles/" . $_SESSION['foto_perfil'];
+        $rutaAlArchivo = "../img/perfiles/" . $_SESSION['usuario']->fotoPerfil();
 
         $fileTmpPath = $_FILES['foto_perfil']['tmp_name'];
         $fileName = $_FILES['foto_perfil']['name'];
@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             mysqli_stmt_bind_param($stmt, "ss", $nombreImagen, $_SESSION['usuario']);
             
             if (mysqli_stmt_execute($stmt)) {
-                $_SESSION['foto_perfil'] = $nombreImagen;
+                $_SESSION['usuario']->set_value('avatar', $nombreImagen);
             }
             else{
                 $_SESSION['error_editar_perfil'] = "Error al subir la imagen.";

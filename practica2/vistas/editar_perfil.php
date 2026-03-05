@@ -1,6 +1,6 @@
 <?php
-session_start();
 require_once '../static/config.php';
+session_start();
 
 // Comprobación básica: usuario logueado
 if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
@@ -36,7 +36,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
                         
                     </figure>
                     <h2 id="nombre-usuario"><?php echo $_SESSION['usuario']; ?></h2>
-                    <img onclick="abrirModal('Usuario', '<?php echo base64_encode($_SESSION['usuario']); ?>')"src="<?php echo RUTA_IMG; ?>/iconos/lapiz.png" id="boton-editar-usuario" alt="Editar">
+                    <img onclick="abrirModal('Usuario', '<?php echo base64_encode($_SESSION['usuario']->username()); ?>')"src="<?php echo RUTA_IMG; ?>/iconos/lapiz.png" id="boton-editar-usuario" alt="Editar">
                 </div>
                 <br>
                 <article>

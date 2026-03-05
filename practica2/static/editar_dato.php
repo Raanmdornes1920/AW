@@ -1,6 +1,6 @@
 <?php
-session_start();
 require_once '../static/config.php';
+session_start();
 
 if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
     header("Location: ../index.php");
@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $campo = $_POST['campo-editar'];
     $nuevoValor = $_POST['nuevo-valor'];
     $nuevoRol = $_POST['nuevo-rol'] ?? null; // Para el caso de editar rol
-    $user = $_SESSION['usuario'];
+    $user = $_SESSION['usuario']->username();
     
     if (strtolower($campo) === 'usuario'){
         $sqlCheck = "SELECT id FROM usuarios WHERE BINARY nombre_usuario = ?";
@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     mysqli_stmt_bind_param($stmt, "ss", $nuevoValor, $user);
     
     if (mysqli_stmt_execute($stmt)) {
-        $_SESSION[strtolower($campo)] = $nuevoValor;
+        $_SESSION['usuario']->set_value(strtolower($campo),$nuevoValor);
         $_SESSION['cambio'] = $campo;
         $_SESSION['error_editar_perfil'] = "Ninguno";
     } else {

@@ -16,9 +16,9 @@
         <!-- Contenido -->
         <main class="contenedor-centro-index">
             <article id="contenedor-descripcion">
-                <h1 id="titulo-descripcion">Bienvenido <?php echo $_SESSION['usuario']?></h1>
+                <h1 id="titulo-descripcion">Bienvenido <?php echo $_SESSION['usuario']->username()?></h1>
                 <?php 
-                if($_SESSION['rol']==='cliente'){
+                if($_SESSION['usuario']->rol() ==='cliente'){
                     echo '<div class="recuadro-iniciar-pedido">';
                         echo '<div class="titulo-iniciar-pedido">';
                             echo '<h2>';
@@ -31,11 +31,11 @@
                             echo '<button class="boton-iniciar-pedido">Para consumir en el local</button>';
                         echo '</div>';
                     echo '</div>';
-                } elseif($_SESSION['rol']==='camarero') {
+                } elseif($_SESSION['usuario']->rol() ==='camarero') {
                     // Mostrar resumen de camarero
-                } elseif($_SESSION['rol']==='cocinero') {
+                } elseif($_SESSION['usuario']->rol() ==='cocinero') {
                     // Mostrar resumen de cocinero
-                } elseif($_SESSION['rol']==='gerente') {
+                } elseif($_SESSION['usuario']->rol() ==='gerente') {
                     // Mostrar resumen de gerente
                 } else {
                     // Mostrar Error Rol no deifinido

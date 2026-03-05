@@ -1,8 +1,8 @@
 <?php
-session_start();
 require_once 'config.php';
+session_start();
 
-if (!isset($_SESSION['login']) || $_SESSION['login'] !== true || $_SESSION['rol'] !== 'gerente') {
+if (!isset($_SESSION['login']) || $_SESSION['login'] !== true || $_SESSION['usuario']->rol() !== 'gerente') {
     header("Location: ".RAIZ_APP."/");
     exit();
 }
@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (mysqli_stmt_execute($stmt)) {
         $resultado = mysqli_stmt_get_result($stmt);
         if ($fila = mysqli_fetch_assoc($resultado)) {
-            $usuario_actual = ($fila['nombre_usuario'] === $_SESSION['usuario']);
+            $usuario_actual = ($fila['nombre_usuario'] === $_SESSION['usuario']->username());
             $img_actual = $fila['avatar'];
         }
     }
@@ -85,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Si el usuario es el de la sesión
             if($usuario_actual && $campo !== 'password'){
                 // Corregimos sesion
-                $_SESSION[$campo] = $valor;
+                $_SESSION['usuario']->set_value($campo, $valor);
             }
             
             $_SESSION['cambio'] = ucfirst($campo);
@@ -112,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Si el usuario es el de la sesión
                 if($usuario_actual){
                     // Corregimos sesion
-                    $_SESSION['foto_perfil'] = $nombreImagen;
+                    $_SESSION['usuario']->set_value('avatar',$nombreImagen);
                 }
                 $_SESSION['cambio'] = 'Avatar';
                 $_SESSION['error_editar_perfil'] = "Ninguno";
@@ -165,7 +165,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     // Si el usuario es el de la sesión
                     if($usuario_actual){
                         // Corregimos sesion
-                        $_SESSION['foto_perfil'] = $nombreImagen;
+                        $_SESSION['usuario']->set_value('avatar',$nombreImagen);
                     }
                     $_SESSION['cambio'] = 'Avatar';
                     $_SESSION['error_editar_perfil'] = "Ninguno";

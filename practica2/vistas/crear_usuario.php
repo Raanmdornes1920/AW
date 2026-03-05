@@ -1,8 +1,8 @@
 <?php
-session_start();
 require_once '../static/config.php';
+session_start(); 
 
-if (!isset($_SESSION['login']) || $_SESSION['login'] !== true || $_SESSION['rol'] !== 'gerente') {
+if (!isset($_SESSION['login']) || $_SESSION['login'] !== true || $_SESSION['usuario']->rol() !== 'gerente') {
     header("Location: ".RAIZ_APP."/");
     exit();
 }

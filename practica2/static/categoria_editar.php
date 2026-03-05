@@ -1,12 +1,11 @@
 <?php
+require_once '../static/config.php';
 session_start();
 
 if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
     header("Location: ../index.php");
     exit;
 }
-
-require_once '../static/config.php';
 
 $id = (int)($_GET['id'] ?? 0);
 if ($id <= 0) {

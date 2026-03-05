@@ -160,22 +160,21 @@ if (btnCerrarEditAdmin) {
         document.getElementById('contenedor-centro-edit-admin').style.display = "none";
     });
 }
-function abrirModalEditarUsuario(id, usuario, nombre, apellidos, email, rol, imagen){
+function abrirModalEditarUsuario(id, usuario){
     id_a_editar = id;
     
     inputsId.forEach(input => {
         input.value = id;
     });
 
-    document.getElementById('Logo-Usuario').src = "../img/perfiles/" + imagen;
-    document.getElementById('nombre-usuario').innerText = usuario;
-    document.getElementById('nombre-usuario-edit').innerText = nombre;
-    document.getElementById('apellidos-usuario-edit').innerText = apellidos;
-    document.getElementById('email-usuario-edit').innerText = email;
-    document.getElementById('rol-usuario-edit').innerText = rol;
+    document.getElementById('Logo-Usuario').src = "../img/perfiles/" + usuario['avatar'];
+    document.getElementById('nombre-usuario').innerText = usuario['nombre_usuario'];
+    document.getElementById('nombre-usuario-edit').innerText = usuario['nombre'];
+    document.getElementById('apellidos-usuario-edit').innerText = usuario['apellidos'];
+    document.getElementById('email-usuario-edit').innerText = usuario['email'];
+    document.getElementById('rol-usuario-edit').innerText = usuario['rol'];
 
     document.getElementById('contenedor-centro-edit-admin').style.display = "flex";
-
 }
 
 function abrirModalAdminAvatar() {
@@ -185,7 +184,7 @@ function abrirModalAdmin(nombreCampo) {
     spanCampo.innerText = nombreCampo; // Cambia el título dinámicamente
     document.getElementById("label-nuevo-valor").innerText = nombreCampo + ": ";
     document.getElementById("campo-editar").value = nombreCampo;
-    // Decodificar valorBase64 y para no romper con caracteres especiales
+    
     switch(nombreCampo){
         case "Usuario":
             document.getElementById("nuevo-valor").value = diccionario_usuarios[id_a_editar]['nombre_usuario']; 

@@ -16,17 +16,17 @@ function clase_activa($nombre_archivo, $pagina_actual) {
         
         <?php echo '<a class="'.clase_activa('index.php', $pagina_actual).'" href="'.RAIZ_APP.'/">Inicio</a>'; ?>
         
-        <?php if($_SESSION['rol'] === 'gerente') {
+        <?php if($_SESSION['usuario']->rol() === 'gerente') {
             echo '<a class="'.clase_activa('categorias.php', $pagina_actual).'" href="'.RUTA_VISTAS.'/categorias.php">Categorias</a>';
             echo '<a class="'.clase_activa('productos.php', $pagina_actual).'" href="'.RUTA_VISTAS.'/productos.php">Productos</a>';
         }
-        else if($_SESSION['rol'] === 'cocinero') {
+        else if($_SESSION['usuario']->rol() === 'cocinero') {
             echo '<a class="'.clase_activa('pedidos_cocinero.php', $pagina_actual).'" href="'.RAIZ_APP.'/">Pedidos</a>';
         }
-        else if($_SESSION['rol'] === 'camarero') {
+        else if($_SESSION['usuario']->rol() === 'camarero') {
             echo '<a class="'.clase_activa('pedidos_camarero.php', $pagina_actual).'" href="'.RAIZ_APP.'/">Pedidos</a>';
         }
-        else if($_SESSION['rol'] === 'cliente') {
+        else if($_SESSION['usuario']->rol() === 'cliente') {
 
             echo '<a class="'.clase_activa('pedidos_cliente.php', $pagina_actual).'" href="'.RAIZ_APP.'/">Mis Pedidos</a>';
 
@@ -42,20 +42,20 @@ function clase_activa($nombre_archivo, $pagina_actual) {
     <div class="header-derecho">
         <div class="usuario-menu-container">
             <figure class="avatar-container" onclick="toggleMenu()">
-                <img src="<?php echo RUTA_IMG . '/perfiles/' . $_SESSION['foto_perfil']; ?>" alt="Icono de usuario" class="avatar">
+                <img src="<?php echo RUTA_IMG . '/perfiles/' . $_SESSION['usuario']->fotoPerfil(); ?>" alt="Icono de usuario" class="avatar">
             </figure>
 
             <div id="menuDesplegable" class="dropdown-content">
-                <p class="usuario-nombre"><?php echo $_SESSION['nombre']; ?></p>
+                <p class="usuario-nombre"><?php echo $_SESSION['usuario']->nombre(); ?></p>
                 <hr>
                 <a href="<?php echo RUTA_VISTAS; ?>/editar_perfil.php">Mi Perfil</a>
                 <!-- Rol Cliente -->
-                <?php if($_SESSION['rol'] === 'cliente'): ?>
+                <?php if($_SESSION['usuario']->rol() === 'cliente'): ?>
                     <a href="<?php echo RUTA_VISTAS; ?>/carrito.php">Carrito</a>
                 <?php endif; ?>
                 <!-- Rol Cliente -->
                  <!-- Rol Gerente -->
-                <?php if($_SESSION['rol'] === 'gerente'): ?>
+                <?php if($_SESSION['usuario']->rol() === 'gerente'): ?>
                     <a href="<?php echo RUTA_VISTAS; ?>/ajustes_admin.php">Administrar Perfiles</a>
                 <?php endif; ?>
                 <!-- Rol Gerente -->

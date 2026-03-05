@@ -1,6 +1,6 @@
 <?php 
-session_start(); 
 require_once 'static/config.php';
+session_start(); 
 ?>
 <!DOCTYPE html>
 <html>
@@ -13,8 +13,8 @@ require_once 'static/config.php';
     <body>
         <?php
         if(isset($_SESSION['login']) && $_SESSION['login']){
-
-            $nombre_sesion = $_SESSION['usuario'];
+            
+            $nombre_sesion = $_SESSION['usuario']->username();
             $sql = "SELECT nombre_usuario FROM usuarios WHERE nombre_usuario = '$nombre_sesion'";
             $resultado = mysqli_query($db_connection, $sql);
             

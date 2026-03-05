@@ -1,4 +1,9 @@
 <?php
+require_once 'Usuario.php';
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
+
 $es_local = ($_SERVER['REMOTE_ADDR'] == '127.0.0.1' || $_SERVER['HTTP_HOST'] == 'localhost');
 
 if ($es_local) {
@@ -12,7 +17,6 @@ if ($es_local) {
     $host = "vm016.db.swarm.test"; 
     $pass = "d5J40AQKX1qVwwSGwr05";
 }
-
 
 define('RUTA_CSS', RAIZ_APP . '/css');
 define('RUTA_IMG', RAIZ_APP . '/img');

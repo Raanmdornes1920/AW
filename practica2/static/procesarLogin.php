@@ -1,7 +1,7 @@
 <?php
-session_start();
 require_once 'config.php';
-require_once 'Usuario.php';
+session_start();
+
 
 $userPost = $_POST['username'];
 $passPost = $_POST['password'];
@@ -19,18 +19,10 @@ $resultado = mysqli_query($db_connection, $sql);
 if ($resultado && mysqli_num_rows($resultado) === 1) {
     $fila = mysqli_fetch_assoc($resultado);
 
-    if (password_verify($passPost, $fila['password'])) {
+    if ($fila && password_verify($passPost, $fila['password'])) {
     
-        $user = new Usuario($fila['id'], $fila['nombre_usuario'], $fila['nombre'], $fila['apellidos'], $fila['email'], $fila['rol'], $fila['avatar']); 
-
         $_SESSION['login'] = true;
-        $_SESSION['id'] = $user->id();
-        $_SESSION['usuario'] = $user->username();
-        $_SESSION['nombre'] = $user->nombre();
-        $_SESSION['apellidos'] = $user->apellidos();
-        $_SESSION['email'] = $user->email();
-        $_SESSION['rol'] = $user->roles();
-        $_SESSION['foto_perfil'] = $user->fotoPerfil();
+        $_SESSION['usuario'] = new Usuario($fila['id'], $fila['nombre_usuario'], $fila['nombre'], $fila['apellidos'], $fila['email'], $fila['rol'], $fila['avatar']);
         
         header("Location: " . RAIZ_APP . "/");
         exit();

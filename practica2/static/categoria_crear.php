@@ -1,8 +1,9 @@
 <?php
-session_start();
 require_once 'config.php';
+session_start();
 
-if (!isset($_SESSION['login']) || $_SESSION['roles'] !== 'gerente') {
+
+if (!isset($_SESSION['login']) || $_SESSION['usuario']->rol() !== 'gerente') {
     header("Location: " . RAIZ_APP . "/index.php");
     exit;
 }

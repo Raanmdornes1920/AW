@@ -1,5 +1,4 @@
 <?php
-require_once 'Usuario.php';
 require_once 'config.php';
 
 $nombrePost = $_POST['nombre'];
@@ -64,17 +63,9 @@ if ($resultado && mysqli_num_rows($resultado) === 0) {
             $resultado = mysqli_query($db_connection, $sql);
             $fila = mysqli_fetch_assoc($resultado);
             $idPost = $fila['id'];
-
-            $user = new Usuario($idPost, $userPost, $nombrePost, $apellidosPost, $mailPost, $rolPost, $nombreImagen); 
-
+             
             $_SESSION['login'] = true;
-            $_SESSION['id'] = $user->id();
-            $_SESSION['usuario'] = $user->username();
-            $_SESSION['nombre'] = $user->nombre();
-            $_SESSION['apellidos'] = $user->apellidos();
-            $_SESSION['email'] = $user->email();
-            $_SESSION['foto_perfil'] = $user->fotoPerfil();
-            $_SESSION['rol'] = $user->roles();            
+            $_SESSION['usuario'] = new Usuario($idPost, $userPost, $nombrePost, $apellidosPost, $mailPost, $rolPost, $nombreImagen);
         }
         header("Location: " . (isset($_POST['volver']) ? $_POST['volver'] : RAIZ_APP . "/"));
         exit();
