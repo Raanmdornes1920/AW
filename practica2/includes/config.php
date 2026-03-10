@@ -25,9 +25,11 @@ define('RUTA_INCLUDES', RAIZ_APP . '/includes');
 
 define('RUTA_CLASES', RUTA_INCLUDES . '/clases');
 define('RUTA_VISTAS', RUTA_INCLUDES . '/vistas');
-define('RUTA_COMUN', RUTA_VISTAS . '/comun');
 
-define('RUTA_STATIC', RUTA_INCLUDES . '/static');
+define('RUTA_DAO', RUTA_CLASES . '/DAO');
+define('RUTA_DTO', RUTA_CLASES . '/DTO');
+define('RUTA_SA', RUTA_CLASES . '/SA');
+define('RUTA_COMUN', RUTA_VISTAS . '/comun');
 
 define('IMAGENES_BASE', ['default.png', 'admin.png', 'camarero.png', 'cocinero.png', 'base/base1.png', 'base/base2.png', 'base/base3.png', 'base/base4.png']);
 define('AVATARES_CAMARERO', ['default.png', 'camarero.png', 'base/base1.png', 'base/base2.png', 'base/base3.png', 'base/base4.png']);
