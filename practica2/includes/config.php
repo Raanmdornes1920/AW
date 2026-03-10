@@ -19,9 +19,16 @@ if ($es_local) {
 }
 
 define('RUTA_CSS', RAIZ_APP . '/css');
+define('RUTA_JS', RAIZ_APP . '/js');
 define('RUTA_IMG', RAIZ_APP . '/img');
-define('RUTA_VISTAS', RAIZ_APP . '/vistas');
-define('RUTA_STATIC', RAIZ_APP . '/static');
+define('RUTA_INCLUDES', RAIZ_APP . '/includes');
+
+define('RUTA_CLASES', RUTA_INCLUDES . '/clases');
+define('RUTA_VISTAS', RUTA_INCLUDES . '/vistas');
+define('RUTA_COMUN', RUTA_VISTAS . '/comun');
+
+define('RUTA_STATIC', RUTA_INCLUDES . '/static');
+
 define('IMAGENES_BASE', ['default.png', 'admin.png', 'camarero.png', 'cocinero.png', 'base/base1.png', 'base/base2.png', 'base/base3.png', 'base/base4.png']);
 define('AVATARES_CAMARERO', ['default.png', 'camarero.png', 'base/base1.png', 'base/base2.png', 'base/base3.png', 'base/base4.png']);
 define('AVATARES_COCINERO', ['default.png', 'cocinero.png', 'base/base1.png', 'base/base2.png', 'base/base3.png', 'base/base4.png']);
