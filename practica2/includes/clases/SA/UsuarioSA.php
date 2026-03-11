@@ -14,7 +14,7 @@ class UsuarioSA {
         return false; // Login fallido
     }
 
-    public function getListaUsuarios() {
+    public static function getListaUsuarios() {
         // El SA simplemente sirve de pasarela para que la Vista no hable con el DAO
         return UsuarioDAO::listaUsuarios();
     }

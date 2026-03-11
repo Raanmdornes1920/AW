@@ -18,7 +18,7 @@
         <main id="contenedor" class="<?= $claseMain ?? '' ?>">
             <?= $contenidoPrincipal ?>
         </main>
-
+        <?php if(isset($contenidoAdicional)){echo $contenidoAdicional;}?>
         <?php
             //include(RUTA_COMUN . '/footer.php');
             foreach ($js as $ruta):?>

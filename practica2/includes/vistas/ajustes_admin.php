@@ -1,5 +1,5 @@
 <?php 
-require_once '../static/config.php';
+require_once '../config.php';
 session_start(); 
 
 if (!isset($_SESSION['login']) || $_SESSION['login'] !== true || $_SESSION['usuario']->rol() !== 'gerente') {
@@ -20,7 +20,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true || $_SESSION['usua
     </head>
     <body>
         <!-- Header -->
-        <?php include '../static/header.php'; ?>
+        <?php include 'comun/header.php'; ?>
         <!-- Header -->
         
         <!-- Contenido -->
@@ -44,7 +44,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true || $_SESSION['usua
                     </tr>
                     <?php 
                         $usuarios_por_id = [];
-                        $lista_usuarios = Usuario::listaUsuarios();
+                        $lista_usuarios = UsuarioSA::getListaUsuarios();
                         if ($lista_usuarios) { 
                             foreach ($lista_usuarios as $usuario){
                                 $rolActual = $usuario->rol(); 
@@ -52,7 +52,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true || $_SESSION['usua
                                 if($rolActual !== 'cliente'){
                         ?>
                             <tr>
-                                <td><?php echo htmlspecialchars($usuario->username()); ?></td>
+                                <td><?php echo htmlspecialchars($usuario->usuario()); ?></td>
                                 <td><?php echo htmlspecialchars($usuario->nombre()); ?></td>
                                 <td><?php echo htmlspecialchars($usuario->apellidos()); ?></td>
                                 <td><?php echo htmlspecialchars($usuario->email()); ?></td>
@@ -93,7 +93,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true || $_SESSION['usua
                                 if($rolActual === 'cliente'){
                         ?>
                             <tr>
-                                <td><?php echo htmlspecialchars($usuario->username()); ?></td>
+                                <td><?php echo htmlspecialchars($usuario->usuario()); ?></td>
                                 <td><?php echo htmlspecialchars($usuario->nombre()); ?></td>
                                 <td><?php echo htmlspecialchars($usuario->apellidos()); ?></td>
                                 <td><?php echo htmlspecialchars($usuario->email()); ?></td>

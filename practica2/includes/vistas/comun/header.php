@@ -8,8 +8,8 @@ function clase_activa($nombre_archivo, $pagina_actual) {
     return ($nombre_archivo == $pagina_actual) ? 'enlace_seleccionado' : 'enlaces';
 }
 ?>
-    
-<header class="navegacion">
+<!-- LO COMENTADO ES PARA DEBUGEAR -->
+<header class="navegacion" ><?php //style="display: none;">?> 
     <div class="header-izquierdo"></div>
 
     <nav class="navegacion_principal" aria-label="Navegación principal">

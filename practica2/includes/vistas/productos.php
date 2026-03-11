@@ -1,5 +1,5 @@
 <?php
-require_once '../static/config.php';
+require_once '../config.php';
 session_start();
 
 if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
