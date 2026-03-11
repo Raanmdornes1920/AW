@@ -1,5 +1,5 @@
 <h1>Inicio de Sesion</h1>
-<form action="<?php echo RUTA_INCLUDES ?>/procesarLogin.php" method="POST">
+<form action="<?php echo RUTA_INCLUDES ?>/vistas/usuarios/apoyo/procesarLogin.php" method="POST">
     <label>Usuario:</label>
     <br>
     <input type="text" name="username" required>

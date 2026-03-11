@@ -19,11 +19,11 @@ if(isset($_SESSION['login']) && $_SESSION['login']){
     
     if ($fila = mysqli_fetch_assoc($resultado)) {
         $header = (DIR_RAIZ . '/includes/vistas/comun/header.php');
-        include (DIR_RAIZ . '/includes/vistas/inicio.php');
+        include (DIR_RAIZ . '/includes/vistas/usuarios/inicio.php');
     }
 } else {
     $header = (DIR_RAIZ . '/includes/vistas/comun/header_login.php');
-    include (DIR_RAIZ . '/includes/vistas/login.php');
+    include (DIR_RAIZ . '/includes/vistas/usuarios/login.php');
 }
 $contenidoPrincipal = ob_get_clean(); // Guardamos contenido del include
 
