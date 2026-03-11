@@ -1,6 +1,6 @@
 <?php
-require_once '../config.php';
-require_once __DIR__ . '/../clases/SA/ProductoSA.php';
+require_once 'config.php';
+require_once __DIR__ . '/clases/SA/ProductoSA.php';
 session_start();
 
 if (!isset($_SESSION['login']) || $_SESSION['usuario']->rol() !== 'gerente') {
@@ -29,7 +29,7 @@ $producto = $id ? $sa->buscarProducto($id) : null;
     </script>
 </head>
 <body>
-    <?php include 'comun/header.php'; ?>
+    <?php include '../vistas/comun/header.php'; ?>
     <main class="contenedor centrado">
         <form action="procesar_producto.php" method="POST" class="form-estilizado">
             <input type="hidden" name="accion" value="guardar">

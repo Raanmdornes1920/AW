@@ -1,5 +1,4 @@
 <?php
-require_once __DIR__ . '/../DAO/ProductoDAO.php';
 
 class ProductoSA {
     private $dao;
