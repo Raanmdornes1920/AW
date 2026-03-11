@@ -1,88 +1,50 @@
 <?php
-require_once 'config.php';
 
 class Usuario implements JsonSerializable {
-    private $idUsuario;
-    private $nombreUsuario;
-    private $rol;
-    private $fotoPerfil;
+    private $id;
+    private $usuario;
     private $nombre;
     private $apellidos;
     private $email;
-
-    public static function listaUsuarios() {
-        global $db_connection;
-        $lista = new SplDoublyLinkedList();
-        
-        $sql = "SELECT id, nombre_usuario, nombre, apellidos, email, rol, avatar FROM usuarios ORDER BY rol DESC, id";
-        $resultado = mysqli_query($db_connection, $sql);
-        if($resultado){
-            while ($fila = mysqli_fetch_assoc($resultado)) {
-                $lista->push(new Usuario($fila['id'], $fila['nombre_usuario'], $fila['nombre'], $fila['apellidos'], $fila['email'], $fila['rol'], $fila['avatar']));
-            }
-            $lista->rewind();
-            
-            return $lista; 
-        }
-        else{
-            return null;
-        }
-    }
+    private $rol;
+    private $avatar;
 
     public function jsonSerialize(): mixed {
         return [
-            'id' => $this->idUsuario,
-            'nombre_usuario' => $this->nombreUsuario,
+            'id' => $this->id,
+            'nombre_usuario' => $this->usuario,
             'nombre' => $this->nombre,
             'apellidos' => $this->apellidos,
             'email' => $this->email,
             'rol' => $this->rol,
-            'avatar' => $this->fotoPerfil
+            'avatar' => $this->avatar
         ];
     }
 
     public function __construct($id, $usuario, $nombre, $apellidos, $email, $rol, $fotoPerfil) {
-        $this->idUsuario = $id;
-        $this->nombreUsuario = $usuario;
+        $this->id = $id;
+        $this->usuario = $usuario;
         $this->nombre = $nombre;
         $this->apellidos = $apellidos;
         $this->email = $email;
         $this->rol = $rol;
-        $this->fotoPerfil = $fotoPerfil;
+        $this->avatar = $fotoPerfil;
     }
 
-    public function set_value($campo, $valor){
-        switch($campo){
-            case 'usuario':
-                $this->nombreUsuario = $valor;            
-                break;
-            case 'nombre':
-                $this->nombre = $valor;
-                break;
-            case 'apellidos':
-                $this->apellidos = $valor;
-                break;
-            case 'email':
-                $this->email = $valor;
-                break;
-            case 'rol':
-                $this->rol = $valor;
-                break;
-            case 'avatar':
-                $this->fotoPerfil = $valor;
-                break;
-            default:
-                return false;
+    public function equals(Usuario $otro): bool {
+        if (!($otro instanceof self)) {
+            return false;
         }
-        return true;
+        return $this->id === $otro->id();
     }
 
+    // Getters
     public function id() {
-        return $this->idUsuario;
+        return $this->id;
     }
 
-    public function username() {
-        return $this->nombreUsuario;
+    public function usuario() {
+        return $this->usuario;
     }
 
     public function nombre() {
@@ -97,13 +59,38 @@ class Usuario implements JsonSerializable {
         return $this->email;
     }
 
-    public function fotoPerfil() {
-        return $this->fotoPerfil;
-    }
-
     public function rol() {
         return $this->rol;
     }
+    
+    public function avatar() {
+        return $this->avatar;
+    }
 
+    // Setters
+    public function set_usuario($usuario) {
+        $this->usuario = $usuario;
+    }
 
-}?>
+    public function set_nombre($nombre) {
+        $this->nombre = $nombre;
+    }
+
+    public function set_apellidos($apellidos) {
+        $this->apellidos = $apellidos;
+    }
+
+    public function set_email($email) {
+        $this->email = $email;
+    }
+
+    public function set_rol($rol) {
+        $this->rol = $rol;
+    }
+    
+    public function set_avatar($avatar) {
+        $this->avatar = $avatar;
+    }
+    
+}
+?>
