@@ -35,7 +35,6 @@ class Producto {
     public function getNombreCategoria() { return $this->nombre_categoria; }
     public function getImagen() { return $this->imagen; }
 
-    // Requisito: Cálculo automático del precio con IVA
     public function getPrecioFinal() {
         return $this->precio_base * (1 + ($this->iva / 100));
     }

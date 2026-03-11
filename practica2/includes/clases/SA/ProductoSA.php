@@ -6,7 +6,7 @@ class ProductoSA {
 
     public function __construct($db_connection) {
         $this->db = $db_connection;
-        $this->dao = new ProductoDAO($db_connection);
+        $this->dao = new ProductoDAO($db_connection); 
     }
 
     public function getCatalogoCliente() {
@@ -24,16 +24,17 @@ class ProductoSA {
     }
 
     public function obtenerCategoriasActivas() {
-        // Método auxiliar para no crear un SA de categorías solo para esto ahora mismo
-        $res = mysqli_query($this->db, "SELECT id, nombre FROM categorias WHERE activa = 1");
-        $categorias = [];
-        while($row = mysqli_fetch_assoc($res)) { $categorias[] = $row; }
-        return $categorias;
+        $catDAO = new CategoriaDAO($this->db);
+        $todas = $catDAO->listarTodas();
+        // Filtramos solo las que están marcadas como activas
+        return array_filter($todas, function($c) { return $c->getActiva() == 1; });
     }
 
     public function guardarProducto($datos) {
         $disponible = isset($datos['disponible']) ? 1 : 0;
-        $ofertado = isset($datos['ofertado']) ? 1 : (isset($datos['id']) ? 0 : 1); // Por defecto ofertado al crear
+        $ofertado = isset($datos['ofertado']) ? 1 : (isset($datos['id']) ? 0 : 1); 
+        
+        $imagen = $datos['imagen'] ?? 'default.png';
         
         $p = new Producto(
             $datos['id'] ?? null, 
@@ -43,7 +44,9 @@ class ProductoSA {
             $datos['precio_base'], 
             $datos['iva'], 
             $disponible, 
-            $ofertado
+            $ofertado,
+            '', 
+            $imagen
         );
         return $this->dao->guardar($p);
     }
@@ -52,8 +55,19 @@ class ProductoSA {
         $p = $this->dao->obtenerPorId($id);
         if ($p) {
             $nuevoOfertado = $p->getOfertado() ? 0 : 1;
-            $pActualizado = new Producto($p->getId(), $p->getIdCategoria(), $p->getNombre(), $p->getDescripcion(), 
-                                         $p->getPrecioBase(), $p->getIva(), $p->getDisponible(), $nuevoOfertado);
+            
+            $pActualizado = new Producto(
+                $p->getId(), 
+                $p->getIdCategoria(), 
+                $p->getNombre(), 
+                $p->getDescripcion(), 
+                $p->getPrecioBase(), 
+                $p->getIva(), 
+                $p->getDisponible(), 
+                $nuevoOfertado,
+                $p->getNombreCategoria(), 
+                $p->getImagen()           
+            );
             return $this->dao->guardar($pActualizado);
         }
         return false;
