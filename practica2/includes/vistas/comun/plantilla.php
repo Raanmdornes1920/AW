@@ -1,5 +1,4 @@
-<!-- DEFINIR tituloPagina, css, header, contenidoPrincipal y js  antes del include -->
-
+<!-- DEFINIR tituloPagina, css, header, contenidoPrincipal y js antes del include y opcionalmente definir claseMain -->
 <!DOCTYPE html>
 <html>
     <head>
@@ -12,20 +11,18 @@
         <link rel="stylesheet" type="text/css" href="<?php echo RUTA_CSS . '/estilo.css' ?>" />
     </head>
     <body>
-        <div id="contenedor">
-            <?php
-                include($header);
-            ?>
+        <?php
+            include($header);
+        ?>
 
-            <main>
-                <?= $contenidoPrincipal ?>
-            </main>
+        <main id="contenedor" class="<?= $claseMain ?? '' ?>">
+            <?= $contenidoPrincipal ?>
+        </main>
 
-            <?php
-                //include(RUTA_COMUN . '/footer.php');
-                foreach ($js as $ruta):?>
-                    <script src="<?php echo $ruta; ?>"></script>
-            <?php endforeach; ?>
-        </div> 
+        <?php
+            //include(RUTA_COMUN . '/footer.php');
+            foreach ($js as $ruta):?>
+                <script src="<?=$ruta?>"></script>
+        <?php endforeach; ?>
     </body>
 </html>

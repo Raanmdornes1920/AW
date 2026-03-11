@@ -90,7 +90,8 @@ body {
     justify-content: center; 
     align-items: center;   
     margin-top: 3%; 
-    box-sizing: border-box;  
+    box-sizing: border-box;
+    height: 100%;  
 }
 
 .contenedor-centro-index {

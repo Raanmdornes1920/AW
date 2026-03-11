@@ -1,5 +1,5 @@
 <article id="contenedor-descripcion">
-    <h1 id="titulo-descripcion">Bienvenido <?php echo $_SESSION['usuario']->username()?></h1>
+    <h1 id="titulo-descripcion">Bienvenido <?php echo $_SESSION['usuario']->usuario()?></h1>
     <?php 
     if($_SESSION['usuario']->rol() ==='cliente'){
         echo '<div class="recuadro-iniciar-pedido">';

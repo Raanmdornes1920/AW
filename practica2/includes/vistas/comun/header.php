@@ -1,5 +1,5 @@
 <?php
-require_once 'config.php';
+require_once (__DIR__ . '/../../config.php');
 
 $pagina_actual = basename($_SERVER['PHP_SELF']);
 
@@ -42,7 +42,7 @@ function clase_activa($nombre_archivo, $pagina_actual) {
     <div class="header-derecho">
         <div class="usuario-menu-container">
             <figure class="avatar-container" onclick="toggleMenu()">
-                <img src="<?php echo RUTA_IMG . '/perfiles/' . $_SESSION['usuario']->fotoPerfil(); ?>" alt="Icono de usuario" class="avatar">
+                <img src="<?php echo RUTA_IMG . '/perfiles/' . $_SESSION['usuario']->avatar(); ?>" alt="Icono de usuario" class="avatar">
             </figure>
 
             <div id="menuDesplegable" class="dropdown-content">
@@ -59,7 +59,7 @@ function clase_activa($nombre_archivo, $pagina_actual) {
                     <a href="<?php echo RUTA_VISTAS; ?>/ajustes_admin.php">Administrar Perfiles</a>
                 <?php endif; ?>
                 <!-- Rol Gerente -->
-                <a href="<?php echo RUTA_STATIC; ?>/logout.php" class="logout-link">Cerrar Sesión</a>
+                <a href="<?php echo RUTA_INCLUDES; ?>/logout.php" class="logout-link">Cerrar Sesión</a>
             </div>
         </div>    
     </div>
