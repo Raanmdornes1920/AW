@@ -1,12 +1,29 @@
 <?php
-require_once '../static/config.php';
+require_once '../config.php';
 session_start();
 
 // Comprobación básica: usuario logueado
 if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
-    header("Location: ../");
+    header("Location: " .  RAIZ_APP);
     exit();
 }
+
+$tituloPagina = "Perfil- BISTRO FDI";
+$css = [(RAIZ_APP . "/css/default.css"), (RAIZ_APP . "/css/modales.css")];
+$header = (__DIR__ . "/comun/header.php");
+$claseMain = "contenedor-centro";
+
+$contenidoPrincipal = <<<EOF
+        <section class="contenedor-centro" id="contenido">
+            <h1 id="titulo-registro">Registro</h1>
+            $htmlForm
+        </section>
+EOF;
+
+$js = [(RAIZ_APP . "/js/script.js"), (RAIZ_APP . "/js/editar_perfil.js")];
+
+require("./comun/plantilla.php");
+
 ?>
 <!DOCTYPE html>
 

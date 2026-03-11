@@ -7,6 +7,7 @@ session_start();
 $tituloPagina = "Registro - Bistro FDI";
 $css = [(RAIZ_APP . "/css/default.css")];
 $header = (__DIR__ . "/comun/header_registro.php");
+$claseMain = "contenedor-centro";
 
 $form = new FormularioRegistro();
 $htmlForm = $form->gestiona();
