@@ -10,8 +10,8 @@
             echo '</div>';
 
             echo '<div class="contenedor-botones-iniciar-pedido">';
-                echo '<button class="boton-iniciar-pedido">Para llevar</button>';
-                echo '<button class="boton-iniciar-pedido">Para consumir en el local</button>';
+                echo '<a href="' . RAIZ_APP . '/includes/vistas/categorias/categorias_cliente.php?tipo=llevar" class="boton-iniciar-pedido">Para llevar</a>';
+                echo '<a href="' . RAIZ_APP . '/includes/vistas/categorias/categorias_cliente.php?tipo=local" class="boton-iniciar-pedido">Para consumir en el local</a>';
             echo '</div>';
         echo '</div>';
     } elseif($_SESSION['usuario']->rol() ==='camarero') {

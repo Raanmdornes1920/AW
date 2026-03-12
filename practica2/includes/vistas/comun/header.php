@@ -27,8 +27,6 @@ function clase_activa($nombre_archivo, $pagina_actual) {
             echo '<a class="'.clase_activa('pedidos_camarero.php', $pagina_actual).'" href="'.RAIZ_APP.'/">Pedidos</a>';
         }
         else if($_SESSION['usuario']->rol() === 'cliente') {
-            echo '<a class="'.clase_activa('productos_cliente.php', $pagina_actual).'" href="'.RUTA_VISTAS.'/productos/productos_lista.php">Carta / Productos</a>';
-
             echo '<a class="'.clase_activa('pedidos_cliente.php', $pagina_actual).'" href="'.RAIZ_APP.'/">Mis Pedidos</a>';
         }
         ?>

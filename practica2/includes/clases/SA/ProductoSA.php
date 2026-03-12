@@ -29,6 +29,21 @@ class ProductoSA {
         return array_filter($todas, function($c) { return $c->getActiva() == 1; });
     }
 
+    public function buscarPorCategoria($id_cat) {
+        $todos = $this->dao->listarTodos(); // O un método específico en el DAO para ser más eficiente
+        return array_filter($todos, function($p) use ($id_cat) {
+            return $p->getIdCategoria() == $id_cat && $p->getOfertado() == 1;
+        });
+    }
+
+    public function listarTodos() {
+        return $this->dao->listarTodos();
+    }
+
+    public function obtenerPorId($id) {
+        return $this->dao->obtenerPorId($id);
+    }
+
     public function guardarProducto($datos) {
         $id = (isset($datos['id']) && !empty($datos['id'])) ? $datos['id'] : null;
         

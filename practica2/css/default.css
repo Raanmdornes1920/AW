@@ -1062,3 +1062,180 @@ table, tr, th, td {
     width: auto;
     margin: 0;
 }
+
+/*Diseño tienda vista cliente*/
+.contenedor-pedido {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Menú Lateral */
+.menu-lateral {
+    width: 250px;
+    background: #f4f4f4;
+    padding: 15px;
+    border-radius: 8px;
+    height: fit-content;
+}
+
+.menu-lateral h3 { margin-top: 0; }
+
+.menu-lateral ul { list-style: none; padding: 0; }
+
+.menu-lateral ul li a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: #333;
+    border-bottom: 1px solid #ddd;
+}
+
+.menu-lateral ul li a:hover { background: #e0e0e0; }
+
+/* Cuadrícula de 3 columnas */
+.cuadricula-objetos {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columnas iguales */
+    gap: 20px;
+    flex-grow: 1;
+}
+
+.tarjeta-item {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+}
+
+.tarjeta-item:hover {
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.tarjeta-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover; /* La imagen se adapta sin deformarse */
+}
+
+.tarjeta-item h4 {
+    padding: 10px;
+    margin: 0;
+    background: #fff;
+}
+
+/*Para productos detalle*/
+/* Contenedor principal del detalle (Estilo tarjeta grande centrada) */
+.detalle-producto-centrado {
+    width: 450px; /* Tamaño similar al de las categorías pero un poco más ancho para detalle */
+    margin: 20px auto; /* Centrado en la página */
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* Carrusel */
+.carrusel-contenedor {
+    position: relative;
+    width: 100%;
+    height: 300px; /* Altura controlada para que no sea enorme */
+    background: #f9f9f9;
+}
+
+.carrusel {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.img-carrusel {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none; /* Por defecto todas ocultas */
+}
+
+.img-carrusel.active {
+    display: block; /* Solo la activa se ve */
+}
+
+/* Flechas del carrusel */
+.btn-carrusel {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.3);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 18px;
+    z-index: 10;
+    transition: background 0.3s;
+}
+
+.btn-carrusel:hover { background: rgba(0,0,0,0.7); }
+.prev { left: 0; border-radius: 0 5px 5px 0; }
+.next { right: 0; border-radius: 5px 0 0 5px; }
+
+/* Info del producto */
+.info-detalle {
+    padding: 20px;
+    text-align: left;
+}
+
+.info-detalle h1 { margin: 0 0 10px 0; font-size: 1.5em; }
+.info-detalle .descripcion { color: #666; font-size: 0.95em; line-height: 1.4; }
+.info-detalle .precio-detalle { 
+    font-size: 1.4em; 
+    font-weight: bold; 
+    color: #e2001a; 
+    margin: 15px 0; 
+}
+
+/* Controles de cantidad y botón */
+.controles-pedido {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.selector-cantidad {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.selector-cantidad button {
+    width: 40px;
+    height: 40px;
+    background-color: #eeeeee; 
+    border: 1px solid #ccc;
+    color: #000000; 
+    font-size: 20px; 
+    font-weight: bold;
+    cursor: pointer;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.selector-cantidad input {
+    width: 50px;
+    text-align: center;
+    border: 1px solid #ddd;
+    padding: 5px;
+}
+
+.btn-carrito {
+    width: 100%;
+    padding: 12px;
+    font-weight: bold;
+}
