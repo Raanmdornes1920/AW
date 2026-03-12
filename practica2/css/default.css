@@ -817,11 +817,10 @@ table, tr, th, td {
     border: none;
     cursor: pointer;
     text-align: center;
-    box-sizing: border-box; /* Muy importante para que el padding no sume extra */
+    box-sizing: border-box;
     vertical-align: middle;
-    /* Quitamos el width 100% que hereda de los formularios */
     width: auto; 
-    min-width: 200px; /* Opcional: para que ambos tengan el mismo ancho mínimo */
+    min-width: 200px; 
 }
 
 .botones-confirmacion form {
@@ -847,7 +846,7 @@ table, tr, th, td {
     background-color: rgb(123, 4, 4) !important;
 }
 
-/* Botón de cancelar (Neutro) */
+/* Botón de cancelar*/
 .boton-cancelar {
     background-color: #888888;
     color: white;
@@ -856,7 +855,7 @@ table, tr, th, td {
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
-    text-decoration: none; /* Por si es un enlace <a> */
+    text-decoration: none; 
     font-family: 'Times New Roman', Times, serif;
     display: inline-block;
 }
@@ -981,22 +980,21 @@ table, tr, th, td {
 /*Para productos*/
 
 /* Aseguramos que TODOS los tipos de input y selects tengan espacio inferior */
-input[type="number"],
-input[type="password"],
-input[type="text"],
-input[type="email"],
-select,
-textarea {
+.form-estilizado input[type="number"],
+.form-estilizado input[type="password"],
+.form-estilizado input[type="text"],
+.form-estilizado input[type="email"],
+.form-estilizado select,
+.form-estilizado textarea {
     width: 100%;
     padding: 10px;
-    margin-bottom: 20px; /* Aquí está la separación uniforme */
+    margin-bottom: 20px;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
     font-family: Arial, sans-serif;
 }
 
-/* Contenedor resaltado para el Precio Final */
 .precio-final-destacado {
     margin: 10px 0 25px 0;
     padding: 15px;
@@ -1011,7 +1009,6 @@ textarea {
     color: #333;
 }
 
-/* Ajuste fino para el grupo de checkboxes */
 .grupo-checkbox {
     margin-bottom: 20px;
 }

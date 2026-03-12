@@ -30,15 +30,17 @@ class ProductoSA {
     }
 
     public function guardarProducto($datos) {
-        $esNuevo = !isset($datos['id']) || empty($datos['id']);
-    
-        $disponible = $esNuevo ? 1 : (isset($datos['disponible']) ? 1 : 0);
-        $ofertado = $esNuevo ? 1 : (isset($datos['ofertado']) ? 1 : 0); 
+        $id = (isset($datos['id']) && !empty($datos['id'])) ? $datos['id'] : null;
         
-        $imagen = $datos['imagen'] ?? 'default.png';
+        $esNuevo = ($id === null);
+    
+        $disponible = isset($datos['disponible']) ? 1 : ($esNuevo ? 1 : 0);
+        $ofertado = isset($datos['ofertado']) ? 1 : ($esNuevo ? 1 : 0); 
+        
+        $imagenes = $datos['imagenes'] ?? [];
         
         $p = new Producto(
-            $datos['id'] ?? null, 
+            $id, 
             $datos['id_categoria'], 
             trim($datos['nombre']), 
             trim($datos['descripcion']), 
@@ -47,7 +49,7 @@ class ProductoSA {
             $disponible, 
             $ofertado,
             '', 
-            $imagen
+            $imagenes
         );
         return $this->dao->guardar($p);
     }
