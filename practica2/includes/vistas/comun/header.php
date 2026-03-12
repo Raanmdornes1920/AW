@@ -30,11 +30,6 @@ function clase_activa($nombre_archivo, $pagina_actual) {
             echo '<a class="'.clase_activa('productos_cliente.php', $pagina_actual).'" href="'.RUTA_VISTAS.'/productos/productos_lista.php">Carta / Productos</a>';
 
             echo '<a class="'.clase_activa('pedidos_cliente.php', $pagina_actual).'" href="'.RAIZ_APP.'/">Mis Pedidos</a>';
-            echo '<a class="'.clase_activa('pedidos_cliente.php', $pagina_actual).'" href="'.RUTA_VISTAS.'/bocetos.html">Bocetos</a>';
-            echo '<a class="'.clase_activa('pedidos_cliente.php', $pagina_actual).'" href="'.RAIZ_APP.'/contacto.html">Contacto</a>';
-            echo '<a class="'.clase_activa('pedidos_cliente.php', $pagina_actual).'" href="'.RAIZ_APP.'/detalles.html">Detalles</a>';
-            echo '<a class="'.clase_activa('pedidos_cliente.php', $pagina_actual).'" href="'.RAIZ_APP.'/miembros.html">Miembros</a>';
-            echo '<a class="'.clase_activa('pedidos_cliente.php', $pagina_actual).'" href="'.RAIZ_APP.'/planificacion.html">Planificación</a>';
         }
         ?>
 
