@@ -1,5 +1,5 @@
 <?php 
-require_once '../config.php';
+require_once (__DIR__ . '/../../../config.php');
 session_start(); 
 
 if (!isset($_SESSION['login']) || $_SESSION['login'] !== true || $_SESSION['usuario']->rol() !== 'gerente') {
@@ -20,7 +20,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true || $_SESSION['usua
     </head>
     <body>
         <!-- Header -->
-        <?php include '../static/header.php'; ?>
+        <?php include '../../comun/header.php'; ?>
         <!-- Header -->
         
         <!-- Contenido -->
@@ -42,7 +42,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true || $_SESSION['usua
                         <th>Opciones</th>
                     </tr>
                     <?php 
-                        $lista_usuarios = Usuario::listaUsuarios();
+                        $lista_usuarios = UsuarioSA::getListaUsuarios();
                         if ($lista_usuarios) { 
                             foreach ($lista_usuarios as $usuario){
                                 $rolActual = $usuario->rol(); 
@@ -50,13 +50,13 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true || $_SESSION['usua
                                 if($rolActual !== 'cliente'){
                         ?>
                             <tr>
-                                <td><?php echo htmlspecialchars($usuario->username()); ?></td>
+                                <td><?php echo htmlspecialchars($usuario->usuario()); ?></td>
                                 <td><?php echo htmlspecialchars($usuario->nombre()); ?></td>
                                 <td><?php echo htmlspecialchars($usuario->apellidos()); ?></td>
                                 <td><?php echo htmlspecialchars($usuario->email()); ?></td>
                                 <td><?php echo htmlspecialchars($rolActual); ?></td>
                                 <td class="columna-boton-editar">
-                                    <button onclick="abrirConfirmacionDelete(<?php echo $usuario->id() . ', \'' . $usuario->username() . '\'' . ', \'' . $_SESSION['usuario']->username() . '\'';?>)" class="boton-taba-usuarios" >Eliminar</button>
+                                    <button onclick="abrirConfirmacionDelete(<?php echo $usuario->id() . ', \'' . $usuario->usuario() . '\'' . ', \'' . $_SESSION['usuario']->usuario() . '\'';?>)" class="boton-taba-usuarios" >Eliminar</button>
                                 </td>
                             </tr>
                         <?php 
@@ -91,13 +91,13 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true || $_SESSION['usua
                                 if($rolActual === 'cliente'){
                         ?>
                             <tr>
-                                <td><?php echo htmlspecialchars($usuario->username()); ?></td>
+                                <td><?php echo htmlspecialchars($usuario->usuario()); ?></td>
                                 <td><?php echo htmlspecialchars($usuario->nombre()); ?></td>
                                 <td><?php echo htmlspecialchars($usuario->apellidos()); ?></td>
                                 <td><?php echo htmlspecialchars($usuario->email()); ?></td>
                                 <td><?php echo htmlspecialchars($rolActual); ?></td>
                                 <td class="columna-boton-editar">
-                                    <button onclick="abrirConfirmacionDelete(<?php echo $usuario->id() . ', \'' . $usuario->username() . '\'' . ', \'' . $_SESSION['usuario']->username() . '\'';?>)" class="boton-taba-usuarios" >Eliminar</button>
+                                    <button onclick="abrirConfirmacionDelete(<?php echo $usuario->id() . ', \'' . $usuario->usuario() . '\'' . ', \'' . $_SESSION['usuario']->usuario() . '\'';?>)" class="boton-taba-usuarios" >Eliminar</button>
                                 </td>
                             </tr>
                         <?php 
@@ -110,7 +110,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true || $_SESSION['usua
             </div>
             <br><br>
             <div>
-                <a href="<?php echo RUTA_VISTAS . "/ajustes_admin.php";?>"><button  class="botones-gestion-usuarios">Volver</button></a>
+                <a href="<?php echo RUTA_VISTAS . "/usuarios/ajustes_admin.php";?>"><button  class="botones-gestion-usuarios">Volver</button></a>
             </div>
         </main>
         <!-- Confirmacion Eliminar Usuario -->
@@ -122,7 +122,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true || $_SESSION['usua
                     <h3>¡CUIDADO! Estás eliminando tu propio usuario.</h3>
                 </div>
                 <br>
-                <form action="<?php echo RUTA_STATIC . '/procesarEliminarUsuario.php';?>" id="formEliminarUsuario" method="POST">
+                <form action="<?php echo 'procesarEliminarUsuario.php';?>" id="formEliminarUsuario" method="POST">
                     <input type="hidden" id="input-id-eliminar" name="id-usuario" value="">
                     <input type="hidden" name="volver" value="<?php echo htmlspecialchars(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : RAIZ_APP . "/"); ?>">
                     <input type="hidden" name="modo-admin" value="Verdadero">

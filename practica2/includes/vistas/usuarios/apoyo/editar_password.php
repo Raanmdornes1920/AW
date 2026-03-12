@@ -1,5 +1,5 @@
 <?php
-require_once '../static/config.php';
+require_once (__DIR__ . '/../../../config.php');
 session_start();
 
 if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pass = $_POST['contrasena'];
     $nuevaPass = $_POST['nueva-contrasena'];
     $confirmarPass = $_POST['confirmar-contrasena'];
-    $user = $_SESSION['usuario']->username();
+    $user = $_SESSION['usuario']->usuario();
     
     $userEscaped = mysqli_real_escape_string($db_connection, $user);
     $sql = "SELECT * FROM usuarios WHERE nombre_usuario = '$userEscaped'";
@@ -61,6 +61,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 } else {
     echo json_encode(['success' => false, 'message' => 'Método no permitido']);
 }
-header("Location: " . RUTA_VISTAS . "/editar_perfil.php");
+header("Location: " . RUTA_VISTAS . "/usuarios/editar_perfil.php");
 exit();
 ?>

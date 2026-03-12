@@ -2,11 +2,11 @@
 require_once (__DIR__ . '/../../comun/formularioBase.php');
 
 // Hereda de formularioBase (asegúrate de que la ruta a formularioBase sea correcta)
-class FormularioRegistro extends formularioBase {
+class FormularioCrearUsuario extends formularioBase {
 
     public function __construct() {
         // ID del form y dónde redirigir si todo va bien
-        parent::__construct('formRegistro', ['urlRedireccion' => RUTA_VISTAS . '/usuarios/registro.php', 'enctype' => 'multipart/form-data']);
+        parent::__construct('formCrearUsuario', ['urlRedireccion' => RUTA_VISTAS . '/usuarios/ajustes_admin.php', 'enctype' => 'multipart/form-data']);
     }
 
     protected function generaCamposFormulario(&$datos) {
@@ -20,7 +20,7 @@ class FormularioRegistro extends formularioBase {
         $erroresCampos = self::generaErroresCampos(['nombre', 'apellidos', 'mail', 'usuario', 'password', 'password_confirm'], $this->errores);
 
         
-        $ruta_avatares = AVATARES_INICIALES;
+        $ruta_avatares = IMAGENES_BASE;
         ob_start();
         include __DIR__ . "/../../comun/selector_imagenes.php"; 
         $htmlSelectorImagenes = ob_get_clean();
@@ -28,56 +28,59 @@ class FormularioRegistro extends formularioBase {
         foreach ($erroresCampos as $key => $value) {
             $erroresCampos[$key] = $value . '<br>';
         }
-
+        
+        $ruta_volver = htmlspecialchars(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : RAIZ_APP . "/");
+        $ruta_volver2 = htmlspecialchars(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : RUTA_VISTAS . '/ajustes_admin.php');
+        
         $html = <<<EOF
         {$htmlErroresGlobales}
-        <div>
-            <label>Nombre:</label><br>
-            <input type="text" name="nombre" value="$nombre" required>
-            {$erroresCampos['nombre']}
-        </div>
+        
+        <label>Nombre:</label>
         <br>
-        <div>
-            <label>Apellidos:</label><br>
-            <input type="text" name="apellidos" value="$apellidos" required>
-            {$erroresCampos['apellidos']}
-        </div>
+        <input type="text" name="nombre" required>
         <br>
-        <div>
-            <label>Correo Electrónico:</label><br>
-            <input type="email" name="mail" value="$mail" required>
-            {$erroresCampos['mail']}
-        </div>
+        {$erroresCampos['nombre']}
+
+        <label>Apellidos:</label>
         <br>
-        <div>
-            <label>Usuario:</label><br>
-            <input type="text" name="usuario" value="$usuario" required>
-            {$erroresCampos['usuario']}
-        </div>
+        <input type="text" name="apellidos" required>
         <br>
+        {$erroresCampos['apellidos']}
+        
+        <label>Correo Electrónico:</label>
+        <br>
+        <input type="email" name="mail" required>
+        <br>
+        {$erroresCampos['mail']}
+
+        <label>Usuario:</label>
+        <br>
+        <input type="text" name="usuario" required>
+        <br>
+        {$erroresCampos['usuario']}
 
         {$htmlSelectorImagenes}
 
-        <br>
-        <div>
-            <label>Contraseña:</label><br>
-            <input id="password" type="password" name="password" required>
-            {$erroresCampos['password']}
+        <label>Rol:</label>
+        <select name="rol" id="select-rol-usuario">
+            <option value="gerente">Gerente</option>
+            <option value="cocinero">Cocinero</option>
+            <option value="camarero">Camarero</option>
+            <option value="cliente" selected>Cliente</option>
+        </select>
+
+        <input id="password" type="hidden" name="password" value="1234" required>
+        {$erroresCampos['password']}
+        <input type="hidden" name="password_confirm" value="1234" required>
+        {$erroresCampos['password_confirm']}
+
+        <input type="hidden" name="modo-admin" value="Verdadero">
+        <input type="hidden" name="volver" value="{$ruta_volver}">
+        
+        <div class="contenedor-botones">
+            <button type="submit" id="boton_aceptar">Crear Usuario</button>
+            <button onclick="window.location.href='{$ruta_volver2}'" type="button" id="boton_cancelar">Volver</button>
         </div>
-        <br>
-        <div>
-            <label>Repetir Contraseña:</label><br>
-            <input type="password" name="password_confirm" required oninput="
-                if(document.getElementById('password').value != this.value) {
-                    this.setCustomValidity('Las contraseñas no coinciden');
-                } else {
-                    this.setCustomValidity('');
-                }
-            ">
-            {$erroresCampos['password_confirm']}
-        </div>
-        <br>
-        <button type="submit" name="registro">Registrarme</button>
         EOF;
 
         return $html;
@@ -87,7 +90,7 @@ class FormularioRegistro extends formularioBase {
         $this->errores = [];
         
         global $db_connection;
-
+        
         $nombrePost = ($datos['nombre'] ?? '');
         $apellidosPost = ($datos['apellidos'] ?? '');
         $mailPost = trim($datos['mail'] ?? '');
@@ -186,4 +189,96 @@ class FormularioRegistro extends formularioBase {
             }
         }
     }
-}
+}/*
+?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<form action="<?php echo RUTA_STATIC ?>/procesarRegistro.php" method="POST" enctype="multipart/form-data">
+    <label>Nombre:</label>
+    <br>
+    <input type="text" name="nombre" required>
+    <br>
+
+    <label>Apellidos:</label>
+    <br>
+    <input type="text" name="apellidos" required>
+    <br>
+    
+    <label>Correo Electrónico:</label>
+    <br>
+    <input type="email" name="mail" required>
+    <br>
+
+    <label>Usuario:</label>
+    <br>
+    <input type="text" name="username" required>
+    <br>
+
+    <label>Foto de perfil:</label>
+    <br>
+    <div class="seleccion-avatares">
+        <?php foreach (IMAGENES_BASE as $indice => $archivo): ?>
+            <label class="opcion-avatar">
+                <img class="opcion-imagen-avatar" src="../img/perfiles/<?= $archivo; ?>" alt="Avatar <?= $indice; ?>">
+                <input type="radio" name="foto_perfil" value="<?= $archivo; ?>" required>
+            </label>
+        <?php endforeach; ?>
+
+        <label class="opcion-avatar">
+            <div class="cuadro-subir-archivo">
+                <p>Elegir<br>Archivo</p>
+            </div>
+            <input type="radio" name="foto_perfil" value="custom" id="radio-custom" required>
+        </label>
+    </div>
+
+    <div id="archivo-avatar">
+        <br>
+        <input type="file" name="foto_perfil" accept="image/*">
+        <br>
+        <br>
+        <br>
+    </div>
+    
+    <label>Rol:</label>
+    <select name="rol" id="select-rol-usuario">
+        <option value="gerente">Gerente</option>
+        <option value="cocinero">Cocinero</option>
+        <option value="camarero">Camarero</option>
+        <option value="cliente" selected>Cliente</option>
+    </select>
+
+    <input id="password" type="hidden" name="password" value="1234" required>
+    <input type="hidden" name="password_confirm" value="1234" required>
+    
+    <input type="hidden" name="modo-admin" value="Verdadero">
+    <input type="hidden" name="volver" value="<?php echo htmlspecialchars(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : RAIZ_APP . "/"); ?>">
+    
+    <div class="contenedor-botones">
+    <button type="submit" id="boton_aceptar">Crear Usuario</button>
+    
+    <button onclick="window.location.href='<?php echo htmlspecialchars(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : RUTA_VISTAS . '/ajustes_admin.php'); ?>'" type="button" id="boton_cancelar">Volver</button>
+    </div>
+</form>
+
+*/ ?>

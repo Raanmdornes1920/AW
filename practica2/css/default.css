@@ -771,6 +771,10 @@ table, tr, th, td {
     max-width: 100%;
 }
 
+#formCrearUsuario{
+    max-width: 50%;
+}
+
 /*Para categorias */
 
 /* Contenedor de la alerta de borrado */

@@ -15,8 +15,11 @@ class UsuarioSA {
     }
 
     public static function getListaUsuarios() {
-        // El SA simplemente sirve de pasarela para que la Vista no hable con el DAO
         return UsuarioDAO::listaUsuarios();
+    }
+
+    public static function modificarusuario(Usuario $usuario, $campo, $valor) {
+        return UsuarioDAO::modificarUsuario($usuario, $campo, $valor);
     }
 }
 ?>

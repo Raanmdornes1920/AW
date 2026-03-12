@@ -1,5 +1,5 @@
 <?php 
-require_once '../config.php';
+require_once (__DIR__ . '/../../config.php');
 session_start(); 
 
 if (!isset($_SESSION['login']) || $_SESSION['login'] !== true || $_SESSION['usuario']->rol() !== 'gerente') {
@@ -20,7 +20,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true || $_SESSION['usua
     </head>
     <body>
         <!-- Header -->
-        <?php include 'comun/header.php'; ?>
+        <?php include (DIR_RAIZ . '/includes/vistas/comun/header.php'); ?>
         <!-- Header -->
         
         <!-- Contenido -->
@@ -50,6 +50,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true || $_SESSION['usua
                                 $rolActual = $usuario->rol(); 
                                 
                                 if($rolActual !== 'cliente'){
+                                    $usuarios_por_id[$usuario->id()] = $usuario;
                         ?>
                             <tr>
                                 <td><?php echo htmlspecialchars($usuario->usuario()); ?></td>
@@ -91,6 +92,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true || $_SESSION['usua
                                 $rolActual = $usuario->rol(); 
                                 
                                 if($rolActual === 'cliente'){
+                                    $usuarios_por_id[$usuario->id()] = $usuario;
                         ?>
                             <tr>
                                 <td><?php echo htmlspecialchars($usuario->usuario()); ?></td>
@@ -112,8 +114,8 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true || $_SESSION['usua
             </div>
             <br><br>
             <div>
-                <a href="<?php echo RUTA_VISTAS . "/crear_usuario.php";?>"><button  class="botones-gestion-usuarios">Crear Usuario</button></a>
-                <a href="<?php echo RUTA_VISTAS . "/eliminar_usuario.php";?>"><button class="botones-gestion-usuarios">Eliminar Usuario</button></a>
+                <a href="<?php echo RUTA_VISTAS . "/usuarios/apoyo/crear_usuario.php";?>"><button  class="botones-gestion-usuarios">Crear Usuario</button></a>
+                <a href="<?php echo RUTA_VISTAS . "/usuarios/apoyo/eliminar_usuario.php";?>"><button class="botones-gestion-usuarios">Eliminar Usuario</button></a>
             </div>
         </main>
         <!-- Interfaz para editar usuarios -->
@@ -171,13 +173,13 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true || $_SESSION['usua
             <div class="modal-contenido">
                 <span class="cerrar-modal-avatar">&times;</span>
                 <h3>Editar Avatar</h3>
-                <form action="../static/admin_edit.php" class="formEditar" method="POST" enctype="multipart/form-data">
+                <form action="apoyo/admin_edit.php" class="formEditar" method="POST" enctype="multipart/form-data">
                     <input type="hidden" class="input-id-usuario" name="id-usuario" value="">    
                     <input type="hidden" name="campo-editar" value="Avatar">
                     <div class="seleccion-avatares">
                         <?php foreach (IMAGENES_BASE as $indice => $archivo): ?>
                             <label class="opcion-avatar">
-                                <img class="opcion-imagen-avatar" src="../img/perfiles/<?= $archivo; ?>" alt="Avatar <?= $indice; ?>">
+                                <img class="opcion-imagen-avatar" src="<?php echo RUTA_IMG;?>/perfiles/<?= $archivo; ?>" alt="Avatar <?= $indice; ?>">
                                 <input type="radio" name="foto_perfil" value="<?= $archivo; ?>">
                             </label>
                         <?php endforeach; ?>
@@ -208,7 +210,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true || $_SESSION['usua
             <div class="modal-contenido">
                 <span class="cerrar-modal">&times;</span>
                 <h3>Editar <span id="campo-a-editar"></span></h3>
-                <form action="../static/admin_edit.php" class="formEditar" method="POST">
+                <form action="apoyo/admin_edit.php" class="formEditar" method="POST">
                     <input type="hidden" class="input-id-usuario" name="id-usuario" value="">
                     <input type="hidden" id="campo-editar" name="campo-editar" value="error">
                     <label id="label-nuevo-valor"></label>
@@ -223,7 +225,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true || $_SESSION['usua
             <div class="modal-contenido">
                 <span class="cerrar-modal-rol">&times;</span>
                 <h3>Editar Rol</h3>
-                <form action="../static/admin_edit.php" class="formEditar" method="POST" novalidate>
+                <form action="apoyo/admin_edit.php" class="formEditar" method="POST" novalidate>
                     <input type="hidden" class="input-id-usuario" name="id-usuario" value="">
                     <input type="hidden" name="campo-editar" value="Rol">
                     <label>Rol:</label>
@@ -244,7 +246,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true || $_SESSION['usua
                 <span class="cerrar-modal-pass">&times;</span>
                 <h3>Estas seguro que deseas resetear la contraseña de <span id="usuario-reset-contrasena"></span>?</h3>
                 <br>
-                <form action="../static/admin_edit.php" id="formEditarPassword" method="POST">
+                <form action="apoyo/admin_edit.php" id="formEditarPassword" method="POST">
                     <input type="hidden" class="input-id-usuario" name="id-usuario" value="">    
                     <input type="hidden" name="campo-editar" value="Password">
                     <div class="contenedor-botones">

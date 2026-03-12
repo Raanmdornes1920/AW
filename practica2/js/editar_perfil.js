@@ -167,7 +167,7 @@ function abrirModalEditarUsuario(id, usuario){
         input.value = id;
     });
 
-    document.getElementById('Logo-Usuario').src = "../img/perfiles/" + usuario['avatar'];
+    document.getElementById('Logo-Usuario').src = "../../../img/perfiles/" + usuario['avatar'];
     document.getElementById('nombre-usuario').innerText = usuario['nombre_usuario'];
     document.getElementById('nombre-usuario-edit').innerText = usuario['nombre'];
     document.getElementById('apellidos-usuario-edit').innerText = usuario['apellidos'];
@@ -218,6 +218,11 @@ function abrirModalAdminRol() {
     
     select.blur(); // Des seleccionar el desplegable
 }
+function abrirModalAdminPassword() {
+    
+    document.getElementById('usuario-reset-contrasena').innerText = diccionario_usuarios[id_a_editar]['nombre_usuario'];
+    modalAdminPassword.style.display = "block";
+}
 
 function CerrarEliminarUsuario(){
     document.getElementById("span-nombre-usuario").innerText = null; 
@@ -238,3 +243,4 @@ function abrirConfirmacionDelete(id, usuario, usuarioLogueado){
 
     document.getElementById("modalAdminEliminarusuario").style.display = "block";
 }
+

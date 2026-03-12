@@ -56,7 +56,7 @@ function clase_activa($nombre_archivo, $pagina_actual) {
                 <!-- Rol Cliente -->
                  <!-- Rol Gerente -->
                 <?php if($_SESSION['usuario']->rol() === 'gerente'): ?>
-                    <a href="<?php echo RUTA_VISTAS; ?>/ajustes_admin.php">Administrar Perfiles</a>
+                    <a href="<?php echo RUTA_VISTAS; ?>/usuarios/ajustes_admin.php">Administrar Perfiles</a>
                 <?php endif; ?>
                 <!-- Rol Gerente -->
                 <a href="<?php echo RUTA_INCLUDES; ?>/vistas/usuarios/apoyo/logout.php" class="logout-link">Cerrar Sesión</a>

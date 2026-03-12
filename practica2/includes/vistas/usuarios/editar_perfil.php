@@ -62,13 +62,13 @@ ob_start(); ?>
     <div class="modal-contenido">
         <span class="cerrar-modal-avatar">&times;</span>
         <h3>Editar Avatar</h3>
-        <form action="../editar_avatar.php" id="formEditar" method="POST" enctype="multipart/form-data">
+        <form action="apoyo/editar_avatar.php" id="formEditar" method="POST" enctype="multipart/form-data">
         
             <div class="seleccion-avatares">
                 <?php if($_SESSION['usuario']->rol() === 'cliente'){
                         foreach (AVATARES_INICIALES as $indice => $archivo): ?>
                         <label class="opcion-avatar">
-                            <img class="opcion-imagen-avatar" src="../../img/perfiles/<?= $archivo; ?>" alt="Avatar <?= $indice; ?>">
+                            <img class="opcion-imagen-avatar" src="<?php echo RUTA_IMG . '/perfiles/' . $archivo; ?>" alt="Avatar <?= $indice; ?>">
                             <input type="radio" name="foto_perfil" value="<?= $archivo; ?>">
                         </label>
                     <?php endforeach;
@@ -76,21 +76,21 @@ ob_start(); ?>
                 elseif($_SESSION['usuario']->rol() === 'camarero'){
                         foreach (AVATARES_CAMARERO as $indice => $archivo): ?>
                         <label class="opcion-avatar">
-                            <img class="opcion-imagen-avatar" src="../../img/perfiles/<?= $archivo; ?>" alt="Avatar <?= $indice; ?>">
+                            <img class="opcion-imagen-avatar" src="<?php echo RUTA_IMG . '/perfiles/' . $archivo; ?>" alt="Avatar <?= $indice; ?>">
                             <input type="radio" name="foto_perfil" value="<?= $archivo; ?>">
                         </label>
                     <?php endforeach;
                 }elseif($_SESSION['usuario']->rol() === 'cocinero'){
                         foreach (AVATARES_COCINERO as $indice => $archivo): ?>
                         <label class="opcion-avatar">
-                            <img class="opcion-imagen-avatar" src="../../img/perfiles/<?= $archivo; ?>" alt="Avatar <?= $indice; ?>">
+                            <img class="opcion-imagen-avatar" src="<?php echo RUTA_IMG . '/perfiles/' . $archivo; ?>" alt="Avatar <?= $indice; ?>">
                             <input type="radio" name="foto_perfil" value="<?= $archivo; ?>">
                         </label>
                     <?php endforeach;
                 }else{
                         foreach (IMAGENES_BASE as $indice => $archivo): ?>
                         <label class="opcion-avatar">
-                            <img class="opcion-imagen-avatar" src="../../img/perfiles/<?= $archivo; ?>" alt="Avatar <?= $indice; ?>">
+                            <img class="opcion-imagen-avatar" src="<?php echo RUTA_IMG . '/perfiles/' . $archivo; ?>" alt="Avatar <?= $indice; ?>">
                             <input type="radio" name="foto_perfil" value="<?= $archivo; ?>">
                         </label>
                     <?php endforeach;
@@ -119,7 +119,7 @@ ob_start(); ?>
     <div class="modal-contenido">
         <span class="cerrar-modal">&times;</span>
         <h3>Editar <span id="campo-a-editar"></span></h3>
-        <form action="../editar_dato.php" id="formEditar" method="POST">
+        <form action="apoyo/editar_dato.php" id="formEditar" method="POST">
             <input type="hidden" id="campo-editar" name="campo-editar" value="error">
             <label id="label-nuevo-valor"></label>
             <input type="text" id="nuevo-valor" name="nuevo-valor" required>
@@ -131,7 +131,7 @@ ob_start(); ?>
     <div class="modal-contenido">
         <span class="cerrar-modal-pass">&times;</span>
         <h3>Editar Contraseña</h3>
-        <form action="../editar_password.php" id="formEditarPassword" method="POST">
+        <form action="apoyo/editar_password.php" id="formEditarPassword" method="POST">
             <label>Contraseña Actual:</label>
             <input type="password" id="contrasena" name="contrasena" placeholder="Contraseña actual" required>
             <label>Nueva Contraseña:</label>

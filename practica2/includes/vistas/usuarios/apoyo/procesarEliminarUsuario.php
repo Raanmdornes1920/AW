@@ -1,8 +1,8 @@
 <?php
-require_once 'config.php';
+require_once (__DIR__ . '/../../../config.php');
 session_start();
 
-$rutas_error_msj = [RUTA_VISTAS . "/ajustes_admin.php", RUTA_VISTAS . "/crear_usuario.php", RUTA_VISTAS . "/eliminar_usuario.php"];
+$rutas_error_msj = [RUTA_VISTAS . "/usuarios/ajustes_admin.php", RUTA_VISTAS . "/usuarios/apoyo/crear_usuario.php", RUTA_VISTAS . "/usuarios/apoyo/eliminar_usuario.php"];
 
 function tiene_error_msj($ruta) {
     return in_array($ruta, $rutas_error_msj);
@@ -49,7 +49,7 @@ else{
 }
 
 if($usuario_propio){
-    header("Location: " . RUTA_STATIC . "/logout.php");
+    header("Location: " . RUTA_VISTAS . "/usuarios/apoyo/logout.php");
     exit();
 }
 else{

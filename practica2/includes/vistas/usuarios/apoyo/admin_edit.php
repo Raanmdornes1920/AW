@@ -1,5 +1,5 @@
 <?php
-require_once 'config.php';
+require_once (__DIR__ . '/../../../config.php');
 session_start();
 
 if (!isset($_SESSION['login']) || $_SESSION['login'] !== true || $_SESSION['usuario']->rol() !== 'gerente') {
@@ -28,13 +28,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (mysqli_stmt_execute($stmt)) {
         $resultado = mysqli_stmt_get_result($stmt);
         if ($fila = mysqli_fetch_assoc($resultado)) {
-            $usuario_actual = ($fila['nombre_usuario'] === $_SESSION['usuario']->username());
+            $usuario_actual = ($fila['nombre_usuario'] === $_SESSION['usuario']->usuario());
             $img_actual = $fila['avatar'];
         }
     }
     else{
         $_SESSION['error_editar_perfil'] = "Ha habido un error al intentar editar al usuario.";
-        header("Location: " . RUTA_VISTAS . "/ajustes_admin.php");
+        header("Location: " . RUTA_VISTAS . "/usuarios/ajustes_admin.php");
         exit();
     }
 
@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     if($fila['id'] !== $id && $fila['nombre_usuario'] === $valor){
                         // Usuario existente con id diferente
                         $_SESSION['error_editar_perfil'] = "El usuario ".$valor." ya existe.";
-                        header("Location: " . RUTA_VISTAS . "/ajustes_admin.php");
+                        header("Location: " . RUTA_VISTAS . "/usuarios/ajustes_admin.php");
                         exit();
                     }
                 }
@@ -85,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Si el usuario es el de la sesión
             if($usuario_actual && $campo !== 'password'){
                 // Corregimos sesion
-                $_SESSION['usuario']->set_value($campo, $valor);
+                UsuarioSA::modificarUsuario($_SESSION['usuario'], $campo, $valor);
             }
             
             $_SESSION['cambio'] = ucfirst($campo);
@@ -93,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         else{
             $_SESSION['error_editar_perfil'] = "Error al intentar modificar ".($campo === 'nombre_usuario' ? "Usuario" : ucfirst($campo))." a '".$valor."'.";
-            header("Location: " . RUTA_VISTAS . "/ajustes_admin.php");
+            header("Location: " . RUTA_VISTAS . "/usuarios/ajustes_admin.php");
             exit();
         }
     }
@@ -101,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Verificamos si seleccionó alguna imagen default
         if (isset($_POST['foto_perfil']) && $_POST['foto_perfil'] !== 'custom'){
             
-            $rutaAlArchivo = "../img/perfiles/" . $img_actual;
+            $rutaAlArchivo = DIR_RAIZ . "/img/perfiles/" . $img_actual;
             $nombreImagen = mysqli_real_escape_string($db_connection, $_POST['foto_perfil']);
 
             $query = "UPDATE usuarios SET avatar = ? WHERE id = ?";
@@ -119,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             else{
                 $_SESSION['error_editar_perfil'] = "Error al subir la imagen.";
-                header("Location: " . RUTA_VISTAS . "/ajustes_admin.php");
+                header("Location: " . RUTA_VISTAS . "/usuarios/ajustes_admin.php");
                 exit();
             }
             
@@ -144,14 +144,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Si no eligio una default la procesamos
         elseif (isset($_FILES['foto_perfil']) && $_FILES['foto_perfil']['error'] === UPLOAD_ERR_OK) {
             
-            $rutaAlArchivo = "../img/perfiles/" . $img_actual;
+            $rutaAlArchivo = DIR_RAIZ . "/img/perfiles/" . $img_actual;
 
             $fileTmpPath = $_FILES['foto_perfil']['tmp_name'];
             $fileName = $_FILES['foto_perfil']['name'];
             
             $fileNameClean = time() . "_" . preg_replace("/[^a-zA-Z0-9.]/", "_", $fileName);
             
-            $dest_path = "../img/perfiles/" . $fileNameClean;
+            $dest_path = DIR_RAIZ . "/img/perfiles/" . $fileNameClean;
             
             if(move_uploaded_file($fileTmpPath, $dest_path)) {
                 $nombreImagen = $fileNameClean;
@@ -165,14 +165,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     // Si el usuario es el de la sesión
                     if($usuario_actual){
                         // Corregimos sesion
-                        $_SESSION['usuario']->set_value('avatar',$nombreImagen);
+                        UsuarioSA::modificarUsuario($_SESSION['usuario'], 'avatar', $nombreImagen);
                     }
                     $_SESSION['cambio'] = 'Avatar';
                     $_SESSION['error_editar_perfil'] = "Ninguno";
                 }
                 else{
                     $_SESSION['error_editar_perfil'] = "Error al subir la imagen.";
-                    header("Location: " . RUTA_VISTAS . "/ajustes_admin.php");
+                    header("Location: " . RUTA_VISTAS . "/usuarios/ajustes_admin.php");
                     exit();
                 }
                 
@@ -197,12 +197,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             else {
                 $_SESSION['error_editar_perfil'] = "Error al subir la imagen.";
-                header("Location: " . RUTA_VISTAS . "/ajustes_admin.php");
+                header("Location: " . RUTA_VISTAS . "/usuarios/ajustes_admin.php");
                 exit();
             }
         }
     }
-    header("Location: " . RUTA_VISTAS . "/ajustes_admin.php");
+    header("Location: " . RUTA_VISTAS . "/usuarios/ajustes_admin.php");
     exit();
 }
     

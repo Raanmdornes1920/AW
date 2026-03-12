@@ -1,5 +1,5 @@
 <?php
-require_once '../static/config.php';
+require_once (__DIR__ . '/../../../config.php');
 session_start();
 
 if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
@@ -11,15 +11,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     // Verificamos si seleccionó alguna imagen default
     if (isset($_POST['foto_perfil']) && $_POST['foto_perfil'] !== 'custom'){
-        $rutaAlArchivo = "../img/perfiles/" . $_SESSION['usuario']->fotoPerfil();
+        $rutaAlArchivo = "../img/perfiles/" . $_SESSION['usuario']->avatar();
         $nombreImagen = mysqli_real_escape_string($db_connection, $_POST['foto_perfil']);
 
         $query = "UPDATE usuarios SET avatar = ? WHERE BINARY nombre_usuario = ?";
         $stmt = mysqli_prepare($db_connection, $query);
-        mysqli_stmt_bind_param($stmt, "ss", $nombreImagen, $_SESSION['usuario']->username());
+        $usuario = $_SESSION['usuario']->usuario();
+        mysqli_stmt_bind_param($stmt, "ss", $nombreImagen, $usuario);
         
         if (mysqli_stmt_execute($stmt)) {
-            $_SESSION['usuario']->set_value('avatar', $nombreImagen);
+            UsuarioSA::modificarUsuario($_SESSION['usuario'], 'avatar', $nombreImagen);
         }
         else{
             $_SESSION['error_editar_perfil'] = "Error al cambiar la imagen.";
@@ -28,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         
         
-        if (!in_array($_SESSION['usuario']->fotoPerfil(), IMAGENES_BASE) && file_exists($rutaAlArchivo)) {
+        if (!in_array($_SESSION['usuario']->avatar(), IMAGENES_BASE) && file_exists($rutaAlArchivo)) {
             unlink($rutaAlArchivo);
         }
 
@@ -36,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Si no eligio una default la procesamos
     elseif (isset($_FILES['foto_perfil']) && $_FILES['foto_perfil']['error'] === UPLOAD_ERR_OK) {
         
-        $rutaAlArchivo = "../img/perfiles/" . $_SESSION['usuario']->fotoPerfil();
+        $rutaAlArchivo = "../img/perfiles/" . $_SESSION['usuario']->avatar();
 
         $fileTmpPath = $_FILES['foto_perfil']['tmp_name'];
         $fileName = $_FILES['foto_perfil']['name'];
@@ -83,6 +84,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 $_SESSION['cambio'] = "Avatar";
 $_SESSION['error_editar_perfil'] = "Ninguno";
-header("Location: " . RUTA_VISTAS . "/editar_perfil.php");
+header("Location: " . RUTA_VISTAS . "/usuarios/editar_perfil.php");
 exit();
 ?>

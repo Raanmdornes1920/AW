@@ -1,5 +1,5 @@
 <?php
-require_once '../static/config.php';
+require_once (__DIR__ . '/../../../config.php');
 session_start();
 
 if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $campo = $_POST['campo-editar'];
     $nuevoValor = $_POST['nuevo-valor'];
     $nuevoRol = $_POST['nuevo-rol'] ?? null; // Para el caso de editar rol
-    $user = $_SESSION['usuario']->username();
+    $user = $_SESSION['usuario']->usuario();
     
     if (strtolower($campo) === 'usuario'){
         $sqlCheck = "SELECT id FROM usuarios WHERE BINARY nombre_usuario = ?";
@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     mysqli_stmt_bind_param($stmt, "ss", $nuevoValor, $user);
     
     if (mysqli_stmt_execute($stmt)) {
-        $_SESSION['usuario']->set_value(strtolower($campo),$nuevoValor);
+        UsuarioSA::modificarUsuario($_SESSION['usuario'], strtolower($campo),$nuevoValor);
         $_SESSION['cambio'] = $campo;
         $_SESSION['error_editar_perfil'] = "Ninguno";
     } else {
@@ -57,6 +57,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 } else {
     echo json_encode(['success' => false, 'message' => 'Método no permitido']);
 }
-header("Location: " . RUTA_VISTAS . "/editar_perfil.php");
+header("Location: " . RUTA_VISTAS . "/usuarios/editar_perfil.php");
 exit();
 ?>
