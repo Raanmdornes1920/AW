@@ -20,17 +20,15 @@ foreach($categorias as $cat) {
     $nombre = htmlspecialchars($cat->getNombre());
     $desc = htmlspecialchars($cat->getDescripcion());
     $id = $cat->getId();
-    $estado = $cat->getActiva() ? 'Activa' : 'Inactiva';
 
     $filas .= <<<EOF
     <tr>
         <td><img src="$img" width="50" height="50" style="object-fit: cover;"></td>
         <td>$nombre</td>
         <td>$desc</td>
-        <td>$estado</td>
         <td>
-            <a href="apoyo/categoria_actualizar.php?id=$id">Editar</a>
-            <a href="apoyo/procesar_categoria.php?accion=borrar&id=$id" class="btn-toggle">Eliminar</a>
+            <a href="apoyo/categoria_actualizar.php?id=$id" class="boton-editar">Editar</a>
+            <a href="apoyo/categoria_borrar.php?id=$id" class="boton-borrar">Eliminar</a>
         </td>
     </tr>
 EOF;
@@ -46,7 +44,6 @@ $contenidoPrincipal = <<<EOF
                 <th>Imagen</th>
                 <th>Nombre</th>
                 <th>Descripción</th>
-                <th>Estado</th>
                 <th>Acciones</th>
             </tr>
         </thead>

@@ -25,8 +25,10 @@ $contenidoPrincipal = <<<EOF
         <label>Imagen (Opcional):</label> 
         <input type="file" name="imagen" accept="image/*">
         
-        <button type="submit">Guardar Categoría</button>
-        <a href="../categorias_lista.php">Cancelar</a>
+        <div class="acciones">
+            <button type="submit">Guardar</button>
+            <a href="../categorias_gerente.php" class="boton-borrar">Cancelar</a>
+        </div>
     </form>
 EOF;
 

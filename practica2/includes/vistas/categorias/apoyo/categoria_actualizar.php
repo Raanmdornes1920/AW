@@ -1,5 +1,6 @@
 <?php
 require_once '../../../config.php';
+
 session_start();
 
 if (!isset($_SESSION['login']) || $_SESSION['usuario']->rol() !== 'gerente') {
@@ -9,7 +10,7 @@ if (!isset($_SESSION['login']) || $_SESSION['usuario']->rol() !== 'gerente') {
 $sa = new CategoriaSA($db_connection);
 $cat = $sa->obtenerPorId($_GET['id'] ?? 0);
 
-if (!$cat) { header("Location: ../categorias_lista.php"); exit; }
+if (!$cat) { header("Location: ../categorias_gerente.php"); exit; }
 
 $tituloPagina = "Editar Categoría";
 $css = [RAIZ_APP . "/css/default.css"];
@@ -20,7 +21,8 @@ $nombre = htmlspecialchars($cat->getNombre());
 $desc = htmlspecialchars($cat->getDescripcion());
 $imgActual = htmlspecialchars($cat->getImagen());
 $id = $cat->getId();
-$checkActiva = $cat->getActiva() ? 'checked' : '';
+
+$rutaImg = "../../../img/categorias/" . $imgActual;
 
 $contenidoPrincipal = <<<EOF
     <form action="procesar_categoria.php" method="POST" enctype="multipart/form-data" class="form-estilizado">
@@ -36,16 +38,16 @@ $contenidoPrincipal = <<<EOF
         <label>Descripción:</label> 
         <textarea name="descripcion" rows="3" required>$desc</textarea>
 
-        <label><input type="checkbox" name="activa" value="1" $checkActiva> Categoría activa</label><br><br>
-
         <label>Imagen actual:</label><br>
         <img src="../../../img/categorias/$imgActual" width="80"><br>
         
         <label>Cambiar imagen:</label> 
         <input type="file" name="imagen" accept="image/*">
         
-        <button type="submit">Actualizar</button>
-        <a href="../categorias_lista.php">Cancelar</a>
+        <div class="acciones">
+            <button type="submit">Actualizar</button>
+            <a href="../categorias_gerente.php" class="boton-borrar">Cancelar</a>
+        </div>
     </form>
 EOF;
 

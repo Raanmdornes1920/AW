@@ -42,7 +42,7 @@ $productos = $sa->getGestionAdmin();
                     <td><?php echo number_format($p->getPrecioFinal(), 2); ?> €</td>
                     <td><?php echo $p->getOfertado() ? 'En Carta' : 'Retirado'; ?></td>
                     <td>
-                        <a href="apoyo/productos_actualizar.php?id=<?php echo $p->getId(); ?>">✏️ Editar</a>
+                        <a href="apoyo/productos_actualizar.php?id=<?php echo $p->getId(); ?>">Editar</a>
                         <a href="apoyo/procesar_producto.php?accion=borrar&id=<?php echo $p->getId(); ?>" class="btn-toggle">Eliminar</a>
                     </td>
                 </tr>

@@ -1,62 +1,52 @@
 <?php
-require_once '../../config.php';
+require_once '../../config.php'; // Cambiado a ../ porque está en vistas/productos/
 session_start();
 
-if (!isset($_SESSION['login']) || $_SESSION['usuario']->rol() !== 'gerente') {
-    header("Location: " . RAIZ_APP . "/index.php"); exit;
-}
-
 $sa = new ProductoSA($db_connection);
-$productos = $sa->getGestionAdmin();
+// Usamos el método que filtra solo los productos ofertados/activos
+$productos = $sa->getCatalogoCliente();
 
-$tituloPagina = "Panel de Control - Productos";
+$tituloPagina = "Nuestra Carta - Bistro FDI";
 $css = [RAIZ_APP . "/css/default.css"];
 $header = "../comun/header.php";
 $claseMain = "contenedor-centro";
 
-$filasProductos = "";
-foreach($productos as $p) {
-    $img = RUTA_IMG . "/productos/" . htmlspecialchars($p->getImagen());
-    $nombre = htmlspecialchars($p->getNombre());
-    $cat = htmlspecialchars($p->getNombreCategoria());
-    $precio = number_format($p->getPrecioFinal(), 2);
-    $estado = $p->getOfertado() ? 'En Carta' : 'Retirado';
-    $id = $p->getId();
+$htmlProductos = "";
 
-    $filasProductos .= <<<EOF
-    <tr>
-        <td><img src="$img" width="50"></td>
-        <td>$nombre</td>
-        <td>$cat</td>
-        <td>$precio €</td>
-        <td>$estado</td>
-        <td>
-            <a href="apoyo/producto_actualizar.php?id=$id">✏️ Editar</a>
-            <a href="apoyo/procesar_producto.php?accion=borrar&id=$id" class="btn-toggle">🔄 Toggle</a>
-        </td>
-    </tr>
+if (empty($productos)) {
+    $htmlProductos = "<p>Actualmente no hay productos disponibles en la carta.</p>";
+} else {
+    foreach($productos as $p) {
+        $img = RUTA_IMG . "/productos/" . htmlspecialchars($p->getImagen());
+        $nombre = htmlspecialchars($p->getNombre());
+        $precio = number_format($p->getPrecioFinal(), 2);
+        $id = $p->getId();
+
+        // Diseño tipo "Card" para el cliente, sin botones de edición
+        $htmlProductos .= <<<EOF
+        <div class="tarjeta-producto">
+            <div class="imagen-contenedor">
+                <img src="$img" alt="$nombre">
+            </div>
+            <div class="info-producto">
+                <h3>$nombre</h3>
+                <p class="precio">$precio €</p>
+                <a href="producto_detalle.php?id=$id" class="boton-ver">Ver detalles</a>
+            </div>
+        </div>
 EOF;
+    }
 }
 
 $contenidoPrincipal = <<<EOF
-    <h1>Gestión de Inventario</h1>
-    <a href="apoyo/producto_crear.php" class="boton-nuevo">➕ Añadir Nuevo Producto</a>
-    
-    <table class="tabla-gestion">
-        <thead>
-            <tr>
-                <th>Imagen</th>
-                <th>Producto</th>
-                <th>Categoría</th>
-                <th>Precio</th>
-                <th>Estado</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            $filasProductos
-        </tbody>
-    </table>
+    <section class="seccion-carta">
+        <h1>🍽️ Nuestra Carta</h1>
+        <p class="subtitulo">Descubre nuestras especialidades seleccionadas para ti.</p>
+        
+        <div class="grid-productos">
+            $htmlProductos
+        </div>
+    </section>
 EOF;
 
 $js = [RAIZ_APP . "/js/script.js"];

@@ -7,7 +7,8 @@ if (!isset($_SESSION['login']) || $_SESSION['usuario']->rol() !== 'gerente') {
 }
 
 $sa = new ProductoSA($db_connection);
-$categorias = $sa->obtenerCategoriasActivas();
+$catSA = new CategoriaSA($db_connection);
+$categorias = $catSA->obtenerTodas();
 
 $tituloPagina = "Crear Producto";
 $css = [RAIZ_APP . "/css/default.css"];
@@ -16,7 +17,7 @@ $claseMain = "contenedor-centro";
 
 $optionsCategorias = "";
 foreach($categorias as $cat) {
-    $optionsCategorias .= '<option value="'.$cat['id'].'">'.htmlspecialchars($cat['nombre']).'</option>';
+    $optionsCategorias .= '<option value="'.$cat->getId().'">'.htmlspecialchars($cat->getNombre()).'</option>';
 }
 
 $contenidoPrincipal = <<<EOF
