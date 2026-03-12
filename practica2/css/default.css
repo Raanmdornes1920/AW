@@ -959,23 +959,6 @@ table, tr, th, td {
 .footer-seccion{
     max-height: 115px;
 }
-/*
-.footer-seccion-contenido {
-    columns: 2;
-    column-gap: 20px;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    align-items: flex-start; /* Alinea los elementos al inicio */
-    /*display: flex; /* Asegura que el contenedor use flexbox */
-    /*flex-wrap: wrap; /* Permite que los elementos se ajusten si es necesario *//*
-}
-
-.footer-seccion-contenido li {
-    margin: 0; /* Elimina márgenes adicionales */
-    /*padding: 0; /* Elimina padding adicional *//*
-}
-*/
 
 .footer-seccion-contenido{
     columns: 2;
