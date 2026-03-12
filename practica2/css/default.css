@@ -937,7 +937,6 @@ table, tr, th, td {
     margin-top: 20px;
 }
 
-<<<<<<< HEAD
 /* Estilos del Footer */
 .pie-pagina {
     background-color: #333;
@@ -977,7 +976,6 @@ table, tr, th, td {
 
 .footer-logo {
     height: 40px;
-=======
 /*Para productos*/
 
 /* Aseguramos que TODOS los tipos de input y selects tengan espacio inferior */
@@ -1028,5 +1026,4 @@ textarea {
 .grupo-checkbox input {
     width: auto;
     margin: 0;
->>>>>>> 033cb6064a74f7afc3f1186be0006ab9196daf22
 }
