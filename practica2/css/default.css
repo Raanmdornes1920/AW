@@ -936,3 +936,44 @@ table, tr, th, td {
 .acciones {
     margin-top: 20px;
 }
+
+/* Estilos del Footer */
+.pie-pagina {
+    background-color: #333;
+    color: white;
+    padding: 20px 0;
+    margin-top: auto; /* Refuerzo para quedarse abajo */
+    /*max-height: 60px;*/
+}
+
+.footer-contenido {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.footer-seccion h4 {
+    margin-bottom: 10px;
+    color: #ff9900; /* Color corporativo */
+}
+
+.footer-seccion ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-seccion a {
+    color: #bbb;
+    text-decoration: none;
+}
+
+.footer-seccion a:hover {
+    color: white;
+}
+
+.footer-logo {
+    height: 40px;
+}

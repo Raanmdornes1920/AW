@@ -27,7 +27,5 @@ if(isset($_SESSION['login']) && $_SESSION['login']){
 }
 $contenidoPrincipal = ob_get_clean(); // Guardamos contenido del include
 
-
-
 require("./includes/vistas/comun/plantilla.php");
 ?>

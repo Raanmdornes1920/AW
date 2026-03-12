@@ -50,5 +50,6 @@ $productos = $sa->getGestionAdmin();
             </tbody>
         </table>
     </main>
+    <script src="<?php echo RAIZ_APP; ?>/js/script.js"></script>
 </body>
 </html>

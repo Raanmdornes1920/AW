@@ -1,4 +1,4 @@
-<!-- DEFINIR tituloPagina, css, header, contenidoPrincipal y js antes del include y opcionalmente definir claseMain -->
+<!-- DEFINIR tituloPagina, css, header, contenidoPrincipal y js antes del include y opcionalmente definir claseMain, contenidoAdicional y scriptManual -->
 <!DOCTYPE html>
 <html>
     <head>
@@ -20,7 +20,8 @@
         </main>
         <?php if(isset($contenidoAdicional)){echo $contenidoAdicional;}?>
         <?php
-            //include(RUTA_COMUN . '/footer.php');
+            include(__DIR__ . '/footer.php');
+            if(isset($scirptManual)){echo $scirptManual;}
             foreach ($js as $ruta):?>
                 <script src="<?=$ruta?>"></script>
         <?php endforeach; ?>
