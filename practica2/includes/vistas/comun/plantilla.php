@@ -8,7 +8,6 @@
         <?php foreach ($css as $ruta): ?>
             <link rel="stylesheet" type="text/css" href="<?php echo $ruta; ?>" />
         <?php endforeach; ?>
-        <link rel="stylesheet" type="text/css" href="<?php echo RUTA_CSS . '/estilo.css' ?>" />
     </head>
     <body>
         <?php
