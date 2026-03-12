@@ -30,10 +30,13 @@ $contenidoPrincipal = <<<EOF
             $optionsCategorias
         </select>
 
-        <label>Nombre:</label> <input type="text" name="nombre" required>
-        <label>Descripción:</label> <textarea name="descripcion" rows="4" required></textarea>
+        <label>Nombre:</label> 
+        <input type="text" name="nombre" required>
         
-        <label>Precio Base:</label> 
+        <label>Descripción:</label> 
+        <textarea name="descripcion" rows="4" required></textarea>
+        
+        <label>Precio Base (€):</label> 
         <input type="number" step="0.01" id="p_base" name="precio_base" oninput="recalcular()" required>
         
         <label>IVA:</label>
@@ -42,12 +45,21 @@ $contenidoPrincipal = <<<EOF
             <option value="10">10%</option>
             <option value="21" selected>21%</option>
         </select>
-        <p>Precio Final: <span id="p_final">0.00 €</span></p>
 
-        <label>Imagen:</label> <input type="file" name="imagen" accept="image/*">
+        <div class="precio-final-destacado">
+            Precio Final (con IVA): <strong id="p_final">0.00 €</strong>
+        </div>
 
-        <div class="acciones">
-            <button type="submit">Guardar</button>
+        <div class="grupo-checkbox">
+            <label><input type="checkbox" name="disponible" value="1" checked> Stock disponible</label>
+            <label><input type="checkbox" name="ofertado" value="1" checked> Ofertado en carta</label>
+        </div>
+
+        <label>Imagen del producto:</label> 
+        <input type="file" name="imagenes[]" accept="image/*" multiple>
+
+        <div class="acciones" style="margin-top: 30px;">
+            <button type="submit">Guardar Producto</button>
             <a href="../productos_gerente.php" class="boton-borrar">Cancelar</a>
         </div>
     </form>
@@ -60,8 +72,11 @@ $contenidoAdicional = <<<EOF
     function recalcular() {
         let base = parseFloat(document.getElementById('p_base').value) || 0;
         let iva = parseInt(document.getElementById('p_iva').value) || 0;
-        document.getElementById('p_final').innerText = (base * (1 + iva/100)).toFixed(2) + " €";
+        let total = base + (base * (iva / 100));
+        document.getElementById('p_final').innerText = total.toFixed(2) + " €";
     }
+    // Inicializar por si el navegador recuerda valores
+    window.onload = recalcular;
 </script>
 EOF;
 

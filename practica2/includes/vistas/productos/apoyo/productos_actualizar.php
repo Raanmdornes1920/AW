@@ -39,12 +39,17 @@ $imgActual = htmlspecialchars($producto->getImagen());
 $checkDisp = $producto->getDisponible() ? 'checked' : '';
 $checkOfert = $producto->getOfertado() ? 'checked' : '';
 
+$fotosActualesHtml = "<div style='display:flex; gap:10px; margin-bottom:15px;'>";
+foreach($producto->getImagenesArray() as $img) {
+    $fotosActualesHtml .= "<img src='".RUTA_IMG."/productos/$img' width='70' style='border:1px solid #ccc; border-radius:5px;'>";
+}
+$fotosActualesHtml .= "</div>";
+
 $contenidoPrincipal = <<<EOF
-    <form action="procesar_producto.php" method="POST" enctype="multipart/form-data">
+    <form action="procesar_producto.php" method="POST" enctype="multipart/form-data" class="form-estilizado">
         <input type="hidden" name="accion" value="actualizar">
         <input type="hidden" name="id" value="$idVal">
-        <input type="hidden" name="imagen_actual" value="$imgActual">
-
+        
         <h2>Editar: $nombreVal</h2>
         
         <label>Categoría:</label>
@@ -77,8 +82,8 @@ $contenidoPrincipal = <<<EOF
             <label><input type="checkbox" name="ofertado" value="1" $checkOfert> Ofertado en carta</label>
         </div>
 
-        <label>Cambiar imagen:</label> 
-        <input type="file" name="imagen" accept="image/*">
+        <label>Añadir más imágenes:</label> 
+        <input type="file" name="imagenes[]" accept="image/*" multiple>
         
         <div class="acciones">
             <button type="submit">Actualizar Producto</button>

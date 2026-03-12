@@ -9,9 +9,9 @@ class Producto {
     private $disponible;
     private $ofertado;
     private $nombre_categoria; 
-    private $imagen;
+    private $imagenes = [];
 
-    public function __construct($id, $id_cat, $nom, $desc, $pb, $iva, $disp, $ofert, $cat_nom = '', $img = 'default.png') {
+    public function __construct($id, $id_cat, $nom, $desc, $pb, $iva, $disp, $ofert, $cat_nom = '', $imagenes = []) {
         $this->id = $id;
         $this->id_categoria = $id_cat;
         $this->nombre = $nom;
@@ -21,8 +21,7 @@ class Producto {
         $this->disponible = $disp;
         $this->ofertado = $ofert;
         $this->nombre_categoria = $cat_nom;
-        $this->imagen = $img;
-    }
+        $this->imagenes = is_array($imagenes) ? $imagenes : [$imagenes];    }
 
     public function getId() { return $this->id; }
     public function getIdCategoria() { return $this->id_categoria; }
@@ -33,9 +32,17 @@ class Producto {
     public function getDisponible() { return $this->disponible; }
     public function getOfertado() { return $this->ofertado; }
     public function getNombreCategoria() { return $this->nombre_categoria; }
-    public function getImagen() { return $this->imagen; }
+    
+    public function getImagen() { 
+        return !empty($this->imagenes) ? $this->imagenes[0] : 'default.png'; 
+    }
+    
+    public function getImagenesArray() { 
+        return $this->imagenes; 
+    }
 
     public function getPrecioFinal() {
         return $this->precio_base * (1 + ($this->iva / 100));
     }
+
 }

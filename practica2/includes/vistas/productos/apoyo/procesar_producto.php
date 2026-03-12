@@ -1,9 +1,4 @@
 <?php
-
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 require_once '../../../config.php';
 session_start();
 
@@ -16,20 +11,28 @@ $accion = $_REQUEST['accion'] ?? '';
 
 if ($accion === 'crear' || $accion === 'actualizar') {
     $datos = $_POST;
-    $nombreImagen = $_POST['imagen_actual'] ?? 'default.png';
-
-    if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
-        $ext = pathinfo($_FILES['imagen']['name'], PATHINFO_EXTENSION);
-        $nombreNuevo = uniqid('prod_') . '.' . $ext;
-        
-        $rutaDestino = __DIR__ . "/../../../../img/productos/" . $nombreNuevo;
-        
-        if (move_uploaded_file($_FILES['imagen']['tmp_name'], $rutaDestino)) {
-            $nombreImagen = $nombreNuevo;
+    
+    // IMPORTANTE: Asegurarnos de que el ID llegue desde el formulario
+    // Si es 'actualizar', el $_POST['id'] debe estar presente.
+    
+    $imagenesSubidas = [];
+    if (isset($_FILES['imagenes']) && !empty($_FILES['imagenes']['name'][0])) {
+        foreach ($_FILES['imagenes']['tmp_name'] as $key => $tmp_name) {
+            if ($_FILES['imagenes']['error'][$key] === UPLOAD_ERR_OK) {
+                $ext = pathinfo($_FILES['imagenes']['name'][$key], PATHINFO_EXTENSION);
+                $nombreNuevo = uniqid('prod_') . '_' . $key . '.' . $ext;
+                $rutaDestino = __DIR__ . "/../../../../img/productos/" . $nombreNuevo;
+                
+                if (move_uploaded_file($tmp_name, $rutaDestino)) {
+                    $imagenesSubidas[] = $nombreNuevo;
+                }
+            }
         }
     }
     
-    $datos['imagen'] = $nombreImagen;
+    $datos['imagenes'] = $imagenesSubidas; 
+    
+    // Llamamos a guardar. Si $datos['id'] existe, el SA y DAO deben actualizar.
     $sa->guardarProducto($datos);
 
 } elseif ($accion === 'borrar') {
