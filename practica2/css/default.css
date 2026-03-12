@@ -763,7 +763,6 @@ table, tr, th, td {
     box-sizing: border-box;
 }
 
-<<<<<<< HEAD
 #formLogin{
     max-width: 30%;
 }
@@ -771,7 +770,6 @@ table, tr, th, td {
 #formRegistro{
     max-width: 100%;
 }
-=======
 
 /*Para categorias */
 
@@ -934,4 +932,3 @@ table, tr, th, td {
 .acciones {
     margin-top: 20px;
 }
->>>>>>> 13b09eb9ccd19492f56083bf911e7556f2a2893a
