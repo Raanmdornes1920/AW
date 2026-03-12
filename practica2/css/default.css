@@ -16,6 +16,7 @@ body {
     justify-content: space-between;
     padding: 10px 0;
     background-color: #888888;
+    z-index: 9999;
 }
 
 .navegacion_principal{
@@ -1131,12 +1132,15 @@ table, tr, th, td {
 /* Contenedor principal del detalle (Estilo tarjeta grande centrada) */
 .detalle-producto-centrado {
     width: 450px; /* Tamaño similar al de las categorías pero un poco más ancho para detalle */
-    margin: 20px auto; /* Centrado en la página */
+    margin: 40px auto; /* Centrado en la página */
     background: white;
     border: 1px solid #ddd;
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+
+    position: relative; 
+    z-index: 1;
 }
 
 /* Carrusel */
