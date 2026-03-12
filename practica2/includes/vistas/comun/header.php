@@ -17,7 +17,7 @@ function clase_activa($nombre_archivo, $pagina_actual) {
         <?php echo '<a class="'.clase_activa('index.php', $pagina_actual).'" href="'.RAIZ_APP.'/">Inicio</a>'; ?>
         
         <?php if($_SESSION['usuario']->rol() === 'gerente') {
-            echo '<a class="'.clase_activa('categorias_lista.php', $pagina_actual).'" href="'.RUTA_VISTAS.'/categorias/categorias_lista.php">Categorias</a>';
+            echo '<a class="'.clase_activa('categorias_lista.php', $pagina_actual).'" href="'.RUTA_VISTAS.'/categorias/categorias_gerente.php">Categorias</a>';
             echo '<a class="'.clase_activa('admin_productos.php', $pagina_actual).'" href="'.RUTA_VISTAS.'/productos/admin_productos.php">Productos</a>';
         }
         else if($_SESSION['usuario']->rol() === 'cocinero') {
@@ -27,7 +27,7 @@ function clase_activa($nombre_archivo, $pagina_actual) {
             echo '<a class="'.clase_activa('pedidos_camarero.php', $pagina_actual).'" href="'.RAIZ_APP.'/">Pedidos</a>';
         }
         else if($_SESSION['usuario']->rol() === 'cliente') {
-            echo '<a class="'.clase_activa('productos_cliente.php', $pagina_actual).'" href="'.RUTA_VISTAS.'/productos/productos_cliente.php">Carta / Productos</a>';
+            echo '<a class="'.clase_activa('productos_cliente.php', $pagina_actual).'" href="'.RUTA_VISTAS.'/productos/productos_lista.php">Carta / Productos</a>';
 
             echo '<a class="'.clase_activa('pedidos_cliente.php', $pagina_actual).'" href="'.RAIZ_APP.'/">Mis Pedidos</a>';
             echo '<a class="'.clase_activa('pedidos_cliente.php', $pagina_actual).'" href="'.RUTA_VISTAS.'/bocetos.html">Bocetos</a>';

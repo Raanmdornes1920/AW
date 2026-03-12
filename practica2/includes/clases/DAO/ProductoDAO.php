@@ -3,8 +3,8 @@
 class ProductoDAO {
     private $db;
 
-    public function __construct($conexion) {
-        $this->db = $conexion;
+    public function __construct($db_connection) {
+        $this->db = $db_connection;
     }
 
     public function listarTodos() {

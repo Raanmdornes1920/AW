@@ -7,7 +7,7 @@ if (!isset($_SESSION['login']) || $_SESSION['usuario']->rol() !== 'gerente') {
 }
 
 $sa = new CategoriaSA($db_connection);
-$accion = $_REQUEST['accion'] ?? '';
+$accion = $_POST['accion'] ?? $_GET['accion'] ?? '';
 
 if ($accion === 'crear' || $accion === 'actualizar') {
     $datos = $_POST;
@@ -16,7 +16,7 @@ if ($accion === 'crear' || $accion === 'actualizar') {
     if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
         $ext = pathinfo($_FILES['imagen']['name'], PATHINFO_EXTENSION);
         $nombreNuevo = uniqid('cat_') . '.' . $ext;
-        $rutaDestino = "../../../../img/categorias/" . $nombreNuevo;
+        $rutaDestino = __DIR__ . "/../../../../img/categorias/" . $nombreNuevo;
         
         if (move_uploaded_file($_FILES['imagen']['tmp_name'], $rutaDestino)) {
             $nombreImagen = $nombreNuevo;
@@ -26,9 +26,17 @@ if ($accion === 'crear' || $accion === 'actualizar') {
     $datos['imagen'] = $nombreImagen;
     $sa->guardarCategoria($datos);
 
-} elseif ($accion === 'borrar') {
-    $sa->toggleActiva($_GET['id'] ?? 0);
+} elseif ($accion === 'eliminar_definitivo') {
+    $id = $_POST['id'] ?? 0;
+    $resultado = $sa->borrarCategoria($id);
+    
+    if ($resultado === true) {
+        header("Location: ../categorias_gerente.php?msg=borrado_ok");
+    } else {
+        // die("El SA dice: " . $resultado);
+        header("Location: categoria_borrar.php?id=$id&error=" . urlencode($resultado));
+    }
 }
 
-header("Location: ../categorias_lista.php");
+header("Location: ../categorias_gerente.php");
 exit;
