@@ -1,5 +1,5 @@
 <?php
-require_once '../config.php';
+require_once '../../config.php';
 session_start();
 
 // Comprobación básica: usuario logueado
@@ -10,7 +10,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
 
 $tituloPagina = "Perfil- BISTRO FDI";
 $css = [(RAIZ_APP . "/css/default.css"), (RAIZ_APP . "/css/modales.css")];
-$header = (__DIR__ . "/comun/header.php");
+$header = (__DIR__ . "/../comun/header.php");
 $claseMain = "contenedor-centro";
 ob_start(); ?>
 
@@ -175,5 +175,5 @@ else if(isset($_SESSION['error_editar_perfil']) && $_SESSION['error_editar_perfi
 $contenidoAdicional = ob_get_clean();
 $js = [(RAIZ_APP . "/js/script.js"), (RAIZ_APP . "/js/editar_perfil.js")];
 
-require("./comun/plantilla.php");
+require("../comun/plantilla.php");
 ?>

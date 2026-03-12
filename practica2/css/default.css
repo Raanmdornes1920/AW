@@ -762,3 +762,11 @@ table, tr, th, td {
     align-items: left;
     box-sizing: border-box;
 }
+
+#formLogin{
+    max-width: 30%;
+}
+
+#formRegistro{
+    max-width: 100%;
+}

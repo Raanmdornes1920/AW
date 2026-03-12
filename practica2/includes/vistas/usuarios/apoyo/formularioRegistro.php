@@ -1,13 +1,12 @@
 <?php
-require_once (__DIR__ . '/config.php');
-require_once (__DIR__ . '/vistas/comun/formularioBase.php');
+require_once (__DIR__ . '/../../comun/formularioBase.php');
 
 // Hereda de formularioBase (asegúrate de que la ruta a formularioBase sea correcta)
 class FormularioRegistro extends formularioBase {
 
     public function __construct() {
         // ID del form y dónde redirigir si todo va bien
-        parent::__construct('formRegistro', ['urlRedireccion' => RAIZ_APP . '/', 'enctype' => 'multipart/form-data']);
+        parent::__construct('formRegistro', ['urlRedireccion' => RUTA_VISTAS . '/usuarios/registro.php', 'enctype' => 'multipart/form-data']);
     }
 
     protected function generaCamposFormulario(&$datos) {
@@ -18,67 +17,67 @@ class FormularioRegistro extends formularioBase {
         $usuario = $datos['usuario'] ?? '';
 
         $htmlErroresGlobales = self::generaListaErroresGlobales($this->errores);
-        $erroresCampos = self::generaErroresCampos(['nombre', 'apellidos', 'mail', 'usuario', 'password', 'password_confirm'], $this->errores);
+        $erroresCampos = self::generaErroresCampos(['nombre', 'apellidos', 'mail', 'usuario', 'password', 'password_confirm', '1', '2', '3', '4'], $this->errores);
 
         
         $ruta_avatares = AVATARES_INICIALES;
         ob_start();
-        include __DIR__ . "/vistas/comun/selector_imagenes.php"; 
+        include __DIR__ . "/../../comun/selector_imagenes.php"; 
         $htmlSelectorImagenes = ob_get_clean();
+
+        foreach ($erroresCampos as $key => $value) {
+            $erroresCampos[$key] = $value . '<br>';
+        }
 
         $html = <<<EOF
         {$htmlErroresGlobales}
-        <fieldset class="fieldset_form">
-            <legend>Registro Bistro FDI</legend>
-            
-            <div>
-                <label>Nombre:</label><br>
-                <input type="text" name="nombre" value="$nombre" required>
-                {$erroresCampos['nombre']}
-            </div>
-            <br>
-            <div>
-                <label>Apellidos:</label><br>
-                <input type="text" name="apellidos" value="$apellidos" required>
-                {$erroresCampos['apellidos']}
-            </div>
-            <br>
-            <div>
-                <label>Correo Electrónico:</label><br>
-                <input type="email" name="mail" value="$mail" required>
-                {$erroresCampos['mail']}
-            </div>
-            <br>
-            <div>
-                <label>Usuario:</label><br>
-                <input type="text" name="usuario" value="$usuario" required>
-                {$erroresCampos['usuario']}
-            </div>
-            <br>
+        <div>
+            <label>Nombre:</label><br>
+            <input type="text" name="nombre" value="$nombre" required>
+            {$erroresCampos['nombre']}
+        </div>
+        <br>
+        <div>
+            <label>Apellidos:</label><br>
+            <input type="text" name="apellidos" value="$apellidos" required>
+            {$erroresCampos['apellidos']}
+        </div>
+        <br>
+        <div>
+            <label>Correo Electrónico:</label><br>
+            <input type="email" name="mail" value="$mail" required>
+            {$erroresCampos['mail']}
+        </div>
+        <br>
+        <div>
+            <label>Usuario:</label><br>
+            <input type="text" name="usuario" value="$usuario" required>
+            {$erroresCampos['usuario']}
+        </div>
+        <br>
 
-            {$htmlSelectorImagenes}
+        {$htmlSelectorImagenes}
 
-            <br>
-            <div>
-                <label>Contraseña:</label><br>
-                <input id="password" type="password" name="password" required>
-                {$erroresCampos['password']}
-            </div>
-            <br>
-            <div>
-                <label>Repetir Contraseña:</label><br>
-                <input type="password" name="password_confirm" required oninput="
-                    if(document.getElementById('password').value != this.value) {
-                        this.setCustomValidity('Las contraseñas no coinciden');
-                    } else {
-                        this.setCustomValidity('');
-                    }
-                ">
-                {$erroresCampos['password_confirm']}
-            </div>
-            <br>
-            <button type="submit" name="registro">Registrarme</button>
-        </fieldset>
+        <br>
+        <div>
+            <label>Contraseña:</label><br>
+            <input id="password" type="password" name="password" required>
+            {$erroresCampos['password']}
+        </div>
+        <br>
+        <div>
+            <label>Repetir Contraseña:</label><br>
+            <input type="password" name="password_confirm" required oninput="
+                if(document.getElementById('password').value != this.value) {
+                    this.setCustomValidity('Las contraseñas no coinciden');
+                } else {
+                    this.setCustomValidity('');
+                }
+            ">
+            {$erroresCampos['password_confirm']}
+        </div>
+        <br>
+        <button type="submit" name="registro">Registrarme</button>
         EOF;
 
         return $html;
@@ -86,8 +85,9 @@ class FormularioRegistro extends formularioBase {
 
     protected function procesaFormulario(&$datos) {
         $this->errores = [];
-        // ----------------------------------------------------------------------------------------------------------------------------------------------------
+        
         global $db_connection;
+
         $nombrePost = ($datos['nombre'] ?? '');
         $apellidosPost = ($datos['apellidos'] ?? '');
         $mailPost = trim($datos['mail'] ?? '');
@@ -108,24 +108,26 @@ class FormularioRegistro extends formularioBase {
 
 
         if ($resultado && mysqli_num_rows($resultado) === 0) {
-        
-            if (isset($datos['avatar']) && $datos['avatar'] === 'custom' && isset($_FILES['avatar']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
             
-                $fileTmpPath = $_FILES['avatar']['tmp_name'];
-                $fileName = $_FILES['avatar']['name'];
+            if (isset($datos['avatar']) && $datos['avatar'] === 'custom' && isset($_FILES['avatar-custom']) && $_FILES['avatar-custom']['error'] === UPLOAD_ERR_OK) {
+                
+                $fileTmpPath = $_FILES['avatar-custom']['tmp_name'];
+                $fileName = $_FILES['avatar-custom']['name'];
                 
                 $fileNameClean = time() . "_" . preg_replace("/[^a-zA-Z0-9.]/", "_", $fileName);
                 
                 $dest_path = DIR_RAIZ . "/img/perfiles/" . $fileNameClean;
-        // ----------------------------------------------------------------------------------------------------------------------------------------------------        
+                
                 if(move_uploaded_file($fileTmpPath, $dest_path)) {
+                    
                     $nombreImagen = $fileNameClean;
                     chmod($dest_path, 0666); 
                 }
             }
             else{
+                
                 $nombreImagen = $datos['avatar'];
-                $dest_path = "../img/perfiles/" . $fileNameClean;
+                $dest_path = "../img/perfiles/" . $nombreImagen;
             }
 
             $passwordHasheada = password_hash($passPost, PASSWORD_DEFAULT);
@@ -143,7 +145,7 @@ class FormularioRegistro extends formularioBase {
                 }
                 else{
                     
-                    $sql = "SELECT id FROM usuarios WHERE nombre_usuario = '$userPost¡'";
+                    $sql = "SELECT * FROM usuarios WHERE nombre_usuario = '$userPost'";
 
                     $resultado = mysqli_query($db_connection, $sql);
                     $fila = mysqli_fetch_assoc($resultado);
@@ -177,45 +179,11 @@ class FormularioRegistro extends formularioBase {
                 $fila = mysqli_fetch_assoc($resultado);
             
                 if ($fila['nombre_usuario'] === $userPost) {
-                    include 'usuario_existente.php';
+                    $this->errores['usuario'] = 'Usuaro ya ocupado';
                 } else if ($fila['email'] === $mailPost) {
-                    include 'correo_existente.php';
+                    $this->errores['mail'] = 'Email ya ocupado';
                 }
             }
         }
-        // ----------------------------------------------------------------------------------------------------------------------------------------------------
-        
-        /* Ejemplo de como indicar errores
-        $usuario = trim($datos['usuario'] ?? '');
-        
-        if (strlen($usuario) < 4) {
-            $this->errores['usuario'] = 'El nombre de usuario debe tener 4 caracteres.';
-        }
-
-        // 2. Gestión de la imagen (Tu lógica de move_uploaded_file)
-        $nombreImagen = "default.png";
-        if (isset($datos['avatar']) && $datos['avatar'] === 'custom' && isset($_FILES['avatar'])) {
-            // ... Aquí pones tu código de subir imagen ...
-            // $nombreImagen = $fileNameClean;
-        }
-
-        // 3. Llamada al SA (Lógica de negocio)
-        if (count($this->errores) === 0) {
-            try {
-                $usuarioSA = new UsuarioSA();
-                $usuario = $usuarioSA->registrar(
-                    $usuario, $datos['password'], $datos['nombre'], 
-                    $datos['apellidos'], $datos['mail'], $nombreImagen
-                );
-                
-                // Si el SA no lanza excepción, logueamos
-                $_SESSION['login'] = true;
-                $_SESSION['usuario'] = $usuario;
-                
-            } catch (Exception $e) {
-                // Si el SA lanza "Usuario ya existe", se muestra como error global
-                $this->errores[] = $e->getMessage();
-            }
-        }*/
     }
 }

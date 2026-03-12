@@ -1,14 +1,23 @@
-<h1>Inicio de Sesion</h1>
-<form action="<?php echo RUTA_INCLUDES ?>/vistas/usuarios/apoyo/procesarLogin.php" method="POST">
-    <label>Usuario:</label>
-    <br>
-    <input type="text" name="username" required>
-    <br>
+<?php
+//require_once (__DIR__ '/../../config.php');
+require_once __DIR__ . '/apoyo/formularioLogin.php';
+//require_once __DIR__ . '/comun/plantilla.php';
+//session_start();
 
-    <label>Contraseña:</label>
-    <br>
-    <input type="password" name="password" required>
-    <br><br>
+$tituloPagina = "Login - Bistro FDI";
+$css = [(RAIZ_APP . "/css/default.css")];
+$claseMain = "contenedor-centro";
 
-    <button type="submit">Entrar</button>
-</form>
+$form = new FormularioLogin();
+$htmlForm = $form->gestiona();
+$contenidoPrincipal = <<<EOF
+        
+            <h1>Inicio de Sesion</h1>
+            $htmlForm
+        
+EOF;
+
+$js = [(RAIZ_APP . "/js/script.js")];
+
+echo $contenidoPrincipal;
+?>

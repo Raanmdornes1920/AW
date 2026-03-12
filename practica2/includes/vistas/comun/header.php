@@ -48,7 +48,7 @@ function clase_activa($nombre_archivo, $pagina_actual) {
             <div id="menuDesplegable" class="dropdown-content">
                 <p class="usuario-nombre"><?php echo $_SESSION['usuario']->nombre(); ?></p>
                 <hr>
-                <a href="<?php echo RUTA_VISTAS; ?>/editar_perfil.php">Mi Perfil</a>
+                <a href="<?php echo RUTA_VISTAS; ?>/usuarios/editar_perfil.php">Mi Perfil</a>
                 <!-- Rol Cliente -->
                 <?php if($_SESSION['usuario']->rol() === 'cliente'): ?>
                     <a href="<?php echo RUTA_VISTAS; ?>/carrito.php">Carrito</a>
@@ -59,7 +59,7 @@ function clase_activa($nombre_archivo, $pagina_actual) {
                     <a href="<?php echo RUTA_VISTAS; ?>/ajustes_admin.php">Administrar Perfiles</a>
                 <?php endif; ?>
                 <!-- Rol Gerente -->
-                <a href="<?php echo RUTA_INCLUDES; ?>/logout.php" class="logout-link">Cerrar Sesión</a>
+                <a href="<?php echo RUTA_INCLUDES; ?>/vistas/usuarios/apoyo/logout.php" class="logout-link">Cerrar Sesión</a>
             </div>
         </div>    
     </div>

@@ -44,6 +44,10 @@ abstract class formularioBase
     public function gestiona()
     {
         $datos = &$_POST;
+        // echo "<pre>";
+        // print_r($_FILES); // Esto te dirá qué está llegando realmente
+        // echo "</pre>";
+        // die();
         
         if (strcasecmp('GET', $this->method) == 0) 
         {
@@ -88,7 +92,7 @@ abstract class formularioBase
         $enctypeAtt = $this->enctype != null ? "enctype=\"{$this->enctype}\"" : '';
 
         $htmlForm = <<<EOS
-        <form method="{$this->method}" action="{$this->action}" id="{$this->formId}">
+        <form method="{$this->method}" action="{$this->action}" id="{$this->formId}" {$enctypeAtt}>
                 <input type="hidden" name="formId" value="{$this->formId}" />
                 $htmlCamposFormularios
         </form>
