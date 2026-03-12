@@ -51,29 +51,11 @@ $contenidoPrincipal = <<<EOF
         </div>
     </div>
 </div>
-
-<script>
-    let indexActual = 0;
-    const imagenes = document.querySelectorAll('.img-carrusel');
-
-    function cambiarImagen(n) {
-        if (imagenes.length <= 1) return; // Si solo hay una foto, no hace nada
-
-        imagenes[indexActual].classList.remove('active');
-        
-        indexActual += n;
-        if (indexActual >= imagenes.length) indexActual = 0;
-        if (indexActual < 0) indexActual = imagenes.length - 1;
-        
-        imagenes[indexActual].classList.add('active');
-    }
-
-    function modificarCantidad(n) {
-        let input = document.getElementById('cantidad');
-        let valor = parseInt(input.value) + n;
-        if (valor >= 1) input.value = valor;
-    }
-</script>
 EOF;
+
+$js = [
+    RAIZ_APP . "/js/producto.js",
+    RAIZ_APP . "/js/script.js"
+];
 
 require("../comun/plantilla.php");

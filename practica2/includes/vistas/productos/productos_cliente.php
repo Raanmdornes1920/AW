@@ -62,4 +62,5 @@ $contenidoPrincipal = <<<EOF
 </div>
 EOF;
 
+$js = [RAIZ_APP . "/js/script.js"];
 require("../comun/plantilla.php");
