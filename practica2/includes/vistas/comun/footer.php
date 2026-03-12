@@ -7,7 +7,7 @@
         
         <div class="footer-seccion">
             <h4>Enlaces Rápidos</h4>
-            <ul>
+            <ul class="footer-seccion-contenido">
                 <li><a href="<?= RAIZ_APP ?>/">Inicio</a></li>
                 <!-- <li><a href="<?php //echo RUTA_VISTAS; ?>/contacto.php">Contacto</a></li> -->
                 <li><a href="#">Privacidad</a></li>
@@ -15,8 +15,13 @@
         </div>
 
         <div class="footer-seccion">
-            <!-- <h4>Desarrollado por</h4>
-            <p>Grupo 2 - FDI</p> -->
+            <h4>Desarrollado por</h4>
+            <ul class="footer-seccion-contenido">
+                <li><p>Ángela Meirás Seisdedos</p></li>
+                <li><p>Héctor Manuel Díaz Bernal</p></li>
+                <li><p>Miguel Sevilla</p></li>
+                <li><p>Ramón Andrés Salazar Gutiérrez</p></li>
+            </ul>
         </div>
     </div>
 </footer>

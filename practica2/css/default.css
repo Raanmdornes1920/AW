@@ -939,20 +939,67 @@ table, tr, th, td {
 
 /* Estilos del Footer */
 .pie-pagina {
-    background-color: #333;
+    
+    background-color: #686868;
     color: white;
-    padding: 20px 0;
+    padding: 10px 0;
     margin-top: auto; /* Refuerzo para quedarse abajo */
-    /*max-height: 60px;*/
+    bottom: 0;
 }
 
 .footer-contenido {
     display: flex;
     justify-content: space-around;
     align-items: flex-start;
-    max-width: 1200px;
+    max-width: 100%;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0;
+}
+
+.footer-seccion{
+    max-height: 115px;
+}
+/*
+.footer-seccion-contenido {
+    columns: 2;
+    column-gap: 20px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    align-items: flex-start; /* Alinea los elementos al inicio */
+    /*display: flex; /* Asegura que el contenedor use flexbox */
+    /*flex-wrap: wrap; /* Permite que los elementos se ajusten si es necesario *//*
+}
+
+.footer-seccion-contenido li {
+    margin: 0; /* Elimina márgenes adicionales */
+    /*padding: 0; /* Elimina padding adicional *//*
+}
+*/
+
+.footer-seccion-contenido{
+    columns: 2;
+    column-gap: 20px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    align-items: flex-start;
+}
+
+.footer-seccion-contenido li{
+    display: flex; /* Cambia a flexbox */
+    flex-wrap: wrap; /* Permite que los elementos se ajusten a nuevas filas */
+    gap: 0; /* Espaciado entre elementos */
+    list-style: none; /* Elimina los estilos predeterminados de la lista */
+    padding: 0; /* Elimina el padding interno */
+    margin: 0; /* Elimina el margen externo */
+    break-inside: avoid;
+}
+
+.footer-seccion-contenido li p{
+    margin: 0; /* Elimina márgenes adicionales */
+    padding: 0; /* Elimina padding adicional */
+    line-height: 1.5; /* Ajusta la altura de línea */
 }
 
 .footer-seccion h4 {
@@ -963,6 +1010,12 @@ table, tr, th, td {
 .footer-seccion ul {
     list-style: none;
     padding: 0;
+    margin: 0;
+    break-inside: avoid;
+}
+
+.footer-seccion li {
+    break-inside: avoid; /* Evita que los nombres se dividan entre columnas */
 }
 
 .footer-seccion a {
