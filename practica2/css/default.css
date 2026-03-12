@@ -937,6 +937,7 @@ table, tr, th, td {
     margin-top: 20px;
 }
 
+<<<<<<< HEAD
 /* Estilos del Footer */
 .pie-pagina {
     background-color: #333;
@@ -976,4 +977,56 @@ table, tr, th, td {
 
 .footer-logo {
     height: 40px;
+=======
+/*Para productos*/
+
+/* Aseguramos que TODOS los tipos de input y selects tengan espacio inferior */
+input[type="number"],
+input[type="password"],
+input[type="text"],
+input[type="email"],
+select,
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px; /* Aquí está la separación uniforme */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Contenedor resaltado para el Precio Final */
+.precio-final-destacado {
+    margin: 10px 0 25px 0;
+    padding: 15px;
+    background-color: #eee;
+    border-radius: 5px;
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.precio-final-destacado strong {
+    font-size: 1.2em;
+    color: #333;
+}
+
+/* Ajuste fino para el grupo de checkboxes */
+.grupo-checkbox {
+    margin-bottom: 20px;
+}
+
+.grupo-checkbox label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: normal;
+    margin-bottom: 8px;
+    cursor: pointer;
+}
+
+.grupo-checkbox input {
+    width: auto;
+    margin: 0;
+>>>>>>> 033cb6064a74f7afc3f1186be0006ab9196daf22
 }
