@@ -11,7 +11,7 @@ class Producto {
     private $nombre_categoria; 
     private $imagen;
 
-    public function __construct($id, $id_cat, $nom, $desc, $pb, $iva, $disp, $ofert, $cat_nom = '', $img = ['default.png']) {
+    public function __construct($id, $id_cat, $nom, $desc, $pb, $iva, $disp, $ofert, $cat_nom = '', $img = 'default.png') {
         $this->id = $id;
         $this->id_categoria = $id_cat;
         $this->nombre = $nom;

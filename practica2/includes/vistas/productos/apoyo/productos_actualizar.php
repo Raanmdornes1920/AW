@@ -11,21 +11,21 @@ $producto = $sa->buscarProducto($_GET['id'] ?? 0);
 $catSA = new CategoriaSA($db_connection);
 $categorias = $catSA->obtenerTodas();
 
-if (!$producto) { header("Location: ../admin_productos.php"); exit; }
+if (!$producto) { header("Location: ../productos_gerente.php"); exit; }
 
 $tituloPagina = "Actualizar Producto";
 $css = [RAIZ_APP . "/css/default.css"];
 $header = "../../comun/header.php";
 $claseMain = "contenedor-centro";
 
-// 1. Lógica para las categorías (marcar la seleccionada)
+// 1. Lógica para las categorías
 $optionsCategorias = "";
 foreach($categorias as $cat) {
     $selected = ($cat->getId() == $producto->getIdCategoria()) ? "selected" : "";
     $optionsCategorias .= '<option value="'.$cat->getId().'" '.$selected.'>'.htmlspecialchars($cat->getNombre()).'</option>';
 }
 
-// 2. Lógica para el IVA (marcar el seleccionado)
+// 2. Lógica para el IVA
 $ivaActual = $producto->getIva();
 $sel4 = ($ivaActual == 4) ? "selected" : "";
 $sel10 = ($ivaActual == 10) ? "selected" : "";
@@ -40,7 +40,7 @@ $checkDisp = $producto->getDisponible() ? 'checked' : '';
 $checkOfert = $producto->getOfertado() ? 'checked' : '';
 
 $contenidoPrincipal = <<<EOF
-    <form action="procesar_producto.php" method="POST" enctype="multipart/form-data" class="form-estilizado">
+    <form action="procesar_producto.php" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="accion" value="actualizar">
         <input type="hidden" name="id" value="$idVal">
         <input type="hidden" name="imagen_actual" value="$imgActual">
@@ -52,8 +52,11 @@ $contenidoPrincipal = <<<EOF
             $optionsCategorias
         </select>
 
-        <label>Nombre:</label> <input type="text" name="nombre" value="$nombreVal" required>
-        <label>Descripción:</label> <textarea name="descripcion" rows="4" required>$descVal</textarea>
+        <label>Nombre:</label> 
+        <input type="text" name="nombre" value="$nombreVal" required>
+        
+        <label>Descripción:</label> 
+        <textarea name="descripcion" rows="4" required>$descVal</textarea>
         
         <label>Precio Base (€):</label> 
         <input type="number" step="0.01" name="precio_base" id="p_base" value="$precioVal" oninput="recalcular()" required>
@@ -65,21 +68,25 @@ $contenidoPrincipal = <<<EOF
             <option value="21" $sel21>21%</option>
         </select>
 
-        <p>Precio Final (con IVA): <span id="p_final">0.00 €</span></p>
+        <div class="precio-final-destacado">
+            Precio Final (con IVA): <strong id="p_final">0.00 €</strong>
+        </div>
 
-        <label><input type="checkbox" name="disponible" value="1" $checkDisp> Stock disponible</label><br>
-        <label><input type="checkbox" name="ofertado" value="1" $checkOfert> Ofertado en carta</label><br><br>
+        <div class="grupo-checkbox">
+            <label><input type="checkbox" name="disponible" value="1" $checkDisp> Stock disponible</label>
+            <label><input type="checkbox" name="ofertado" value="1" $checkOfert> Ofertado en carta</label>
+        </div>
 
-        <label>Imagen actual:</label><br>
-        <img src="../../../../img/productos/$imgActual" width="100" style="border-radius: 8px; margin-bottom: 10px;"><br>
-        <label>Cambiar imagen:</label> <input type="file" name="imagen" accept="image/*">
+        <label>Cambiar imagen:</label> 
+        <input type="file" name="imagen" accept="image/*">
         
-        <button type="submit">Actualizar Producto</button>
-        <a href="../admin_productos.php" class="boton-cancelar">Cancelar</a>
+        <div class="acciones">
+            <button type="submit">Actualizar Producto</button>
+            <a href="../productos_gerente.php" class="boton-borrar">Cancelar</a>
+        </div>
     </form>
 EOF;
 
-// Añadimos el JS para que el precio se calcule nada más cargar la página y al cambiar valores
 $contenidoAdicional = <<<EOF
     <script>
         function recalcular() {
@@ -88,7 +95,6 @@ $contenidoAdicional = <<<EOF
             let total = base + (base * (iva / 100));
             document.getElementById('p_final').innerText = total.toFixed(2) + " €";
         }
-        // Ejecutar al cargar para mostrar el precio actual
         window.onload = recalcular;
     </script>
 EOF;

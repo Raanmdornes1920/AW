@@ -45,8 +45,11 @@ $contenidoPrincipal = <<<EOF
         <p>Precio Final: <span id="p_final">0.00 €</span></p>
 
         <label>Imagen:</label> <input type="file" name="imagen" accept="image/*">
-        <button type="submit">Guardar Producto</button>
-        <a href="../admin_productos.php">Cancelar</a>
+
+        <div class="acciones">
+            <button type="submit">Guardar</button>
+            <a href="../productos_gerente.php" class="boton-borrar">Cancelar</a>
+        </div>
     </form>
 EOF;
 
