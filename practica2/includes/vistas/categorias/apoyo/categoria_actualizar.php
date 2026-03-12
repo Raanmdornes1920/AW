@@ -37,9 +37,6 @@ $contenidoPrincipal = <<<EOF
         
         <label>Descripción:</label> 
         <textarea name="descripcion" rows="3" required>$desc</textarea>
-
-        <label>Imagen actual:</label><br>
-        <img src="../../../img/categorias/$imgActual" width="80"><br>
         
         <label>Cambiar imagen:</label> 
         <input type="file" name="imagen" accept="image/*">

@@ -18,7 +18,7 @@ function clase_activa($nombre_archivo, $pagina_actual) {
         
         <?php if($_SESSION['usuario']->rol() === 'gerente') {
             echo '<a class="'.clase_activa('categorias_lista.php', $pagina_actual).'" href="'.RUTA_VISTAS.'/categorias/categorias_gerente.php">Categorias</a>';
-            echo '<a class="'.clase_activa('admin_productos.php', $pagina_actual).'" href="'.RUTA_VISTAS.'/productos/admin_productos.php">Productos</a>';
+            echo '<a class="'.clase_activa('productos_gerente.php', $pagina_actual).'" href="'.RUTA_VISTAS.'/productos/productos_gerente.php">Productos</a>';
         }
         else if($_SESSION['usuario']->rol() === 'cocinero') {
             echo '<a class="'.clase_activa('pedidos_cocinero.php', $pagina_actual).'" href="'.RAIZ_APP.'/">Pedidos</a>';

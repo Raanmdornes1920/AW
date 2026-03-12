@@ -26,13 +26,14 @@ class ProductoSA {
     public function obtenerCategoriasActivas() {
         $catDAO = new CategoriaDAO($this->db);
         $todas = $catDAO->listarTodas();
-        // Filtramos solo las que están marcadas como activas
         return array_filter($todas, function($c) { return $c->getActiva() == 1; });
     }
 
     public function guardarProducto($datos) {
-        $disponible = isset($datos['disponible']) ? 1 : 0;
-        $ofertado = isset($datos['ofertado']) ? 1 : (isset($datos['id']) ? 0 : 1); 
+        $esNuevo = !isset($datos['id']) || empty($datos['id']);
+    
+        $disponible = $esNuevo ? 1 : (isset($datos['disponible']) ? 1 : 0);
+        $ofertado = $esNuevo ? 1 : (isset($datos['ofertado']) ? 1 : 0); 
         
         $imagen = $datos['imagen'] ?? 'default.png';
         
