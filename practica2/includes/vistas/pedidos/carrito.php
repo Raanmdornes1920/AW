@@ -67,14 +67,28 @@ if (empty($carrito)) {
                     </div>";
     
     // Formulario de confirmación, tipo de pedido y pago
-    $htmlLineas .= <<<EOF
+    $checkLocal = "";
+    $checkLlevar = "";
+    
+    if(isset($_GET['tipo'])){
+        if($_GET['tipo']==='llevar'){
+            $checkLlevar = "checked";
+        } else {
+            $checkLocal = "checked";
+        }
+    }
+    else{
+        $checkLocal = "checked";
+    }
+    
+        $htmlLineas .= <<<EOF
     <form action="apoyo/procesar_carrito.php" method="POST" class="form-estilizado" style="margin-top: 40px;">
         <input type="hidden" name="accion" value="confirmar">
         
         <h2>Detalles del Pedido</h2>
         <div class="grupo-checkbox" style="margin-bottom: 20px;">
-            <label><input type="radio" name="tipo_pedido" value="local" checked> Para consumir en el local</label>
-            <label><input type="radio" name="tipo_pedido" value="llevar"> Para llevar</label>
+            <label><input type="radio" name="tipo_pedido" value="local" $checkLocal> Para consumir en el local</label>
+            <label><input type="radio" name="tipo_pedido" value="llevar" $checkLlevar> Para llevar</label>
         </div>
         
         <h2>Pago Seguro (Simulado)</h2>

@@ -31,7 +31,7 @@ function clase_activa($nombre_archivo, $pagina_actual) {
         }
         else if($_SESSION['usuario']->rol() === 'cliente') {
             // Añadido enlace a la carta para que puedan comprar y la ruta correcta a mis pedidos
-            echo '<a class="'.clase_activa('productos_cliente.php', $pagina_actual).'" href="'.RUTA_VISTAS.'/productos/productos_cliente.php">Nuestra Carta</a>';
+            echo '<a class="'.clase_activa('productos_cliente.php', $pagina_actual).'" href="'.RUTA_VISTAS.'/productos/productos_cliente.php' . (isset($_GET['tipo'])?"?tipo=".$_GET['tipo']:"") . '">Nuestra Carta</a>';
             echo '<a class="'.clase_activa('mis_pedidos.php', $pagina_actual).'" href="'.RUTA_VISTAS.'/pedidos/mis_pedidos.php">Mis Pedidos</a>';
         }
         ?>
@@ -49,7 +49,7 @@ function clase_activa($nombre_archivo, $pagina_actual) {
                 <a href="<?php echo RUTA_VISTAS; ?>/usuarios/editar_perfil.php">Mi Perfil</a>
                 
                 <?php if($_SESSION['usuario']->rol() === 'cliente'): ?>
-                    <a href="<?php echo RUTA_VISTAS; ?>/pedidos/carrito.php">🛒 Mi Carrito</a>
+                    <a href="<?php echo RUTA_VISTAS; ?>/pedidos/carrito.php<?= (isset($_GET['tipo'])?"?tipo=" . $_GET['tipo']:"");?>">🛒 Mi Carrito</a>
                 <?php endif; ?>
                 <?php if($_SESSION['usuario']->rol() === 'gerente'): ?>
                     <a href="<?php echo RUTA_VISTAS; ?>/usuarios/ajustes_admin.php">Administrar Perfiles</a>

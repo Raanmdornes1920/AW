@@ -21,22 +21,23 @@ foreach ($categorias as $cat) {
     $nombre = htmlspecialchars($cat->getNombre());
     $id = $cat->getId();
     $imagen = RAIZ_APP . "/img/categorias/" . ($cat->getImagen() ?: 'default.png');
+    $tipo = (isset($_GET['tipo'])?"&tipo=".$_GET['tipo']:"");
     
     $htmlCategorias .= <<<EOF
-        <a href="../productos/productos_cliente.php?id_categoria=$id" class="tarjeta-item">
+        <a href="../productos/productos_cliente.php?id_categoria=$id$tipo" class="tarjeta-item">
             <img src="$imagen" alt="$nombre">
             <h4>$nombre</h4>
         </a>
 EOF;
 }
-
+$tipo = (isset($_GET['tipo'])?"?tipo=".$_GET['tipo']:"");
 $contenidoPrincipal = <<<EOF
 <div class="contenedor-pedido">
     <aside class="menu-lateral">
         <h3>Menú</h3>
         <ul>
-            <li><a href="categorias_cliente.php">Categorías</a></li>
-            <li><a href="../productos/productos_cliente.php">Todos los productos</a></li>
+            <li><a href="categorias_cliente.php$tipo">Categorías</a></li>
+            <li><a href="../productos/productos_cliente.php$tipo">Todos los productos</a></li>
         </ul>
     </aside>
 

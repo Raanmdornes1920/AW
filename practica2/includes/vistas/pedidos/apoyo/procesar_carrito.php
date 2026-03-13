@@ -17,6 +17,15 @@ if (!isset($_SESSION['carrito'])) {
     $_SESSION['carrito'] = [];
 }
 
+$variables = "";
+if(isset($_GET['id_categoria']) && isset($_GET['tipo'])){
+    $variables = "?id_categoria=" . $_GET['id_categoria'] . "&tipo=" . $_GET['tipo'];
+} elseif (isset($_GET['id_categoria'])){
+    $variables = "?id_categoria=" . $_GET['id_categoria'];
+}elseif (isset($_GET['tipo'])){
+    $variables = "?tipo=" . $_GET['tipo'];
+}
+
 switch ($accion) {
     case 'add':
         if ($id_producto) {
@@ -27,7 +36,7 @@ switch ($accion) {
             }
         }
         // Redirigimos de vuelta a los productos para que siga comprando
-        header("Location: ../../productos/productos_cliente.php");
+        header("Location: ../../productos/productos_cliente.php" . $variables);
         break;
 
     case 'update':
@@ -52,7 +61,7 @@ switch ($accion) {
         break;
 
     case 'confirmar':
-        $tipo = $_POST['tipo_pedido'] ?? 'local';
+        $tipo = $_POST['tipo_pedido'] ?? $_GET['tipo'] ?? 'local';
         $id_usuario = $_SESSION['usuario']->id(); // Asegúrate de que este método exista en tu clase Usuario
         
         $pedidoSA = new PedidoSA($db_connection);
