@@ -31,8 +31,6 @@ $contenidoPrincipal = <<<EOF
         <h2>Confirmar eliminación</h2>
         
         $htmlError
-
-        <p>¿Estás seguro de que deseas eliminar permanentemente la categoría <strong>$nombre</strong>?</p>
         
         <div class="botones-confirmacion">
             <form action="procesar_categoria.php" method="POST" style="background:none; box-shadow:none; padding:0; width:auto; display:inline;">
