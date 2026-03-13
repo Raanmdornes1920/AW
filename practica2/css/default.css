@@ -1195,6 +1195,7 @@ table, tr, th, td {
 .controles-pedido {
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 15px;
 }
 
@@ -1261,4 +1262,41 @@ table, tr, th, td {
 .form-boton-pedido-prod button{
     max-width: 80%;
 }
+
+.form-pedido-producto-detalle{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+    max-width: 100%;
+    background: transparent;
+    box-shadow: none;
+}
+
+#btn-carrito-detalle-producto {
+    background-color: #82a9ff;
+    border-radius: 20px;
+    height: 50px;
+    width: 40%; 
+    color: #333;               
+    padding: 10px;
+    font-weight: bold; 
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    margin-bottom: auto;
+    margin-top: auto;
+    transition: 0.3s;
+    width: 100%;
+    padding: 12px;
+    font-weight: bold;
+}
+
+#btn-carrito-detalle-producto:hover{
+    background-color: #9dbcff;
+    cursor: pointer;
+}
+
 /*--------------------------------------------------------------------------------*/

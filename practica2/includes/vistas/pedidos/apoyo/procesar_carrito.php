@@ -18,12 +18,8 @@ if (!isset($_SESSION['carrito'])) {
 }
 
 $variables = "";
-if(isset($_GET['id_categoria']) && isset($_GET['tipo'])){
-    $variables = "?id_categoria=" . $_GET['id_categoria'] . "&tipo=" . $_GET['tipo'];
-} elseif (isset($_GET['id_categoria'])){
-    $variables = "?id_categoria=" . $_GET['id_categoria'];
-}elseif (isset($_GET['tipo'])){
-    $variables = "?tipo=" . $_GET['tipo'];
+if(isset($_GET['id_producto']) || isset($_GET['id_categoria']) || isset($_GET['tipo'])){
+    $variables = "?" . (isset($_GET['id_producto'])?"id=".$_GET['id_producto']:"") . (isset($_GET['id_categoria'])?"&id_categoria=" . $_GET['id_categoria']:"") . (isset($_GET['tipo'])?"&tipo=" . $_GET['tipo']:"");
 }
 
 switch ($accion) {
@@ -37,7 +33,8 @@ switch ($accion) {
         }
         // Redirigimos de vuelta a los productos para que siga comprando
         if (isset($_SERVER['HTTP_REFERER'])) {
-            header("Location: " . $_SERVER['HTTP_REFERER']);
+            $url_limpia = parse_url($_SERVER['HTTP_REFERER'], PHP_URL_PATH) . $variables;
+            header("Location: " . $url_limpia);
         } else {
             header("Location: ../../productos/productos_cliente.php" . $variables);
         }

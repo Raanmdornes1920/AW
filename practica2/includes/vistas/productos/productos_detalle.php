@@ -26,6 +26,8 @@ foreach ($imagenes as $key => $img) {
     $htmlImagenes .= "<img src='$ruta' class='img-carrusel $active' data-index='$key'>";
 }
 
+$variables ="?id_producto=" . $id . "&accion=add" . (isset($_GET['tipo'])?"&tipo=".$_GET['tipo']:"");
+
 $contenidoPrincipal = <<<EOF
 <div class="detalle-producto-centrado">
     <div class="carrusel-contenedor">
@@ -35,7 +37,7 @@ $contenidoPrincipal = <<<EOF
             <button class="btn-carrusel next" onclick="cambiarImagen(1)">&#10095;</button>
         </div>
     </div>
-    
+    <form class="form-pedido-producto-detalle" action="../pedidos/apoyo/procesar_carrito.php$variables" method="POST">
     <div class="info-detalle">
         <h1>{$producto->getNombre()}</h1>
         <p class="descripcion">{$producto->getDescripcion()}</p>
@@ -44,12 +46,13 @@ $contenidoPrincipal = <<<EOF
         <div class="controles-pedido">
             <div class="selector-cantidad">
                 <button type="button" onclick="modificarCantidad(-1)">-</button>
-                <input type="number" id="cantidad" value="1" min="1" readonly>
+                <input type="number" id="cantidad" name="cantidad" value="1" min="1" readonly>
                 <button type="button" onclick="modificarCantidad(1)">+</button>
             </div>
-            <button class="boton-iniciar-pedido btn-carrito">Añadir al carrito</button>
+            <button type="submit" id="btn-carrito-detalle-producto">Añadir al carrito</button>
         </div>
     </div>
+    </form>
 </div>
 EOF;
 
