@@ -30,7 +30,7 @@ class FormularioLogin extends formularioBase {
         {$erroresCampos['campos_vacios']}
         <label>Usuario:</label>
         <br>
-        <input type="text" name="usuario" required>
+        <input type="text" name="usuario" value="$usuario" required>
         {$erroresCampos['usuario']}
         <br>
 
