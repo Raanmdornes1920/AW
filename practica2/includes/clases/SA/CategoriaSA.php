@@ -20,7 +20,6 @@ class CategoriaSA {
     public function borrarCategoria($id) {
         if (!$id) return "ID de categoría no válido.";
 
-        // 1. Verificación de seguridad: ¿Hay productos usando esta categoría?
         $id_esc = mysqli_real_escape_string($this->db, $id);
         $query = "SELECT COUNT(*) as total FROM productos WHERE id_categoria = '$id_esc'";
         $res = mysqli_query($this->db, $query);
@@ -30,7 +29,6 @@ class CategoriaSA {
             return "No se puede eliminar: Esta categoría tiene {$data['total']} productos asociados. Debes moverlos o eliminarlos antes de borrar la categoría.";
         }
 
-        // 2. Si está vacía, procedemos al DAO
         $exito = $this->dao->borrar($id);
         return $exito ? true : "Error interno al intentar eliminar la categoría.";
     }

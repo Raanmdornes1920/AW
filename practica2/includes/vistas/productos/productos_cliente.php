@@ -31,7 +31,7 @@ if (empty($productos)) {
         $nombre = htmlspecialchars($p->getNombre());
         $precio = number_format($p->getPrecioFinal(), 2);
         $imagen = RAIZ_APP . "/img/productos/" . $p->getImagen();
-        $idProd = $p->getId(); // Definimos el ID para usarlo abajo
+        $idProd = $p->getId();
 
         $htmlProductos .= <<<EOF
         <div class="tarjeta-item">

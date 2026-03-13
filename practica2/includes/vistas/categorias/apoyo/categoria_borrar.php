@@ -19,13 +19,11 @@ $css = [RAIZ_APP . "/css/default.css"];
 $header = "../../comun/header.php";
 $claseMain = "contenedor-centro";
 
-// PREPARACIÓN DE VARIABLES PARA EL HEREDOC
 $htmlError = "";
 if ($errorMsg) {
     $htmlError = "<div class='aviso-peligro'><strong>Aviso:</strong> " . htmlspecialchars($errorMsg) . "</div>";
 }
 
-// Generamos el botón solo si no hay error de productos asociados
 $botonBorrar = !$errorMsg ? '<button type="submit" class="boton-peligro">Sí, eliminar definitivamente</button>' : '';
 
 $contenidoPrincipal = <<<EOF

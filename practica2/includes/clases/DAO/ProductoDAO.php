@@ -73,7 +73,7 @@ class ProductoDAO {
             $id_producto = mysqli_insert_id($this->db);
         }
     
-        // Si hay imágenes nuevas, se AÑADEN a la tabla
+        // Si hay imágenes nuevas, se añaden a la tabla
         if ($result && !empty($p->getImagenesArray())) {
             foreach ($p->getImagenesArray() as $orden => $ruta) {
                 $orden += 1;
