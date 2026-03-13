@@ -8,7 +8,6 @@ function clase_activa($nombre_archivo, $pagina_actual) {
     return ($nombre_archivo == $pagina_actual) ? 'enlace_seleccionado' : 'enlaces';
 }
 ?>
-<!-- LO COMENTADO ES PARA DEBUGEAR -->
 <header class="navegacion" ><?php //style="display: none;">?> 
     <div class="header-izquierdo"></div>
 
@@ -17,17 +16,23 @@ function clase_activa($nombre_archivo, $pagina_actual) {
         <?php echo '<a class="'.clase_activa('index.php', $pagina_actual).'" href="'.RAIZ_APP.'/">Inicio</a>'; ?>
         
         <?php if($_SESSION['usuario']->rol() === 'gerente') {
-            echo '<a class="'.clase_activa('categorias_lista.php', $pagina_actual).'" href="'.RUTA_VISTAS.'/categorias/categorias_gerente.php">Categorias</a>';
+            echo '<a class="'.clase_activa('categorias_gerente.php', $pagina_actual).'" href="'.RUTA_VISTAS.'/categorias/categorias_gerente.php">Categorias</a>';
             echo '<a class="'.clase_activa('productos_gerente.php', $pagina_actual).'" href="'.RUTA_VISTAS.'/productos/productos_gerente.php">Productos</a>';
+            // Añadido el enlace para que el gerente supervise todo
+            echo '<a class="'.clase_activa('pedidos_gerente.php', $pagina_actual).'" href="'.RUTA_VISTAS.'/pedidos/pedidos_gerente.php">Supervisar Pedidos</a>';
         }
         else if($_SESSION['usuario']->rol() === 'cocinero') {
-            echo '<a class="'.clase_activa('pedidos_cocinero.php', $pagina_actual).'" href="'.RAIZ_APP.'/">Pedidos</a>';
+            // Actualizada la ruta a la carpeta pedidos
+            echo '<a class="'.clase_activa('pedidos_cocinero.php', $pagina_actual).'" href="'.RUTA_VISTAS.'/pedidos/pedidos_cocinero.php">Comandas (Cocina)</a>';
         }
         else if($_SESSION['usuario']->rol() === 'camarero') {
-            echo '<a class="'.clase_activa('pedidos_camarero.php', $pagina_actual).'" href="'.RAIZ_APP.'/">Pedidos</a>';
+            // Actualizada la ruta a la carpeta pedidos
+            echo '<a class="'.clase_activa('pedidos_camarero.php', $pagina_actual).'" href="'.RUTA_VISTAS.'/pedidos/pedidos_camarero.php">Atender Pedidos</a>';
         }
         else if($_SESSION['usuario']->rol() === 'cliente') {
-            echo '<a class="'.clase_activa('pedidos_cliente.php', $pagina_actual).'" href="'.RAIZ_APP.'/">Mis Pedidos</a>';
+            // Añadido enlace a la carta para que puedan comprar y la ruta correcta a mis pedidos
+            echo '<a class="'.clase_activa('productos_cliente.php', $pagina_actual).'" href="'.RUTA_VISTAS.'/productos/productos_cliente.php">Nuestra Carta</a>';
+            echo '<a class="'.clase_activa('mis_pedidos.php', $pagina_actual).'" href="'.RUTA_VISTAS.'/pedidos/mis_pedidos.php">Mis Pedidos</a>';
         }
         ?>
 
@@ -42,16 +47,13 @@ function clase_activa($nombre_archivo, $pagina_actual) {
                 <p class="usuario-nombre"><?php echo $_SESSION['usuario']->nombre(); ?></p>
                 <hr>
                 <a href="<?php echo RUTA_VISTAS; ?>/usuarios/editar_perfil.php">Mi Perfil</a>
-                <!-- Rol Cliente -->
+                
                 <?php if($_SESSION['usuario']->rol() === 'cliente'): ?>
-                    <a href="<?php echo RUTA_VISTAS; ?>/carrito.php">Carrito</a>
+                    <a href="<?php echo RUTA_VISTAS; ?>/pedidos/carrito.php">🛒 Mi Carrito</a>
                 <?php endif; ?>
-                <!-- Rol Cliente -->
-                 <!-- Rol Gerente -->
                 <?php if($_SESSION['usuario']->rol() === 'gerente'): ?>
                     <a href="<?php echo RUTA_VISTAS; ?>/usuarios/ajustes_admin.php">Administrar Perfiles</a>
                 <?php endif; ?>
-                <!-- Rol Gerente -->
                 <a href="<?php echo RUTA_INCLUDES; ?>/vistas/usuarios/apoyo/logout.php" class="logout-link">Cerrar Sesión</a>
             </div>
         </div>    
