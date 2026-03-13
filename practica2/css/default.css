@@ -1242,6 +1242,6 @@ table, tr, th, td {
     justify-content: center;
     align-items: center;
     border-radius: 20px;
-    border: 2px solid #000;
+    /*border: 2px solid #000;*/
 }
 /*--------------------------------------------------------------------------------*/

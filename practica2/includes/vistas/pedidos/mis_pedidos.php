@@ -13,7 +13,7 @@ $tituloPagina = "Mis Pedidos";
 $css = [RAIZ_APP . "/css/default.css"];
 $header = "../comun/header.php";
 $claseMain = "contenedor-centro";
-$js = [(RAIZ_APP . "/js/pedidos.js")];
+$js = [(RAIZ_APP . "/js/pedidos.js"), (RAIZ_APP . "/js/script.js")];
 
 $htmlTabla = "";
 

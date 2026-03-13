@@ -6,7 +6,7 @@ session_start();
 
 $tituloPagina = "Bistro FDI";
 $css = [(RUTA_CSS . "/default.css")];
-$js = [(RAIZ_APP . "/js/script.js")];
+$js = [(RAIZ_APP . "/js/script.js"),(RAIZ_APP . "/js/pedidos.js")];
 $claseMain = "contenedor-centro";
 
 ob_start(); // Capturamos el contenido del include
