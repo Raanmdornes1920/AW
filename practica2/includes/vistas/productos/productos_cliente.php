@@ -42,7 +42,7 @@ if (empty($productos)) {
                 <h4>$nombre</h4>
             </a>
             <p class="precio">$precio €</p>
-            <form action="../pedidos/apoyo/procesar_carrito.php$_tipo" method="POST">
+            <form action="../pedidos/apoyo/procesar_carrito.php$_tipo" method="POST" class="form-boton-pedido-prod">
                 <input type="hidden" name="accion" value="add">
                 <input type="hidden" name="id_producto" value="$idProd">
                 <input type="hidden" name="cantidad" value="1">

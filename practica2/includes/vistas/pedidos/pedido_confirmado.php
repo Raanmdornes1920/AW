@@ -3,7 +3,7 @@ require_once '../../config.php';
 session_start();
 
 if (!isset($_SESSION['login']) || $_SESSION['usuario']->rol() !== 'cliente') {
-    header("Location: " . RAIZ_APP . "/index.php"); exit;
+    header("Location: " . RAIZ_APP . "/"); exit;
 }
 
 $id_pedido = $_GET['id'] ?? null;

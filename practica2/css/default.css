@@ -1244,4 +1244,21 @@ table, tr, th, td {
     border-radius: 20px;
     /*border: 2px solid #000;*/
 }
+
+.form-boton-pedido-prod{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin-top: 60px;
+    margin-bottom: 30px;
+    width: 100%;
+    max-width: 100%;
+    background: transparent;
+    box-shadow: none;
+}
+
+.form-boton-pedido-prod button{
+    max-width: 80%;
+}
 /*--------------------------------------------------------------------------------*/

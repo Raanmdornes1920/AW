@@ -36,8 +36,13 @@ switch ($accion) {
             }
         }
         // Redirigimos de vuelta a los productos para que siga comprando
-        header("Location: ../../productos/productos_cliente.php" . $variables);
+        if (isset($_SERVER['HTTP_REFERER'])) {
+            header("Location: " . $_SERVER['HTTP_REFERER']);
+        } else {
+            header("Location: ../../productos/productos_cliente.php" . $variables);
+        }
         break;
+        
 
     case 'update':
         if ($id_producto && $cantidad > 0) {
