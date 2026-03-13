@@ -49,7 +49,7 @@ $contenidoPrincipal = <<<EOF
     <form action="procesar_producto.php" method="POST" enctype="multipart/form-data" class="form-estilizado">
         <input type="hidden" name="accion" value="actualizar">
         <input type="hidden" name="id" value="$idVal">
-        
+
         <h2>Editar: $nombreVal</h2>
         
         <label>Categoría:</label>
@@ -92,18 +92,9 @@ $contenidoPrincipal = <<<EOF
     </form>
 EOF;
 
-$contenidoAdicional = <<<EOF
-    <script>
-        function recalcular() {
-            let base = parseFloat(document.getElementById('p_base').value) || 0;
-            let iva = parseInt(document.getElementById('p_iva').value) || 0;
-            let total = base + (base * (iva / 100));
-            document.getElementById('p_final').innerText = total.toFixed(2) + " €";
-        }
-        window.onload = recalcular;
-    </script>
-EOF;
-
-$js = [RAIZ_APP . "/js/script.js"];
+$js = [
+    RAIZ_APP . "/js/producto.js",
+    RAIZ_APP . "/js/script.js"
+];
 
 require("../../comun/plantilla.php");

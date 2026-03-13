@@ -65,19 +65,9 @@ $contenidoPrincipal = <<<EOF
     </form>
 EOF;
 
-$js = [RAIZ_APP . "/js/script.js"];
-
-$contenidoAdicional = <<<EOF
-<script>
-    function recalcular() {
-        let base = parseFloat(document.getElementById('p_base').value) || 0;
-        let iva = parseInt(document.getElementById('p_iva').value) || 0;
-        let total = base + (base * (iva / 100));
-        document.getElementById('p_final').innerText = total.toFixed(2) + " €";
-    }
-    // Inicializar por si el navegador recuerda valores
-    window.onload = recalcular;
-</script>
-EOF;
+$js = [
+    RAIZ_APP . "/js/producto.js",
+    RAIZ_APP . "/js/script.js"
+];
 
 require("../../comun/plantilla.php");
