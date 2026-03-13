@@ -1,6 +1,16 @@
 
 Funcionalidad 0: Gestion de usuarios (Completada)
-//TODO
+    Modelo de Datos:
+        Implementación de la tabla usuarios cumpliendo con la unicidad de nombre_usuario y email. Almacenamiento seguro de contraseñas mediante el algoritmo Bcrypt (password_hash).
+    Sistema de Roles Jerárquico:
+        Definición de roles:
+            Cliente < Camarero < Cocinero < Gerente.
+        Gestión de Perfil y Avatares:
+            Sistema de avatares triple: 1. Galería de imágenes predefinidas, 2. Subida de imágenes personalizadas y 3. Imagen por defecto.
+        Vistas y Controladores (CRUD):
+            Acceso público: Registro de clientes y Login de usuarios.
+            Acceso privado (Perfil): Actualización de datos propios.
+            Acceso administrativo (Gerente): Panel de administración para listar, visualizar, crear, editar y borrar cualquier usuario del sistema.
 
 
 Funcionalidad 1: Gestion de Productos (Completada)
