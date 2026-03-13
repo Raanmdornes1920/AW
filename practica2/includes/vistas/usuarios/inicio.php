@@ -16,10 +16,25 @@
         echo '</div>';
     } elseif($_SESSION['usuario']->rol() ==='camarero') {
         // Mostrar resumen de camarero
+        echo '<div class="recuadro-temporal-resumen-pedidos">';
+                echo '<h2>';
+                    echo 'MOSTRAR TABLA DE PEDIDOS CAMARERO';
+                echo '</h2>';
+        echo '</div>';
     } elseif($_SESSION['usuario']->rol() ==='cocinero') {
         // Mostrar resumen de cocinero
+        echo '<div class="recuadro-temporal-resumen-pedidos">';
+                echo '<h2>';
+                    echo 'MOSTRAR TABLA DE PEDIDOS COCINERO';
+                echo '</h2>';
+        echo '</div>';
     } elseif($_SESSION['usuario']->rol() ==='gerente') {
         // Mostrar resumen de gerente
+        echo '<div class="recuadro-temporal-resumen-pedidos">';
+                echo '<h2>';
+                    echo 'MOSTRAR TABLA DE ESTADO PEDIDOS GERENTE';
+                echo '</h2>';
+        echo '</div>';
     } else {
         // Mostrar Error Rol no deifinido
     }
