@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 13-03-2026 a las 00:53:14
--- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.2.4
+-- Tiempo de generación: 13-03-2026 a las 14:43:59
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -89,13 +89,13 @@ CREATE TABLE `productos_imagenes` (
 --
 
 INSERT INTO `productos_imagenes` (`id`, `id_producto`, `ruta_imagen`, `orden`) VALUES
-(45, 5, 'prod_69b341743d18d_0.avif', 0),
-(46, 9, 'prod_69b3417d031f5_0.jpg', 0),
-(47, 9, 'prod_69b3417d0373e_1.jpeg', 0),
-(48, 9, 'prod_69b3417d03815_2.jpg', 0),
-(49, 10, 'prod_69b349ada55c7_0.webp', 0),
-(50, 10, 'prod_69b349ada5799_1.jpg', 0),
-(51, 10, 'prod_69b349ada5848_2.jpg', 0);
+(45, 5, 'prod_69b341743d18d_0.avif', 1),
+(46, 9, 'prod_69b3417d031f5_0.jpg', 1),
+(47, 9, 'prod_69b3417d0373e_1.jpeg', 2),
+(48, 9, 'prod_69b3417d03815_2.jpg', 3),
+(49, 10, 'prod_69b349ada55c7_0.webp', 1),
+(50, 10, 'prod_69b349ada5799_1.jpg', 2),
+(51, 10, 'prod_69b349ada5848_2.jpg', 3);
 
 -- --------------------------------------------------------
 

@@ -1,7 +1,10 @@
 <?php
 require_once '../../../config.php';
 session_start();
-
+echo "<pre>";
+print_r($_FILES);
+print_r($_POST);
+echo "</pre>";
 if (!isset($_SESSION['login']) || $_SESSION['usuario']->rol() !== 'gerente') {
     exit("No autorizado");
 }

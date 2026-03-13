@@ -36,7 +36,7 @@ class ProductoDAO {
         
         if ($row = mysqli_fetch_assoc($res)) {
             // Buscamos todas las imágenes de este producto
-            $imgSql = "SELECT ruta_imagen FROM productos_imagenes WHERE id_producto = ?";
+            $imgSql = "SELECT ruta_imagen FROM productos_imagenes WHERE id_producto = ? ORDER BY orden";
             $imgStmt = mysqli_prepare($this->db, $imgSql);
             mysqli_stmt_bind_param($imgStmt, "i", $id);
             mysqli_stmt_execute($imgStmt);
@@ -75,11 +75,12 @@ class ProductoDAO {
     
         // Si hay imágenes nuevas, se AÑADEN a la tabla
         if ($result && !empty($p->getImagenesArray())) {
-            foreach ($p->getImagenesArray() as $ruta) {
+            foreach ($p->getImagenesArray() as $orden => $ruta) {
+                $orden += 1;
                 if($ruta !== 'default.png') {
-                    $imgSql = "INSERT INTO productos_imagenes (id_producto, ruta_imagen) VALUES (?, ?)";
+                    $imgSql = "INSERT INTO productos_imagenes (id_producto, ruta_imagen, orden) VALUES (?, ?, ?)";
                     $imgStmt = mysqli_prepare($this->db, $imgSql);
-                    mysqli_stmt_bind_param($imgStmt, "is", $id_producto, $ruta);
+                    mysqli_stmt_bind_param($imgStmt, "isi", $id_producto, $ruta, $orden);
                     mysqli_stmt_execute($imgStmt);
                 }
             }
