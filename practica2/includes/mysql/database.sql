@@ -206,3 +206,30 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+vamos 
+-- Tabla principal del pedido
+CREATE TABLE `pedidos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `numero_pedido` int(11) NOT NULL, -- El número que se resetea a 1 cada día
+  `id_usuario` int(11) NOT NULL,
+  `fecha` datetime DEFAULT CURRENT_TIMESTAMP,
+  `estado` enum('recibido','en_preparacion','cocinando','listo_cocina','terminado','entregado','cancelado') DEFAULT 'recibido',
+  `tipo` enum('local','llevar') NOT NULL,
+  `total` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_pedido_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tabla para los productos dentro de cada pedido (Líneas de pedido)
+CREATE TABLE `lineas_pedido` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_pedido` int(11) NOT NULL,
+  `id_producto` int(11) NOT NULL,
+  `cantidad` int(11) NOT NULL,
+  `precio_unitario` decimal(10,2) NOT NULL,
+  `preparado` tinyint(1) DEFAULT 0, -- ¡Aquí está la nueva columna!
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_linea_pedido` FOREIGN KEY (`id_pedido`) REFERENCES `pedidos` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_linea_producto` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

@@ -19,13 +19,11 @@ $css = [RAIZ_APP . "/css/default.css"];
 $header = "../../comun/header.php";
 $claseMain = "contenedor-centro";
 
-// PREPARACIÓN DE VARIABLES PARA EL HEREDOC
 $htmlError = "";
 if ($errorMsg) {
     $htmlError = "<div class='aviso-peligro'><strong>Aviso:</strong> " . htmlspecialchars($errorMsg) . "</div>";
 }
 
-// Generamos el botón solo si no hay error de productos asociados
 $botonBorrar = !$errorMsg ? '<button type="submit" class="boton-peligro">Sí, eliminar definitivamente</button>' : '';
 
 $contenidoPrincipal = <<<EOF
@@ -33,8 +31,6 @@ $contenidoPrincipal = <<<EOF
         <h2>Confirmar eliminación</h2>
         
         $htmlError
-
-        <p>¿Estás seguro de que deseas eliminar permanentemente la categoría <strong>$nombre</strong>?</p>
         
         <div class="botones-confirmacion">
             <form action="procesar_categoria.php" method="POST" style="background:none; box-shadow:none; padding:0; width:auto; display:inline;">

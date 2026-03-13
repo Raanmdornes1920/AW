@@ -30,7 +30,7 @@ class ProductoSA {
     }
 
     public function buscarPorCategoria($id_cat) {
-        $todos = $this->dao->listarTodos(); // O un método específico en el DAO para ser más eficiente
+        $todos = $this->dao->listarTodos();
         return array_filter($todos, function($p) use ($id_cat) {
             return $p->getIdCategoria() == $id_cat && $p->getOfertado() == 1;
         });

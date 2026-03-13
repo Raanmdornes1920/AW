@@ -15,9 +15,6 @@ $accion = $_REQUEST['accion'] ?? '';
 if ($accion === 'crear' || $accion === 'actualizar') {
     $datos = $_POST;
     
-    // IMPORTANTE: Asegurarnos de que el ID llegue desde el formulario
-    // Si es 'actualizar', el $_POST['id'] debe estar presente.
-    
     $imagenesSubidas = [];
     if (isset($_FILES['imagenes']) && !empty($_FILES['imagenes']['name'][0])) {
         foreach ($_FILES['imagenes']['tmp_name'] as $key => $tmp_name) {
@@ -35,7 +32,6 @@ if ($accion === 'crear' || $accion === 'actualizar') {
     
     $datos['imagenes'] = $imagenesSubidas; 
     
-    // Llamamos a guardar. Si $datos['id'] existe, el SA y DAO deben actualizar.
     $sa->guardarProducto($datos);
 
 } elseif ($accion === 'borrar') {

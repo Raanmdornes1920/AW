@@ -32,9 +32,10 @@ if ($accion === 'crear' || $accion === 'actualizar') {
     
     if ($resultado === true) {
         header("Location: ../categorias_gerente.php?msg=borrado_ok");
+        exit;
     } else {
-        // die("El SA dice: " . $resultado);
         header("Location: categoria_borrar.php?id=$id&error=" . urlencode($resultado));
+        exit;
     }
 }
 

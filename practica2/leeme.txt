@@ -1,0 +1,16 @@
+
+Funcionalidad 0: Gestion de usuarios (Completada)
+//TODO
+
+
+Funcionalidad 1: Gestion de Productos (Completada)
+    Categorias: completada
+        Vista cliente: visualizacion del catalogo de categorias
+        Vista gerente: tabla de administracion de las categorias (listar, crear, editar y borrar)
+    Productos: completado
+        Vista cliente: listado de productos por categorías y vista de detalle de producto.
+        Vista gerente: tabla de gestion de los productos (listar, crear, editar y borrar)
+
+
+Funcionalidad 2: Gestion de pedidos
+//TODO

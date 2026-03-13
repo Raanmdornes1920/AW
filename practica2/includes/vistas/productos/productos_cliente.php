@@ -31,7 +31,7 @@ if (empty($productos)) {
         $nombre = htmlspecialchars($p->getNombre());
         $precio = number_format($p->getPrecioFinal(), 2);
         $imagen = RAIZ_APP . "/img/productos/" . $p->getImagen();
-        $idProd = $p->getId(); // Definimos el ID para usarlo abajo
+        $idProd = $p->getId();
 
         $htmlProductos .= <<<EOF
         <div class="tarjeta-item">
@@ -40,7 +40,12 @@ if (empty($productos)) {
                 <h4>$nombre</h4>
             </a>
             <p class="precio">$precio €</p>
-            <button class="boton-iniciar-pedido" style="margin-bottom: 15px;">Añadir</button>
+            <form action="../pedidos/apoyo/procesar_carrito.php" method="POST">
+                <input type="hidden" name="accion" value="add">
+                <input type="hidden" name="id_producto" value="$idProd">
+                <input type="hidden" name="cantidad" value="1">
+                <button type="submit" class="boton-iniciar-pedido" style="margin-bottom: 15px;">Añadir</button>
+            </form>
         </div>
 EOF;
     }
