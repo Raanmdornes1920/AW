@@ -1,5 +1,5 @@
 <?php
-require_once '../../../config.php';
+require_once '../../config.php';
 session_start();
 
 if (!isset($_SESSION['login']) || $_SESSION['usuario']->rol() !== 'cliente') {
@@ -24,6 +24,7 @@ $tituloPagina = "Pedido Confirmado";
 $css = [RAIZ_APP . "/css/default.css"];
 $header = "../../comun/header.php";
 $claseMain = "contenedor-centro";
+$js = [(RAIZ_APP . "/js/pedidos.js"), (RAIZ_APP . "/js/script.js")];
 
 $numero_pedido = $pedido->getNumeroPedido();
 $estado = ucfirst(str_replace('_', ' ', $pedido->getEstado()));
@@ -49,4 +50,4 @@ $contenidoPrincipal = <<<EOF
 </div>
 EOF;
 
-require("../../comun/plantilla.php");
+require("../comun/plantilla.php");

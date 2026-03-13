@@ -1,5 +1,5 @@
 <?php
-require_once '../../../config.php';
+require_once '../../config.php';
 session_start();
 
 if (!isset($_SESSION['login']) || $_SESSION['usuario']->rol() !== 'cliente') {
@@ -11,8 +11,9 @@ $carrito = $_SESSION['carrito'] ?? [];
 
 $tituloPagina = "Tu Carrito";
 $css = [RAIZ_APP . "/css/default.css"];
-$header = "../../comun/header.php";
+$header = "../comun/header.php";
 $claseMain = "contenedor-centro";
+$js = [(RAIZ_APP . "/js/pedidos.js"), (RAIZ_APP . "/js/script.js")];
 
 $htmlLineas = "";
 $total = 0;
@@ -90,4 +91,4 @@ EOF;
 
 $contenidoPrincipal = "<h1>Revisar Pedido</h1>" . $htmlLineas;
 
-require("../../comun/plantilla.php");
+require("../comun/plantilla.php");

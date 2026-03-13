@@ -1,5 +1,5 @@
 <?php
-require_once '../../../config.php';
+require_once '../../config.php';
 session_start();
 
 if (!isset($_SESSION['login']) || $_SESSION['usuario']->rol() !== 'gerente') {
@@ -11,8 +11,9 @@ $pedidos = $pedidoSA->obtenerPedidosPendientes();
 
 $tituloPagina = "Supervisión de Pedidos";
 $css = [RAIZ_APP . "/css/default.css"];
-$header = "../../comun/header.php";
+$header = "../comun/header.php";
 $claseMain = "contenedor-centro";
+$js = [(RAIZ_APP . "/js/pedidos.js"), (RAIZ_APP . "/js/script.js")];
 
 $htmlTabla = "";
 
@@ -61,4 +62,4 @@ if (empty($pedidos)) {
 }
 
 $contenidoPrincipal = "<h1>Panel de Gerente - Pedidos en Curso</h1>" . $htmlTabla;
-require("../../comun/plantilla.php");
+require("../comun/plantilla.php");

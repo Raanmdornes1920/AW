@@ -1,5 +1,5 @@
 <?php
-require_once '../../../../config.php';
+require_once '../../../config.php';
 session_start();
 
 // Validamos que sea un cliente
@@ -71,3 +71,5 @@ switch ($accion) {
         header("Location: ../carrito.php");
         break;
 }
+
+?>

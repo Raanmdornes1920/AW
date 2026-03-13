@@ -1,5 +1,5 @@
 <?php
-require_once '../../../config.php';
+require_once '../../config.php';
 session_start();
 
 // Validamos rol (asumimos que gerente también puede verlo por jerarquía)
@@ -13,8 +13,9 @@ $pedidos = $pedidoSA->obtenerPedidosCamarero();
 
 $tituloPagina = "Panel de Camarero";
 $css = [RAIZ_APP . "/css/default.css"];
-$header = "../../comun/header.php";
+$header = "../comun/header.php";
 $claseMain = "contenedor-centro";
+$js = [(RAIZ_APP . "/js/pedidos.js"), (RAIZ_APP . "/js/script.js")];
 
 $htmlTabla = "";
 
@@ -88,4 +89,4 @@ $contenidoPrincipal = <<<EOF
     $htmlTabla
 EOF;
 
-require("../../comun/plantilla.php");
+require("../comun/plantilla.php");

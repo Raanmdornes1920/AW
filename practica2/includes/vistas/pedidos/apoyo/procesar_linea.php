@@ -1,5 +1,5 @@
 <?php
-require_once '../../../../config.php';
+require_once '../../../config.php';
 session_start();
 
 if (!isset($_SESSION['login']) || !in_array($_SESSION['usuario']->rol(), ['cocinero', 'gerente'])) {

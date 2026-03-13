@@ -1,5 +1,5 @@
 <?php
-require_once '../../../config.php';
+require_once '../../config.php';
 session_start();
 
 if (!isset($_SESSION['login']) || $_SESSION['usuario']->rol() !== 'cliente') {
@@ -11,8 +11,9 @@ $pedidos = $pedidoSA->obtenerPedidosCliente($_SESSION['usuario']->id());
 
 $tituloPagina = "Mis Pedidos";
 $css = [RAIZ_APP . "/css/default.css"];
-$header = "../../comun/header.php";
+$header = "../comun/header.php";
 $claseMain = "contenedor-centro";
+$js = [(RAIZ_APP . "/js/pedidos.js")];
 
 $htmlTabla = "";
 
@@ -50,4 +51,5 @@ if (empty($pedidos)) {
 }
 
 $contenidoPrincipal = "<h1>Historial de Mis Pedidos</h1>" . $htmlTabla;
-require("../../comun/plantilla.php");
+require("../comun/plantilla.php");
+?>

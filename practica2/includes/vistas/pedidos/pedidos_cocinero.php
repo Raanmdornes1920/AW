@@ -1,5 +1,5 @@
 <?php
-require_once '../../../config.php';
+require_once '../../config.php';
 session_start();
 
 if (!isset($_SESSION['login']) || !in_array($_SESSION['usuario']->rol(), ['cocinero', 'gerente'])) {
@@ -11,8 +11,9 @@ $pedidos = $pedidoSA->obtenerPedidosCocinero();
 
 $tituloPagina = "Panel de Cocina";
 $css = [RAIZ_APP . "/css/default.css"];
-$header = "../../comun/header.php";
+$header = "../comun/header.php";
 $claseMain = "contenedor-centro";
+$js = [(RAIZ_APP . "/js/pedidos.js"), (RAIZ_APP . "/js/script.js")];
 
 $htmlTabla = "";
 
@@ -96,4 +97,4 @@ if (empty($pedidos)) {
 }
 
 $contenidoPrincipal = "<h1>👩‍🍳 Comandas de Cocina 👨‍🍳</h1>" . $htmlTabla;
-require("../../comun/plantilla.php");
+require("../comun/plantilla.php");
