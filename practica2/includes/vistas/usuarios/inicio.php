@@ -10,6 +10,7 @@
             echo '</div>';
 
             echo '<div class="contenedor-botones-iniciar-pedido">';
+            // TODO: Cambiar a por button y href por onclick
                 echo '<a href="' . RAIZ_APP . '/includes/vistas/categorias/categorias_cliente.php?tipo=llevar" class="boton-iniciar-pedido">Para llevar</a>';
                 echo '<a href="' . RAIZ_APP . '/includes/vistas/categorias/categorias_cliente.php?tipo=local" class="boton-iniciar-pedido">Para consumir en el local</a>';
             echo '</div>';
