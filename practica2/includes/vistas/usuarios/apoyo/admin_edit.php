@@ -21,21 +21,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     
     // Validamos si el id corresponde al usuario actual
-    $query = "SELECT * FROM usuarios WHERE id = ?";
-    $stmt = mysqli_prepare($db_connection, $query);
-    mysqli_stmt_bind_param($stmt, "i", $id);
-    
-    if (mysqli_stmt_execute($stmt)) {
-        $resultado = mysqli_stmt_get_result($stmt);
-        if ($fila = mysqli_fetch_assoc($resultado)) {
-            $usuario_actual = ($fila['nombre_usuario'] === $_SESSION['usuario']->usuario());
-            $img_actual = $fila['avatar'];
-        }
-    }
-    else{
-        $_SESSION['error_editar_perfil'] = "Ha habido un error al intentar editar al usuario.";
+    $usuario_actual = ($_SESSION['usuario']->id() == $id?true:false);
+    try {
+        $img_actual = $SA->obtenerImagen($id);    
+    } catch (\Exception $e) {
+        $_SESSION['error_editar_perfil'] = $e->getMessage();
         header("Location: " . RUTA_VISTAS . "/usuarios/ajustes_admin.php");
         exit();
+    }
+    
+    
+    if (!$img_actual){
+        
     }
 
     switch($campo){
@@ -151,7 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if (mysqli_stmt_execute($stmt)) {
                     $resultado = mysqli_stmt_get_result($stmt);
                     // Si nadie usa la imagen la eliminamos
-                    if (!($fila = mysqli_fetch_assoc($resultado))) {
+                    if (!($SA->usoImagen($id, $img_actual))) {
                         if (file_exists($rutaAlArchivo)) {
                             unlink($rutaAlArchivo);
                         }   
