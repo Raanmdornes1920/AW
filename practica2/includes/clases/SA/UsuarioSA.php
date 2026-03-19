@@ -1,25 +1,33 @@
 <?php
 
 class UsuarioSA {
+    private $DAO;
+
+    public function __construct($db_connection) {
+        $this->DAO = new UsuarioDAO($db_connection);
+    }
 
     public function login($nombreUsuario, $password) {
-        $usuario = UsuarioDAO::buscaUsuario($nombreUsuario);
+        $usuario = $DAO->buscaUsuario($nombreUsuario);
 
         if ($usuario) {
-            // 2. Comprobar contraseña (suponiendo que usas password_verify)
             if (password_verify($password, $usuario->getPasswordHash())) {
-                return $usuario; // Login correcto
+                return $usuario;
             }
         }
-        return false; // Login fallido
+        return false;
     }
 
-    public static function getListaUsuarios() {
-        return UsuarioDAO::listaUsuarios();
+    public function getListaUsuarios() {
+        return $DAO->listaUsuarios();
     }
 
-    public static function modificarusuario(Usuario $usuario, $campo, $valor) {
-        return UsuarioDAO::modificarUsuario($usuario, $campo, $valor);
+    public function modificarusuario(Usuario $usuario, $campo, $valor) {
+        return $DAO->modificarUsuario($usuario, $campo, $valor);
+    }
+
+    public function obtenerImagen($id) {
+        return $DAO->obtenerImagen($id);
     }
 }
 ?>
