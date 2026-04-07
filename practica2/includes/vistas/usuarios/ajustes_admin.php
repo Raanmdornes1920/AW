@@ -1,7 +1,6 @@
 <?php 
 require_once (__DIR__ . '/../../config.php');
 session_start(); 
-$SA = new UsuarioSA()
     
 if (!isset($_SESSION['login']) || $_SESSION['login'] !== true || $_SESSION['usuario']->rol() !== 'gerente') {
     header("Location: ".RAIZ_APP."/");

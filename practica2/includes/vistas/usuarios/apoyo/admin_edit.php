@@ -21,18 +21,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     
     // Validamos si el id corresponde al usuario actual
-    $usuario_actual = ($_SESSION['usuario']->id() == $id?true:false);
-    try {
-        $img_actual = $SA->obtenerImagen($id);    
-    } catch (\Exception $e) {
-        $_SESSION['error_editar_perfil'] = $e->getMessage();
+    $query = "SELECT * FROM usuarios WHERE id = ?";
+    $stmt = mysqli_prepare($db_connection, $query);
+    mysqli_stmt_bind_param($stmt, "i", $id);
+    
+    if (mysqli_stmt_execute($stmt)) {
+        $resultado = mysqli_stmt_get_result($stmt);
+        if ($fila = mysqli_fetch_assoc($resultado)) {
+            $usuario_actual = ($fila['nombre_usuario'] === $_SESSION['usuario']->usuario());
+            $img_actual = $fila['avatar'];
+        }
+    }
+    else{
+        $_SESSION['error_editar_perfil'] = "Ha habido un error al intentar editar al usuario.";
         header("Location: " . RUTA_VISTAS . "/usuarios/ajustes_admin.php");
         exit();
-    }
-    
-    
-    if (!$img_actual){
-        
     }
 
     switch($campo){
@@ -71,49 +74,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     // Editar Todo Excepto Avatar
     if($campo != 'avatar'){
+        $query = "UPDATE usuarios SET $campo = ? WHERE id = ?";
+        $stmt = mysqli_prepare($db_connection, $query);
+        mysqli_stmt_bind_param($stmt, "si", $valor, $id);
         
-        try {    
-            if ($SA->modificarusuario($id, $campo, $valor)) {
-                // Corregimos nomenclatura
-                $campo = ($campo === 'nombre_usuario') ? 'usuario' : $campo;
-                
-                // Si el usuario es el de la sesión
-                if($usuario_actual && $campo !== 'password'){
-                    // Corregimos sesion
-                    switch (strtolower($campo)) {
-                        case 'usuario':
-                            $_SESSION['usuario']->set_usuario($valor);
-                            break;
-                        case 'nombre':
-                            $_SESSION['usuario']->set_nombre($valor);
-                            break;
-                        case 'apellidos':
-                            $_SESSION['usuario']->set_apellidos($valor);
-                            break;
-                        case 'email':
-                            $_SESSION['usuario']->set_email($valor);
-                            break;
-                        case 'rol':
-                            $_SESSION['usuario']->set_rol($valor);
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                
-                $_SESSION['cambio'] = ucfirst($campo);
-                $_SESSION['error_editar_perfil'] = "Ninguno";
+        if (mysqli_stmt_execute($stmt)) {
+            // Corregimos nomenclatura
+            $campo = ($campo === 'nombre_usuario') ? 'usuario' : $campo;
+            
+            // Si el usuario es el de la sesión
+            if($usuario_actual && $campo !== 'password'){
+                // Corregimos sesion
+                UsuarioSA::modificarUsuario($_SESSION['usuario'], $campo, $valor);
             }
-            else{
-                $_SESSION['error_editar_perfil'] = "Error al intentar modificar ".($campo === 'nombre_usuario' ? "Usuario" : ucfirst($campo))." a '".$valor."'.";
-                header("Location: " . RUTA_VISTAS . "/usuarios/ajustes_admin.php");
-                exit();
-            }
-
-        } catch (\CampoInexistenteException $th) {
-            $_SESSION['error_editar_perfil'] = "Error al intentar modificar ".ucfirst($campo)." a '".$valor."'.";
-                header("Location: " . RUTA_VISTAS . "/usuarios/ajustes_admin.php");
-                exit();
+            
+            $_SESSION['cambio'] = ucfirst($campo);
+            $_SESSION['error_editar_perfil'] = "Ninguno";
+        }
+        else{
+            $_SESSION['error_editar_perfil'] = "Error al intentar modificar ".($campo === 'nombre_usuario' ? "Usuario" : ucfirst($campo))." a '".$valor."'.";
+            header("Location: " . RUTA_VISTAS . "/usuarios/ajustes_admin.php");
+            exit();
         }
     }
     else{// Editar Avatar
@@ -123,7 +104,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $rutaAlArchivo = DIR_RAIZ . "/img/perfiles/" . $img_actual;
             $nombreImagen = mysqli_real_escape_string($db_connection, $_POST['foto_perfil']);
 
-            if ($SA->modificarusuario($id, $campo, $valor)) {
+            $query = "UPDATE usuarios SET avatar = ? WHERE id = ?";
+            $stmt = mysqli_prepare($db_connection, $query);
+            mysqli_stmt_bind_param($stmt, "si", $nombreImagen, $id);
+            
+            if (mysqli_stmt_execute($stmt)) {
                 // Si el usuario es el de la sesión
                 if($usuario_actual){
                     // Corregimos sesion
@@ -148,7 +133,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if (mysqli_stmt_execute($stmt)) {
                     $resultado = mysqli_stmt_get_result($stmt);
                     // Si nadie usa la imagen la eliminamos
-                    if (!($SA->usoImagen($id, $img_actual))) {
+                    if (!($fila = mysqli_fetch_assoc($resultado))) {
                         if (file_exists($rutaAlArchivo)) {
                             unlink($rutaAlArchivo);
                         }   
