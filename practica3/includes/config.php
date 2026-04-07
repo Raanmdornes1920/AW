@@ -6,7 +6,7 @@ error_reporting(E_ALL);
 $es_local = ($_SERVER['REMOTE_ADDR'] == '127.0.0.1' || $_SERVER['HTTP_HOST'] == 'localhost');
 
 if ($es_local) {
-    define('RAIZ_APP', '/AW/practica3');
+    define('RAIZ_APP', '/AW/practica3'); //Cambio
     define('DIR_RAIZ', dirname(__DIR__));
 
     $host = "127.0.0.1";
