@@ -31,7 +31,7 @@ class UsuarioSA {
     }
 
     public function usoImagen($id, $img_actual){
-        return $DAO->usoImagen($id, $img_actual)
+        return $DAO->usoImagen($id, $img_actual);
     }
 }
 ?>

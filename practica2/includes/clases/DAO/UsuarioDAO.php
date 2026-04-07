@@ -134,7 +134,7 @@ class UsuarioDAO {
         if (mysqli_stmt_execute($stmt)) {
             $resultado = mysqli_stmt_get_result($stmt);
             if ($fila = mysqli_fetch_assoc($resultado)) {
-                return = $fila['avatar'];
+                return $fila['avatar'];
             }
             else{
                 throw new UsuarioNoExisteException('El usuario ' . $username . ' no existe');
