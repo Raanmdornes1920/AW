@@ -108,41 +108,5 @@ class UsuarioDAO {
         }
     }
 
-<<<<<<< HEAD
-    public function obtenerImagen($id){
-        $query = "SELECT avatar FROM usuarios WHERE id = ?";
-        $stmt = mysqli_prepare($db_connection, $query);
-        mysqli_stmt_bind_param($stmt, "i", $id);
-        
-        if (mysqli_stmt_execute($stmt)) {
-            $resultado = mysqli_stmt_get_result($stmt);
-            if ($fila = mysqli_fetch_assoc($resultado)) {
-                return $fila['avatar'];
-            }
-            else{
-                throw new UsuarioNoExisteException('El usuario ' . $username . ' no existe');
-            }
-        }
-        else{
-            throw new ErrorEnConsultaException();
-        }
-    }
-
-    public function usoImagen($id, $img_actual){
-        $query = "SELECT * FROM usuarios WHERE avatar = ? AND id != ?";
-        $stmt = mysqli_prepare($db_connection, $query);
-        mysqli_stmt_bind_param($stmt, "si", $img_actual, $id);
-        
-        if (mysqli_stmt_execute($stmt)) {
-            $resultado = mysqli_stmt_get_result($stmt);
-            if (!($fila = mysqli_fetch_assoc($resultado))) {
-                return false;
-            }
-            return true;
-        }
-        return false;
-    }
-=======
->>>>>>> ramon
 }
 ?>
