@@ -8,6 +8,52 @@ class UsuarioDAO {
         $this->db = $db_connection;
     }
 
+    public function login($userPost, $passPost){
+
+        $userEscaped = mysqli_real_escape_string($this->db, $userPost);
+        $sql = "SELECT * FROM usuarios WHERE nombre_usuario = '$userEscaped'";
+
+        $resultado = mysqli_query($this->db, $sql);
+
+        if ($resultado && mysqli_num_rows($resultado) === 1) {
+            $fila = mysqli_fetch_assoc($resultado);
+
+            if ($fila && password_verify($passPost, $fila['password'])) {
+            
+                return new Usuario($fila['id'], $fila['nombre_usuario'], $fila['nombre'], $fila['apellidos'], $fila['email'], $fila['rol'], $fila['avatar']);
+            } else {
+                throw new PasswordIncorrectoException();
+            }
+        } else {
+            throw new UsuarioNoExisteException();
+        }
+    }
+
+    public function usuarioValido($usuario){
+        
+        $nombre_sesion = $usuario->usuario();
+        $sql = "SELECT nombre_usuario FROM usuarios WHERE nombre_usuario = '$nombre_sesion'";
+        $resultado = mysqli_query($this->db, $sql);
+        
+        if ($fila = mysqli_fetch_assoc($resultado)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function usuarioEnUso($usuario){
+        
+        $sql = "SELECT nombre_usuario FROM usuarios WHERE nombre_usuario = '$usuario'";
+        $resultado = mysqli_query($this->db, $sql);
+        
+        if ($fila = mysqli_fetch_assoc($resultado)) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function listaUsuarios() {
         $lista = new SplDoublyLinkedList();
         
@@ -69,49 +115,37 @@ class UsuarioDAO {
         // gestión de modificación
         $ret = false;
         $query = "UPDATE usuarios SET $campo = ? WHERE id = ?";
-        $stmt = mysqli_prepare($db, $query);
+        $stmt = mysqli_prepare($this->db, $query);
 
         switch (strtolower($campo)) {
             case 'nombre_usuario':
                 mysqli_stmt_bind_param($stmt, "si", $valor, $id);
                 $ret = (mysqli_stmt_execute($stmt)?true:false);
-
-                $usuario->set_usuario($valor);
                 break;
 
             case 'nombre':
                 mysqli_stmt_bind_param($stmt, "si", $valor, $id);
                 $ret = (mysqli_stmt_execute($stmt)?true:false);
-
-                $usuario->set_nombre($valor);
                 break;
 
             case 'apellidos':
                 mysqli_stmt_bind_param($stmt, "si", $valor, $id);
                 $ret = (mysqli_stmt_execute($stmt)?true:false);
-                
-                $usuario->set_apellidos($valor);
                 break;
 
             case 'email':
                 mysqli_stmt_bind_param($stmt, "si", $valor, $id);
                 $ret = (mysqli_stmt_execute($stmt)?true:false);
-                
-                $usuario->set_email($valor);
                 break;
 
             case 'rol':
                 mysqli_stmt_bind_param($stmt, "si", $valor, $id);
                 $ret = (mysqli_stmt_execute($stmt)?true:false);
-                
-                $usuario->set_rol($valor);
                 break;
 
             case 'avatar':
                 mysqli_stmt_bind_param($stmt, "si", $valor, $id);
                 $ret = (mysqli_stmt_execute($stmt)?true:false);
-                
-                $usuario->set_avatar($valor);
                 break;
             
             case 'password':
@@ -134,7 +168,7 @@ class UsuarioDAO {
         if (mysqli_stmt_execute($stmt)) {
             $resultado = mysqli_stmt_get_result($stmt);
             if ($fila = mysqli_fetch_assoc($resultado)) {
-                return = $fila['avatar'];
+                return $fila['avatar'];
             }
             else{
                 throw new UsuarioNoExisteException('El usuario ' . $username . ' no existe');

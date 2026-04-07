@@ -1,7 +1,7 @@
 <?php 
 require_once (__DIR__ . '/../../config.php');
 session_start(); 
-$SA = new UsuarioSA()
+$SA = new UsuarioSA($db_connection);
     
 if (!isset($_SESSION['login']) || $_SESSION['login'] !== true || $_SESSION['usuario']->rol() !== 'gerente') {
     header("Location: ".RAIZ_APP."/");
@@ -35,7 +35,7 @@ ob_start(); // Capturamos el contenido del include ?>
         </tr>
         <?php 
             $usuarios_por_id = [];
-            $lista_usuarios = UsuarioSA::getListaUsuarios();
+            $lista_usuarios = $SA->getListaUsuarios();
             if ($lista_usuarios) { 
                 foreach ($lista_usuarios as $usuario){
                     $rolActual = $usuario->rol(); 
