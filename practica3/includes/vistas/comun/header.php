@@ -8,13 +8,15 @@ function clase_activa($nombre_archivo, $pagina_actual) {
     return ($nombre_archivo == $pagina_actual) ? 'enlace_seleccionado' : 'enlaces';
 }
 ?>
-<header class="navegacion" ><?php //style="display: none;">?> 
-
+<header class="navegacion" >
+    
 <!-- Botón para el menú en dispositivos móviles -->
 <button class="menu-toggle" onclick="toggleMenu()">☰</button>
 
+<!-- Logo visible solo en móvil (centrado) -->
+<img id="Logo-Header" class="logo-movil" src="<?php echo RUTA_IMG; ?>/logo1.png" alt="Logo de Bistro FDI">
+
 <div class="header-izquierdo"></div>
-    
     <nav class="navegacion_principal" id="menu" aria-label="Navegación principal">
         
         <?php echo '<a class="'.clase_activa('index.php', $pagina_actual).'" href="'.RAIZ_APP.'/">Inicio</a>'; ?>
