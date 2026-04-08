@@ -9,9 +9,13 @@ function clase_activa($nombre_archivo, $pagina_actual) {
 }
 ?>
 <header class="navegacion" ><?php //style="display: none;">?> 
-    <div class="header-izquierdo"></div>
 
-    <nav class="navegacion_principal" aria-label="Navegación principal">
+<!-- Botón para el menú en dispositivos móviles -->
+<button class="menu-toggle" onclick="toggleMenu()">☰</button>
+
+<div class="header-izquierdo"></div>
+    
+    <nav class="navegacion_principal" id="menu" aria-label="Navegación principal">
         
         <?php echo '<a class="'.clase_activa('index.php', $pagina_actual).'" href="'.RAIZ_APP.'/">Inicio</a>'; ?>
         

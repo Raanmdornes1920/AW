@@ -31,3 +31,14 @@ if(document.querySelector(".opcion-avatar")){
         });
     });
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    function toggleMenu() {
+        const menu = document.getElementById('menu');
+        menu.classList.toggle('show');
+    }
+
+    // Vincular el evento al botón
+    const menuToggle = document.querySelector('.menu-toggle');
+    menuToggle.addEventListener('click', toggleMenu);
+});
