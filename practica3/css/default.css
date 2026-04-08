@@ -1302,6 +1302,269 @@ table, tr, th, td {
 /*--------------------------------------------------------------------------------*/
 
 /*---------------------------------------- RAMON ----------------------------------------*/
+/*----- VENTANA MENSAJES -----*/
+#contenedor-centro {
+    flex-grow: 1;    /*Para que ocupe todo el espacio vacio*/
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;   
+    margin-top: 3%; 
+    box-sizing: border-box;  
+}
+
+#texto {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 24px;
+    color: #000000;
+    text-align: center;
+}
+
+#texto-error {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 24px;
+    color: #b90000;
+    text-align: center;
+}
+
+#boton-volver {
+    background-color: #000000;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: 'Times New Roman', Times, serif;
+    display: inline-block;
+}
+/*----- VENTANA MENSAJES -----*/
+/*----- MODALES -----*/
+/* El fondo (oculto por defecto) */
+#modalEditar {
+    display: none; 
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5); /* Oscurece el fondo */
+}
+
+/* La cajita blanca */
+.modal-contenido {
+    background-color: white;
+    margin: 5.5% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    z-index: 1002;
+    box-sizing: border-box;
+}
+
+.modal-contenido form {
+    background-color: transparent; /* Quitamos el fondo gris del form global */
+    box-shadow: none;              /* Quitamos la sombra para no duplicar */
+    padding: 10px 0;               /* Reducimos padding lateral */
+    margin: 0 auto;
+    max-width: 100%;               /* Que use el 100% del modal */
+}
+
+#modalEditarPassword {
+    display: none; 
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5); /* Oscurece el fondo */
+}
+
+.formEditar, #formEditarPassword {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 80%;
+    margin: auto;
+}
+
+#modalError {
+    display: box; 
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5); /* Oscurece el fondo */
+}
+
+#modalEditarAvatar {
+    display: none; 
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5); /* Oscurece el fondo */
+}
+
+#modalAdminEditar {
+    display: none; 
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5); /* Oscurece el fondo */
+}
+
+#modalAdminEditarPassword {
+    display: none; 
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5); /* Oscurece el fondo */
+}
+
+#modalAdminEditarAvatar {
+    display: none; 
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5); /* Oscurece el fondo */
+}
+
+#modalAdminEditarRol {
+    display: none; 
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5); /* Oscurece el fondo */
+}
+
+#modalAdminEditarRol .modal-contenido {
+    position: relative;
+    z-index: 2001;
+    background-color: white; /* Importante para que no sea transparente al clic */
+}
+
+.form-eliminar-usuario{
+    background-color: rgba(0, 0, 0, 0);
+    padding: 0;
+    margin: 0;
+    box-shadow: 0 0 0;
+    width: 100%;
+    text-align: center;
+}
+
+#span-nombre-usuario{
+    text-decoration: none;
+    font-weight: normal;
+}
+
+#modalAdminEliminarusuario {
+    display: none; 
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5); /* Oscurece el fondo */
+}
+
+#advertencia-propio-usuario{
+    display:none;
+    color:red;
+    font-weight:bold;
+}
+
+.cerrar-modal {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.cerrar-modal-pass {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.cerrar-modal-error {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.cerrar-modal-avatar {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.cerrar-modal-edit-admin {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.cerrar-modal-rol {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.cerrar-modal-del {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.cerrar-modal:hover, .cerrar-modal-pass:hover, 
+.cerrar-modal-error:hover, .cerrar-modal-avatar:hover, 
+.cerrar-modal-edit-admin:hover, .cerrar-modal-rol:hover, 
+.cerrar-modal-del:hover {
+    color: #f33e3e;
+    text-shadow: 
+        0 0 5px #ff3131, 
+        0 0 10px #ff3131, 
+        0 0 20px #ff3131;
+    transition: 0.5s;
+}
+/*----- MODALES -----*/
 
 /*---------------------------------------- RAMON ----------------------------------------*/
 
