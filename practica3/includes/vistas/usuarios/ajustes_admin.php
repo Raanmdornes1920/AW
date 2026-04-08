@@ -105,8 +105,8 @@ ob_start(); // Capturamos el contenido del include ?>
 </div>
 <br><br>
 <div>
-    <a href="<?php echo RUTA_VISTAS . "/usuarios/apoyo/crear_usuario.php";?>"><button  class="botones-gestion-usuarios">Crear Usuario</button></a>
-    <a href="<?php echo RUTA_VISTAS . "/usuarios/apoyo/eliminar_usuario.php";?>"><button class="botones-gestion-usuarios">Eliminar Usuario</button></a>
+    <a href="<?php echo RUTA_VISTAS . "/usuarios/crear_usuario.php";?>"><button  class="botones-gestion-usuarios">Crear Usuario</button></a>
+    <a href="<?php echo RUTA_VISTAS . "/usuarios/eliminar_usuario.php";?>"><button class="botones-gestion-usuarios">Eliminar Usuario</button></a>
 </div>
 
 <?php
@@ -306,34 +306,3 @@ $scirptManual = ob_get_clean();
 
 require("../comun/plantilla.php");
 ?>
-
-
-
-
-<?php /*
-<!DOCTYPE html>
-
-<html lang="es">
-    <head>
-        <meta charset="utf-8">
-        <title></title>
-        <link rel="icon" type="image/svg+xml" href="<?php echo RUTA_IMG; ?>/logo1.svg">
-        <link rel="stylesheet" href="<?php echo RUTA_CSS; ?>/default.css">
-        <link rel="stylesheet" href="<?php echo RUTA_CSS; ?>/modales.css">
-    </head>
-    <body>
-        <!-- Header -->
-        <?php include (DIR_RAIZ . '/includes/vistas/comun/header.php'); ?>
-        <!-- Header -->
-        
-        <!-- Contenido -->
-        <main class="contenedor-centro-index">
-            
-        </main>
-        
-        <!-- Contenido -->
-        
-        <script src="<?php echo RAIZ_APP; ?>/js/script.js"></script>
-        
-    </body>
-</html>*/ ?>

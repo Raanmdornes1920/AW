@@ -1,7 +1,8 @@
 <?php
-require_once (__DIR__ . '/../../../config.php');
+require_once (__DIR__ . '/../../config.php');
 require_once (DIR_RAIZ . '/includes/vistas/usuarios/apoyo/formularioCrearUsuario.php');
 session_start(); 
+$SA = new UsuarioSA($db_connection);
 
 if (!isset($_SESSION['login']) || $_SESSION['login'] !== true || $_SESSION['usuario']->rol() !== 'gerente') {
     header("Location: ".RAIZ_APP."/");
@@ -24,6 +25,6 @@ EOF;
 
 $js = [(RAIZ_APP . "/js/script.js")];
 
-require("../../comun/plantilla.php");
+require("../comun/plantilla.php");
 
 ?>

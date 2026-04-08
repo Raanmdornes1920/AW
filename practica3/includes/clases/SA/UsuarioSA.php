@@ -34,5 +34,37 @@ class UsuarioSA {
     public function usoImagen($id, $img_actual){
         return $this->DAO->usoImagen($id, $img_actual);
     }
+
+    public function buscaDatosUsuario($usuario){
+        return $this->DAO->buscaDatosUsuario($usuario);
+    }
+
+    public function validarPasswordUsuario($usuario, $pass){
+        return $this->DAO->validarPasswordUsuario($usuario, $pass);
+    }
+
+    public function cambiarPasswordUsuario($usuario, $pass){
+        return $this->DAO->cambiarPasswordUsuario($usuario, $pass);
+    }
+
+     public function crearUsuario($datos = array()){
+        return $this->DAO->crearUsuario($datos);
+    }
+
+     public function eliminarUsuario($id){
+        return $this->DAO->eliminarUsuario($id);
+     }
+
+     public function validarUserMail($usuario, $email){
+        return $this->DAO->validarUserMail($usuario, $email);
+     }
+
+     public function buscaUsuario($usuario){
+        return $this->DAO->buscaUsuario($usuario);
+     }
+
+     public function buscaUsuarioPorID($id){
+        return $this->DAO->buscaUsuarioPorID($id);
+     }
 }
 ?>

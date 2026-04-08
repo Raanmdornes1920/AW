@@ -72,6 +72,29 @@ class UsuarioDAO {
         }
     }
 
+    public function eliminarUsuario($id){
+        $queryCheck = "SELECT nombre_usuario FROM usuarios WHERE id = ?";
+        $stmtCheck = mysqli_prepare($this->db, $queryCheck);
+        mysqli_stmt_bind_param($stmtCheck, "i", $id);
+        mysqli_stmt_execute($stmtCheck);
+        $resultado = mysqli_stmt_get_result($stmtCheck);
+
+        if ($fila = mysqli_fetch_assoc($resultado)) {
+            $query = "DELETE FROM usuarios WHERE id = ?";
+            $stmt = mysqli_prepare($this->db, $query);
+            
+            mysqli_stmt_bind_param($stmt, "i", $id);
+            
+            if (mysqli_stmt_execute($stmt)) {
+                return $fila['nombre_usuario'];
+            } else {
+                throw new ErrorEnConsultaException('No se ha podido eliminar al usuario con ID ' . $id . '.');
+            }    
+        } else {
+            throw new UsuarioNoExisteException('El usuario con ID ' . $id . ' no existe');
+        }
+    }
+    
     public function buscaUsuario($username){
         $sql = "SELECT id, nombre_usuario, nombre, apellidos, email, rol, avatar FROM usuarios WHERE nombre_usuario = '$username'";
         $resultado = mysqli_query($this->db, $sql);
@@ -82,6 +105,32 @@ class UsuarioDAO {
         else{
             throw new UsuarioNoExisteException('El usuario ' . $username . ' no existe');
         }
+    }
+
+    public function validarPasswordUsuario($usuario, $pass){
+
+        $userEscaped = mysqli_real_escape_string($this->db, $usuario);
+        $sql = "SELECT * FROM usuarios WHERE nombre_usuario = '$userEscaped'";
+        $resultado = mysqli_query($this->db, $sql);
+
+        if ($resultado && mysqli_num_rows($resultado) > 0) {
+            $fila = mysqli_fetch_assoc($resultado);
+
+            return password_verify($pass, $fila['password']);
+        }
+        else{
+            throw new UsuarioNoExisteException('El usuario ' . $usuario . ' no existe');
+        }
+    }
+
+    public function cambiarPasswordUsuario($usuario, $pass){
+                
+        $nuevaPassHash = password_hash($pass, PASSWORD_DEFAULT);        
+        $query = "UPDATE usuarios SET password = ? WHERE BINARY nombre_usuario = ?";
+        $stmt = mysqli_prepare($this->db, $query);
+        mysqli_stmt_bind_param($stmt, "ss", $nuevaPassHash, $usuario);
+        
+        return mysqli_stmt_execute($stmt);
     }
 
     public function crearUsuario($datos = array()){
@@ -149,7 +198,8 @@ class UsuarioDAO {
                 break;
             
             case 'password':
-                // Modificación en BBDD
+                mysqli_stmt_bind_param($stmt, "si", $valor, $id);
+                $ret = (mysqli_stmt_execute($stmt)?true:false);
                 break;    
 
             default:
@@ -162,7 +212,7 @@ class UsuarioDAO {
 
     public function obtenerImagen($id){
         $query = "SELECT avatar FROM usuarios WHERE id = ?";
-        $stmt = mysqli_prepare($db_connection, $query);
+        $stmt = mysqli_prepare($this->db, $query);
         mysqli_stmt_bind_param($stmt, "i", $id);
         
         if (mysqli_stmt_execute($stmt)) {
@@ -181,7 +231,7 @@ class UsuarioDAO {
 
     public function usoImagen($id, $img_actual){
         $query = "SELECT * FROM usuarios WHERE avatar = ? AND id != ?";
-        $stmt = mysqli_prepare($db_connection, $query);
+        $stmt = mysqli_prepare($this->db, $query);
         mysqli_stmt_bind_param($stmt, "si", $img_actual, $id);
         
         if (mysqli_stmt_execute($stmt)) {
@@ -192,6 +242,32 @@ class UsuarioDAO {
             return true;
         }
         return false;
+    }
+
+    public function validarUserMail($usuario, $email){
+
+        $userEscaped = mysqli_real_escape_string($this->db, $usuario);
+        $mailEscaped = mysqli_real_escape_string($this->db, $email);
+        
+        $sql = "SELECT * FROM usuarios WHERE nombre_usuario = '$userEscaped' OR email = '$mailEscaped'";
+
+        $resultado = mysqli_query($this->db, $sql);
+
+
+        if ($resultado && mysqli_num_rows($resultado) === 0) {
+            return true;
+        }
+        else{
+            $fila = mysqli_fetch_assoc($resultado);
+            if($fila['nombre_usuario'] === $usuario){
+                throw new UsuarioOcupadoException($usuario, 'El usuario ' . $usuario . ' ya existe en base de datos');
+            }
+            else if($fila['email'] === $email){
+                throw new MailOcupadoException($email, 'El email ' . $email . ' ya existe en base de datos');
+            }
+        }
+
+        throw new ErrorEnConsultaException('Ha habido un error al consultar la tabla usuarios');
     }
 }
 ?>

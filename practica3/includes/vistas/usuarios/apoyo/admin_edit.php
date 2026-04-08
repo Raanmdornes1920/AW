@@ -1,6 +1,7 @@
 <?php
 require_once (__DIR__ . '/../../../config.php');
 session_start();
+$SA = new UsuarioSA($db_connection);
 
 if (!isset($_SESSION['login']) || $_SESSION['login'] !== true || $_SESSION['usuario']->rol() !== 'gerente') {
     header("Location: ".RAIZ_APP."/");
@@ -37,24 +38,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     switch($campo){
         case 'Usuario':
-            $campo = 'nombre_usuario';
-            
+            $campo = 'usuario';
             // Comprobar usuario libre
-            $query = "SELECT * FROM usuarios WHERE nombre_usuario = ?";
-            $stmt = mysqli_prepare($db_connection, $query);
-            mysqli_stmt_bind_param($stmt, "s", $valor);
-            
-            if (mysqli_stmt_execute($stmt)) {
-                $resultado = mysqli_stmt_get_result($stmt);
-                if ($fila = mysqli_fetch_assoc($resultado)) {
-                    if($fila['id'] !== $id && $fila['nombre_usuario'] === $valor){
+            try {
+                if ($usuarioExistente = $SA->buscaUsuario($valor)) {
+                    if($usuarioExistente->id() !== $id && $usuarioExistente->usuario() === $valor){
                         // Usuario existente con id diferente
                         $_SESSION['error_editar_perfil'] = "El usuario ".$valor." ya existe.";
                         header("Location: " . RUTA_VISTAS . "/usuarios/ajustes_admin.php");
                         exit();
                     }
-                }
-            }        
+                }    
+            } catch (\UsuarioNoExisteException $e) {
+                // Usuario no existe, por lo que el nombre de usuario es válido
+            }
             break;
         case 'Rol':
             $campo = 'rol'; 
@@ -72,11 +69,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Editar Todo Excepto Avatar
     if($campo != 'avatar'){
         
-        try {    
-            if ($SA->modificarusuario($id, $campo, $valor)) {
-                // Corregimos nomenclatura
-                $campo = ($campo === 'nombre_usuario') ? 'usuario' : $campo;
-                
+        try {
+            if ($SA->modificarusuario($id, ($campo === 'usuario' ? 'nombre_usuario' : $campo), $valor)) {            
                 // Si el usuario es el de la sesión
                 if($usuario_actual && $campo !== 'password'){
                     // Corregimos sesion
@@ -105,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['error_editar_perfil'] = "Ninguno";
             }
             else{
-                $_SESSION['error_editar_perfil'] = "Error al intentar modificar ".($campo === 'nombre_usuario' ? "Usuario" : ucfirst($campo))." a '".$valor."'.";
+                $_SESSION['error_editar_perfil'] = "Error al intentar modificar ".ucfirst($campo)." a '".$valor."'.";
                 header("Location: " . RUTA_VISTAS . "/usuarios/ajustes_admin.php");
                 exit();
             }
@@ -123,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $rutaAlArchivo = DIR_RAIZ . "/img/perfiles/" . $img_actual;
             $nombreImagen = mysqli_real_escape_string($db_connection, $_POST['foto_perfil']);
 
-            if ($SA->modificarusuario($id, $campo, $valor)) {
+            if ($SA->modificarusuario($id, $campo, $nombreImagen)) {
                 // Si el usuario es el de la sesión
                 if($usuario_actual){
                     // Corregimos sesion
@@ -140,19 +134,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             // Si nadie mas tiene la imagen, y no es de las basicas la eliminamos
             if(!in_array($img_actual, IMAGENES_BASE)){
-                // Comprobar imagen libre
-                $query = "SELECT * FROM usuarios WHERE avatar = ? AND id != ?";
-                $stmt = mysqli_prepare($db_connection, $query);
-                mysqli_stmt_bind_param($stmt, "si", $img_actual, $id);
-                
-                if (mysqli_stmt_execute($stmt)) {
-                    $resultado = mysqli_stmt_get_result($stmt);
-                    // Si nadie usa la imagen la eliminamos
-                    if (!($SA->usoImagen($id, $img_actual))) {
-                        if (file_exists($rutaAlArchivo)) {
-                            unlink($rutaAlArchivo);
-                        }   
-                    }
+                // Comprobar imagen libre. Si nadie usa la imagen la eliminamos
+                if (!($SA->usoImagen($id, $img_actual))) {
+                    if (file_exists($rutaAlArchivo)) {
+                        unlink($rutaAlArchivo);
+                    }   
                 }   
             }
         }
@@ -171,16 +157,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if(move_uploaded_file($fileTmpPath, $dest_path)) {
                 $nombreImagen = $fileNameClean;
                 chmod($dest_path, 0666);
-
-                $query = "UPDATE usuarios SET avatar = ? WHERE id = ?";
-                $stmt = mysqli_prepare($db_connection, $query);
-                mysqli_stmt_bind_param($stmt, "si", $nombreImagen, $id);
                 
-                if (mysqli_stmt_execute($stmt)) {
+                if ($SA->modificarUsuario($id, 'avatar', $nombreImagen)) {
                     // Si el usuario es el de la sesión
                     if($usuario_actual){
                         // Corregimos sesion
-                        UsuarioSA::modificarUsuario($_SESSION['usuario'], 'avatar', $nombreImagen);
+                        $_SESSION['usuario']->set_avatar($nombreImagen);
                     }
                     $_SESSION['cambio'] = 'Avatar';
                     $_SESSION['error_editar_perfil'] = "Ninguno";
@@ -190,25 +172,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     header("Location: " . RUTA_VISTAS . "/usuarios/ajustes_admin.php");
                     exit();
                 }
+
                 
                 // Si nadie mas tiene la imagen, y no es de las basicas la eliminamos
                 if(!in_array($img_actual, IMAGENES_BASE)){
-                    // Comprobar imagen libre
-                    $query = "SELECT * FROM usuarios WHERE avatar = ? AND id != ?";
-                    $stmt = mysqli_prepare($db_connection, $query);
-                    mysqli_stmt_bind_param($stmt, "si", $img_actual, $id);
                     
-                    if (mysqli_stmt_execute($stmt)) {
-                        $resultado = mysqli_stmt_get_result($stmt);
-                        // Si nadie usa la imagen la eliminamos
-                        if (!($fila = mysqli_fetch_assoc($resultado))) {
-                            if (file_exists($rutaAlArchivo)) {
-                                unlink($rutaAlArchivo);
-                            }   
-                        }
-                    }   
+                    // Comprobar imagen libre. Si nadie usa la imagen la eliminamos
+                    if (!($SA->usoImagen($id, $img_actual))) {
+                        if (file_exists($rutaAlArchivo)) {
+                            unlink($rutaAlArchivo);
+                        }   
+                    }
                 }
-                
             }
             else {
                 $_SESSION['error_editar_perfil'] = "Error al subir la imagen.";

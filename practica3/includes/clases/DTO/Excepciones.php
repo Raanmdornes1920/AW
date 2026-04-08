@@ -35,4 +35,30 @@ class PasswordIncorrectoException extends \Exception {
         parent::__construct($message, $code, $previous);
     }
 }
+
+class UsuarioOcupadoException extends \Exception {
+    private $usuario;
+    public function __construct($usuario, $message = "El usuario ya existe en base de datos", $code = 0, Throwable $previous = null) {
+        $this->usuario = $usuario;
+        parent::__construct($message, $code, $previous);
+    }
+
+    public function usuario() {
+        return $this->usuario;
+    }
+}
+
+class MailOcupadoException extends \Exception {
+    private $mail;
+
+    public function __construct($mail, $message = "El email ya existe en base de datos", $code = 0, Throwable $previous = null) {
+        $this->mail = $mail;
+        parent::__construct($message, $code, $previous);
+    }
+
+    public function mail() {
+        return $this->mail;
+    }
+}
+
 ?>

@@ -1,5 +1,6 @@
 <?php
 require_once (__DIR__ . '/../../comun/formularioBase.php');
+$SA = new UsuarioSA($db_connection);
 
 // Hereda de formularioBase (asegúrate de que la ruta a formularioBase sea correcta)
 class FormularioCrearUsuario extends formularioBase {
@@ -88,8 +89,7 @@ class FormularioCrearUsuario extends formularioBase {
 
     protected function procesaFormulario(&$datos) {
         $this->errores = [];
-        
-        global $db_connection;
+        global $SA;
         
         $nombrePost = ($datos['nombre'] ?? '');
         $apellidosPost = ($datos['apellidos'] ?? '');
@@ -102,183 +102,85 @@ class FormularioCrearUsuario extends formularioBase {
         $passPost = ($datos['password'] ?? 'password');
         $passConfPost = ($datos['password_confirm'] ?? 'password_confirm');
 
-        $userEscaped = mysqli_real_escape_string($db_connection, $userPost);
-        $mailEscaped = mysqli_real_escape_string($db_connection, $mailPost);
-
-        $sql = "SELECT * FROM usuarios WHERE nombre_usuario = '$userEscaped' OR email = '$mailEscaped'";
-
-        $resultado = mysqli_query($db_connection, $sql);
-
-
-        if ($resultado && mysqli_num_rows($resultado) === 0) {
+        try {
+            if ($SA->validarUserMail($userPost, $mailPost)) {
             
-            if (isset($datos['avatar']) && $datos['avatar'] === 'custom' && isset($_FILES['avatar-custom']) && $_FILES['avatar-custom']['error'] === UPLOAD_ERR_OK) {
-                
-                $fileTmpPath = $_FILES['avatar-custom']['tmp_name'];
-                $fileName = $_FILES['avatar-custom']['name'];
-                
-                $fileNameClean = time() . "_" . preg_replace("/[^a-zA-Z0-9.]/", "_", $fileName);
-                
-                $dest_path = DIR_RAIZ . "/img/perfiles/" . $fileNameClean;
-                
-                if(move_uploaded_file($fileTmpPath, $dest_path)) {
+                if (isset($datos['avatar']) && $datos['avatar'] === 'custom' && isset($_FILES['avatar-custom']) && $_FILES['avatar-custom']['error'] === UPLOAD_ERR_OK) {
                     
-                    $nombreImagen = $fileNameClean;
-                    chmod($dest_path, 0666); 
-                }
-            }
-            else{
-                
-                $nombreImagen = $datos['avatar'];
-                $dest_path = "../img/perfiles/" . $nombreImagen;
-            }
-
-            $passwordHasheada = password_hash($passPost, PASSWORD_DEFAULT);
-            $sql = "INSERT INTO usuarios (nombre_usuario, email, nombre, apellidos, password, rol, avatar) VALUES ('$userPost', '$mailPost', '$nombrePost', '$apellidosPost', '$passwordHasheada', '$rolPost', '$nombreImagen')";
-
-            
-            if (mysqli_query($db_connection, $sql)) {
-                if (session_status() === PHP_SESSION_NONE) {
-                    session_start();
-                }
-                
-                if(isset($datos['modo-admin']) && $datos['modo-admin'] === "Verdadero"){
-                    $_SESSION['cambio'] = "Crear Usuario";
-                    $_SESSION['error_editar_perfil'] = "Ninguno";
+                    $fileTmpPath = $_FILES['avatar-custom']['tmp_name'];
+                    $fileName = $_FILES['avatar-custom']['name'];
+                    
+                    $fileNameClean = time() . "_" . preg_replace("/[^a-zA-Z0-9.]/", "_", $fileName);
+                    
+                    $dest_path = DIR_RAIZ . "/img/perfiles/" . $fileNameClean;
+                    
+                    if(move_uploaded_file($fileTmpPath, $dest_path)) {
+                        
+                        $nombreImagen = $fileNameClean;
+                        chmod($dest_path, 0666); 
+                    }
                 }
                 else{
                     
-                    $sql = "SELECT * FROM usuarios WHERE nombre_usuario = '$userPost'";
+                    $nombreImagen = $datos['avatar'];
+                    $dest_path = "../img/perfiles/" . $nombreImagen;
+                }
 
-                    $resultado = mysqli_query($db_connection, $sql);
-                    $fila = mysqli_fetch_assoc($resultado);
-                    $idPost = $fila['id'];
-                    
-                    $_SESSION['login'] = true;
-                    $_SESSION['usuario'] = new Usuario($idPost, $userPost, $nombrePost, $apellidosPost, $mailPost, $rolPost, $nombreImagen);
-                }
-                header("Location: " . (isset($datos['volver']) ? $datos['volver'] : RAIZ_APP . "/"));
-                exit();
+
+                $datosUsuario = [
+                    'nombre_usuario' => $userPost,
+                    'email' => $mailPost,
+                    'nombre' => $nombrePost,
+                    'apellidos' => $apellidosPost,
+                    'password' => password_hash($passPost, PASSWORD_DEFAULT),
+                    'rol' => $rolPost,
+                    'avatar' => $nombreImagen
+                ];
                 
-            }
-        } else {
-            if(isset($datos['modo-admin']) && $datos['modo-admin'] === "Verdadero"){
-                if (session_status() === PHP_SESSION_NONE) {
-                    session_start();
-                }      
-                $fila = mysqli_fetch_assoc($resultado);
-            
-                if ($fila['nombre_usuario'] === $userPost) {
-                    $_SESSION['error_crear_perfil'] = "El usuario '".$userPost."' ya existe.";
-                    header("Location: " . RUTA_VISTAS . "/ajustes_admin.php");
+                if ($SA->crearUsuario($datosUsuario)) {
+                    if (session_status() === PHP_SESSION_NONE) {
+                        session_start();
+                    }
+                    
+                    if(isset($datos['modo-admin']) && $datos['modo-admin'] === "Verdadero"){
+                        $_SESSION['cambio'] = "Crear Usuario";
+                        $_SESSION['error_editar_perfil'] = "Ninguno";
+                    }
+                    else{                        
+                        $_SESSION['login'] = true;
+                        $_SESSION['usuario'] = $SA->buscaUsuario($userPost);
+                    }
+                    header("Location: " . (isset($datos['volver']) ? $datos['volver'] : RAIZ_APP . "/"));
                     exit();
-                } else if ($fila['email'] === $mailPost) {
-                    $_SESSION['error_crear_perfil'] = "El correo '".$mailPost."' ya esta registrado.";
-                    header("Location: " . RUTA_VISTAS . "/ajustes_admin.php");
-                    exit();
+                    
                 }
+            }
+            // No hay else, porque la función validarUserMail devuelve true, o lanza una excepción si el usuario o el mail ya existen.
+        } catch (UsuarioOcupadoException $e1) {
+
+            if(isset($datos['modo-admin']) && $datos['modo-admin'] === "Verdadero"){
+                $_SESSION['error_crear_perfil'] = "El usuario '".$e1->usuario()."' ya existe.";
+                header("Location: " . RUTA_VISTAS . "/usuarios/ajustes_admin.php");
+                exit();
             }
             else{
-                $fila = mysqli_fetch_assoc($resultado);
-            
-                if ($fila['nombre_usuario'] === $userPost) {
-                    $this->errores['usuario'] = 'Usuaro ya ocupado';
-                } else if ($fila['email'] === $mailPost) {
-                    $this->errores['mail'] = 'Email ya ocupado';
-                }
+                $this->errores['usuario'] = 'Usuaro ya ocupado';
             }
+            
+        } catch (MailOcupadoException $e2) {
+
+            if(isset($datos['modo-admin']) && $datos['modo-admin'] === "Verdadero"){
+                $_SESSION['error_crear_perfil'] = "El correo '".$e2->mail()."' ya esta registrado.";
+                header("Location: " . RUTA_VISTAS . "/usuarios/ajustes_admin.php");
+                exit();
+            }
+            else{
+                $this->errores['mail'] = 'Email ya ocupado';
+            }
+
+        } catch (Exception $e) {
+            $this->errores['general'] = "Error al conectar con la base de datos.";
         }
     }
-}/*
+}
 ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<form action="<?php echo RUTA_STATIC ?>/procesarRegistro.php" method="POST" enctype="multipart/form-data">
-    <label>Nombre:</label>
-    <br>
-    <input type="text" name="nombre" required>
-    <br>
-
-    <label>Apellidos:</label>
-    <br>
-    <input type="text" name="apellidos" required>
-    <br>
-    
-    <label>Correo Electrónico:</label>
-    <br>
-    <input type="email" name="mail" required>
-    <br>
-
-    <label>Usuario:</label>
-    <br>
-    <input type="text" name="username" required>
-    <br>
-
-    <label>Foto de perfil:</label>
-    <br>
-    <div class="seleccion-avatares">
-        <?php foreach (IMAGENES_BASE as $indice => $archivo): ?>
-            <label class="opcion-avatar">
-                <img class="opcion-imagen-avatar" src="../img/perfiles/<?= $archivo; ?>" alt="Avatar <?= $indice; ?>">
-                <input type="radio" name="foto_perfil" value="<?= $archivo; ?>" required>
-            </label>
-        <?php endforeach; ?>
-
-        <label class="opcion-avatar">
-            <div class="cuadro-subir-archivo">
-                <p>Elegir<br>Archivo</p>
-            </div>
-            <input type="radio" name="foto_perfil" value="custom" id="radio-custom" required>
-        </label>
-    </div>
-
-    <div id="archivo-avatar">
-        <br>
-        <input type="file" name="foto_perfil" accept="image/*">
-        <br>
-        <br>
-        <br>
-    </div>
-    
-    <label>Rol:</label>
-    <select name="rol" id="select-rol-usuario">
-        <option value="gerente">Gerente</option>
-        <option value="cocinero">Cocinero</option>
-        <option value="camarero">Camarero</option>
-        <option value="cliente" selected>Cliente</option>
-    </select>
-
-    <input id="password" type="hidden" name="password" value="1234" required>
-    <input type="hidden" name="password_confirm" value="1234" required>
-    
-    <input type="hidden" name="modo-admin" value="Verdadero">
-    <input type="hidden" name="volver" value="<?php echo htmlspecialchars(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : RAIZ_APP . "/"); ?>">
-    
-    <div class="contenedor-botones">
-    <button type="submit" id="boton_aceptar">Crear Usuario</button>
-    
-    <button onclick="window.location.href='<?php echo htmlspecialchars(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : RUTA_VISTAS . '/ajustes_admin.php'); ?>'" type="button" id="boton_cancelar">Volver</button>
-    </div>
-</form>
-
-*/ ?>

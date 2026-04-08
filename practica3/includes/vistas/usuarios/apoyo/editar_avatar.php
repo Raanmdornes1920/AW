@@ -14,11 +14,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['foto_perfil']) && $_POST['foto_perfil'] !== 'custom'){
         $rutaAlArchivo = "../img/perfiles/" . $_SESSION['usuario']->avatar();
         $nombreImagen = mysqli_real_escape_string($db_connection, $_POST['foto_perfil']);
-
-        $query = "UPDATE usuarios SET avatar = ? WHERE BINARY nombre_usuario = ?";
-        $stmt = mysqli_prepare($db_connection, $query);
-        $usuario = $_SESSION['usuario']->usuario();
-        mysqli_stmt_bind_param($stmt, "ss", $nombreImagen, $usuario);
         
         if (!$SA->modificarUsuario($_SESSION['usuario']->id(), 'avatar', $nombreImagen)) {
             $_SESSION['error_editar_perfil'] = "Error al cambiar la imagen.";
