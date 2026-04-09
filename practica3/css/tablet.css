@@ -296,7 +296,7 @@ td {
 .boton-cancelar:hover {
     background-color: #555555;
 }
-
+/*
 .tabla-gestion {
     display: table;
     width: 90%;
@@ -339,7 +339,7 @@ td {
     width: 40px;
     height: 40px;
 }
-
+*/
 .boton-nuevo {
     background-color: rgb(214, 190, 50);
     color: white;
@@ -1799,6 +1799,87 @@ td {
 
 /*--------------------------------------- MIGUEL ---------------------------------------*/
 
+/* Convertimos la tabla en una cuadrícula de tarjetas */
+.tabla-gestion, .tabla-gestion tbody {
+    display: grid;
+    /* Esto crea columnas automáticas. Cabrán tantas como entren de min 280px */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    width: 95%; /* Usamos más ancho de pantalla en la tablet */
+    margin: 0 auto;
+    background: transparent;
+    box-shadow: none;
+    border: none;
+}
+
+/* Escondemos la cabecera, ya que el formato tarjeta es autoexplicativo */
+.tabla-gestion thead {
+    display: none;
+}
+
+/* Cada pedido (fila) es ahora una tarjeta con sombra */
+.tabla-gestion tr {
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    border: 2px solid #333;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    transition: transform 0.2s;
+}
+
+/* Un ligero efecto al tocar la tarjeta */
+.tabla-gestion tr:active {
+    transform: scale(0.98);
+}
+
+/* Ajustamos las celdas para que fluyan una debajo de otra */
+.tabla-gestion td {
+    display: block;
+    width: 100%;
+    text-align: center;
+    border: none;
+    padding: 8px 0;
+}
+
+/* Destacamos el número de pedido en gigante (suele ser la primera celda) */
+.tabla-gestion td:first-child strong {
+    font-size: 2.5em !important;
+    color: #e2001a;
+    display: block;
+    margin-bottom: 10px;
+    border-bottom: 2px dashed #ccc;
+    padding-bottom: 10px;
+}
+
+/* Hacemos los botones de acción GIGANTES para tocarlos rápido */
+.tabla-gestion td form button, 
+.tabla-gestion td .boton-nuevo, 
+.tabla-gestion td .boton-editar {
+    width: 100%;
+    padding: 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    border-radius: 10px;
+    margin-top: 10px;
+    box-sizing: border-box;
+}
+
+/* Ajuste específico para la lista de cocina (para que sea legible) */
+.tabla-gestion td ul {
+    font-size: 1.1em;
+    background-color: #f9f9f9;
+    padding: 15px !important;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.tabla-gestion td ul li button {
+    padding: 10px 15px !important;
+    font-size: 1em !important;
+    border-radius: 6px;
+}
 /*--------------------------------------- MIGUEL ---------------------------------------*/
 
 /*--------------------------------------- HECTOR ---------------------------------------*/

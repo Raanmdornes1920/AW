@@ -6,10 +6,17 @@
         <meta charset="utf-8"> 
         <link rel="icon" type="image/svg+xml" href="<?php echo RUTA_IMG; ?>/logo1.svg">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <?php if (isset($css) && is_array($css)): ?>
+            <?php foreach ($css as $rutaCss): ?>
+                <link rel="stylesheet" type="text/css" href="<?= $rutaCss ?>" />
+            <?php endforeach; ?>
+        <?php endif; ?>
+
         <link rel="stylesheet" type="text/css" href="<?= RUTA_CSS ?>/movil.css" media="only screen and (max-width: 600px)" />
         <link rel="stylesheet" type="text/css" href="<?= RUTA_CSS ?>/tablet.css" media="only screen and (min-width: 601px) and (max-width: 1023px)" />
         <link rel="stylesheet" type="text/css" href="<?= RUTA_CSS ?>/pc.css" media="only screen and (min-width: 1024px)" />
-    </head>
+        </head>
     <body>
         <?php
             include($header);

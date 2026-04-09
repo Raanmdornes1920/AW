@@ -43,9 +43,9 @@ if (empty($carrito)) {
             $nombre = htmlspecialchars($producto->getNombre());
             
             $htmlLineas .= "<tr>
-                <td>{$nombre}</td>
-                <td>" . number_format($precio, 2) . " €</td>
-                <td>
+                <td data-label='Producto'>{$nombre}</td>
+                <td data-label='Precio'>" . number_format($precio, 2) . " €</td>
+                <td data-label='Cantidad'>
                     <form action='apoyo/procesar_carrito.php' method='POST' style='display:flex; gap:10px; align-items:center; justify-content:center;'>
                         <input type='hidden' name='accion' value='update'>
                         <input type='hidden' name='id_producto' value='$id_prod'>
@@ -53,8 +53,8 @@ if (empty($carrito)) {
                         <button type='submit' class='boton-editar' style='padding: 5px 10px;'>↻</button>
                     </form>
                 </td>
-                <td>" . number_format($subtotal, 2) . " €</td>
-                <td>
+                <td data-label='Subtotal'>" . number_format($subtotal, 2) . " €</td>
+                <td data-label='Acciones'>
                     <a href='apoyo/procesar_carrito.php?accion=remove&id_producto=$id_prod' class='boton-borrar'>Eliminar</a>
                 </td>
             </tr>";
@@ -66,43 +66,35 @@ if (empty($carrito)) {
                         Total a pagar: <strong>" . number_format($total, 2) . " €</strong>
                     </div>";
     
-    // Formulario de confirmación, tipo de pedido y pago
-    $checkLocal = "";
-    $checkLlevar = "";
-    
-    if(isset($_GET['tipo'])){
-        if($_GET['tipo']==='llevar'){
-            $checkLlevar = "checked";
-        } else {
-            $checkLocal = "checked";
-        }
-    }
-    else{
-        $checkLocal = "checked";
-    }
-    
-        $htmlLineas .= <<<EOF
-    <form action="apoyo/procesar_carrito.php" method="POST" class="form-estilizado" style="margin-top: 40px;">
+    $htmlLineas .= <<<EOF
+    <form action="apoyo/procesar_carrito.php" method="POST" class="form-estilizado" style="margin-top: 40px; max-width: 600px;">
         <input type="hidden" name="accion" value="confirmar">
         
-        <h2>Detalles del Pedido</h2>
-        <div class="grupo-checkbox" style="margin-bottom: 20px;">
-            <label><input type="radio" name="tipo_pedido" value="local" $checkLocal> Para consumir en el local</label>
-            <label><input type="radio" name="tipo_pedido" value="llevar" $checkLlevar> Para llevar</label>
+        <h2>1. Detalles del Pedido</h2>
+        <div class="grupo-checkbox" style="margin-bottom: 20px; border: 1px solid #ddd; padding: 15px; border-radius: 8px;">
+            <label><input type="radio" name="tipo_pedido" value="local" checked> Para consumir en el local</label>
+            <label><input type="radio" name="tipo_pedido" value="llevar"> Para llevar</label>
         </div>
         
-        <h2>Pago Seguro (Simulado)</h2>
-        <label>Número de Tarjeta:</label>
-        <input type="text" placeholder="1234 5678 9101 1121" required pattern="\d{16}" title="Debe contener 16 dígitos numéricos">
+        <h2>2. Forma de Pago</h2>
+        <div class="grupo-checkbox" style="margin-bottom: 20px; border: 1px solid #ddd; padding: 15px; border-radius: 8px;">
+            <label><input type="radio" name="metodo_pago" value="tarjeta" checked onclick="document.getElementById('seccion-tarjeta').style.display='block'"> Pago con Tarjeta</label>
+            <label><input type="radio" name="metodo_pago" value="camarero" onclick="document.getElementById('seccion-tarjeta').style.display='none'"> Pagar al camarero</label>
+        </div>
+        
+        <div id="seccion-tarjeta" style="background: #f1f1f1; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+            <label>Número de Tarjeta:</label>
+            <input type="text" placeholder="1234 5678 9101 1121" pattern="\d{16}" title="Debe contener 16 dígitos">
+        </div>
         
         <div class="acciones" style="margin-top: 30px;">
-            <button type="submit" class="boton-nuevo">Pagar y Confirmar Pedido</button>
-            <a href="apoyo/procesar_carrito.php?accion=clear" class="boton-borrar">Vaciar Carrito</a>
+            <button type="submit" class="boton-nuevo" style="width: 100%;">Confirmar y Pagar</button>
+            <a href="apoyo/procesar_carrito.php?accion=clear" class="boton-borrar" style="display: block; text-align: center; margin-top: 10px;">Vaciar Carrito</a>
         </div>
     </form>
 EOF;
 }
 
 $contenidoPrincipal = "<h1>Revisar Pedido</h1>" . $htmlLineas;
-
 require("../comun/plantilla.php");
+?>

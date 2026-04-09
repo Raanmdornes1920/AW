@@ -11,7 +11,10 @@ class PedidoDAO {
         $sql = "SELECT MAX(numero_pedido) as max_num FROM pedidos WHERE DATE(fecha) = CURDATE()";
         $res = mysqli_query($this->db, $sql);
         $row = mysqli_fetch_assoc($res);
-        return ($row['max_num'] !== null) ? $row['max_num'] + 1 : 1;
+        $numero = ($row['max_num'] !== null) ? $row['max_num'] + 1 : 1;
+        
+        mysqli_free_result($res); // ¡Liberar recurso añadido!
+        return $numero;
     }
 
     public function guardar($pedido, $lineas_carrito) {
@@ -32,6 +35,7 @@ class PedidoDAO {
             mysqli_stmt_bind_param($stmt, "iissd", $numero_pedido, $id_user, $estado, $tipo, $total);
             mysqli_stmt_execute($stmt);
             $id_pedido = mysqli_insert_id($this->db);
+            mysqli_stmt_close($stmt); // ¡Liberar recurso añadido!
 
             // 2. Insertar en tabla lineas_pedido
             $sql_linea = "INSERT INTO lineas_pedido (id_pedido, id_producto, cantidad, precio_unitario) VALUES (?, ?, ?, ?)";
@@ -44,6 +48,7 @@ class PedidoDAO {
                 mysqli_stmt_bind_param($stmt_linea, "iiid", $id_pedido, $id_prod, $cant, $precio);
                 mysqli_stmt_execute($stmt_linea);
             }
+            mysqli_stmt_close($stmt_linea); // ¡Liberar recurso añadido!
 
             // Si todo va bien, confirmamos los cambios
             mysqli_commit($this->db);
@@ -68,6 +73,9 @@ class PedidoDAO {
             $pedidos[] = new Pedido($row['id'], $row['numero_pedido'], $row['id_usuario'], 
                                     $row['fecha'], $row['estado'], $row['tipo'], $row['total']);
         }
+        
+        mysqli_free_result($res); // ¡Liberar recurso añadido!
+        mysqli_stmt_close($stmt); // ¡Liberar recurso añadido!
         return $pedidos;
     }
 
@@ -78,11 +86,15 @@ class PedidoDAO {
         mysqli_stmt_execute($stmt);
         $res = mysqli_stmt_get_result($stmt);
         
+        $pedido = null;
         if ($row = mysqli_fetch_assoc($res)) {
-            return new Pedido($row['id'], $row['numero_pedido'], $row['id_usuario'], 
+            $pedido = new Pedido($row['id'], $row['numero_pedido'], $row['id_usuario'], 
                               $row['fecha'], $row['estado'], $row['tipo'], $row['total']);
         }
-        return null;
+        
+        mysqli_free_result($res); // ¡Liberar recurso añadido!
+        mysqli_stmt_close($stmt); // ¡Liberar recurso añadido!
+        return $pedido;
     }
 
     public function listarPorEstado($estados) {
@@ -101,6 +113,9 @@ class PedidoDAO {
             $pedidos[] = new Pedido($row['id'], $row['numero_pedido'], $row['id_usuario'], 
                                     $row['fecha'], $row['estado'], $row['tipo'], $row['total']);
         }
+        
+        mysqli_free_result($res); // ¡Liberar recurso añadido!
+        mysqli_stmt_close($stmt); // ¡Liberar recurso añadido!
         return $pedidos;
     }
 
@@ -108,7 +123,10 @@ class PedidoDAO {
         $sql = "UPDATE pedidos SET estado = ? WHERE id = ?";
         $stmt = mysqli_prepare($this->db, $sql);
         mysqli_stmt_bind_param($stmt, "si", $nuevo_estado, $id_pedido);
-        return mysqli_stmt_execute($stmt);
+        $exito = mysqli_stmt_execute($stmt);
+        
+        mysqli_stmt_close($stmt); // ¡Liberar recurso añadido!
+        return $exito;
     }
 
     public function obtenerLineasPedido($id_pedido) {
@@ -124,6 +142,9 @@ class PedidoDAO {
         while ($row = mysqli_fetch_assoc($res)) {
             $lineas[] = $row; // Guardamos el array asociativo con los datos
         }
+        
+        mysqli_free_result($res); // ¡Liberar recurso añadido!
+        mysqli_stmt_close($stmt); // ¡Liberar recurso añadido!
         return $lineas;
     }
 
@@ -131,7 +152,10 @@ class PedidoDAO {
         $sql = "UPDATE lineas_pedido SET preparado = 1 WHERE id = ?";
         $stmt = mysqli_prepare($this->db, $sql);
         mysqli_stmt_bind_param($stmt, "i", $id_linea);
-        return mysqli_stmt_execute($stmt);
+        $exito = mysqli_stmt_execute($stmt);
+        
+        mysqli_stmt_close($stmt); // ¡Liberar recurso añadido!
+        return $exito;
     }
 
     public function estanTodasLineasPreparadas($id_pedido) {
@@ -141,6 +165,11 @@ class PedidoDAO {
         mysqli_stmt_execute($stmt);
         $res = mysqli_stmt_get_result($stmt);
         $row = mysqli_fetch_assoc($res);
-        return $row['pendientes'] == 0;
+        $terminado = ($row['pendientes'] == 0);
+        
+        mysqli_free_result($res); // ¡Liberar recurso añadido!
+        mysqli_stmt_close($stmt); // ¡Liberar recurso añadido!
+        return $terminado;
     }
 }
+?>
