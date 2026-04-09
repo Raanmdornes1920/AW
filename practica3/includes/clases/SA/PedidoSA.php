@@ -12,29 +12,31 @@ class PedidoSA {
      * $carrito debe ser un array con el id_producto como clave y la cantidad como valor:
      * Ejemplo: [ 5 => 2, 9 => 1 ] (Dos ensaladas césar y una carbonara)
      */
-    public function procesarCompra($id_usuario, $tipo, $carrito) {
+    /**
+     * $carrito debe ser un array con el id_producto como clave y la cantidad como valor
+     */
+    public function procesarCompra($id_usuario, $tipo, $carrito, $metodo_pago = 'tarjeta') {
         if (empty($carrito) || !is_array($carrito)) {
             return false;
         }
 
-        // SANEAMIENTO PROFESOR: Limpiamos los datos de entrada para evitar inyecciones
+        // Saneamiento de entrada
         $id_usuario = filter_var($id_usuario, FILTER_SANITIZE_NUMBER_INT);
         $tipo = htmlspecialchars(strip_tags($tipo)); 
+        $metodo_pago = htmlspecialchars(strip_tags($metodo_pago));
 
         $total = 0;
         $lineas_procesadas = [];
         $prodDAO = new ProductoDAO($this->db);
 
-        // Validamos productos y recalculamos total real en backend
         foreach ($carrito as $id_producto => $cantidad) {
-            // SANEAMIENTO PROFESOR: Aseguramos que IDs y cantidades sean números puros
             $id_producto_limpio = filter_var($id_producto, FILTER_SANITIZE_NUMBER_INT);
             $cantidad_limpia = filter_var($cantidad, FILTER_SANITIZE_NUMBER_INT);
 
             $producto = $prodDAO->obtenerPorId($id_producto_limpio);
             
             if ($producto && $producto->getDisponible() == 1) {
-                $precio_final = $producto->getPrecioFinal(); // Precio con IVA
+                $precio_final = $producto->getPrecioFinal(); 
                 $total += ($precio_final * $cantidad_limpia);
                 
                 $lineas_procesadas[] = [
@@ -47,8 +49,11 @@ class PedidoSA {
 
         if (empty($lineas_procesadas)) return false;
 
-        // El estado inicial al guardarse es 'recibido' según el enunciado
-        $pedido = new Pedido(null, null, $id_usuario, null, 'recibido', $tipo, $total);
+        // Si paga al camarero/efectivo, se queda en 'recibido'.
+        // Si paga con tarjeta, salta directamente a la cocina ('en_preparacion').
+        $estado_inicial = ($metodo_pago === 'camarero' || $metodo_pago === 'efectivo') ? 'recibido' : 'en_preparacion';
+
+        $pedido = new Pedido(null, null, $id_usuario, null, $estado_inicial, $tipo, $total);
         
         return $this->dao->guardar($pedido, $lineas_procesadas);
     }
