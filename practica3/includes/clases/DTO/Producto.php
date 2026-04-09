@@ -43,6 +43,7 @@ class Producto {
 
     public function getPrecioFinal() {
         return $this->precio_base * (1 + ($this->iva / 100));
+        //nada
     }
 
 }
