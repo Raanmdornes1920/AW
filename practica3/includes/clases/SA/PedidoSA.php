@@ -13,9 +13,13 @@ class PedidoSA {
      * Ejemplo: [ 5 => 2, 9 => 1 ] (Dos ensaladas césar y una carbonara)
      */
     public function procesarCompra($id_usuario, $tipo, $carrito) {
-        if (empty($carrito)) {
+        if (empty($carrito) || !is_array($carrito)) {
             return false;
         }
+
+        // SANEAMIENTO PROFESOR: Limpiamos los datos de entrada para evitar inyecciones
+        $id_usuario = filter_var($id_usuario, FILTER_SANITIZE_NUMBER_INT);
+        $tipo = htmlspecialchars(strip_tags($tipo)); 
 
         $total = 0;
         $lineas_procesadas = [];
@@ -23,15 +27,19 @@ class PedidoSA {
 
         // Validamos productos y recalculamos total real en backend
         foreach ($carrito as $id_producto => $cantidad) {
-            $producto = $prodDAO->obtenerPorId($id_producto);
+            // SANEAMIENTO PROFESOR: Aseguramos que IDs y cantidades sean números puros
+            $id_producto_limpio = filter_var($id_producto, FILTER_SANITIZE_NUMBER_INT);
+            $cantidad_limpia = filter_var($cantidad, FILTER_SANITIZE_NUMBER_INT);
+
+            $producto = $prodDAO->obtenerPorId($id_producto_limpio);
             
             if ($producto && $producto->getDisponible() == 1) {
                 $precio_final = $producto->getPrecioFinal(); // Precio con IVA
-                $total += ($precio_final * $cantidad);
+                $total += ($precio_final * $cantidad_limpia);
                 
                 $lineas_procesadas[] = [
-                    'id_producto' => $id_producto,
-                    'cantidad' => $cantidad,
+                    'id_producto' => $id_producto_limpio,
+                    'cantidad' => $cantidad_limpia,
                     'precio_unitario' => $precio_final
                 ];
             }
@@ -46,6 +54,8 @@ class PedidoSA {
     }
 
     public function obtenerPedidosCliente($id_usuario) {
+        // Saneamiento de entrada
+        $id_usuario = filter_var($id_usuario, FILTER_SANITIZE_NUMBER_INT);
         return $this->dao->listarPorUsuario($id_usuario);
     }
 
@@ -60,6 +70,10 @@ class PedidoSA {
     }
 
     public function cambiarEstadoPedido($id_pedido, $nuevo_estado) {
+        // Saneamiento de entrada
+        $id_pedido = filter_var($id_pedido, FILTER_SANITIZE_NUMBER_INT);
+        $nuevo_estado = htmlspecialchars(strip_tags($nuevo_estado));
+
         $estados_validos = ['recibido', 'en_preparacion', 'cocinando', 'listo_cocina', 'terminado', 'entregado', 'cancelado'];
         if (in_array($nuevo_estado, $estados_validos)) {
             return $this->dao->actualizarEstado($id_pedido, $nuevo_estado);
@@ -68,18 +82,22 @@ class PedidoSA {
     }
 
     public function obtenerPorId($id) {
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
         return $this->dao->obtenerPorId($id);
     }
 
     public function obtenerDetallesPedido($id_pedido) {
+        $id_pedido = filter_var($id_pedido, FILTER_SANITIZE_NUMBER_INT);
         return $this->dao->obtenerLineasPedido($id_pedido);
     }
 
     public function marcarProductoComoPreparado($id_linea) {
+        $id_linea = filter_var($id_linea, FILTER_SANITIZE_NUMBER_INT);
         return $this->dao->marcarLineaPreparada($id_linea);
     }
 
     public function sePuedeFinalizarPedido($id_pedido) {
+        $id_pedido = filter_var($id_pedido, FILTER_SANITIZE_NUMBER_INT);
         return $this->dao->estanTodasLineasPreparadas($id_pedido);
     }
 
@@ -87,3 +105,4 @@ class PedidoSA {
         return $this->dao->listarPorEstado(['recibido', 'en_preparacion', 'cocinando', 'listo_cocina', 'terminado']);
     }
 }
+?>

@@ -18,17 +18,16 @@ $js = [(RAIZ_APP . "/js/pedidos.js"), (RAIZ_APP . "/js/script.js")];
 $htmlTabla = "";
 
 if (empty($pedidos)) {
-    $htmlTabla = "<p>No hay pedidos pendientes en el restaurante. Todo está tranquilo.</p>";
+    $htmlTabla = "<p>No hay pedidos activos en este momento.</p>";
 } else {
     $htmlTabla .= '<table class="tabla-gestion">
         <thead>
             <tr>
                 <th>Nº Pedido</th>
-                <th>Fecha/Hora</th>
-                <th>ID Cliente</th>
+                <th>Cliente</th>
+                <th>Estado y Detalle</th>
                 <th>Total</th>
-                <th>Estado Actual</th>
-                <th>Acción Gerente</th>
+                <th>Acción</th>
             </tr>
         </thead>
         <tbody>';
@@ -37,23 +36,36 @@ if (empty($pedidos)) {
         $estado = $p->getEstado();
         $id = $p->getId();
         $num = $p->getNumeroPedido();
-        $fecha = date('d/m/Y H:i', strtotime($p->getFecha())); 
         $total = number_format($p->getTotal(), 2);
         $idCliente = $p->getIdUsuario();
         
+        // Detalle de productos si está en cocina (Requisito Funcionalidad 3)
+        $detalleProductos = "";
+        if ($estado === 'cocinando' || $estado === 'en_preparacion') {
+            $lineas = $pedidoSA->obtenerDetallesPedido($id);
+            $detalleProductos = "<div style='font-size: 0.85em; background: #eee; padding: 5px; border-radius: 4px; margin-top: 5px;'>";
+            foreach ($lineas as $l) {
+                $status = $l['preparado'] ? "✅" : "⏳";
+                $detalleProductos .= "<div>$status {$l['cantidad']}x {$l['nombre']}</div>";
+            }
+            $detalleProductos .= "</div>";
+        }
+
         $estadoVisual = ucfirst(str_replace('_', ' ', $estado));
 
         $htmlTabla .= "<tr>
-            <td><strong>#$num</strong></td>
-            <td>$fecha</td>
-            <td>Usuario #$idCliente</td>
-            <td>$total €</td>
-            <td><span class='badge'>$estadoVisual</span></td>
-            <td>
-                <form action='apoyo/procesar_estado_pedido.php' method='POST' onsubmit='return confirm(\"¿Estás seguro de cancelar este pedido?\");'>
+            <td data-label='Nº Pedido'><strong>#$num</strong></td>
+            <td data-label='Cliente'>ID: $idCliente</td>
+            <td data-label='Estado'>
+                <span class='badge'>$estadoVisual</span>
+                $detalleProductos
+            </td>
+            <td data-label='Total'>$total €</td>
+            <td data-label='Acción'>
+                <form action='apoyo/procesar_estado_pedido.php' method='POST' onsubmit='return confirm(\"¿Seguro que quieres cancelar?\")'>
                     <input type='hidden' name='id_pedido' value='$id'>
                     <input type='hidden' name='nuevo_estado' value='cancelado'>
-                    <button type='submit' class='boton-borrar'>Forzar Cancelación</button>
+                    <button type='submit' class='boton-borrar' style='padding: 5px 10px;'>Cancelar</button>
                 </form>
             </td>
         </tr>";
@@ -61,5 +73,6 @@ if (empty($pedidos)) {
     $htmlTabla .= "</tbody></table>";
 }
 
-$contenidoPrincipal = "<h1>Panel de Gerente - Pedidos en Curso</h1>" . $htmlTabla;
+$contenidoPrincipal = "<h1>Panel de Gerencia: Pedidos Activos</h1>" . $htmlTabla;
 require("../comun/plantilla.php");
+?>

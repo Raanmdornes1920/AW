@@ -309,7 +309,7 @@ td {
 .boton-cancelar:hover {
     background-color: #555555;
 }
-
+/*
 .tabla-gestion {
     width: 80%;
     border-collapse: collapse;
@@ -317,20 +317,22 @@ td {
     background-color: white;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
-
+*/
+/*
 .tabla-gestion th {
     background-color: #333;
     color: white;
     padding: 12px;
     font-family: 'Times New Roman', Times, serif;
 }
-
+*/
+/*
 .tabla-gestion td {
     padding: 12px;
     text-align: center;
     border-bottom: 1px solid #ddd;
 }
-
+*/
 .boton-nuevo {
     background-color: rgb(214, 190, 50);
     color: white;
@@ -1713,6 +1715,50 @@ td {
 /*--------------------------------------- ANGELA ---------------------------------------*/
 
 /*--------------------------------------- MIGUEL ---------------------------------------*/
+
+.tabla-gestion, .tabla-gestion thead, .tabla-gestion tbody, .tabla-gestion th, .tabla-gestion td, .tabla-gestion tr {
+    display: block;
+    width: 100%; /* Que ocupe todo el ancho del móvil */
+    box-sizing: border-box;
+}
+
+/* Escondemos la cabecera original porque en móvil no cabe */
+.tabla-gestion thead tr {
+    display: none;
+}
+
+/* Cada fila ahora parece una tarjeta separada */
+.tabla-gestion tr {
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Configuración de cada celda individual */
+.tabla-gestion td {
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding: 10px 10px 10px 50%; /* Dejamos la mitad izquierda libre para el título */
+    text-align: right;
+}
+
+.tabla-gestion td:last-child {
+    border-bottom: 0;
+}
+
+/* Cogemos el 'data-label' que pusimos en el PHP y lo inyectamos a la izquierda */
+.tabla-gestion td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 10px;
+    width: 45%;
+    text-align: left;
+    font-weight: bold;
+}
 
 /*--------------------------------------- MIGUEL ---------------------------------------*/
 
