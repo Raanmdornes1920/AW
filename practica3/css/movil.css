@@ -1733,9 +1733,9 @@ td {
 }
 
 .tabla-gestion-productos {
-    width: 80%;
+    width: 95%;
     border-collapse: collapse;
-    margin: 20px 0;
+    margin: 20px auto;
     background-color: white;
     border: none;
     display: block;
