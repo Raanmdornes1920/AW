@@ -1464,8 +1464,10 @@ td {
 .form-estilizado input[type="file"] {
     display: block;
     width: 100%;
-    overflow: visible;   /* Permite que el texto se vea */
-    white-space: normal; /* Permite saltos de línea si el nombre del archivo es largo */
+    overflow: visible;
+    /* Permite que el texto se vea */
+    white-space: normal;
+    /* Permite saltos de línea si el nombre del archivo es largo */
     font-size: 13px;
     padding: 12px;
     background: #fdfdfd;
@@ -1480,17 +1482,20 @@ td {
 }
 
 .form-estilizado {
-    width: 98%; /* Casi todo el ancho del móvil */
+    width: 98%;
+    /* Casi todo el ancho del móvil */
     margin: 10px auto;
     padding: 15px;
-    box-shadow: none; /* Quitamos sombra para que se vea más limpio */
+    box-shadow: none;
+    /* Quitamos sombra para que se vea más limpio */
 }
 
 .acciones {
     flex-direction: column;
 }
 
-.acciones button, .acciones a {
+.acciones button,
+.acciones a {
     width: 100%;
     margin-bottom: 10px;
 }
