@@ -310,27 +310,6 @@ td {
     background-color: #555555;
 }
 
-.tabla-gestion {
-    width: 80%;
-    border-collapse: collapse;
-    margin: 20px 0;
-    background-color: white;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.tabla-gestion th {
-    background-color: #333;
-    color: white;
-    padding: 12px;
-    font-family: 'Times New Roman', Times, serif;
-}
-
-.tabla-gestion td {
-    padding: 12px;
-    text-align: center;
-    border-bottom: 1px solid #ddd;
-}
-
 .boton-nuevo {
     background-color: rgb(214, 190, 50);
     color: white;
@@ -1713,6 +1692,89 @@ td {
 /*--------------------------------------- ANGELA ---------------------------------------*/
 
 /*--------------------------------------- MIGUEL ---------------------------------------*/
+.tabla-gestion {
+    width: 80%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background-color: white;
+    border: none;
+    display: block;
+    box-sizing: border-box;
+}
+
+.tabla-gestion thead,
+.tabla-gestion tbody,
+.tabla-gestion th,
+.tabla-gestion td,
+.tabla-gestion tr {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Escondemos la cabecera original (Nº Pedido, Fecha...) porque no caben arriba */
+.tabla-gestion thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+}
+
+.tabla-gestion tr {
+    border: 1px solid #ddd;
+    margin-bottom: 15px;
+    /* Espacio entre cada pedido */
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+}
+
+.tabla-gestion td {
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding: 10px 10px 10px 50%;
+    /* Dejamos hueco a la izquierda */
+    text-align: right;
+    /* El dato va a la derecha */
+    font-size: 14px;
+}
+
+/* Insertamos etiquetas a la izquierda de cada celda usando contenido generado */
+.tabla-gestion td::before {
+    position: absolute;
+    left: 10px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+    text-align: left;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Definimos el texto de cada etiqueta según la posición de la columna */
+.tabla-gestion td:nth-of-type(1)::before {
+    content: "Nº Pedido";
+}
+
+.tabla-gestion td:nth-of-type(2)::before {
+    content: "Fecha";
+}
+
+.tabla-gestion td:nth-of-type(3)::before {
+    content: "Tipo";
+}
+
+.tabla-gestion td:nth-of-type(4)::before {
+    content: "Total";
+}
+
+.tabla-gestion td:nth-of-type(5)::before {
+    content: "Estado";
+}
+
+.tabla-gestion td:last-child {
+    border-bottom: none;
+}
 
 /*--------------------------------------- MIGUEL ---------------------------------------*/
 

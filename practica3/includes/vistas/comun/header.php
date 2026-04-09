@@ -14,7 +14,7 @@ function clase_activa($nombre_archivo, $pagina_actual) {
 <button class="menu-toggle" onclick="toggleMenu()">☰</button>
 
 <!-- Logo visible solo en móvil (centrado) -->
-<img id="Logo-Header" class="logo-movil" src="<?php echo RUTA_IMG; ?>/logo1.png" alt="Logo de Bistro FDI">
+<img id="Logo-Header" class="logo-movil" src="<?php echo RUTA_IMG; ?>/logo1.png" alt="Logo de Bistro FDI" onclick="window.location.href='<?php echo RAIZ_APP; ?>/'">
 
 <div class="header-izquierdo"></div>
     <nav class="navegacion_principal" id="menu" aria-label="Navegación principal">
