@@ -1206,16 +1206,18 @@ td {
 }
 
 .botones-gestion-usuarios {
-    background-color: #888888;
+    background-color: #34495e;
     color: white;
-    padding: 10px 20px;
+    padding: 12px 20px;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
     font-size: 16px;
-    font-family: 'Times New Roman', Times, serif;
-    width: auto;
-    margin: 0 15px;
+    font-family: inherit;
+    width: 95%;
+    margin: 10px auto;
+    display: block;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .usuario-menu-container {
@@ -1240,49 +1242,139 @@ td {
 }
 
 .contenedor-tabla-usuarios {
-    width: 80%;
-    border: 1px solid #000;
-    border-radius: 20px;
-    overflow: hidden;
+    width: 92% !important;
+    max-width: 95% !important;
+    border: none;
+    border-radius: 0;
+    overflow: visible;
+    margin: 30px auto !important;
+    display: block !important;
+    box-sizing: border-box !important;
 }
 
 .tabla-usuarios {
-    width: 100%;
-    border-collapse: collapse;
+    display: block !important;
+    width: 100% !important;
     border: none;
-    margin: 0;
+    background-color: transparent !important;
 }
 
-/* Tabla estilo zebra */
-.tabla-usuarios tr:nth-child(even) {
-    background-color: #e6e6e6;
+.tabla-usuarios tbody {
+    display: block !important;
+    width: 100% !important;
 }
 
-/* Estilo de cabeceras */
-.tabla-usuarios tr:nth-child(2) {
-    background: linear-gradient(to bottom, #2c3e60, #2c3e40);
+/* Fila del título (EMPLEADOS / CLIENTES) */
+.tabla-usuarios tr:first-child {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.tabla-usuarios tr:first-child th.titulo-tabla {
+    display: block;
+    width: 100%;
+    border-radius: 12px;
+    padding: 15px;
+    background: linear-gradient(135deg, #2c3e50, #34495e);
     color: white;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+    box-sizing: border-box;
+}
+
+/* Escondemos la fila de cabeceras de columnas */
+.tabla-usuarios tr:nth-child(2) {
+    display: none;
+}
+
+/* Cada fila de usuario ahora es una tarjeta */
+.tabla-usuarios tr {
+    display: block;
+    width: 100% !important;
+    /* Asegurar que la tarjeta ocupe todo el contenedor */
+    background-color: white;
+    margin-bottom: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 5px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    /* Sombra un poco más pronunciada */
+    box-sizing: border-box;
+    /* Crucial para que el 100% incluya el padding/border */
+}
+
+.tabla-usuarios tr:nth-child(even) {
+    background-color: #ffffff;
+    /* Quitamos el zebra de desktop */
+}
+
+.tabla-usuarios td {
+    display: block;
+    border: none;
+    border-bottom: 1px solid #f5f5f5;
+    position: relative;
+    padding: 12px 15px 12px 42%;
+    /* Ajustado para el nuevo ancho del 85% */
+    text-align: right;
+    font-size: 14px;
+    min-height: 48px;
+    box-sizing: border-box;
+    word-break: break-word;
+}
+
+.tabla-usuarios td:last-child {
+    border-bottom: none;
+}
+
+/* Etiquetas generadas desde data-label */
+.tabla-usuarios td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 15px;
+    width: 38%;
+    /* Proporcional al nuevo ancho */
+    text-align: left;
+    font-weight: 700;
+    color: #7f8c8d;
+    text-transform: uppercase;
+    font-size: 11px;
+    top: 50%;
+    transform: translateY(-50%);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tabla-usuarios td.columna-boton-editar {
+    width: 100% !important;
+    padding: 15px !important;
+    /* Sin padding lateral exagerado si no hay label */
+    text-align: center !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60px;
 }
 
 .boton-taba-usuarios {
-    background-color: #888888;
-    /* Color a juego con tu navegación */
+    background-color: #34495e;
     color: white;
-    padding: 2px 5px;
+    padding: 10px 25px;
+    border-radius: 8px;
     border: none;
-    border-radius: 4px;
     cursor: pointer;
-    font-size: 16px;
-    font-family: 'Times New Roman', Times, serif;
-    width: auto;
+    font-size: 15px;
+    font-family: inherit;
+    width: 100%;
+    transition: background-color 0.2s;
 }
 
-.columna-boton-editar {
-    text-align: center;
-    vertical-align: middle;
-    padding: none;
-    width: 8%;
+.boton-taba-usuarios:hover {
+    background-color: #2c3e50;
 }
+
 
 /*----- TABLAS -----*/
 /*----- AVATARES -----*/
