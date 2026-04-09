@@ -1375,6 +1375,89 @@ td {
     background-color: #2c3e50;
 }
 
+.tabla-gestion-usuario {
+    width: 80%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background-color: white;
+    border: none;
+    display: block;
+    box-sizing: border-box;
+}
+
+.tabla-gestion-usuario thead,
+.tabla-gestion-usuario tbody,
+.tabla-gestion-usuario th,
+.tabla-gestion-usuario td,
+.tabla-gestion-usuario tr {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Escondemos la cabecera original (Nº Pedido, Fecha...) porque no caben arriba */
+.tabla-gestion-usuario thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+}
+
+.tabla-gestion-usuario tr {
+    border: 1px solid #ddd;
+    margin-bottom: 15px;
+    /* Espacio entre cada pedido */
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+}
+
+.tabla-gestion-usuario td {
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding: 10px 10px 10px 50%;
+    /* Dejamos hueco a la izquierda */
+    text-align: right;
+    /* El dato va a la derecha */
+    font-size: 14px;
+}
+
+/* Insertamos etiquetas a la izquierda de cada celda usando contenido generado */
+.tabla-gestion-usuario td::before {
+    position: absolute;
+    left: 10px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+    text-align: left;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Definimos el texto de cada etiqueta según la posición de la columna */
+.tabla-gestion-usuario td:nth-of-type(1)::before {
+    content: "Nº Pedido";
+}
+
+.tabla-gestion-usuario td:nth-of-type(2)::before {
+    content: "Fecha";
+}
+
+.tabla-gestion-usuario td:nth-of-type(3)::before {
+    content: "Tipo";
+}
+
+.tabla-gestion-usuario td:nth-of-type(4)::before {
+    content: "Total";
+}
+
+.tabla-gestion-usuario td:nth-of-type(5)::before {
+    content: "Estado";
+}
+
+.tabla-gestion-usuario td:last-child {
+    border-bottom: none;
+}
 
 /*----- TABLAS -----*/
 /*----- AVATARES -----*/
@@ -1440,12 +1523,10 @@ td {
 /*----- AVATARES -----*/
 /*----- FOOTER -----*/
 .pie-pagina {
-
     background-color: #686868;
     color: white;
     padding: 10px 0;
-    margin-top: auto;
-    /* Refuerzo para quedarse abajo */
+    margin-top: 30px;
     bottom: 0;
 }
 

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.2
 -- https://www.phpmyadmin.net/
 --
--- Servidor: localhost
--- Tiempo de generación: 13-03-2026 a las 20:23:32
--- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
+-- Servidor: vm016.db.swarm.test
+-- Tiempo de generación: 09-04-2026 a las 19:44:35
+-- Versión del servidor: 10.4.28-MariaDB-1:10.4.28+maria~ubu2004
+-- Versión de PHP: 8.2.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -43,7 +43,8 @@ INSERT INTO `categorias` (`id`, `nombre`, `descripcion`, `imagen`, `activa`) VAL
 (7, 'Hamburguesas', 'Jugosas hamburguesas elaboradas con ingredientes frescos y de calidad, acompañadas de pan artesanal y opciones de toppings para todos los gustos.', 'cat_69b2e63f080a0.png', 1),
 (8, 'Pasta', 'Deliciosas pastas artesanales con salsas clásicas y creativas, preparadas al momento para una experiencia llena de sabor.', 'cat_69b2c1a38169c.avif', 1),
 (9, 'Ensaladas', 'Frescas y coloridas, con ingredientes naturales y combinaciones deliciosas para una opción ligera y saludable.', 'cat_69b2c4c225362.jpg', 1),
-(10, 'Carnes', 'Cortes jugosos y llenos de sabor, preparados a la parrilla o a la plancha para disfrutar de una experiencia intensa y deliciosa.', 'cat_69b30204e8ce1.jpg', 1);
+(10, 'Carnes', 'Cortes jugosos y llenos de sabor, preparados a la parrilla o a la plancha para disfrutar de una experiencia intensa y deliciosa.', 'cat_69b30204e8ce1.jpg', 1),
+(11, 'Bebidas', 'Bebidas', 'default_cat.png', 1);
 
 -- --------------------------------------------------------
 
@@ -90,17 +91,19 @@ CREATE TABLE `productos` (
   `precio_base` decimal(10,2) NOT NULL,
   `iva` int(11) NOT NULL CHECK (`iva` in (4,10,21)),
   `disponible` tinyint(1) DEFAULT 1,
-  `ofertado` tinyint(1) DEFAULT 1
+  `ofertado` tinyint(1) DEFAULT 1,
+  `cocinable` tinyint(1) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `productos`
 --
 
-INSERT INTO `productos` (`id`, `id_categoria`, `nombre`, `descripcion`, `precio_base`, `iva`, `disponible`, `ofertado`) VALUES
-(5, 9, 'Ensalada César', 'Clásica ensalada con lechuga crujiente, pollo, crutones y queso parmesano, acompañada de nuestra cremosa salsa César.', 11.00, 10, 1, 1),
-(9, 8, 'Pasta Carbonara', 'Pasta cremosa con bacon crujiente, queso parmesano y salsa tradicional, una receta clásica llena de sabor.', 13.00, 10, 1, 1),
-(10, 8, 'Pasta Boloñesa', 'Pasta acompañada de una rica salsa de carne de res cocinada a fuego lento con tomate y especias.', 10.00, 10, 1, 1);
+INSERT INTO `productos` (`id`, `id_categoria`, `nombre`, `descripcion`, `precio_base`, `iva`, `disponible`, `ofertado`, `cocinable`) VALUES
+(5, 9, 'Ensalada César', 'Clásica ensalada con lechuga crujiente, pollo, crutones y queso parmesano, acompañada de nuestra cremosa salsa César.', 11.00, 10, 1, 1, 1),
+(9, 8, 'Pasta Carbonara', 'Pasta cremosa con bacon crujiente, queso parmesano y salsa tradicional, una receta clásica llena de sabor.', 13.00, 10, 1, 1, 1),
+(10, 8, 'Pasta Boloñesa', 'Pasta acompañada de una rica salsa de carne de res cocinada a fuego lento con tomate y especias.', 10.00, 10, 1, 1, 1),
+(11, 11, 'Agua', 'Agua manantial', 2.00, 21, 1, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -212,25 +215,25 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `lineas_pedido`
 --
 ALTER TABLE `lineas_pedido`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT de la tabla `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `productos_imagenes`
