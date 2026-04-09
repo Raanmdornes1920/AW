@@ -311,9 +311,11 @@ td {
 }
 
 .tabla-gestion {
-    width: 80%;
+    display: block;
+    width: 90%;
+    overflow-x: auto; /* Permite scroll horizontal solo en la tabla */    white-space: nowrap;
     border-collapse: collapse;
-    margin: 20px 0;
+    margin: 20px auto;
     background-color: white;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
@@ -1710,7 +1712,230 @@ td {
 
 /*--------------------------------------- ANGELA ---------------------------------------*/
 
-/*--------------------------------------- ANGELA ---------------------------------------*/
+/*Para productos*/
+
+.form-estilizado input[type="number"],
+.form-estilizado input[type="password"],
+.form-estilizado input[type="text"],
+.form-estilizado input[type="email"],
+.form-estilizado select,
+.form-estilizado textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+.precio-final-destacado {
+    margin: 10px 0 25px 0;
+    padding: 15px;
+    background-color: #eee;
+    border-radius: 5px;
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.precio-final-destacado strong {
+    font-size: 1.2em;
+    color: #333;
+}
+
+.grupo-checkbox {
+    margin-bottom: 20px;
+}
+
+.grupo-checkbox label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: normal;
+    margin-bottom: 8px;
+    cursor: pointer;
+}
+
+.grupo-checkbox input {
+    width: auto;
+    margin: 0;
+}
+
+/*Diseño tienda vista cliente*/
+.contenedor-pedido {
+    display: flex;
+    flex-direction: column; /* Menú arriba y productos abajo */
+    padding: 10px;
+}
+
+.menu-lateral {
+    width: 100%; /* Ocupa todo el ancho del móvil */
+    margin-bottom: 20px;
+    background: #f4f4f4;
+    padding: 15px;
+    border-radius: 8px;
+    height: fit-content;
+}
+
+.menu-lateral h3 { margin-top: 0; }
+
+.menu-lateral ul { list-style: none; padding: 0; }
+
+.menu-lateral ul li a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: #333;
+    border-bottom: 1px solid #ddd;
+}
+
+.menu-lateral ul li a:hover { background: #e0e0e0; }
+
+/* Cuadrícula de 3 columnas */
+.cuadricula-objetos {
+    display: grid;
+    grid-template-columns: 1fr; /* 1 sola columna de productos */
+    gap: 10px;
+    flex-grow: 1;
+}
+
+.tarjeta-item {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+}
+
+.tarjeta-item:hover {
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.tarjeta-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover; 
+}
+
+.tarjeta-item h4 {
+    padding: 10px;
+    margin: 0;
+    background: #fff;
+}
+
+/*Para productos detalle*/
+.detalle-producto-centrado {
+    width: 95%; 
+    margin: 10px auto; 
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+
+    position: relative; 
+    z-index: 1;
+}
+
+.carrusel-contenedor {
+    position: relative;
+    width: 100%;
+    height: 250px; 
+    background: #f9f9f9;
+}
+
+.carrusel {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.img-carrusel {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none; 
+}
+
+.img-carrusel.active {
+    display: block; 
+}
+
+.btn-carrusel {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.3);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 18px;
+    z-index: 10;
+    transition: background 0.3s;
+}
+
+.btn-carrusel:hover { background: rgba(0,0,0,0.7); }
+.prev { left: 0; border-radius: 0 5px 5px 0; }
+.next { right: 0; border-radius: 5px 0 0 5px; }
+
+.info-detalle {
+    padding: 20px;
+    text-align: left;
+}
+
+.info-detalle h1 { margin: 0 0 10px 0; font-size: 1.5em; }
+.info-detalle .descripcion { color: #666; font-size: 0.95em; line-height: 1.4; }
+.info-detalle .precio-detalle { 
+    font-size: 1.4em; 
+    font-weight: bold; 
+    color: #e2001a; 
+    margin: 15px 0; 
+}
+
+.controles-pedido {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.selector-cantidad {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.selector-cantidad button {
+    width: 50px;
+    height: 50px;
+    background-color: #eeeeee; 
+    border: 1px solid #ccc;
+    color: #000000; 
+    font-size: 20px; 
+    font-weight: bold;
+    cursor: pointer;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.selector-cantidad input {
+    width: 50px;
+    text-align: center;
+    border: 1px solid #ddd;
+    padding: 5px;
+}
+
+.btn-carrito {
+    width: 100%;
+    padding: 12px;
+    font-weight: bold;
+}
 
 /*--------------------------------------- MIGUEL ---------------------------------------*/
 

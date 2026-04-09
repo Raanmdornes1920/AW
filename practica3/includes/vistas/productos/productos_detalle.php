@@ -13,7 +13,7 @@ if (!$producto) {
 }
 
 $tituloPagina = $producto->getNombre();
-$css = [RAIZ_APP . "/css/default.css"];
+$css = [];
 $js = []; 
 $header = __DIR__ . "/../comun/header.php";
 $claseMain = "contenedor-centro";

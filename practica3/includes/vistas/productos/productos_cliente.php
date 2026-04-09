@@ -18,7 +18,7 @@ if ($id_cat) {
     $tituloPagina = "Todos los productos";
 }
 
-$css = [RAIZ_APP . "/css/default.css"];
+$css = [];
 $js = []; 
 $header = __DIR__ . "/../comun/header.php"; 
 $claseMain = "contenedor-centro";
