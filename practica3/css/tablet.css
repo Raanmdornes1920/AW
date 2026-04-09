@@ -1535,7 +1535,8 @@ td {
     padding: 20px;
     background: white;
     border: 1px solid #ddd;
-    box-sizing: border-box; /* para que el padding no sume ancho */
+    box-sizing: border-box;
+    /* para que el padding no sume ancho */
 }
 
 /* Ajustamos la cuadrícula de productos a 2 columnas */
