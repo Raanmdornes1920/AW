@@ -1194,15 +1194,18 @@ td {
 }
 
 #formLogin {
-    max-width: 30%;
+    max-width: 70%;
+    width: 100%;
 }
 
 #formRegistro {
-    max-width: 100%;
+    max-width: 95%;
+    width: 100%;
 }
 
 #formCrearUsuario {
-    max-width: 50%;
+    max-width: 80%;
+    width: 100%;
 }
 
 .botones-gestion-usuarios {
@@ -1526,11 +1529,13 @@ td {
 }
 
 .form-estilizado {
-    width: 95%;
+    width: 90%;
+    max-width: 600px;
     margin: 20px auto;
     padding: 20px;
     background: white;
     border: 1px solid #ddd;
+    box-sizing: border-box; /* para que el padding no sume ancho */
 }
 
 /* Ajustamos la cuadrícula de productos a 2 columnas */
