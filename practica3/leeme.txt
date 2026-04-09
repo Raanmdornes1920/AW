@@ -18,8 +18,18 @@ Funcionalidad 1: Gestion de Productos (Completada)
         Vista cliente: visualizacion del catalogo de categorias
         Vista gerente: tabla de administracion de las categorias (listar, crear, editar y borrar)
     Productos: completado
-        Vista cliente: listado de productos por categorías y vista de detalle de producto.
-        Vista gerente: tabla de gestion de los productos (listar, crear, editar y borrar)
+        Modelo de Datos:
+            Implementación de las tablas 'productos' y 'productos_imagenes'. Esta última tabla necesaria para el carrousel de imágenes
+        Vista cliente: 
+            Listado de todos los productos, listado de productos por categorías y vista de detalle de producto.
+            Carrousel de imagenes en detalle del producto.
+            Opción para añadir más unidades de un producto.
+            Botón para añadir al carrito.
+        Vista gerente: 
+            Tabla de gestion de los productos (listado de productos, opción de crear, editar y borrar).
+            Pantalla de confirmación de eliminación de un producto.
+            El producto puede estar 'disponible' o 'no disponible', y 'en carta' o 'retirado'
+            Formularios para crear y actualizar productos, utilizando POO.
 
 
 Funcionalidad 2: Gestión de Pedidos (Completada)
