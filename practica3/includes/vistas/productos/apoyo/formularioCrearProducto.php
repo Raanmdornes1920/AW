@@ -26,6 +26,8 @@ class FormularioCrearProducto {
 
         $datosSaneados['disponible'] = isset($datos['disponible']) ? 1 : 0;
         $datosSaneados['ofertado'] = isset($datos['ofertado']) ? 1 : 0;
+
+        $datosSaneados['cocinable'] = filter_var($datos['cocinable'] ?? 1, FILTER_SANITIZE_NUMBER_INT);
         
         $datosSaneados['accion'] = $datos['accion'];
 
@@ -74,6 +76,12 @@ class FormularioCrearProducto {
             <div class="grupo-checkbox">
                 <label><input type="checkbox" name="disponible" value="1" checked> Stock disponible</label>
                 <label><input type="checkbox" name="ofertado" value="1" checked> Ofertado en carta</label>
+            </div>
+
+            <div class="grupo-checkbox" style="margin-top: 15px;">
+                <label>¿Requiere preparación en cocina?</label>
+                <label><input type="radio" name="cocinable" value="1" checked> Sí (Comidas)</label>
+                <label><input type="radio" name="cocinable" value="0"> No (Bebidas/Barra)</label>
             </div>
 
             <label>Imagen del producto:</label> 

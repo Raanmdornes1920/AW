@@ -296,50 +296,7 @@ td {
 .boton-cancelar:hover {
     background-color: #555555;
 }
-/*
-.tabla-gestion {
-    display: table;
-    width: 90%;
-    border-collapse: collapse;
-    margin: 0 auto;
-    background-color: white;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 
-    font-size: 0.85rem;
-}
-
-.tabla-gestion th {
-    background-color: #333;
-    color: white;
-    padding: 12px;
-    font-family: 'Times New Roman', Times, serif;
-    padding: 8px 4px;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-}
-
-.tabla-gestion td {
-    padding: 12px;
-    text-align: center;
-    border-bottom: 1px solid #ddd;
-    padding: 8px 4px;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-}
-
-.col-desc {
-    width: 25%;
-    /* Le damos un cuarto de la tabla a la descripción */
-    font-size: 0.8rem;
-    line-height: 1.2;
-}
-
-/* Reducimos un poco las imágenes para ganar espacio */
-.tabla-gestion img {
-    width: 40px;
-    height: 40px;
-}
-*/
 .boton-nuevo {
     background-color: rgb(214, 190, 50);
     color: white;
@@ -1320,6 +1277,27 @@ td {
     width: 8%;
 }
 
+.tabla-gestion-usuario {
+    width: 90%;
+    border-collapse: collapse;
+    margin: 20px auto;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.tabla-gestion-usuario th {
+    background-color: #333;
+    color: white;
+    padding: 12px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.tabla-gestion-usuario td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
 /*----- TABLAS -----*/
 /*----- AVATARES -----*/
 #archivo-avatar {
@@ -1514,7 +1492,8 @@ td {
     padding: 20px;
     background: white;
     border: 1px solid #ddd;
-    box-sizing: border-box; /* para que el padding no sume ancho */
+    box-sizing: border-box;
+    /* para que el padding no sume ancho */
 }
 
 /* Ajustamos la cuadrícula de productos a 2 columnas */
@@ -1805,12 +1784,14 @@ td {
 /*--------------------------------------- MIGUEL ---------------------------------------*/
 
 /* Convertimos la tabla en una cuadrícula de tarjetas */
-.tabla-gestion, .tabla-gestion tbody {
+.tabla-gestion,
+.tabla-gestion tbody {
     display: grid;
     /* Esto crea columnas automáticas. Cabrán tantas como entren de min 280px */
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 20px;
-    width: 95%; /* Usamos más ancho de pantalla en la tablet */
+    width: 95%;
+    /* Usamos más ancho de pantalla en la tablet */
     margin: 0 auto;
     background: transparent;
     box-shadow: none;
@@ -1830,7 +1811,7 @@ td {
     border: 2px solid #333;
     border-radius: 12px;
     padding: 15px;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
     transition: transform 0.2s;
 }
 
@@ -1859,8 +1840,8 @@ td {
 }
 
 /* Hacemos los botones de acción GIGANTES para tocarlos rápido */
-.tabla-gestion td form button, 
-.tabla-gestion td .boton-nuevo, 
+.tabla-gestion td form button,
+.tabla-gestion td .boton-nuevo,
 .tabla-gestion td .boton-editar {
     width: 100%;
     padding: 20px;
@@ -1885,6 +1866,7 @@ td {
     font-size: 1em !important;
     border-radius: 6px;
 }
+
 /*--------------------------------------- MIGUEL ---------------------------------------*/
 
 /*--------------------------------------- HECTOR ---------------------------------------*/

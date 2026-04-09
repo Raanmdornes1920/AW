@@ -1286,6 +1286,27 @@ td {
     width: 8%;
 }
 
+.tabla-gestion-usuario {
+    width: 90%;
+    border-collapse: collapse;
+    margin: 20px auto;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.tabla-gestion-usuario th {
+    background-color: #333;
+    color: white;
+    padding: 12px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.tabla-gestion-usuario td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
 /*----- TABLAS -----*/
 /*----- AVATARES -----*/
 #archivo-avatar {
