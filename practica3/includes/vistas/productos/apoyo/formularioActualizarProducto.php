@@ -25,6 +25,7 @@ class FormularioActualizarProducto {
         $datosSaneados['iva'] = filter_var($datos['iva'], FILTER_SANITIZE_NUMBER_INT);
         $datosSaneados['disponible'] = isset($datos['disponible']) ? 1 : 0;
         $datosSaneados['ofertado'] = isset($datos['ofertado']) ? 1 : 0;
+        $datosSaneados['cocinable'] = filter_var($datos['cocinable'] ?? 1, FILTER_SANITIZE_NUMBER_INT);
         $datosSaneados['accion'] = $datos['accion'];
         return $datosSaneados;
     }
@@ -50,6 +51,8 @@ class FormularioActualizarProducto {
         $idVal = $this->producto->getId();
         $checkDisp = $this->producto->getDisponible() ? 'checked' : '';
         $checkOfert = $this->producto->getOfertado() ? 'checked' : '';
+        $checkCocinableSi = $this->producto->getCocinable() ? 'checked' : '';
+        $checkCocinableNo = !$this->producto->getCocinable() ? 'checked' : '';
 
         return <<<EOF
         <form action="procesar_producto.php" method="POST" enctype="multipart/form-data" class="form-estilizado">
@@ -86,6 +89,12 @@ class FormularioActualizarProducto {
             <div class="grupo-checkbox">
                 <label><input type="checkbox" name="disponible" value="1" $checkDisp> Stock disponible</label>
                 <label><input type="checkbox" name="ofertado" value="1" $checkOfert> Ofertado en carta</label>
+            </div>
+            
+            <div class="grupo-checkbox" style="margin-top: 15px;">
+                <label>¿Requiere preparación en cocina?</label>
+                <label><input type="radio" name="cocinable" value="1" $checkCocinableSi> Sí (Comidas)</label>
+                <label><input type="radio" name="cocinable" value="0" $checkCocinableNo> No (Bebidas/Barra)</label>
             </div>
 
             <label>Añadir más imágenes:</label> 

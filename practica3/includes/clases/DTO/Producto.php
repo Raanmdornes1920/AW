@@ -8,10 +8,11 @@ class Producto {
     private $iva;
     private $disponible;
     private $ofertado;
+    private $cocinable; 
     private $nombre_categoria; 
     private $imagenes = [];
 
-    public function __construct($id, $id_cat, $nom, $desc, $pb, $iva, $disp, $ofert, $cat_nom = '', $imagenes = []) {
+    public function __construct($id, $id_cat, $nom, $desc, $pb, $iva, $disp, $ofert, $cocinable = 1, $cat_nom = '', $imagenes = []) {
         $this->id = $id;
         $this->id_categoria = $id_cat;
         $this->nombre = $nom;
@@ -20,8 +21,10 @@ class Producto {
         $this->iva = $iva;
         $this->disponible = $disp;
         $this->ofertado = $ofert;
+        $this->cocinable = $cocinable; 
         $this->nombre_categoria = $cat_nom;
-        $this->imagenes = is_array($imagenes) ? $imagenes : [$imagenes];    }
+        $this->imagenes = is_array($imagenes) ? $imagenes : [$imagenes];    
+    }
 
     public function getId() { return $this->id; }
     public function getIdCategoria() { return $this->id_categoria; }
@@ -31,18 +34,28 @@ class Producto {
     public function getIva() { return $this->iva; }
     public function getDisponible() { return $this->disponible; }
     public function getOfertado() { return $this->ofertado; }
+    public function getCocinable() { return $this->cocinable; } 
     public function getNombreCategoria() { return $this->nombre_categoria; }
     
+    // MÉTODOS DE IMÁGENES BLINDADOS
     public function getImagen() { 
-        return !empty($this->imagenes) ? $this->imagenes[0] : 'default.png'; 
+        if (empty($this->imagenes)) return 'default.png';
+        
+        $img = $this->imagenes;
+        
+        while (is_array($img)) {
+            $img = !empty($img) ? array_values($img)[0] : 'default.png';
+        }
+        
+        return (string) $img;
     }
     
     public function getImagenesArray() { 
-        return $this->imagenes; 
+        return is_array($this->imagenes) ? $this->imagenes : []; 
     }
 
     public function getPrecioFinal() {
         return $this->precio_base * (1 + ($this->iva / 100));
     }
-
 }
+?>

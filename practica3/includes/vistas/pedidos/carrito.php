@@ -66,25 +66,34 @@ if (empty($carrito)) {
                         Total a pagar: <strong>" . number_format($total, 2) . " €</strong>
                     </div>";
     
+    // RECUPERADO: Lógica para recordar si el cliente había elegido Local o Llevar
+    $checkLocal = "";
+    $checkLlevar = "";
+    if (isset($_GET['tipo']) && $_GET['tipo'] === 'llevar') {
+        $checkLlevar = "checked";
+    } else {
+        $checkLocal = "checked";
+    }
+    
     $htmlLineas .= <<<EOF
-    <form action="apoyo/procesar_carrito.php" method="POST" class="form-estilizado" style="margin-top: 40px; max-width: 600px;">
+    <form action="apoyo/procesar_carrito.php" method="POST" class="form-estilizado" style="margin-top: 40px; max-width: 600px; margin-left: auto; margin-right: auto;">
         <input type="hidden" name="accion" value="confirmar">
         
         <h2>1. Detalles del Pedido</h2>
         <div class="grupo-checkbox" style="margin-bottom: 20px; border: 1px solid #ddd; padding: 15px; border-radius: 8px;">
-            <label><input type="radio" name="tipo_pedido" value="local" checked> Para consumir en el local</label>
-            <label><input type="radio" name="tipo_pedido" value="llevar"> Para llevar</label>
+            <label><input type="radio" name="tipo_pedido" value="local" $checkLocal> Para consumir en el local</label>
+            <label><input type="radio" name="tipo_pedido" value="llevar" $checkLlevar> Para llevar</label>
         </div>
         
         <h2>2. Forma de Pago</h2>
         <div class="grupo-checkbox" style="margin-bottom: 20px; border: 1px solid #ddd; padding: 15px; border-radius: 8px;">
-            <label><input type="radio" name="metodo_pago" value="tarjeta" checked onclick="document.getElementById('seccion-tarjeta').style.display='block'"> Pago con Tarjeta</label>
-            <label><input type="radio" name="metodo_pago" value="camarero" onclick="document.getElementById('seccion-tarjeta').style.display='none'"> Pagar al camarero</label>
+            <label><input type="radio" name="metodo_pago" value="tarjeta" checked onchange="togglePago(this.value)"> Pago con Tarjeta</label>
+            <label><input type="radio" name="metodo_pago" value="camarero" onchange="togglePago(this.value)"> Pagar al camarero</label>
         </div>
         
         <div id="seccion-tarjeta" style="background: #f1f1f1; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
             <label>Número de Tarjeta:</label>
-            <input type="text" placeholder="1234 5678 9101 1121" pattern="\d{16}" title="Debe contener 16 dígitos">
+            <input type="text" id="input-tarjeta" placeholder="1234 5678 9101 1121" pattern="\d{16}" title="Debe contener 16 dígitos numéricos" required>
         </div>
         
         <div class="acciones" style="margin-top: 30px;">
@@ -92,9 +101,24 @@ if (empty($carrito)) {
             <a href="apoyo/procesar_carrito.php?accion=clear" class="boton-borrar" style="display: block; text-align: center; margin-top: 10px;">Vaciar Carrito</a>
         </div>
     </form>
+
+    <script>
+    // RECUPERADO: Función segura para habilitar/deshabilitar la tarjeta
+    function togglePago(metodo) {
+        var seccionTarjeta = document.getElementById('seccion-tarjeta');
+        var inputTarjeta = document.getElementById('input-tarjeta');
+        if(metodo === 'camarero') {
+            seccionTarjeta.style.display = 'none';
+            inputTarjeta.removeAttribute('required'); // Quitamos la obligación para que deje enviar
+        } else {
+            seccionTarjeta.style.display = 'block';
+            inputTarjeta.setAttribute('required', 'required'); // Volvemos a hacerlo obligatorio
+        }
+    }
+    </script>
 EOF;
 }
 
-$contenidoPrincipal = "<h1>Revisar Pedido</h1>" . $htmlLineas;
+$contenidoPrincipal = "<h1 style='text-align:center;'>Revisar Pedido</h1>" . $htmlLineas;
 require("../comun/plantilla.php");
 ?>

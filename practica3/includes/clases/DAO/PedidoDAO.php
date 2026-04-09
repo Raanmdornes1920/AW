@@ -143,6 +143,7 @@ class PedidoDAO {
         while ($row = mysqli_fetch_assoc($res)) {
             $lineas[] = $row;
         }
+        
         mysqli_free_result($res);
         mysqli_stmt_close($stmt);
         return $lineas;
@@ -154,7 +155,7 @@ class PedidoDAO {
         mysqli_stmt_bind_param($stmt, "i", $id_linea);
         $exito = mysqli_stmt_execute($stmt);
         
-        mysqli_stmt_close($stmt); // ¡Liberar recurso añadido!
+        mysqli_stmt_close($stmt);
         return $exito;
     }
 
@@ -170,6 +171,7 @@ class PedidoDAO {
         mysqli_stmt_execute($stmt);
         $res = mysqli_stmt_get_result($stmt);
         $row = mysqli_fetch_assoc($res);
+        
         $terminado = ($row['pendientes'] == 0);
         
         mysqli_free_result($res);
