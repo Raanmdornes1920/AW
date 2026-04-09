@@ -52,24 +52,36 @@ if (empty($pedidos)) {
             $lineas = $pedidoSA->obtenerDetallesPedido($id);
             $htmlLineas = "<ul style='list-style:none; padding:0; text-align:left;'>";
             
+            $hayProductosCocinables = false; // Variable para saber si hay algo real que cocinar
+
             foreach ($lineas as $linea) {
-                $check = $linea['preparado'] ? "✅" : "⏳";
-                $nombreProducto = htmlspecialchars($linea['nombre']);
-                $htmlLineas .= "<li style='margin-bottom:8px; border-bottom:1px solid #eee; padding-bottom:5px;'>
-                    $check <strong>{$linea['cantidad']}x</strong> $nombreProducto ";
-                
-                // Botón individual por producto
-                if (!$linea['preparado']) {
-                    $htmlLineas .= " <form action='apoyo/procesar_linea.php' method='POST' style='display:inline; float:right;'>
-                        <input type='hidden' name='id_linea' value='{$linea['id']}'>
-                        <button type='submit' class='boton-editar' style='padding:2px 8px; font-size:0.8em;'>Listo</button>
-                    </form>";
+                // NUEVO: Solo mostramos el producto al cocinero si es "cocinable"
+                if (isset($linea['cocinable']) && $linea['cocinable'] == 1) {
+                    $hayProductosCocinables = true;
+                    $check = $linea['preparado'] ? "✅" : "⏳";
+                    $nombreProducto = htmlspecialchars($linea['nombre']);
+                    $htmlLineas .= "<li style='margin-bottom:8px; border-bottom:1px solid #eee; padding-bottom:5px;'>
+                        $check <strong>{$linea['cantidad']}x</strong> $nombreProducto ";
+                    
+                    // Botón individual por producto
+                    if (!$linea['preparado']) {
+                        $htmlLineas .= " <form action='apoyo/procesar_linea.php' method='POST' style='display:inline; float:right;'>
+                            <input type='hidden' name='id_linea' value='{$linea['id']}'>
+                            <button type='submit' class='boton-editar' style='padding:2px 8px; font-size:0.8em;'>Listo</button>
+                        </form>";
+                    }
+                    $htmlLineas .= "</li>";
                 }
-                $htmlLineas .= "</li>";
             }
+
+            // NUEVO: Mensaje por si es un pedido solo de bebidas
+            if (!$hayProductosCocinables) {
+                $htmlLineas .= "<li style='color: #666; font-style: italic; padding-bottom: 10px;'>Este pedido es directo de barra (ej. solo bebidas). Pásalo al camarero.</li>";
+            }
+
             $htmlLineas .= "</ul>";
 
-            // Si todos los productos tienen el check verde, mostramos el botón final
+            // Si todos los productos (cocinables) tienen el check verde, mostramos el botón final
             if ($pedidoSA->sePuedeFinalizarPedido($id)) {
                 $htmlLineas .= "
                 <form action='apoyo/procesar_estado_pedido.php' method='POST' style='margin-top:15px;'>
@@ -98,3 +110,4 @@ if (empty($pedidos)) {
 
 $contenidoPrincipal = "<h1>👩‍🍳 Comandas de Cocina 👨‍🍳</h1>" . $htmlTabla;
 require("../comun/plantilla.php");
+?>

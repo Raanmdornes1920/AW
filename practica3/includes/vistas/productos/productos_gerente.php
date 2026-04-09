@@ -30,12 +30,15 @@ foreach($productos as $p) {
         
     $estado = $p->getOfertado() ? 'En Carta' : 'Retirado';
 
+    // NUEVO CAMPO: Comprobamos si el producto es cocinable para ponerle un icono
+    $esCocina = $p->getCocinable() ? "Sí" : "No";
+
     $filas .= <<<EOF
     <tr>
         <td><img src="$img" width="50" height="50" style="object-fit: cover; border-radius: 8px;"></td>
         <td>$nombre</td>
         <td>$cat</td>
-        <td class="col-desc">$desc</td>
+        <td>$esCocina</td> <td class="col-desc">$desc</td>
         <td>$precio €</td>
         <td>$badgeStock</td>
         <td>$estado</td>
@@ -58,7 +61,7 @@ $contenidoPrincipal = <<<EOF
                     <th>Imagen</th>
                     <th>Nombre</th>
                     <th>Categoría</th>
-                    <th>Descripción</th>
+                    <th>Cocina</th> <th>Descripción</th>
                     <th>Precio</th>
                     <th>Stock</th>
                     <th>Estado</th>
@@ -74,3 +77,4 @@ EOF;
 
 $js = [RAIZ_APP . "/js/script.js"];
 require("../comun/plantilla.php");
+?>

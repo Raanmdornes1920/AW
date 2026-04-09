@@ -130,7 +130,8 @@ class PedidoDAO {
     }
 
     public function obtenerLineasPedido($id_pedido) {
-        $sql = "SELECT lp.*, p.nombre FROM lineas_pedido lp 
+        // Añadimos p.cocinable a la consulta
+        $sql = "SELECT lp.*, p.nombre, p.cocinable FROM lineas_pedido lp 
                 JOIN productos p ON lp.id_producto = p.id 
                 WHERE lp.id_pedido = ?";
         $stmt = mysqli_prepare($this->db, $sql);
@@ -140,11 +141,11 @@ class PedidoDAO {
         
         $lineas = [];
         while ($row = mysqli_fetch_assoc($res)) {
-            $lineas[] = $row; // Guardamos el array asociativo con los datos
+            $lineas[] = $row;
         }
         
-        mysqli_free_result($res); // ¡Liberar recurso añadido!
-        mysqli_stmt_close($stmt); // ¡Liberar recurso añadido!
+        mysqli_free_result($res);
+        mysqli_stmt_close($stmt);
         return $lineas;
     }
 
@@ -154,21 +155,27 @@ class PedidoDAO {
         mysqli_stmt_bind_param($stmt, "i", $id_linea);
         $exito = mysqli_stmt_execute($stmt);
         
-        mysqli_stmt_close($stmt); // ¡Liberar recurso añadido!
+        mysqli_stmt_close($stmt);
         return $exito;
     }
 
     public function estanTodasLineasPreparadas($id_pedido) {
-        $sql = "SELECT COUNT(*) as pendientes FROM lineas_pedido WHERE id_pedido = ? AND preparado = 0";
+        // FILTRADO CLAVE: Solo miramos productos pendientes (preparado=0) que sean cocinables (cocinable=1)
+        $sql = "SELECT COUNT(*) as pendientes 
+                FROM lineas_pedido lp
+                JOIN productos p ON lp.id_producto = p.id
+                WHERE lp.id_pedido = ? AND lp.preparado = 0 AND p.cocinable = 1";
+        
         $stmt = mysqli_prepare($this->db, $sql);
         mysqli_stmt_bind_param($stmt, "i", $id_pedido);
         mysqli_stmt_execute($stmt);
         $res = mysqli_stmt_get_result($stmt);
         $row = mysqli_fetch_assoc($res);
+        
         $terminado = ($row['pendientes'] == 0);
         
-        mysqli_free_result($res); // ¡Liberar recurso añadido!
-        mysqli_stmt_close($stmt); // ¡Liberar recurso añadido!
+        mysqli_free_result($res);
+        mysqli_stmt_close($stmt);
         return $terminado;
     }
 }

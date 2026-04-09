@@ -64,10 +64,14 @@ switch ($accion) {
 
     case 'confirmar':
         $tipo = $_POST['tipo_pedido'] ?? $_GET['tipo'] ?? 'local';
-        $id_usuario = $_SESSION['usuario']->id(); // Asegúrate de que este método exista en tu clase Usuario
+        $id_usuario = $_SESSION['usuario']->id(); 
+        
+        // RECOGEMOS EL MÉTODO DE PAGO DEL FORMULARIO
+        $metodo_pago = $_POST['metodo_pago'] ?? 'tarjeta';
         
         $pedidoSA = new PedidoSA($db_connection);
-        $id_pedido = $pedidoSA->procesarCompra($id_usuario, $tipo, $_SESSION['carrito']);
+        // LE PASAMOS EL MÉTODO DE PAGO COMO CUARTO PARÁMETRO
+        $id_pedido = $pedidoSA->procesarCompra($id_usuario, $tipo, $_SESSION['carrito'], $metodo_pago);
         
         if ($id_pedido) {
             $_SESSION['carrito'] = []; // Vaciamos el carrito tras comprar
@@ -82,5 +86,4 @@ switch ($accion) {
         header("Location: ../carrito.php");
         break;
 }
-
 ?>

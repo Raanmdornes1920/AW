@@ -18,12 +18,18 @@ class ProductoDAO {
         $productos = [];
         while ($row = mysqli_fetch_assoc($res)) {
             $imagen = !empty($row['ruta_imagen']) ? $row['ruta_imagen'] : 'default.png';
+            
+            // NUEVO: Sacamos el campo cocinable de la base de datos (con valor por defecto 1 por si acaso)
+            $cocinable = isset($row['cocinable']) ? $row['cocinable'] : 1;
+            
+            // NUEVO ORDEN: Pasamos $cocinable en la 9º posición, cat_nombre en la 10º y las fotos en la 11º.
             $productos[] = new Producto(
                 $row['id'], $row['id_categoria'], $row['nombre'], $row['descripcion'], 
                 $row['precio_base'], $row['iva'], $row['disponible'], $row['ofertado'], 
-                $row['cat_nombre'], [$imagen]
+                $cocinable, $row['cat_nombre'], [$imagen]
             );
         }
+        mysqli_free_result($res); // Buena práctica del profesor ;)
         return $productos;
     }
 
@@ -45,30 +51,40 @@ class ProductoDAO {
             while($imgRow = mysqli_fetch_assoc($imgRes)) {
                 $imagenes[] = $imgRow['ruta_imagen'];
             }
+            
+            $cocinable = isset($row['cocinable']) ? $row['cocinable'] : 1;
 
             return new Producto($row['id'], $row['id_categoria'], $row['nombre'], $row['descripcion'], 
                                 $row['precio_base'], $row['iva'], $row['disponible'], $row['ofertado'], 
-                                $row['cat_nombre'], $imagenes);
+                                $cocinable, $row['cat_nombre'], $imagenes);
         }
         return null;
     }
 
     public function guardar($p) {
         if ($p->getId()) {
-            $sql = "UPDATE productos SET id_categoria=?, nombre=?, descripcion=?, precio_base=?, iva=?, disponible=?, ofertado=? WHERE id=?";
+            // Añadido cocinable=? al UPDATE
+            $sql = "UPDATE productos SET id_categoria=?, nombre=?, descripcion=?, precio_base=?, iva=?, disponible=?, ofertado=?, cocinable=? WHERE id=?";
             $stmt = mysqli_prepare($this->db, $sql);
+            
             $id_cat = $p->getIdCategoria(); $nom = $p->getNombre(); $desc = $p->getDescripcion();
             $pb = $p->getPrecioBase(); $iva = $p->getIva(); $disp = $p->getDisponible(); 
-            $ofert = $p->getOfertado(); $id = $p->getId();
-            mysqli_stmt_bind_param($stmt, "issidiii", $id_cat, $nom, $desc, $pb, $iva, $disp, $ofert, $id);
+            $ofert = $p->getOfertado(); $cocinable = $p->getCocinable(); $id = $p->getId();
+            
+            // "issidiiii" -> Se añade una "i" por el cocinable (entero 1 o 0)
+            mysqli_stmt_bind_param($stmt, "issidiiii", $id_cat, $nom, $desc, $pb, $iva, $disp, $ofert, $cocinable, $id);
             $result = mysqli_stmt_execute($stmt);
             $id_producto = $id;
         } else {
-            $sql = "INSERT INTO productos (id_categoria, nombre, descripcion, precio_base, iva, disponible, ofertado) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            // Añadido cocinable al INSERT
+            $sql = "INSERT INTO productos (id_categoria, nombre, descripcion, precio_base, iva, disponible, ofertado, cocinable) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt = mysqli_prepare($this->db, $sql);
+            
             $id_cat = $p->getIdCategoria(); $nom = $p->getNombre(); $desc = $p->getDescripcion();
-            $pb = $p->getPrecioBase(); $iva = $p->getIva(); $disp = $p->getDisponible(); $ofert = $p->getOfertado();
-            mysqli_stmt_bind_param($stmt, "issidii", $id_cat, $nom, $desc, $pb, $iva, $disp, $ofert);
+            $pb = $p->getPrecioBase(); $iva = $p->getIva(); $disp = $p->getDisponible(); 
+            $ofert = $p->getOfertado(); $cocinable = $p->getCocinable();
+            
+            mysqli_stmt_bind_param($stmt, "issidiii", $id_cat, $nom, $desc, $pb, $iva, $disp, $ofert, $cocinable);
             $result = mysqli_stmt_execute($stmt);
             $id_producto = mysqli_insert_id($this->db);
         }
@@ -88,3 +104,4 @@ class ProductoDAO {
         return $result;
     }
 }
+?>
