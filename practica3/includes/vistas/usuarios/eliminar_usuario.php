@@ -2,7 +2,6 @@
 require_once (__DIR__ . '/../../config.php');
 session_start();
 $SA = new UsuarioSA($db_connection);
-// TODO: Incorporar el uso de plantilla
 
 if (!isset($_SESSION['login']) || $_SESSION['login'] !== true || $_SESSION['usuario']->rol() !== 'gerente') {
     header("Location: ".RAIZ_APP."/");

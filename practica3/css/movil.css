@@ -1,3 +1,8 @@
+/* Regla para evitar problemas con el tamaño de los elementos en movil*/
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
     display: flex;
@@ -38,12 +43,12 @@ input[type="file"]::file-selector-button {
 /* Estilo específico para el formulario de contacto */
 form {
     background-color: #f9f9f9;
-    padding: 30px;
+    padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    max-width: 35%;
-    width: 100%;
-    margin: 20px 0;
+    width: 90%;
+    max-width: 90%;
+    margin: 20px auto;
     text-align: left;
     /* Alineamos el texto a la izquierda para los campos */
 }
@@ -309,30 +314,7 @@ td {
 .boton-cancelar:hover {
     background-color: #555555;
 }
-/*
-.tabla-gestion {
-    width: 80%;
-    border-collapse: collapse;
-    margin: 20px 0;
-    background-color: white;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-*/
-/*
-.tabla-gestion th {
-    background-color: #333;
-    color: white;
-    padding: 12px;
-    font-family: 'Times New Roman', Times, serif;
-}
-*/
-/*
-.tabla-gestion td {
-    padding: 12px;
-    text-align: center;
-    border-bottom: 1px solid #ddd;
-}
-*/
+
 .boton-nuevo {
     background-color: rgb(214, 190, 50);
     color: white;
@@ -381,256 +363,6 @@ td {
 
 .acciones {
     margin-top: 20px;
-}
-
-/*Para productos*/
-
-.form-estilizado input[type="number"],
-.form-estilizado input[type="password"],
-.form-estilizado input[type="text"],
-.form-estilizado input[type="email"],
-.form-estilizado select,
-.form-estilizado textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-}
-
-.precio-final-destacado {
-    margin: 10px 0 25px 0;
-    padding: 15px;
-    background-color: #eee;
-    border-radius: 5px;
-    text-align: center;
-    font-family: 'Times New Roman', Times, serif;
-}
-
-.precio-final-destacado strong {
-    font-size: 1.2em;
-    color: #333;
-}
-
-.grupo-checkbox {
-    margin-bottom: 20px;
-}
-
-.grupo-checkbox label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-weight: normal;
-    margin-bottom: 8px;
-    cursor: pointer;
-}
-
-.grupo-checkbox input {
-    width: auto;
-    margin: 0;
-}
-
-/*Diseño tienda vista cliente*/
-.contenedor-pedido {
-    display: flex;
-    gap: 20px;
-    padding: 20px;
-}
-
-.menu-lateral {
-    width: 250px;
-    background: #f4f4f4;
-    padding: 15px;
-    border-radius: 8px;
-    height: fit-content;
-}
-
-.menu-lateral h3 {
-    margin-top: 0;
-}
-
-.menu-lateral ul {
-    list-style: none;
-    padding: 0;
-}
-
-.menu-lateral ul li a {
-    display: block;
-    padding: 10px;
-    text-decoration: none;
-    color: #333;
-    border-bottom: 1px solid #ddd;
-}
-
-.menu-lateral ul li a:hover {
-    background: #e0e0e0;
-}
-
-/* Cuadrícula de 3 columnas */
-.cuadricula-objetos {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    flex-grow: 1;
-}
-
-.tarjeta-item {
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    overflow: hidden;
-    text-align: center;
-    text-decoration: none;
-    color: inherit;
-}
-
-.tarjeta-item:hover {
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-
-.tarjeta-item img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-}
-
-.tarjeta-item h4 {
-    padding: 10px;
-    margin: 0;
-    background: #fff;
-}
-
-/*Para productos detalle*/
-.detalle-producto-centrado {
-    width: 450px;
-    margin: 40px auto;
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-
-    position: relative;
-    z-index: 1;
-}
-
-.carrusel-contenedor {
-    position: relative;
-    width: 100%;
-    height: 300px;
-    background: #f9f9f9;
-}
-
-.carrusel {
-    width: 100%;
-    height: 100%;
-    position: relative;
-}
-
-.img-carrusel {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: none;
-}
-
-.img-carrusel.active {
-    display: block;
-}
-
-.btn-carrusel {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(0, 0, 0, 0.3);
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    cursor: pointer;
-    font-size: 18px;
-    z-index: 10;
-    transition: background 0.3s;
-}
-
-.btn-carrusel:hover {
-    background: rgba(0, 0, 0, 0.7);
-}
-
-.prev {
-    left: 0;
-    border-radius: 0 5px 5px 0;
-}
-
-.next {
-    right: 0;
-    border-radius: 5px 0 0 5px;
-}
-
-.info-detalle {
-    padding: 20px;
-    text-align: left;
-}
-
-.info-detalle h1 {
-    margin: 0 0 10px 0;
-    font-size: 1.5em;
-}
-
-.info-detalle .descripcion {
-    color: #666;
-    font-size: 0.95em;
-    line-height: 1.4;
-}
-
-.info-detalle .precio-detalle {
-    font-size: 1.4em;
-    font-weight: bold;
-    color: #e2001a;
-    margin: 15px 0;
-}
-
-.controles-pedido {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-}
-
-.selector-cantidad {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-}
-
-.selector-cantidad button {
-    width: 40px;
-    height: 40px;
-    background-color: #eeeeee;
-    border: 1px solid #ccc;
-    color: #000000;
-    font-size: 20px;
-    font-weight: bold;
-    cursor: pointer;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.selector-cantidad input {
-    width: 50px;
-    text-align: center;
-    border: 1px solid #ddd;
-    padding: 5px;
-}
-
-.btn-carrito {
-    width: 100%;
-    padding: 12px;
-    font-weight: bold;
 }
 
 /*--------------------------------------------------------------------------------*/
@@ -713,6 +445,7 @@ td {
     margin-top: 3%;
     box-sizing: border-box;
     height: 100%;
+    width: 100%;
 }
 
 .contenedor-centro-index {
@@ -802,16 +535,15 @@ td {
 /* La cajita blanca */
 .modal-contenido {
     background-color: white;
-    margin: 5.5% auto;
-    padding: 20px;
+    margin: 80px auto 20px;
+    padding: 15px;
     border-radius: 8px;
-    width: 90%;
-    max-width: 500px;
+    width: 95%;
+    max-width: 450px;
     text-align: center;
     position: relative;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     z-index: 1002;
-    box-sizing: border-box;
 }
 
 .modal-contenido form {
@@ -1041,14 +773,13 @@ td {
 
 .perfil-container {
     background-color: #f9f9f9;
-    padding: 30px;
+    padding: 15px;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
-    width: 100%;
-    margin: 20px 0;
+    width: 95%;
+    max-width: 450px;
+    margin: 20px auto;
     text-align: left;
-    /* Alineamos el texto a la izquierda para los campos */
 }
 
 #titulo-perfil {
@@ -1463,15 +1194,15 @@ td {
 }
 
 #formLogin {
-    max-width: 30%;
+    max-width: 90%;
 }
 
 #formRegistro {
-    max-width: 100%;
+    max-width: 95%;
 }
 
 #formCrearUsuario {
-    max-width: 50%;
+    max-width: 90%;
 }
 
 .botones-gestion-usuarios {
@@ -1712,13 +1443,493 @@ td {
 
 /*--------------------------------------- ANGELA ---------------------------------------*/
 
+/*Para productos*/
+
+.form-estilizado input[type="number"],
+.form-estilizado input[type="password"],
+.form-estilizado input[type="text"],
+.form-estilizado input[type="email"],
+.form-estilizado select,
+.form-estilizado textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Estilo especial para el input de imagen en móvil */
+.form-estilizado input[type="file"] {
+    display: block;
+    width: 100%;
+    overflow: visible;
+    /* Permite que el texto se vea */
+    white-space: normal;
+    /* Permite saltos de línea si el nombre del archivo es largo */
+    font-size: 13px;
+    padding: 12px;
+    background: #fdfdfd;
+    border: 1px dashed #ccc;
+}
+
+.form-estilizado label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    text-align: left;
+}
+
+.form-estilizado {
+    width: 98%;
+    /* Casi todo el ancho del móvil */
+    margin: 10px auto;
+    padding: 15px;
+    box-shadow: none;
+    /* Quitamos sombra para que se vea más limpio */
+}
+
+.acciones {
+    flex-direction: column;
+}
+
+.acciones button,
+.acciones a {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.precio-final-destacado {
+    margin: 10px 0 25px 0;
+    padding: 15px;
+    background-color: #eee;
+    border-radius: 5px;
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.precio-final-destacado strong {
+    font-size: 1.2em;
+    color: #333;
+}
+
+.grupo-checkbox {
+    margin-bottom: 20px;
+}
+
+.grupo-checkbox label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: normal;
+    margin-bottom: 8px;
+    cursor: pointer;
+}
+
+.grupo-checkbox input {
+    width: auto;
+    margin: 0;
+}
+
+/*Diseño tienda vista cliente*/
+.contenedor-pedido {
+    display: flex;
+    flex-direction: column;
+    /* Menú arriba y productos abajo */
+    padding: 10px;
+}
+
+.menu-lateral {
+    width: 100%;
+    /* Ocupa todo el ancho del móvil */
+    margin-bottom: 20px;
+    background: #f4f4f4;
+    padding: 15px;
+    border-radius: 8px;
+    height: fit-content;
+}
+
+.menu-lateral h3 {
+    margin-top: 0;
+}
+
+.menu-lateral ul {
+    list-style: none;
+    padding: 0;
+}
+
+.menu-lateral ul li a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: #333;
+    border-bottom: 1px solid #ddd;
+}
+
+.menu-lateral ul li a:hover {
+    background: #e0e0e0;
+}
+
+/* Cuadrícula de 3 columnas */
+.cuadricula-objetos {
+    display: grid;
+    grid-template-columns: 1fr;
+    /* 1 sola columna de productos */
+    gap: 10px;
+    flex-grow: 1;
+}
+
+.tarjeta-item {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+}
+
+.tarjeta-item:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.tarjeta-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.tarjeta-item h4 {
+    padding: 10px;
+    margin: 0;
+    background: #fff;
+}
+
+/*Para productos detalle*/
+.detalle-producto-centrado {
+    width: 95%;
+    margin: 10px auto;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+
+    position: relative;
+    z-index: 1;
+}
+
+.carrusel-contenedor {
+    position: relative;
+    width: 100%;
+    height: 250px;
+    background: #f9f9f9;
+}
+
+.carrusel {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.img-carrusel {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+}
+
+.img-carrusel.active {
+    display: block;
+}
+
+.btn-carrusel {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.3);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 18px;
+    z-index: 10;
+    transition: background 0.3s;
+}
+
+.btn-carrusel:hover {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.prev {
+    left: 0;
+    border-radius: 0 5px 5px 0;
+}
+
+.next {
+    right: 0;
+    border-radius: 5px 0 0 5px;
+}
+
+.info-detalle {
+    padding: 20px;
+    text-align: left;
+}
+
+.info-detalle h1 {
+    margin: 0 0 10px 0;
+    font-size: 1.5em;
+}
+
+.info-detalle .descripcion {
+    color: #666;
+    font-size: 0.95em;
+    line-height: 1.4;
+}
+
+.info-detalle .precio-detalle {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #e2001a;
+    margin: 15px 0;
+}
+
+.controles-pedido {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.selector-cantidad {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.selector-cantidad button {
+    width: 50px;
+    height: 50px;
+    background-color: #eeeeee;
+    border: 1px solid #ccc;
+    color: #000000;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.selector-cantidad input {
+    width: 50px;
+    text-align: center;
+    border: 1px solid #ddd;
+    padding: 5px;
+}
+
+.btn-carrito {
+    width: 100%;
+    padding: 12px;
+    font-weight: bold;
+}
+
+.tabla-gestion-productos {
+    width: 95%;
+    border-collapse: collapse;
+    margin: 20px auto;
+    background-color: white;
+    border: none;
+    display: block;
+    box-sizing: border-box;
+}
+
+.tabla-gestion-productos thead,
+.tabla-gestion-productos tbody,
+.tabla-gestion-productos th,
+.tabla-gestion-productos td,
+.tabla-gestion-productos tr {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Escondemos la cabecera original (Nº Pedido, Fecha...) porque no caben arriba */
+.tabla-gestion-productos thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+}
+
+.tabla-gestion-productos tr {
+    border: 1px solid #ddd;
+    margin-bottom: 15px;
+    /* Espacio entre cada pedido */
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+}
+
+.tabla-gestion-productos td {
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding: 10px 10px 10px 50%;
+    /* Dejamos hueco a la izquierda */
+    text-align: right;
+    /* El dato va a la derecha */
+    font-size: 14px;
+}
+
+/* Insertamos etiquetas a la izquierda de cada celda usando contenido generado */
+.tabla-gestion-productos td::before {
+    position: absolute;
+    left: 10px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+    text-align: left;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Definimos el texto de cada etiqueta según la posición de la columna */
+.tabla-gestion-productos td:nth-of-type(1)::before {
+    content: "Imagen";
+}
+
+.tabla-gestion-productos td:nth-of-type(2)::before {
+    content: "Nombre";
+}
+
+.tabla-gestion-productos td:nth-of-type(3)::before {
+    content: "Categoría";
+}
+
+.tabla-gestion-productos td:nth-of-type(4)::before {
+    content: "Descripción";
+}
+
+.tabla-gestion-productos td:nth-of-type(5)::before {
+    content: "Precio";
+}
+
+.tabla-gestion-productos td:nth-of-type(6)::before {
+    content: "Stock";
+}
+
+.tabla-gestion-productos td:nth-of-type(7)::before {
+    content: "Estado";
+}
+
+.tabla-gestion-productos td:nth-of-type(8)::before {
+    content: "Acciones";
+}
+
+.tabla-gestion-productos td:last-child {
+    border-bottom: none;
+}
+
+
 /*--------------------------------------- ANGELA ---------------------------------------*/
 
 /*--------------------------------------- MIGUEL ---------------------------------------*/
-
-.tabla-gestion, .tabla-gestion thead, .tabla-gestion tbody, .tabla-gestion th, .tabla-gestion td, .tabla-gestion tr {
+.tabla-gestion {
+    width: 80%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background-color: white;
+    border: none;
     display: block;
-    width: 100%; /* Que ocupe todo el ancho del móvil */
+    box-sizing: border-box;
+}
+
+.tabla-gestion thead,
+.tabla-gestion tbody,
+.tabla-gestion th,
+.tabla-gestion td,
+.tabla-gestion tr {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Escondemos la cabecera original (Nº Pedido, Fecha...) porque no caben arriba */
+.tabla-gestion thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+}
+
+.tabla-gestion tr {
+    border: 1px solid #ddd;
+    margin-bottom: 15px;
+    /* Espacio entre cada pedido */
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+}
+
+.tabla-gestion td {
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding: 10px 10px 10px 50%;
+    /* Dejamos hueco a la izquierda */
+    text-align: right;
+    /* El dato va a la derecha */
+    font-size: 14px;
+}
+
+/* Insertamos etiquetas a la izquierda de cada celda usando contenido generado */
+.tabla-gestion td::before {
+    position: absolute;
+    left: 10px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+    text-align: left;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Definimos el texto de cada etiqueta según la posición de la columna */
+.tabla-gestion td:nth-of-type(1)::before {
+    content: "Nº Pedido";
+}
+
+.tabla-gestion td:nth-of-type(2)::before {
+    content: "Fecha";
+}
+
+.tabla-gestion td:nth-of-type(3)::before {
+    content: "Tipo";
+}
+
+.tabla-gestion td:nth-of-type(4)::before {
+    content: "Total";
+}
+
+.tabla-gestion td:nth-of-type(5)::before {
+    content: "Estado";
+}
+
+.tabla-gestion td:last-child {
+    border-bottom: none;
+}
+
+.tabla-gestion,
+.tabla-gestion thead,
+.tabla-gestion tbody,
+.tabla-gestion th,
+.tabla-gestion td,
+.tabla-gestion tr {
+    display: block;
+    width: 100%;
+    /* Que ocupe todo el ancho del móvil */
     box-sizing: border-box;
 }
 
@@ -1734,7 +1945,7 @@ td {
     border-radius: 8px;
     padding: 10px;
     background-color: white;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 /* Configuración de cada celda individual */
@@ -1742,7 +1953,8 @@ td {
     border: none;
     border-bottom: 1px solid #eee;
     position: relative;
-    padding: 10px 10px 10px 50%; /* Dejamos la mitad izquierda libre para el título */
+    padding: 10px 10px 10px 50%;
+    /* Dejamos la mitad izquierda libre para el título */
     text-align: right;
 }
 
@@ -1761,6 +1973,7 @@ td {
 }
 
 /*--------------------------------------- MIGUEL ---------------------------------------*/
+
 
 /*--------------------------------------- HECTOR ---------------------------------------*/
 

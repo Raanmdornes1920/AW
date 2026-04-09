@@ -1,5 +1,5 @@
 <?php
-require_once '../../../config.php';
+require_once __DIR__ . '/../../../config.php';
 session_start();
 
 if (!isset($_SESSION['login']) || $_SESSION['usuario']->rol() !== 'gerente') {
@@ -15,7 +15,7 @@ if (!$producto) {
 }
 
 $tituloPagina = "Retirar Producto";
-$css = [RAIZ_APP . "/css/default.css"];
+$css = [];
 $header = "../../comun/header.php";
 $claseMain = "contenedor-centro";
 
