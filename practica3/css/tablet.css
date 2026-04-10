@@ -212,141 +212,6 @@ td {
     cursor: pointer;
 }
 
-/*Para categorias */
-
-.alerta-borrado {
-    background-color: #ffffff;
-    padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    max-width: 500px;
-    width: 90%;
-    text-align: center;
-}
-
-.alerta-borrado h2 {
-    color: #333;
-    margin-top: 0;
-}
-
-.aviso-peligro {
-    background-color: #fff3f3;
-    color: #d32f2f;
-    padding: 15px;
-    border-radius: 6px;
-    border: 1px solid #ffcdd2;
-    font-family: Arial, sans-serif;
-    font-size: 0.95rem;
-    line-height: 1.4;
-    margin: 20px 0;
-}
-
-.botones-confirmacion .boton-peligro,
-.botones-confirmacion .boton-cancelar {
-    display: inline-block;
-    padding: 12px 20px;
-    font-size: 16px;
-    font-family: 'Times New Roman', Times, serif;
-    text-decoration: none;
-    border-radius: 4px;
-    border: none;
-    cursor: pointer;
-    text-align: center;
-    box-sizing: border-box;
-    vertical-align: middle;
-    width: auto;
-    min-width: 200px;
-}
-
-.botones-confirmacion form {
-    display: inline;
-    margin: 0;
-    padding: 0;
-}
-
-.boton-peligro {
-    background-color: rgb(181, 5, 5) !important;
-    color: white;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    font-family: 'Times New Roman', Times, serif;
-    font-weight: bold;
-}
-
-.boton-peligro:hover {
-    background-color: rgb(123, 4, 4) !important;
-}
-
-.boton-cancelar {
-    background-color: #888888;
-    color: white;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    text-decoration: none;
-    font-family: 'Times New Roman', Times, serif;
-    display: inline-block;
-}
-
-.boton-cancelar:hover {
-    background-color: #555555;
-}
-
-.boton-nuevo {
-    background-color: rgb(214, 190, 50);
-    color: white;
-    padding: 10px 20px;
-    text-decoration: none;
-    border-radius: 5px;
-    font-family: 'Times New Roman', Times, serif;
-    margin-bottom: 20px;
-    display: inline-block;
-}
-
-.boton-nuevo:hover {
-    background-color: rgb(173, 154, 45);
-}
-
-.boton-editar {
-    background-color: rgb(36, 123, 6);
-    color: white;
-    padding: 10px 20px;
-    text-decoration: none;
-    border-radius: 5px;
-    font-family: 'Times New Roman', Times, serif;
-    margin-bottom: 10px;
-    display: inline-block;
-}
-
-.boton-editar:hover {
-    background-color: rgb(24, 84, 4);
-}
-
-.boton-borrar {
-    margin-top: 10px;
-    background-color: rgb(181, 5, 5);
-    color: white;
-    padding: 10px 20px;
-    text-decoration: none;
-    border-radius: 5px;
-    font-family: 'Times New Roman', Times, serif;
-    margin-bottom: 20px;
-    display: inline-block;
-}
-
-.boton-borrar:hover {
-    background-color: rgb(123, 4, 4);
-}
-
-.acciones {
-    margin-top: 20px;
-}
-
 /*--------------------------------------------------------------------------------*/
 .recuadro-temporal-resumen-pedidos {
     display: flex;
@@ -1869,6 +1734,163 @@ td {
 /*--------------------------------------- MIGUEL ---------------------------------------*/
 
 /*--------------------------------------- HECTOR ---------------------------------------*/
+
+/*Para categorias */
+
+.alerta-borrado {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+}
+
+.alerta-borrado h2 {
+    color: #333;
+    margin-top: 0;
+}
+
+.aviso-peligro {
+    background-color: #fff3f3;
+    color: #d32f2f;
+    padding: 15px;
+    border-radius: 6px;
+    border: 1px solid #ffcdd2;
+    font-family: Arial, sans-serif;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    margin: 20px 0;
+}
+
+.botones-confirmacion .boton-peligro,
+.botones-confirmacion .boton-cancelar {
+    display: inline-block;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-family: 'Times New Roman', Times, serif;
+    text-decoration: none;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    box-sizing: border-box;
+    vertical-align: middle;
+    width: auto;
+    min-width: 200px;
+}
+
+.botones-confirmacion form {
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
+
+.boton-peligro {
+    background-color: rgb(181, 5, 5) !important;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bold;
+}
+
+.boton-peligro:hover {
+    background-color: rgb(123, 4, 4) !important;
+}
+
+.boton-cancelar {
+    background-color: #888888;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: none;
+    font-family: 'Times New Roman', Times, serif;
+    display: inline-block;
+}
+
+.boton-cancelar:hover {
+    background-color: #555555;
+}
+
+.boton-nuevo {
+    background-color: rgb(214, 190, 50);
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-family: 'Times New Roman', Times, serif;
+    margin-bottom: 20px;
+    display: inline-block;
+}
+
+.boton-nuevo:hover {
+    background-color: rgb(173, 154, 45);
+}
+
+.boton-editar {
+    background-color: rgb(36, 123, 6);
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-family: 'Times New Roman', Times, serif;
+    margin-bottom: 10px;
+    display: inline-block;
+}
+
+.boton-editar:hover {
+    background-color: rgb(24, 84, 4);
+}
+
+.boton-borrar {
+    margin-top: 10px;
+    background-color: rgb(181, 5, 5);
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-family: 'Times New Roman', Times, serif;
+    margin-bottom: 20px;
+    display: inline-block;
+}
+
+.boton-borrar:hover {
+    background-color: rgb(123, 4, 4);
+}
+
+.acciones {
+    margin-top: 20px;
+}
+
+.tabla-gestion-categorias {
+    width: 90%;
+    border-collapse: collapse;
+    margin: 20px auto;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    min-width: 650px;
+}
+
+.tabla-gestion-categorias th {
+    background-color: #333;
+    color: white;
+    padding: 12px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.tabla-gestion-categorias td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
 
 /*--------------------------------------- HECTOR ---------------------------------------*/
 

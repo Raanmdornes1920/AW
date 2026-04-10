@@ -37,20 +37,22 @@ EOF;
 $contenidoPrincipal = <<<EOF
     <h1>Gestión de Categorías</h1>
     <a href="apoyo/categoria_crear.php" class="boton-nuevo">Nueva Categoría</a>
-    
-    <table class="tabla-gestion">
-        <thead>
-            <tr>
-                <th>Imagen</th>
-                <th>Nombre</th>
-                <th>Descripción</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            $filas
-        </tbody>
-    </table>
+   
+    <div class="contenedor-tabla-scroll">
+        <table class="tabla-gestion-categorias">
+            <thead>
+                <tr>
+                    <th>Imagen</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                $filas
+            </tbody>
+        </table>
+    </div>
 EOF;
 
 $js = [RAIZ_APP . "/js/script.js"];
