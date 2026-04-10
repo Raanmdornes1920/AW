@@ -11,7 +11,7 @@ $accion = $_POST['accion'] ?? $_GET['accion'] ?? '';
 
 if ($accion === 'crear' || $accion === 'actualizar') {
     $datos = $_POST;
-    $nombreImagen = $_POST['imagen_actual'] ?? 'default_cat.png';
+    $nombreImagen = $_POST['imagen_actual'] ?? 'categoria_default.png';
 
     if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
         $ext = pathinfo($_FILES['imagen']['name'], PATHINFO_EXTENSION);

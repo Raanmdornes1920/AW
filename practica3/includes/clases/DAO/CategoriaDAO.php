@@ -12,7 +12,7 @@ class CategoriaDAO {
         $res = mysqli_query($this->db, $query);
         $categorias = [];
         while ($row = mysqli_fetch_assoc($res)) {
-            $imagen = isset($row['imagen']) && !empty($row['imagen']) ? $row['imagen'] : 'default.png';
+            $imagen = isset($row['imagen']) && !empty($row['imagen']) ? $row['imagen'] : 'categoria_default.png';
             $categorias[] = new Categoria(
                 $row['id'], 
                 $row['nombre'], 
@@ -31,6 +31,17 @@ class CategoriaDAO {
             return new Categoria($row['id'], $row['nombre'], $row['descripcion'], $row['imagen']);
         }
         return null;
+    }
+
+  public function contarProductosAsociados($id) {
+        $id = mysqli_real_escape_string($this->db, $id);
+        $query = "SELECT COUNT(*) AS total FROM productos WHERE id_categoria = '$id'";
+        $res = mysqli_query($this->db, $query);
+
+        if ($res && $row = mysqli_fetch_assoc($res)) {
+            return (int)$row['total'];
+        }
+        return 0;
     }
 
     public function borrar($id) {

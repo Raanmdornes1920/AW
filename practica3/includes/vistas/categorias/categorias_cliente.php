@@ -20,7 +20,7 @@ $htmlCategorias = "";
 foreach ($categorias as $cat) {
     $nombre = htmlspecialchars($cat->getNombre());
     $id = $cat->getId();
-    $imagen = RAIZ_APP . "/img/categorias/" . ($cat->getImagen() ?: 'default.png');
+    $imagen = RAIZ_APP . "/img/categorias/" . ($cat->getImagen() ?: 'categoria_default.png');
     $tipo = (isset($_GET['tipo'])?"&tipo=".$_GET['tipo']:"");
     
     $htmlCategorias .= <<<EOF
