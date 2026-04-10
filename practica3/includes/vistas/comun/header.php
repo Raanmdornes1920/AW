@@ -7,13 +7,17 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
 function clase_activa($nombre_archivo, $pagina_actual) {
     return ($nombre_archivo == $pagina_actual) ? 'enlace_seleccionado' : 'enlaces';
 }
+
+// Sumamos las cantidades de todos los productos en el carrito
+$num_items_carrito = 0;
+if (isset($_SESSION['carrito']) && is_array($_SESSION['carrito'])) {
+    $num_items_carrito = array_sum($_SESSION['carrito']);
+}
 ?>
 <header class="navegacion" >
     
-<!-- Botón para el menú en dispositivos móviles -->
 <button class="menu-toggle" onclick="toggleMenu()">☰</button>
 
-<!-- Logo visible solo en móvil (centrado) -->
 <img id="Logo-Header" class="logo-movil" src="<?php echo RUTA_IMG; ?>/logo1.png" alt="Logo de Bistro FDI" onclick="window.location.href='<?php echo RAIZ_APP; ?>/'">
 
 <div class="header-izquierdo"></div>
@@ -45,8 +49,11 @@ function clase_activa($nombre_archivo, $pagina_actual) {
     </nav>
     <div class="header-derecho">
         <div class="usuario-menu-container">
-            <figure class="avatar-container" onclick="toggleMenu()">
+            <figure class="avatar-container" onclick="toggleMenu()" style="position: relative;">
                 <img src="<?php echo RUTA_IMG . '/perfiles/' . $_SESSION['usuario']->avatar(); ?>" alt="Icono de usuario" class="avatar">
+                <?php if($_SESSION['usuario']->rol() === 'cliente' && $num_items_carrito > 0): ?>
+                    <span class="carrito-badge"><?php echo $num_items_carrito; ?></span>
+                <?php endif; ?>
             </figure>
 
             <div id="menuDesplegable" class="dropdown-content">
@@ -55,7 +62,7 @@ function clase_activa($nombre_archivo, $pagina_actual) {
                 <a href="<?php echo RUTA_VISTAS; ?>/usuarios/editar_perfil.php">Mi Perfil</a>
                 
                 <?php if($_SESSION['usuario']->rol() === 'cliente'): ?>
-                    <a href="<?php echo RUTA_VISTAS; ?>/pedidos/carrito.php<?= (isset($_GET['tipo'])?"?tipo=" . $_GET['tipo']:"");?>">🛒 Mi Carrito</a>
+                    <a href="<?php echo RUTA_VISTAS; ?>/pedidos/carrito.php<?= (isset($_GET['tipo'])?"?tipo=" . $_GET['tipo']:"");?>">🛒 Mi Carrito <?= ($num_items_carrito > 0) ? "($num_items_carrito)" : "" ?></a>
                 <?php endif; ?>
                 <?php if($_SESSION['usuario']->rol() === 'gerente'): ?>
                     <a href="<?php echo RUTA_VISTAS; ?>/usuarios/ajustes_admin.php">Administrar Perfiles</a>
