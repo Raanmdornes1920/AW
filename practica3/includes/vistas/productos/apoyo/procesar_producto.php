@@ -15,7 +15,8 @@ $accion = $_REQUEST['accion'] ?? '';
 if ($accion === 'crear' || $accion === 'actualizar') {
     
     if ($accion === 'actualizar') {
-        $formHandler = new FormularioActualizarProducto($db_connection, null);
+        $productoExistente = $sa->buscarProducto($_POST['id'] ?? 0);
+        $formHandler = new FormularioActualizarProducto($db_connection, $productoExistente);
     } else {
         $formHandler = new FormularioCrearProducto($db_connection);
     }
@@ -37,7 +38,11 @@ if ($accion === 'crear' || $accion === 'actualizar') {
         }
     }
     
-    $datosSaneados['imagenes'] = $imagenesSubidas; 
+    if (!empty($imagenesSubidas)) {
+        $datosSaneados['imagenes'] = $imagenesSubidas; 
+    } else {
+        $datosSaneados['imagenes'] = $_POST['imagenes_actuales'] ?? [];
+    }
     
     $sa->guardarProducto($datosSaneados);
 

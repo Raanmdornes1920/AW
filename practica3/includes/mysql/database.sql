@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.2
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: vm016.db.swarm.test
--- Tiempo de generación: 09-04-2026 a las 19:44:35
--- Versión del servidor: 10.4.28-MariaDB-1:10.4.28+maria~ubu2004
--- Versión de PHP: 8.2.27
+-- Servidor: localhost
+-- Tiempo de generación: 10-04-2026 a las 11:19:50
+-- Versión del servidor: 10.4.28-MariaDB
+-- Versión de PHP: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -103,7 +103,8 @@ INSERT INTO `productos` (`id`, `id_categoria`, `nombre`, `descripcion`, `precio_
 (5, 9, 'Ensalada César', 'Clásica ensalada con lechuga crujiente, pollo, crutones y queso parmesano, acompañada de nuestra cremosa salsa César.', 11.00, 10, 1, 1, 1),
 (9, 8, 'Pasta Carbonara', 'Pasta cremosa con bacon crujiente, queso parmesano y salsa tradicional, una receta clásica llena de sabor.', 13.00, 10, 1, 1, 1),
 (10, 8, 'Pasta Boloñesa', 'Pasta acompañada de una rica salsa de carne de res cocinada a fuego lento con tomate y especias.', 10.00, 10, 1, 1, 1),
-(11, 11, 'Agua', 'Agua manantial', 2.00, 21, 1, 1, 0);
+(17, 11, 'Agua', 'Botella de agua', 2.00, 10, 1, 1, 0),
+(18, 11, 'Nestea', 'Lata de nestea', 1.00, 10, 1, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -129,7 +130,10 @@ INSERT INTO `productos_imagenes` (`id`, `id_producto`, `ruta_imagen`, `orden`) V
 (48, 9, 'prod_69b3417d03815_2.jpg', 3),
 (49, 10, 'prod_69b349ada55c7_0.webp', 1),
 (50, 10, 'prod_69b349ada5799_1.jpg', 2),
-(51, 10, 'prod_69b349ada5848_2.jpg', 3);
+(51, 10, 'prod_69b349ada5848_2.jpg', 3),
+(57, 17, 'prod_69d8c048d38f3_0.webp', 1),
+(58, 17, 'prod_69d8c048d3b1a_1.webp', 2),
+(59, 18, 'prod_69d8c05c7d157_0.jpg', 1);
 
 -- --------------------------------------------------------
 
@@ -233,13 +237,13 @@ ALTER TABLE `pedidos`
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `productos_imagenes`
 --
 ALTER TABLE `productos_imagenes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`

@@ -29,7 +29,7 @@ class ProductoDAO {
                 $cocinable, $row['cat_nombre'], [$imagen]
             );
         }
-        mysqli_free_result($res); // Buena práctica del profesor ;)
+        mysqli_free_result($res); 
         return $productos;
     }
 
@@ -91,6 +91,13 @@ class ProductoDAO {
     
         // Si hay imágenes nuevas, se añaden a la tabla
         if ($result && !empty($p->getImagenesArray())) {
+            // Borrar imágenes antiguas antes de poner las nuevas si es una actualización
+            if ($p->getId()) {
+                $deleteImg = mysqli_prepare($this->db, "DELETE FROM productos_imagenes WHERE id_producto = ?");
+                mysqli_stmt_bind_param($deleteImg, "i", $id_producto);
+                mysqli_stmt_execute($deleteImg);
+            }
+
             foreach ($p->getImagenesArray() as $orden => $ruta) {
                 $orden += 1;
                 if($ruta !== 'default.png') {

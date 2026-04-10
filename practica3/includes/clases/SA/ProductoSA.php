@@ -46,26 +46,38 @@ class ProductoSA {
 
     public function guardarProducto($datos) {
         $id = (isset($datos['id']) && !empty($datos['id'])) ? $datos['id'] : null;
-        
         $esNuevo = ($id === null);
     
-        $disponible = isset($datos['disponible']) ? 1 : ($esNuevo ? 1 : 0);
-        $ofertado = isset($datos['ofertado']) ? 1 : ($esNuevo ? 1 : 0); 
-        
-        $imagenes = $datos['imagenes'] ?? [];
+        $imagenesParaObjeto = [];
+    
+        if (isset($datos['imagenes']) && is_array($datos['imagenes']) && !empty($datos['imagenes'])) {
+            $imagenesParaObjeto = $datos['imagenes']; 
+        } 
+        elseif (!$esNuevo) {
+            $productoExistente = $this->dao->obtenerPorId($id);
+            if ($productoExistente) {
+                $imagenesParaObjeto = $productoExistente->getImagenesArray(); 
+            }
+        }
+    
+        $disponible = isset($datos['disponible']) ? (int)$datos['disponible'] : ($esNuevo ? 1 : 0);
+        $ofertado = isset($datos['ofertado']) ? (int)$datos['ofertado'] : ($esNuevo ? 1 : 0); 
+        $cocinable = isset($datos['cocinable']) ? (int)$datos['cocinable'] : 1;
         
         $p = new Producto(
-            $id, 
-            $datos['id_categoria'], 
-            trim($datos['nombre']), 
+            $id,                     
+            $datos['id_categoria'],  
+            trim($datos['nombre']),  
             trim($datos['descripcion']), 
-            $datos['precio_base'], 
-            $datos['iva'], 
-            $disponible, 
-            $ofertado,
-            '', 
-            $imagenes
+            $datos['precio_base'],   
+            $datos['iva'],           
+            $disponible,             
+            $ofertado,               
+            $cocinable,              
+            '',                      
+            $imagenesParaObjeto      
         );
+    
         return $this->dao->guardar($p);
     }
 
