@@ -1,5 +1,7 @@
 <?php
 require_once '../../../config.php';
+require_once __DIR__ . '/formularioCrearCategoria.php';
+require_once __DIR__ . '/formularioActualizarCategoria.php';
 session_start();
 
 if (!isset($_SESSION['login']) || $_SESSION['usuario']->rol() !== 'gerente') {
