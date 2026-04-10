@@ -859,7 +859,7 @@ td {
     justify-content: center;
     justify-content: space-between;
     padding: 10px 0;
-    background-color: #883434;
+    background-color: #888888;
     z-index: 9999;
 }
 
@@ -892,6 +892,7 @@ td {
     color: white;
     text-decoration: none;
     align-items: center;
+    white-space: nowrap;
 }
 
 #boton-registro {
@@ -920,6 +921,7 @@ td {
     padding: 10px;
     color: #000000;
     text-decoration: none;
+    white-space: nowrap;
 }
 
 .enlace_seleccionado:hover {

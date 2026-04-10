@@ -48,6 +48,7 @@ CREATE TABLE IF NOT EXISTS `productos` (
   `iva` int(11) NOT NULL CHECK (`iva` in (4,10,21)),
   `disponible` tinyint(1) DEFAULT 1,
   `ofertado` tinyint(1) DEFAULT 1,
+  `cocinable` tinyint(1) DEFAULT 1,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_prod_cat` FOREIGN KEY (`id_categoria`) REFERENCES `categorias` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
