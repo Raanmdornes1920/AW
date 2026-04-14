@@ -1,47 +1,59 @@
 // Mostrar dropdown menu
 function toggleMenu() {
-    document.getElementById("menuDesplegable").classList.toggle("show");
+    const dropdown = document.getElementById("menuDesplegable");
+    if (dropdown) {
+        dropdown.classList.toggle("show");
+    }
+}
+
+window.addEventListener('DOMContentLoaded', function() {
+    const menuToggle = document.getElementById('menu-toggle');
+    const menu = document.getElementById('menu');
+    const avatarContainer = document.querySelector('.avatar-container');
+    const dropdown = document.getElementById('menuDesplegable');
+
+    if (menuToggle && menu) {
+        menuToggle.addEventListener('click', function(event) {
+            event.stopPropagation();
+            menu.classList.toggle('show');
+            if (dropdown) {
+                dropdown.classList.remove('show');
+            }
+        });
     }
 
-window.onload = function(){
-    
-        // Ocultar dropdown menu
-    window.addEventListener('click', function(event) {
-        if (!event.target.matches('.avatar')) {
-            var dropdowns = document.getElementsByClassName("dropdown-content");
-            for (var i = 0; i < dropdowns.length; i++) {
-                var openDropdown = dropdowns[i];
-                if (openDropdown.classList.contains('show')) {
-                    openDropdown.classList.remove('show');
-                }
+    if (avatarContainer) {
+        avatarContainer.addEventListener('click', function(event) {
+            event.stopPropagation();
+            if (dropdown) {
+                dropdown.classList.toggle('show');
             }
+            if (menu) {
+                menu.classList.remove('show');
+            }
+        });
+    }
+
+    // Ocultar dropdowns cuando se hace clic fuera
+    document.addEventListener('click', function(event) {
+        if (dropdown && !event.target.closest('.avatar-container')) {
+            dropdown.classList.remove('show');
+        }
+        if (menu && !event.target.closest('#menu') && !event.target.closest('#menu-toggle')) {
+            menu.classList.remove('show');
         }
     });
 
-    // Si existen las opciones de avatar, añadimos funcion de mosrar/ocultar al hacer click
-    if(document.querySelector(".opcion-avatar")){
-        
-        document.querySelectorAll(".opcion-avatar").forEach(opcion => {
-            
+    // Si existen las opciones de avatar, añadimos funcion de mostrar/ocultar al hacer click
+    if(document.querySelector('.opcion-avatar')){
+        document.querySelectorAll('.opcion-avatar').forEach(opcion => {
             opcion.addEventListener('click', function() {
-                
-                if (opcion.querySelector("#radio-custom")) {
-                    document.getElementById("archivo-avatar").style.display = "block";
+                if (opcion.querySelector('#radio-custom')) {
+                    document.getElementById('archivo-avatar').style.display = 'block';
                 } else {
-                    document.getElementById("archivo-avatar").style.display = "none";
+                    document.getElementById('archivo-avatar').style.display = 'none';
                 }
             });
         });
     }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        function toggleMenu() {
-            const menu = document.getElementById('menu');
-            menu.classList.toggle('show');
-        }
-
-        // Vincular el evento al botón
-        const menuToggle = document.querySelector('.menu-toggle');
-        menuToggle.addEventListener('click', toggleMenu);
-    });
-}
+});

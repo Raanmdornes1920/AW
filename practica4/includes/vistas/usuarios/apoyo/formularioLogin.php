@@ -31,13 +31,13 @@ class FormularioLogin extends formularioBase {
         {$erroresCampos['campos_vacios']}
         <label>Usuario:</label>
         <br>
-        <input type="text" name="usuario" value="$usuario" required>
+        <input type="text" name="usuario" autocomplete="username" value="$usuario" required>
         {$erroresCampos['usuario']}
         <br>
 
         <label>Contraseña:</label>
         <br>
-        <input type="password" name="password" required>
+        <input type="password" autocomplete="current-password" name="password" required>
         {$erroresCampos['password']}
         <br><br>
 

@@ -1,29 +1,36 @@
+// Variables globales
+let modal, modalEditarAvatar, btnCerrarAvatar, btnCerrar, spanCampo, modalPassword;
+let btnCerrarPassword, modalError, btnCerrarError, btnCerrarEditAdmin, modalEditarUsuario;
+let modalAdmin, modalAdminEditarAvatar, modalAdminPassword, modalAdminEditarRol;
+let btnAdminCerrarAvatar, btnAdminCerrar, btnAdminCerrarPassword, btnCerrarRol;
+let inputsId, modalEliminarusuario;
+
 window.onload = function(){
     // Obtenemos los elementos
-    const modal = document.getElementById("modalEditar");
-    const modalEditarAvatar = document.getElementById("modalEditarAvatar");
-    const btnCerrarAvatar = document.querySelector(".cerrar-modal-avatar");
-    const btnCerrar = document.querySelector(".cerrar-modal");
-    const spanCampo = document.getElementById("campo-a-editar");
-    const modalPassword = document.getElementById("modalEditarPassword");
-    const btnCerrarPassword = document.querySelector(".cerrar-modal-pass");
-    const modalError = document.getElementById("modalError");
-    const btnCerrarError = document.querySelector(".cerrar-modal-error");
+    modal = document.getElementById("modalEditar");
+    modalEditarAvatar = document.getElementById("modalEditarAvatar");
+    btnCerrarAvatar = document.querySelector(".cerrar-modal-avatar");
+    btnCerrar = document.querySelector(".cerrar-modal");
+    spanCampo = document.getElementById("campo-a-editar");
+    modalPassword = document.getElementById("modalEditarPassword");
+    btnCerrarPassword = document.querySelector(".cerrar-modal-pass");
+    modalError = document.getElementById("modalError");
+    btnCerrarError = document.querySelector(".cerrar-modal-error");
 
-    const btnCerrarEditAdmin = document.querySelector(".cerrar-modal-edit-admin");
-    const modalEditarUsuario = document.getElementById("contenedor-centro-edit-admin");
-    const modalAdmin = document.getElementById("modalAdminEditar");
-    const modalAdminEditarAvatar = document.getElementById("modalAdminEditarAvatar");
-    const modalAdminPassword = document.getElementById("modalAdminEditarPassword");
-    const modalAdminEditarRol = document.getElementById("modalAdminEditarRol");
-    const btnAdminCerrarAvatar = document.querySelector(".cerrar-modal-avatar");
-    const btnAdminCerrar = document.querySelector(".cerrar-modal");
-    const btnAdminCerrarPassword = document.querySelector(".cerrar-modal-pass");
-    const btnCerrarRol = document.querySelector(".cerrar-modal-rol");
+    btnCerrarEditAdmin = document.querySelector(".cerrar-modal-edit-admin");
+    modalEditarUsuario = document.getElementById("contenedor-centro-edit-admin");
+    modalAdmin = document.getElementById("modalAdminEditar");
+    modalAdminEditarAvatar = document.getElementById("modalAdminEditarAvatar");
+    modalAdminPassword = document.getElementById("modalAdminEditarPassword");
+    modalAdminEditarRol = document.getElementById("modalAdminEditarRol");
+    btnAdminCerrarAvatar = document.querySelector(".cerrar-modal-avatar");
+    btnAdminCerrar = document.querySelector(".cerrar-modal");
+    btnAdminCerrarPassword = document.querySelector(".cerrar-modal-pass");
+    btnCerrarRol = document.querySelector(".cerrar-modal-rol");
 
-    const inputsId = document.querySelectorAll('.input-id-usuario');
+    inputsId = document.querySelectorAll('.input-id-usuario');
 
-    const modalEliminarusuario = document.getElementById("modalAdminEliminarusuario");
+    modalEliminarusuario = document.getElementById("modalAdminEliminarusuario");
 
     // Cerrar si el usuario hace clic fuera de la ventana blanca
     window.addEventListener('click', function(event) {
@@ -155,6 +162,11 @@ function abrirModal(nombreCampo, valorBase64) {
     spanCampo.innerText = nombreCampo; // Cambia el título dinámicamente
     document.getElementById("label-nuevo-valor").innerText = nombreCampo + ": ";
     document.getElementById("campo-editar").value = nombreCampo;
+    
+    if(nombreCampo == "Usuario"){
+        document.getElementById("campo-editar").autocomplete = "username";
+    }
+
     // Decodificar valorBase64 y para no romper con caracteres especiales
     document.getElementById("nuevo-valor").value = decodeURIComponent(window.atob(valorBase64)); 
     modal.style.display = "block";
@@ -192,6 +204,7 @@ function abrirModalAdmin(nombreCampo) {
     
     switch(nombreCampo){
         case "Usuario":
+            document.getElementById("campo-editar").autocomplete = "username";
             document.getElementById("nuevo-valor").value = diccionario_usuarios[id_a_editar]['nombre_usuario']; 
             break;
         case "Nombre":

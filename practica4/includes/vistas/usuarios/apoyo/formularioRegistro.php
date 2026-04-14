@@ -52,7 +52,7 @@ class FormularioRegistro extends formularioBase {
         <br>
         <div>
             <label>Usuario:</label><br>
-            <input type="text" name="usuario" value="$usuario" required>
+            <input type="text" autocomplete="username" name="usuario" value="$usuario" required>
             {$erroresCampos['usuario']}
         </div>
         <br>
@@ -62,13 +62,13 @@ class FormularioRegistro extends formularioBase {
         <br>
         <div>
             <label>Contraseña:</label><br>
-            <input id="password" type="password" name="password" required>
+            <input id="password" type="password" autocomplete="current-password" name="password" required>
             {$erroresCampos['password']}
         </div>
         <br>
         <div>
             <label>Repetir Contraseña:</label><br>
-            <input type="password" name="password_confirm" required oninput="
+            <input type="password" autocomplete="current-password" name="password_confirm" required oninput="
                 if(document.getElementById('password').value != this.value) {
                     this.setCustomValidity('Las contraseñas no coinciden');
                 } else {

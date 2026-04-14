@@ -12,9 +12,12 @@
     <link rel="stylesheet" type="text/css" href="<?= RUTA_CSS ?>/tablet.css" media="only screen and (min-width: 601px) and (max-width: 1023px)" />
     <link rel="stylesheet" type="text/css" href="<?= RUTA_CSS ?>/pc.css" media="only screen and (min-width: 1024px)" />
 
-    <?php foreach ($js as $ruta): ?>
-        <script src="<?= $ruta ?>"></script>
-    <?php endforeach; ?>
+    <?php 
+    // Incluimos los archivos js
+    foreach ($js as $ruta): 
+        echo '<script src="'. $ruta . '"></script>';
+    endforeach;
+    ?>
 </head>
 
 <body>

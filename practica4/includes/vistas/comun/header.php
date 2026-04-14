@@ -16,7 +16,7 @@ if (isset($_SESSION['carrito']) && is_array($_SESSION['carrito'])) {
 ?>
 <header class="navegacion" >
     
-<button class="menu-toggle" onclick="toggleMenu()">☰</button>
+<button id="menu-toggle" class="menu-toggle">☰</button>
 
 <img id="Logo-Header" class="logo-movil" src="<?php echo RUTA_IMG; ?>/logo1.png" alt="Logo de Bistro FDI" onclick="window.location.href='<?php echo RAIZ_APP; ?>/'">
 
@@ -49,7 +49,7 @@ if (isset($_SESSION['carrito']) && is_array($_SESSION['carrito'])) {
     </nav>
     <div class="header-derecho">
         <div class="usuario-menu-container">
-            <figure class="avatar-container" onclick="toggleMenu()" style="position: relative;">
+            <figure class="avatar-container" style="position: relative;">
                 <img src="<?php echo RUTA_IMG . '/perfiles/' . $_SESSION['usuario']->avatar(); ?>" alt="Icono de usuario" class="avatar">
                 <?php if($_SESSION['usuario']->rol() === 'cliente' && $num_items_carrito > 0): ?>
                     <span class="carrito-badge"><?php echo $num_items_carrito; ?></span>

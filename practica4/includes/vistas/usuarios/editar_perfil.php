@@ -120,7 +120,7 @@ ob_start(); ?>
         <span class="cerrar-modal">&times;</span>
         <h3>Editar <span id="campo-a-editar"></span></h3>
         <form action="apoyo/editar_dato.php" id="formEditar" method="POST">
-            <input type="hidden" id="campo-editar" name="campo-editar" value="error">
+            <input type="hidden" id="campo-editar" autocomplete="off" name="campo-editar" value="error">
             <label id="label-nuevo-valor"></label>
             <input type="text" id="nuevo-valor" name="nuevo-valor" required>
             <button type="submit" class="boton-guardar">Guardar cambios</button>
@@ -132,12 +132,13 @@ ob_start(); ?>
         <span class="cerrar-modal-pass">&times;</span>
         <h3>Editar Contraseña</h3>
         <form action="apoyo/editar_password.php" id="formEditarPassword" method="POST">
+            <input type="text" autocomplete="username" name="usuario" value="<?php echo $_SESSION['usuario']->usuario(); ?>" hidden>
             <label>Contraseña Actual:</label>
-            <input type="password" id="contrasena" name="contrasena" placeholder="Contraseña actual" required>
+            <input type="password" id="contrasena" autocomplete="current-password" name="contrasena" placeholder="Contraseña actual" required>
             <label>Nueva Contraseña:</label>
-            <input type="password" id="nueva-contrasena" name="nueva-contrasena" placeholder="Nueva contraseña"required>
+            <input type="password" id="nueva-contrasena" autocomplete="new-password" name="nueva-contrasena" placeholder="Nueva contraseña"required>
             <label>Confirmar Nueva Contraseña:</label>
-            <input type="password" id="confirmar-contrasena" name="confirmar-contrasena" placeholder="Confirmar nueva contraseña"required><br>
+            <input type="password" id="confirmar-contrasena" autocomplete="new-password" name="confirmar-contrasena" placeholder="Confirmar nueva contraseña"required><br>
             <button type="submit" class="boton-guardar">Guardar cambios</button>
         </form>
     </div>
