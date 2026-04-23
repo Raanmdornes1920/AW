@@ -1,21 +1,36 @@
 <?php
-require_once __DIR__ . '/../../comun/formularioBase.php';
+require_once (__DIR__ . '/../../../config.php');
 
-class FormularioActualizarProducto extends formularioBase {
+class FormularioActualizarProducto {
 
     private $db;
     private $producto;
 
-    public function __construct($db_connection, $producto) {
-        parent::__construct('formActualizarProducto', [
-            'enctype' => 'multipart/form-data',
-            'urlRedireccion' => '../productos_gerente.php'
-        ]);
+    public function __construct($db_connection, $producto = null) {
         $this->db = $db_connection;
         $this->producto = $producto;
     }
 
-    protected function generaCamposFormulario(&$datos) {
+    public function gestiona() {
+        return $this->generaFormulario();
+    }
+
+    public function saneaDatos($datos) {
+        $datosSaneados = [];
+        $datosSaneados['id'] = filter_var($datos['id'], FILTER_SANITIZE_NUMBER_INT);
+        $datosSaneados['nombre'] = filter_var($datos['nombre'], FILTER_SANITIZE_SPECIAL_CHARS);
+        $datosSaneados['descripcion'] = filter_var($datos['descripcion'], FILTER_SANITIZE_SPECIAL_CHARS);
+        $datosSaneados['id_categoria'] = filter_var($datos['id_categoria'], FILTER_SANITIZE_NUMBER_INT);
+        $datosSaneados['precio_base'] = filter_var($datos['precio_base'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+        $datosSaneados['iva'] = filter_var($datos['iva'], FILTER_SANITIZE_NUMBER_INT);
+        $datosSaneados['disponible'] = isset($datos['disponible']) ? 1 : 0;
+        $datosSaneados['ofertado'] = isset($datos['ofertado']) ? 1 : 0;
+        $datosSaneados['cocinable'] = filter_var($datos['cocinable'] ?? 1, FILTER_SANITIZE_NUMBER_INT);
+        $datosSaneados['accion'] = $datos['accion'];
+        return $datosSaneados;
+    }
+
+    private function generaFormulario() {
         $catSA = new CategoriaSA($this->db);
         $categorias = $catSA->obtenerTodas();
 
@@ -34,19 +49,17 @@ class FormularioActualizarProducto extends formularioBase {
         $descVal = htmlspecialchars($this->producto->getDescripcion());
         $precioVal = $this->producto->getPrecioBase();
         $idVal = $this->producto->getId();
-        
         $checkDisp = $this->producto->getDisponible() ? 'checked' : '';
         $checkOfert = $this->producto->getOfertado() ? 'checked' : '';
         $checkCocinableSi = $this->producto->getCocinable() ? 'checked' : '';
         $checkCocinableNo = !$this->producto->getCocinable() ? 'checked' : '';
 
-        $erroresGlobales = self::generaListaErroresGlobales($this->errores);
-
         return <<<EOF
-        $erroresGlobales
-        <fieldset class="form-estilizado">
+        <form action="procesar_producto.php" method="POST" enctype="multipart/form-data" class="form-estilizado">
+            <input type="hidden" name="accion" value="actualizar">
             <input type="hidden" name="id" value="$idVal">
-            <h2>Editar Producto: $nombreVal</h2>
+
+            <h2>Editar: $nombreVal</h2>
             
             <label>Categoría:</label>
             <select name="id_categoria">
@@ -84,52 +97,20 @@ class FormularioActualizarProducto extends formularioBase {
                 <label><input type="radio" name="cocinable" value="0" $checkCocinableNo> No (Bebidas/Barra)</label>
             </div>
 
-            <label>Añadir más imágenes (Se sumarán a las actuales):</label> 
-            <input type="file" name="imagenes[]" accept="image/*" multiple>
+            <label>Sustituir imágenes actuales:</label> 
+            <input type="file" name="imagenes[]" id="input_imagenes" accept="image/*" multiple onchange="previsualizarImagenes(this)">
+            
+            <div class="carrusel-contenedor" style="margin-top: 20px; max-width: 500px; margin-left: auto; margin-right: auto;">
+                <div class="carrusel" id="carrusel_previsualizacion">
+                    <p style="color: #666;">Selecciona imágenes para ver la previsualización</p>
+                </div>
+            </div>
             
             <div class="acciones" style="margin-top: 30px;">
                 <button type="submit">Actualizar Producto</button>
                 <a href="../productos_gerente.php" class="boton-borrar">Cancelar</a>
             </div>
-        </fieldset>
+        </form>
 EOF;
-    }
-
-    protected function procesaFormulario(&$datos) {
-        $datosSaneados = [];
-        $datosSaneados['id'] = filter_var($datos['id'], FILTER_SANITIZE_NUMBER_INT);
-        $datosSaneados['nombre'] = filter_var($datos['nombre'] ?? '', FILTER_SANITIZE_SPECIAL_CHARS);
-        $datosSaneados['descripcion'] = filter_var($datos['descripcion'] ?? '', FILTER_SANITIZE_SPECIAL_CHARS);
-        $datosSaneados['id_categoria'] = filter_var($datos['id_categoria'] ?? 0, FILTER_SANITIZE_NUMBER_INT);
-        $datosSaneados['precio_base'] = filter_var($datos['precio_base'] ?? 0, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
-        $datosSaneados['iva'] = filter_var($datos['iva'] ?? 21, FILTER_SANITIZE_NUMBER_INT);
-        $datosSaneados['disponible'] = isset($datos['disponible']) ? 1 : 0;
-        $datosSaneados['ofertado'] = isset($datos['ofertado']) ? 1 : 0;
-        $datosSaneados['cocinable'] = filter_var($datos['cocinable'] ?? 1, FILTER_SANITIZE_NUMBER_INT);
-
-        // Procesamiento de imágenes nuevas
-        $imagenesSubidas = [];
-        if (isset($_FILES['imagenes']) && !empty($_FILES['imagenes']['name'][0])) {
-            foreach ($_FILES['imagenes']['tmp_name'] as $key => $tmp_name) {
-                if ($_FILES['imagenes']['error'][$key] === UPLOAD_ERR_OK) {
-                    $ext = pathinfo($_FILES['imagenes']['name'][$key], PATHINFO_EXTENSION);
-                    $nombreNuevo = uniqid('prod_') . '_' . $key . '.' . $ext;
-                    $rutaDestino = __DIR__ . "/../../../../img/productos/" . $nombreNuevo;
-                    
-                    if (move_uploaded_file($tmp_name, $rutaDestino)) {
-                        $imagenesSubidas[] = $nombreNuevo;
-                    }
-                }
-            }
-        }
-
-        // Si se han subido imágenes, las pasamos. Si no, ProductoSA ya se encarga 
-        // de mantener las anteriores si le llega el array vacío.
-        $datosSaneados['imagenes'] = $imagenesSubidas;
-
-        $sa = new ProductoSA($this->db);
-        if (!$sa->guardarProducto($datosSaneados)) {
-            $this->errores[] = "No se pudieron guardar los cambios en la base de datos.";
-        }
     }
 }

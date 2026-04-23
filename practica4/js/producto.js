@@ -36,6 +36,38 @@ function modificarCantidad(n) {
     }
 }
 
+//Para la previsualizacion del carrusel de imagenes en el formulario de actualizar producto
+function previsualizarImagenes(input) {
+    const contenedor = document.getElementById('carrusel_previsualizacion');
+    if (!contenedor) return;
+
+    contenedor.innerHTML = ''; // Limpiar previsualización anterior
+    indexActual = 0; // Resetear el índice del carrusel
+
+    if (input.files && input.files.length > 0) {
+        // Mostrar botones de navegación si hay más de una foto
+        if (input.files.length > 1) {
+            contenedor.innerHTML += `
+                <button type="button" class="btn-carrusel prev" onclick="cambiarImagen(-1)">&#10094;</button>
+                <button type="button" class="btn-carrusel next" onclick="cambiarImagen(1)">&#10095;</button>
+            `;
+        }
+
+        Array.from(input.files).forEach((file, i) => {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.className = 'img-carrusel' + (i === 0 ? ' active' : '');
+                contenedor.appendChild(img);
+            }
+            reader.readAsDataURL(file);
+        });
+        
+        contenedor.style.display = 'block'; // Asegurar que sea visible
+    }
+}
+
 window.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('p_base')) {
         recalcular();
