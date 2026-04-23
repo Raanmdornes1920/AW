@@ -50,9 +50,11 @@ class ProductoSA {
     
         $imagenesParaObjeto = [];
     
+        // Si vienen imágenes nuevas (subidas en el formulario)
         if (isset($datos['imagenes']) && is_array($datos['imagenes']) && !empty($datos['imagenes'])) {
             $imagenesParaObjeto = $datos['imagenes']; 
         } 
+        // Si no vienen nuevas pero es una edición, rescatamos las que ya tiene en BD
         elseif (!$esNuevo) {
             $productoExistente = $this->dao->obtenerPorId($id);
             if ($productoExistente) {
@@ -86,6 +88,8 @@ class ProductoSA {
         if ($p) {
             $nuevoOfertado = $p->getOfertado() ? 0 : 1;
             
+            // IMPORTANTE: Al reconstruir el objeto, debemos pasarle el array de imágenes
+            // que ya tiene, de lo contrario el DAO pensará que las hemos borrado todas.
             $pActualizado = new Producto(
                 $p->getId(), 
                 $p->getIdCategoria(), 
@@ -95,8 +99,9 @@ class ProductoSA {
                 $p->getIva(), 
                 $p->getDisponible(), 
                 $nuevoOfertado,
+                $p->getCocinable(), // Pasamos cocinable
                 $p->getNombreCategoria(), 
-                $p->getImagen()           
+                $p->getImagenesArray() // Pasamos el array completo de imágenes
             );
             return $this->dao->guardar($pActualizado);
         }

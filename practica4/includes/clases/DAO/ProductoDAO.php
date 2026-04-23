@@ -18,11 +18,8 @@ class ProductoDAO {
         $productos = [];
         while ($row = mysqli_fetch_assoc($res)) {
             $imagen = !empty($row['ruta_imagen']) ? $row['ruta_imagen'] : 'default.png';
-            
-            // NUEVO: Sacamos el campo cocinable de la base de datos (con valor por defecto 1 por si acaso)
             $cocinable = isset($row['cocinable']) ? $row['cocinable'] : 1;
             
-            // NUEVO ORDEN: Pasamos $cocinable en la 9º posición, cat_nombre en la 10º y las fotos en la 11º.
             $productos[] = new Producto(
                 $row['id'], $row['id_categoria'], $row['nombre'], $row['descripcion'], 
                 $row['precio_base'], $row['iva'], $row['disponible'], $row['ofertado'], 
@@ -52,6 +49,8 @@ class ProductoDAO {
                 $imagenes[] = $imgRow['ruta_imagen'];
             }
             
+            if (empty($imagenes)) { $imagenes = ['default.png']; }
+
             $cocinable = isset($row['cocinable']) ? $row['cocinable'] : 1;
 
             return new Producto($row['id'], $row['id_categoria'], $row['nombre'], $row['descripcion'], 
@@ -63,52 +62,66 @@ class ProductoDAO {
 
     public function guardar($p) {
         if ($p->getId()) {
-            // Añadido cocinable=? al UPDATE
+            // UPDATE
             $sql = "UPDATE productos SET id_categoria=?, nombre=?, descripcion=?, precio_base=?, iva=?, disponible=?, ofertado=?, cocinable=? WHERE id=?";
             $stmt = mysqli_prepare($this->db, $sql);
             
-            $id_cat = $p->getIdCategoria(); $nom = $p->getNombre(); $desc = $p->getDescripcion();
-            $pb = $p->getPrecioBase(); $iva = $p->getIva(); $disp = $p->getDisponible(); 
-            $ofert = $p->getOfertado(); $cocinable = $p->getCocinable(); $id = $p->getId();
+            $id_cat = $p->getIdCategoria(); 
+            $nom = $p->getNombre(); 
+            $desc = $p->getDescripcion();
+            $pb = $p->getPrecioBase(); 
+            $iva = $p->getIva(); 
+            $disp = $p->getDisponible(); 
+            $ofert = $p->getOfertado(); 
+            $cocinable = $p->getCocinable(); 
+            $id = $p->getId();
             
-            // "issidiiii" -> Se añade una "i" por el cocinable (entero 1 o 0)
             mysqli_stmt_bind_param($stmt, "issidiiii", $id_cat, $nom, $desc, $pb, $iva, $disp, $ofert, $cocinable, $id);
             $result = mysqli_stmt_execute($stmt);
             $id_producto = $id;
         } else {
-            // Añadido cocinable al INSERT
+            // INSERT
             $sql = "INSERT INTO productos (id_categoria, nombre, descripcion, precio_base, iva, disponible, ofertado, cocinable) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt = mysqli_prepare($this->db, $sql);
             
-            $id_cat = $p->getIdCategoria(); $nom = $p->getNombre(); $desc = $p->getDescripcion();
-            $pb = $p->getPrecioBase(); $iva = $p->getIva(); $disp = $p->getDisponible(); 
-            $ofert = $p->getOfertado(); $cocinable = $p->getCocinable();
+            $id_cat = $p->getIdCategoria(); 
+            $nom = $p->getNombre(); 
+            $desc = $p->getDescripcion();
+            $pb = $p->getPrecioBase(); 
+            $iva = $p->getIva(); 
+            $disp = $p->getDisponible(); 
+            $ofert = $p->getOfertado(); 
+            $cocinable = $p->getCocinable();
             
             mysqli_stmt_bind_param($stmt, "issidiii", $id_cat, $nom, $desc, $pb, $iva, $disp, $ofert, $cocinable);
             $result = mysqli_stmt_execute($stmt);
             $id_producto = mysqli_insert_id($this->db);
         }
     
-        // Si hay imágenes nuevas, se añaden a la tabla
-        if ($result && !empty($p->getImagenesArray())) {
-            // Borrar imágenes antiguas antes de poner las nuevas si es una actualización
-            if ($p->getId()) {
+        // GESTIÓN DE IMÁGENES:
+        // Si el resultado de la consulta principal fue bien y el objeto trae imágenes
+        if ($result && is_array($p->getImagenesArray())) {
+            
+            // 1. Borramos las asociaciones antiguas para este producto (limpieza)
+            // Solo lo hacemos si el array de imágenes no está vacío para no dejar el producto sin foto por error
+            if (!empty($p->getImagenesArray())) {
                 $deleteImg = mysqli_prepare($this->db, "DELETE FROM productos_imagenes WHERE id_producto = ?");
                 mysqli_stmt_bind_param($deleteImg, "i", $id_producto);
                 mysqli_stmt_execute($deleteImg);
-            }
 
-            foreach ($p->getImagenesArray() as $orden => $ruta) {
-                $orden += 1;
-                if($ruta !== 'default.png') {
-                    $imgSql = "INSERT INTO productos_imagenes (id_producto, ruta_imagen, orden) VALUES (?, ?, ?)";
-                    $imgStmt = mysqli_prepare($this->db, $imgSql);
-                    mysqli_stmt_bind_param($imgStmt, "isi", $id_producto, $ruta, $orden);
-                    mysqli_stmt_execute($imgStmt);
+                // 2. Insertamos las rutas actuales
+                foreach ($p->getImagenesArray() as $orden => $ruta) {
+                    $ordenNum = $orden + 1;
+                    // Evitamos guardar 'default.png' en la tabla si hay otras imágenes reales
+                    if($ruta !== 'default.png' || count($p->getImagenesArray()) == 1) {
+                        $imgSql = "INSERT INTO productos_imagenes (id_producto, ruta_imagen, orden) VALUES (?, ?, ?)";
+                        $imgStmt = mysqli_prepare($this->db, $imgSql);
+                        mysqli_stmt_bind_param($imgStmt, "isi", $id_producto, $ruta, $ordenNum);
+                        mysqli_stmt_execute($imgStmt);
+                    }
                 }
             }
         }
         return $result;
     }
 }
-?>

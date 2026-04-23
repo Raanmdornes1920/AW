@@ -1,40 +1,20 @@
 <?php
-require_once (__DIR__ . '/../../../config.php');
+require_once __DIR__ . '/../../comun/formularioBase.php';
 
-class FormularioCrearProducto {
+class FormularioCrearProducto extends formularioBase {
 
     private $db;
 
     public function __construct($db_connection) {
+        // El action por defecto es la propia página (productos_crear.php)
+        parent::__construct('formCrearProducto', [
+            'enctype' => 'multipart/form-data',
+            'urlRedireccion' => '../productos_gerente.php'
+        ]);
         $this->db = $db_connection;
     }
 
-    public function gestiona() {
-        return $this->generaFormulario();
-    }
-
-    //Saneamos los datos del formulario usando filter_var
-    public function saneaDatos($datos) {
-        $datosSaneados = [];
-
-        $datosSaneados['nombre'] = filter_var($datos['nombre'], FILTER_SANITIZE_SPECIAL_CHARS);
-        $datosSaneados['descripcion'] = filter_var($datos['descripcion'], FILTER_SANITIZE_SPECIAL_CHARS);
-        
-        $datosSaneados['id_categoria'] = filter_var($datos['id_categoria'], FILTER_SANITIZE_NUMBER_INT);
-        $datosSaneados['precio_base'] = filter_var($datos['precio_base'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
-        $datosSaneados['iva'] = filter_var($datos['iva'], FILTER_SANITIZE_NUMBER_INT);
-
-        $datosSaneados['disponible'] = isset($datos['disponible']) ? 1 : 0;
-        $datosSaneados['ofertado'] = isset($datos['ofertado']) ? 1 : 0;
-
-        $datosSaneados['cocinable'] = filter_var($datos['cocinable'] ?? 1, FILTER_SANITIZE_NUMBER_INT);
-        
-        $datosSaneados['accion'] = $datos['accion'];
-
-        return $datosSaneados;
-    }
-
-    private function generaFormulario() {
+    protected function generaCamposFormulario(&$datos) {
         $catSA = new CategoriaSA($this->db);
         $categorias = $catSA->obtenerTodas();
 
@@ -43,9 +23,11 @@ class FormularioCrearProducto {
             $optionsCategorias .= '<option value="'.$cat->getId().'">'.htmlspecialchars($cat->getNombre()).'</option>';
         }
 
-        $html = <<<EOF
-        <form action="procesar_producto.php" method="POST" enctype="multipart/form-data" class="form-estilizado">
-            <input type="hidden" name="accion" value="crear">
+        $erroresGlobales = self::generaListaErroresGlobales($this->errores);
+
+        return <<<EOF
+        $erroresGlobales
+        <fieldset class="form-estilizado">
             <h2>Crear Nuevo Producto</h2>
             
             <label>Categoría:</label>
@@ -91,8 +73,42 @@ class FormularioCrearProducto {
                 <button type="submit">Guardar Producto</button>
                 <a href="../productos_gerente.php" class="boton-borrar">Cancelar</a>
             </div>
-        </form>
+        </fieldset>
 EOF;
-        return $html;
+    }
+
+    protected function procesaFormulario(&$datos) {
+        $datosSaneados = [];
+        $datosSaneados['nombre'] = filter_var($datos['nombre'] ?? '', FILTER_SANITIZE_SPECIAL_CHARS);
+        $datosSaneados['descripcion'] = filter_var($datos['descripcion'] ?? '', FILTER_SANITIZE_SPECIAL_CHARS);
+        $datosSaneados['id_categoria'] = filter_var($datos['id_categoria'] ?? 0, FILTER_SANITIZE_NUMBER_INT);
+        $datosSaneados['precio_base'] = filter_var($datos['precio_base'] ?? 0, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+        $datosSaneados['iva'] = filter_var($datos['iva'] ?? 21, FILTER_SANITIZE_NUMBER_INT);
+        $datosSaneados['disponible'] = isset($datos['disponible']) ? 1 : 0;
+        $datosSaneados['ofertado'] = isset($datos['ofertado']) ? 1 : 0;
+        $datosSaneados['cocinable'] = filter_var($datos['cocinable'] ?? 1, FILTER_SANITIZE_NUMBER_INT);
+
+        // Procesamiento de imágenes
+        $imagenesSubidas = [];
+        if (isset($_FILES['imagenes']) && !empty($_FILES['imagenes']['name'][0])) {
+            foreach ($_FILES['imagenes']['tmp_name'] as $key => $tmp_name) {
+                if ($_FILES['imagenes']['error'][$key] === UPLOAD_ERR_OK) {
+                    $ext = pathinfo($_FILES['imagenes']['name'][$key], PATHINFO_EXTENSION);
+                    $nombreNuevo = uniqid('prod_') . '_' . $key . '.' . $ext;
+                    // Ruta absoluta para evitar fallos de permisos o niveles de carpeta
+                    $rutaDestino = __DIR__ . "/../../../../img/productos/" . $nombreNuevo;
+                    
+                    if (move_uploaded_file($tmp_name, $rutaDestino)) {
+                        $imagenesSubidas[] = $nombreNuevo;
+                    }
+                }
+            }
+        }
+        $datosSaneados['imagenes'] = $imagenesSubidas;
+
+        $sa = new ProductoSA($this->db);
+        if (!$sa->guardarProducto($datosSaneados)) {
+            $this->errores[] = "Error técnico al intentar guardar el producto.";
+        }
     }
 }

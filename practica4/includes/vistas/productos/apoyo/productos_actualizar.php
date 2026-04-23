@@ -1,24 +1,35 @@
 <?php
-require_once (__DIR__ . '/../../../config.php');
-require_once (__DIR__ . '/formularioActualizarProducto.php');
+require_once __DIR__ . '/../../../config.php';
+require_once __DIR__ . '/formularioActualizarProducto.php';
+
 session_start();
 
+// Control de acceso
 if (!isset($_SESSION['login']) || $_SESSION['usuario']->rol() !== 'gerente') {
-    header("Location: " . RAIZ_APP . "/index.php"); exit;
+    header("Location: " . RAIZ_APP . "/index.php");
+    exit;
 }
 
+// 1. Validamos que el producto exista antes de hacer nada
+$id = $_GET['id'] ?? 0;
 $sa = new ProductoSA($db_connection);
-$producto = $sa->buscarProducto($_GET['id'] ?? 0);
+$producto = $sa->buscarProducto($id);
 
-if (!$producto) { header("Location: ../productos_gerente.php"); exit; }
+if (!$producto) {
+    // Si no existe el ID, volvemos al listado con un aviso
+    header("Location: ../productos_gerente.php?error=producto_no_encontrado");
+    exit;
+}
 
-$tituloPagina = "Actualizar Producto";
-$css = [];
+// Configuración de la página
+$tituloPagina = "Actualizar: " . htmlspecialchars($producto->getNombre());
 $header = "../../comun/header.php";
 $claseMain = "contenedor-centro";
 
-// Instanciamos el formulario pasándole el objeto producto encontrado
+// 2. Instanciamos el formulario pasándole el objeto producto recuperado
 $form = new FormularioActualizarProducto($db_connection, $producto);
+
+// 3. Ejecutamos la gestión del formulario
 $htmlForm = $form->gestiona();
 
 $contenidoPrincipal = <<<EOF
