@@ -6,7 +6,6 @@ class FormularioCrearProducto extends formularioBase {
     private $db;
 
     public function __construct($db_connection) {
-        // El action por defecto es la propia página (productos_crear.php)
         parent::__construct('formCrearProducto', [
             'enctype' => 'multipart/form-data',
             'urlRedireccion' => '../productos_gerente.php'
@@ -27,7 +26,7 @@ class FormularioCrearProducto extends formularioBase {
 
         return <<<EOF
         $erroresGlobales
-        <fieldset class="form-estilizado">
+        <div class="form-estilizado">
             <h2>Crear Nuevo Producto</h2>
             
             <label>Categoría:</label>
@@ -66,14 +65,20 @@ class FormularioCrearProducto extends formularioBase {
                 <label><input type="radio" name="cocinable" value="0"> No (Bebidas/Barra)</label>
             </div>
 
-            <label>Imagen del producto:</label> 
-            <input type="file" name="imagenes[]" accept="image/*" multiple>
+            <label>Imágenes del producto:</label> 
+            <input type="file" name="imagenes[]" id="input_imagenes" accept="image/*" multiple onchange="previsualizarImagenes(this)">
+
+            <div class="carrusel-contenedor" style="margin-top: 20px; max-width: 500px; margin-left: auto; margin-right: auto;">
+                <div class="carrusel" id="carrusel_previsualizacion">
+                    <p style="color: #666;">Selecciona imágenes para ver la previsualización</p>
+                </div>
+            </div>
 
             <div class="acciones" style="margin-top: 30px;">
                 <button type="submit">Guardar Producto</button>
                 <a href="../productos_gerente.php" class="boton-borrar">Cancelar</a>
             </div>
-        </fieldset>
+        </div>
 EOF;
     }
 
@@ -95,7 +100,6 @@ EOF;
                 if ($_FILES['imagenes']['error'][$key] === UPLOAD_ERR_OK) {
                     $ext = pathinfo($_FILES['imagenes']['name'][$key], PATHINFO_EXTENSION);
                     $nombreNuevo = uniqid('prod_') . '_' . $key . '.' . $ext;
-                    // Ruta absoluta para evitar fallos de permisos o niveles de carpeta
                     $rutaDestino = __DIR__ . "/../../../../img/productos/" . $nombreNuevo;
                     
                     if (move_uploaded_file($tmp_name, $rutaDestino)) {

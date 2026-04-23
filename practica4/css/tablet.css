@@ -1353,7 +1353,7 @@ td {
 
 .form-estilizado {
     width: 90%;
-    max-width: 600px;
+    max-width: none;
     margin: 20px auto;
     padding: 20px;
     background: white;

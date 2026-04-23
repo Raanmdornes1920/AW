@@ -1,36 +1,22 @@
 <?php
-require_once (__DIR__ . '/../../../config.php');
+require_once __DIR__ . '/../../comun/formularioBase.php';
 
-class FormularioActualizarProducto {
+class FormularioActualizarProducto extends formularioBase {
 
     private $db;
     private $producto;
 
-    public function __construct($db_connection, $producto = null) {
+    public function __construct($db_connection, $producto) {
+        // Inicializamos el formulario base
+        parent::__construct('formActualizarProducto', [
+            'enctype' => 'multipart/form-data',
+            'urlRedireccion' => '../productos_gerente.php'
+        ]);
         $this->db = $db_connection;
         $this->producto = $producto;
     }
 
-    public function gestiona() {
-        return $this->generaFormulario();
-    }
-
-    public function saneaDatos($datos) {
-        $datosSaneados = [];
-        $datosSaneados['id'] = filter_var($datos['id'], FILTER_SANITIZE_NUMBER_INT);
-        $datosSaneados['nombre'] = filter_var($datos['nombre'], FILTER_SANITIZE_SPECIAL_CHARS);
-        $datosSaneados['descripcion'] = filter_var($datos['descripcion'], FILTER_SANITIZE_SPECIAL_CHARS);
-        $datosSaneados['id_categoria'] = filter_var($datos['id_categoria'], FILTER_SANITIZE_NUMBER_INT);
-        $datosSaneados['precio_base'] = filter_var($datos['precio_base'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
-        $datosSaneados['iva'] = filter_var($datos['iva'], FILTER_SANITIZE_NUMBER_INT);
-        $datosSaneados['disponible'] = isset($datos['disponible']) ? 1 : 0;
-        $datosSaneados['ofertado'] = isset($datos['ofertado']) ? 1 : 0;
-        $datosSaneados['cocinable'] = filter_var($datos['cocinable'] ?? 1, FILTER_SANITIZE_NUMBER_INT);
-        $datosSaneados['accion'] = $datos['accion'];
-        return $datosSaneados;
-    }
-
-    private function generaFormulario() {
+    protected function generaCamposFormulario(&$datos) {
         $catSA = new CategoriaSA($this->db);
         $categorias = $catSA->obtenerTodas();
 
@@ -54,8 +40,13 @@ class FormularioActualizarProducto {
         $checkCocinableSi = $this->producto->getCocinable() ? 'checked' : '';
         $checkCocinableNo = !$this->producto->getCocinable() ? 'checked' : '';
 
+        $erroresGlobales = self::generaListaErroresGlobales($this->errores);
+
+        // IMPORTANTE: Aquí NO ponemos <form> porque la clase base ya lo pone.
+        // Usamos un DIV con la clase para que el CSS lo trate igual que al de Crear.
         return <<<EOF
-        <form action="procesar_producto.php" method="POST" enctype="multipart/form-data" class="form-estilizado">
+        $erroresGlobales
+        <div class="form-estilizado">
             <input type="hidden" name="accion" value="actualizar">
             <input type="hidden" name="id" value="$idVal">
 
@@ -110,7 +101,12 @@ class FormularioActualizarProducto {
                 <button type="submit">Actualizar Producto</button>
                 <a href="../productos_gerente.php" class="boton-borrar">Cancelar</a>
             </div>
-        </form>
+        </div>
 EOF;
+    }
+
+    protected function procesaFormulario(&$datos) {
+        // Aquí iría tu lógica de ProductoSA->actualizar(...)
+        // Similar a la que tenías en el procesar_producto.php
     }
 }
