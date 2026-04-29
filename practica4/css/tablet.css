@@ -1,0 +1,1916 @@
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding-top: 30px;
+    /* Compensar header fijo */
+}
+
+input[type="file"] {
+    padding: 10px;
+    width: 100%;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    /* Para que el padding no ensanche el campo */
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 14px;
+}
+
+input[type="file"]::file-selector-button {
+    background-color: #000000;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 14px;
+    margin-right: 15px;
+}
+
+/* Estilo específico para el formulario de contacto */
+form {
+    background-color: #f9f9f9;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 35%;
+    width: 100%;
+    margin: 20px 0;
+    text-align: left;
+    /* Alineamos el texto a la izquierda para los campos */
+}
+
+/* Estilo para las etiquetas de los campos */
+label {
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* Estilo para los campos de texto y email */
+input[type="password"],
+input[type="text"],
+input[type="email"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    /* Para que el padding no ensanche el campo */
+    font-family: Arial, sans-serif;
+}
+
+/* Estilo para el grupo de radio buttons (Motivo de consulta) */
+fieldset {
+    border: 1px solid #888888;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    padding: 15px;
+}
+
+legend {
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bold;
+    padding: 0 10px;
+}
+
+/* Estilo para el botón de enviar */
+button[type="submit"] {
+    background-color: #888888;
+    /* Color a juego con tu navegación */
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 18px;
+    font-family: 'Times New Roman', Times, serif;
+    width: 100%;
+}
+
+button[type="submit"]:hover {
+    background-color: #555555;
+    /* Oscurece al pasar el ratón */
+}
+
+button[type="button"] {
+    background-color: #888888;
+    /* Color a juego con tu navegación */
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 18px;
+    font-family: 'Times New Roman', Times, serif;
+    width: 100%;
+}
+
+button[type="button"]:hover {
+    background-color: #555555;
+    /* Oscurece al pasar el ratón */
+}
+
+.descripcion-miembro {
+    text-align: justify;
+    max-width: 45%;
+    justify-content: center;
+}
+
+.imagen {
+    border-radius: 20px;
+    /* Bordes suaves */
+    width: 300px;
+    height: auto;
+}
+
+.margenes {
+    margin-left: 2%;
+    margin-right: 2%;
+    padding-top: 60px;
+}
+
+.contenedor-imagen {
+    flex-grow: 1;
+    /*Para que ocupe todo el espacio vacio*/
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 60px;
+    box-sizing: border-box;
+}
+
+h1 {
+    font-size: 33px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+h2 {
+    font-size: 26px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+table,
+tr,
+th,
+td {
+    border: 1px solid black;
+}
+
+.recuadro-iniciar-pedido {
+    display: flex;
+    flex-direction: column;
+    background-color: #c5c5c5;
+    min-width: 600px;
+    min-height: 200px;
+    align-items: center;
+    border-radius: 20px;
+}
+
+.titulo-iniciar-pedido {
+    display: flex;
+    flex: 1;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.contenedor-botones-iniciar-pedido {
+    display: flex;
+    flex: 2;
+    width: 100%;
+    justify-content: center;
+    padding: auto;
+    gap: 20px;
+}
+
+.boton-iniciar-pedido {
+    background-color: #82a9ff;
+    border-radius: 20px;
+    height: 50px;
+    width: 40%;
+    color: #333;
+    padding: 10px;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    margin-bottom: auto;
+    margin-top: auto;
+    transition: 0.3s;
+}
+
+.boton-iniciar-pedido:hover {
+    background-color: #9dbcff;
+    cursor: pointer;
+}
+
+/*--------------------------------------------------------------------------------*/
+.recuadro-temporal-resumen-pedidos {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    min-height: 300px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    /*border: 2px solid #000;*/
+}
+
+.form-boton-pedido-prod {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin-top: 60px;
+    margin-bottom: 30px;
+    width: 100%;
+    max-width: 100%;
+    background: transparent;
+    box-shadow: none;
+}
+
+.form-boton-pedido-prod button {
+    max-width: 80%;
+}
+
+.form-pedido-producto-detalle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+    max-width: 100%;
+    background: transparent;
+    box-shadow: none;
+}
+
+#btn-carrito-detalle-producto {
+    background-color: #82a9ff;
+    border-radius: 20px;
+    height: 50px;
+    width: 40%;
+    color: #333;
+    padding: 10px;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    margin-bottom: auto;
+    margin-top: auto;
+    transition: 0.3s;
+    width: 100%;
+    padding: 12px;
+    font-weight: bold;
+}
+
+#btn-carrito-detalle-producto:hover {
+    background-color: #9dbcff;
+    cursor: pointer;
+}
+
+/*--------------------------------------------------------------------------------*/
+
+/*---------------------------------------- RAMON ----------------------------------------*/
+
+/*----- CONTENEDORES -----*/
+.contenedor-centro {
+    flex-grow: 1;
+    /*Para que ocupe todo el espacio vacio*/
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3%;
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+}
+
+.contenedor-fullwidth {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 20px;
+    box-sizing: border-box;
+    width: 98%;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.contenedor-centro-index {
+    flex-grow: 1;
+    /*Para que ocupe todo el espacio vacio*/
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+#contenedor-descripcion {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+#titulo-descripcion {
+    text-align: center;
+}
+
+#texto-descripcion {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 18px;
+    font-weight: normal;
+    text-align: justify;
+}
+
+/*----- CONTENEDORES -----*/
+/*----- VENTANA MENSAJES -----*/
+#contenedor-centro {
+    flex-grow: 1;
+    /*Para que ocupe todo el espacio vacio*/
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3%;
+    box-sizing: border-box;
+}
+
+#texto {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 24px;
+    color: #000000;
+    text-align: center;
+}
+
+#texto-error {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 24px;
+    color: #b90000;
+    text-align: center;
+}
+
+#boton-volver {
+    background-color: #000000;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: 'Times New Roman', Times, serif;
+    display: inline-block;
+}
+
+/*----- VENTANA MENSAJES -----*/
+/*----- MODALES -----*/
+/* El fondo (oculto por defecto) */
+#modalEditar {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Oscurece el fondo */
+}
+
+/* La cajita blanca */
+.modal-contenido {
+    background-color: white;
+    margin: 5.5% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 1002;
+    box-sizing: border-box;
+}
+
+.modal-contenido form {
+    background-color: transparent;
+    /* Quitamos el fondo gris del form global */
+    box-shadow: none;
+    /* Quitamos la sombra para no duplicar */
+    padding: 10px 0;
+    /* Reducimos padding lateral */
+    margin: 0 auto;
+    max-width: 100%;
+    /* Que use el 100% del modal */
+}
+
+#modalEditarPassword {
+    display: none;
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Oscurece el fondo */
+}
+
+.formEditar,
+#formEditarPassword {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 80%;
+    margin: auto;
+}
+
+#modalError {
+    display: box;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Oscurece el fondo */
+}
+
+#modalEditarAvatar {
+    display: none;
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Oscurece el fondo */
+}
+
+#modalAdminEditar {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Oscurece el fondo */
+}
+
+#modalAdminEditarPassword {
+    display: none;
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Oscurece el fondo */
+}
+
+#modalAdminEditarAvatar {
+    display: none;
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Oscurece el fondo */
+}
+
+#modalAdminEditarRol {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Oscurece el fondo */
+}
+
+#modalAdminEditarRol .modal-contenido {
+    position: relative;
+    z-index: 2001;
+    background-color: white;
+    /* Importante para que no sea transparente al clic */
+}
+
+.form-eliminar-usuario {
+    background-color: rgba(0, 0, 0, 0);
+    padding: 0;
+    margin: 0;
+    box-shadow: 0 0 0;
+    width: 100%;
+    text-align: center;
+}
+
+#span-nombre-usuario {
+    text-decoration: none;
+    font-weight: normal;
+}
+
+#modalAdminEliminarusuario {
+    display: none;
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Oscurece el fondo */
+}
+
+#advertencia-propio-usuario {
+    display: none;
+    color: red;
+    font-weight: bold;
+}
+
+.cerrar-modal {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.cerrar-modal-pass {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.cerrar-modal-error {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.cerrar-modal-avatar {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.cerrar-modal-edit-admin {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.cerrar-modal-rol {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.cerrar-modal-del {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.cerrar-modal:hover,
+.cerrar-modal-pass:hover,
+.cerrar-modal-error:hover,
+.cerrar-modal-avatar:hover,
+.cerrar-modal-edit-admin:hover,
+.cerrar-modal-rol:hover,
+.cerrar-modal-del:hover {
+    color: #f33e3e;
+    text-shadow:
+        0 0 5px #ff3131,
+        0 0 10px #ff3131,
+        0 0 20px #ff3131;
+    transition: 0.5s;
+}
+
+.usuario-nombre {
+    padding: 0 15px;
+    font-weight: bold;
+    color: #ffffff;
+    font-size: 16px;
+    text-transform: uppercase;
+    text-decoration: bold;
+
+}
+
+.perfil-container {
+    background-color: #f9f9f9;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+    margin: 20px 0;
+    text-align: left;
+    /* Alineamos el texto a la izquierda para los campos */
+}
+
+#titulo-perfil {
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+#contenedor-avatar {
+    position: relative;
+    /* Importante para posicionar el lápiz */
+    width: 80px;
+    /* Ajusta al tamaño de tu avatar */
+    height: 80px;
+    border-radius: 50%;
+    /* Si quieres que sea circular */
+    overflow: hidden;
+    /* Para que nada sobresalga */
+    cursor: pointer;
+}
+
+#Logo-Usuario {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: filter 0.3s ease;
+    /* Suaviza el oscurecimiento */
+}
+
+/* Capa que contiene el lápiz */
+.capa-editar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Fondo oscuro semitransparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    /* Oculto por defecto */
+    transition: opacity 0.3s ease;
+}
+
+.icono-lapiz {
+    color: white;
+    font-size: 24px;
+}
+
+.icono-lapiz-img {
+    width: 30px;
+    /* Ajusta el tamaño a tu gusto */
+    height: 30px;
+    object-fit: contain;
+    /* Evita que el lápiz se deforme */
+    /* No necesitas ponerle color blanco porque ya es una imagen */
+}
+
+/* Efecto HOVER */
+#contenedor-avatar:hover .capa-editar {
+    opacity: 1;
+    /* Mostramos la capa */
+}
+
+#contenedor-avatar:hover #Logo-Usuario {
+    filter: blur(1px);
+    /* Opcional: desenfoque ligero al pasar el ratón */
+}
+
+.imagen-usarname-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+#nombre-usuario {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 24px;
+    font-weight: bold;
+    flex-grow: 1;
+    margin: 0;
+}
+
+#boton-editar-usuario {
+    max-height: 24px;
+    margin-right: 20px;
+    height: 24px;
+    object-fit: contain;
+    transition: transform 0.2s;
+    /* Efecto suave al pasar el ratón */
+}
+
+#boton-editar-usuario:hover {
+    cursor: pointer;
+    transform: scale(1.2);
+    /* El lápiz crece un poco al pasar el ratón */
+}
+
+.fila-dato {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px;
+}
+
+.tipo-dato-usuario {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.datos-usuario {
+    flex: 1;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 24px;
+    font-weight: normal;
+    text-align: center;
+    margin: 0;
+}
+
+.lapiz-negro {
+    height: 24px;
+    object-fit: contain;
+    transition: transform 0.2s;
+    /* Efecto suave al pasar el ratón */
+    margin-right: 20px;
+}
+
+.lapiz-negro:hover {
+    cursor: pointer;
+    transform: scale(1.2);
+    /* El lápiz crece un poco al pasar el ratón */
+}
+
+#contenedor-centro-edit-admin {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+
+    flex-grow: 1;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.perfil-container-edit-admin {
+    position: relative;
+    background-color: #f9f9f9;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+    margin: 20px 0;
+    text-align: left;
+    /* Alineamos el texto a la izquierda para los campos */
+    z-index: 1001;
+}
+
+#select-rol-usuario {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+    display: block;
+    /* Asegura que ocupe su propia línea */
+}
+
+#select-rol-usuario option {
+    background-color: #ffffff;
+    color: #333;
+    padding: 10px;
+    font-family: Arial, sans-serif;
+}
+
+#select-rol-usuario option:checked {
+    background-color: #888888;
+    color: white;
+}
+
+.contenedor-botones {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.contenedor-botones button {
+    width: auto;
+    min-width: 100px;
+    padding: 10px 20px;
+}
+
+.contenedor-botones .boton-guardar {
+    color: #aaff88;
+}
+
+.contenedor-botones .boton-cancelar {
+    color: #ff8e8e;
+}
+
+/*----- MODALES -----*/
+/*----- NAVBAR -----*/
+.navegacion {
+    top: 0;
+    left: 0;
+    position: fixed;
+    width: 100%;
+    height: 5.5%;
+    display: flex;
+    justify-content: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    background-color: #888888;
+    z-index: 9999;
+}
+
+.navegacion_principal {
+    flex: 2;
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.header-izquierdo,
+.header-derecho {
+    display: flex;
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.header-derecho {
+    justify-content: flex-end;
+}
+
+.enlaces {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 20px;
+    padding: 10px;
+    color: white;
+    text-decoration: none;
+    align-items: center;
+    white-space: nowrap;
+}
+
+#boton-registro {
+    background-color: #000000;
+    color: #ffffff !important;
+    padding: 8px 16px;
+    border-radius: 5px;
+    margin-right: 15px;
+    font-weight: bold;
+    font-size: 15px;
+    border: none;
+    cursor: pointer;
+}
+
+#boton-registro:hover {
+    background-color: #333333;
+}
+
+.enlaces:hover {
+    text-decoration: underline;
+}
+
+.enlace_seleccionado {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 20px;
+    padding: 10px;
+    color: #000000;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.enlace_seleccionado:hover {
+    text-decoration: underline;
+}
+
+#boton-cerrar-sesion {
+
+    background-color: #000000;
+    color: white;
+    padding: 10px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: 'Times New Roman', Times, serif;
+    margin-right: 1%;
+}
+
+#boton-cerrar-sesion:hover {
+
+    text-decoration: none;
+}
+
+/* Botón del menú en Móviles */
+.menu-toggle {
+    display: none;
+    /* Ocultar por defecto */
+}
+
+#Logo-Header {
+    margin: 0;
+    max-height: 60px;
+    width: auto;
+    object-fit: contain;
+}
+
+.navegacion figure {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+.logo-movil {
+    display: none;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: #474747;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    border-radius: 8px;
+    margin-top: 0;
+    padding: 5px 0;
+}
+
+/* Mostrar cuando se añade la clase 'show' con JS */
+.dropdown-content.show {
+    display: block;
+}
+
+/* Enlaces del menú */
+.dropdown-content a {
+    color: #d3d3d3;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-size: 14px;
+}
+
+.dropdown-content a:hover {
+    background-color: #000000;
+}
+
+/*----- NAVBAR -----*/
+/*----- BOTONES Y TEXTO -----*/
+#boton_cancelar,
+#boton_aceptar {
+    background-color: #888888;
+    /* Color a juego con tu navegación */
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 18px;
+    font-family: 'Times New Roman', Times, serif;
+    width: 50%;
+}
+
+#boton_cancelar:hover,
+#boton_aceptar:hover {
+    background-color: #555555;
+    /* Oscurece al pasar el ratón */
+}
+
+#botones_formulario {
+    padding-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.titulo-formulario {
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.centrado {
+    padding-top: 4%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.fieldset_form {
+    flex-grow: 1;
+    /*Para que ocupe todo el espacio vacio*/
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: left;
+    box-sizing: border-box;
+}
+
+#formLogin {
+    max-width: 70%;
+    width: 100%;
+}
+
+#formRegistro {
+    max-width: 95%;
+    width: 100%;
+}
+
+#formCrearUsuario {
+    max-width: 80%;
+    width: 100%;
+}
+
+.botones-gestion-usuarios {
+    background-color: #888888;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: 'Times New Roman', Times, serif;
+    width: auto;
+    margin: 0 15px;
+}
+
+.usuario-menu-container {
+    position: relative;
+    display: inline-block;
+
+    margin-bottom: 0;
+    padding: 0;
+}
+
+/*----- BOTONES Y TEXTO -----*/
+/*----- TABLAS -----*/
+.titulo-tabla {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+.contenedor-tabla-usuarios {
+    width: 80%;
+    border: 1px solid #000;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.tabla-usuarios {
+    width: 100%;
+    border-collapse: collapse;
+    border: none;
+    margin: 0;
+}
+
+/* Tabla estilo zebra */
+.tabla-usuarios tr:nth-child(even) {
+    background-color: #e6e6e6;
+}
+
+/* Estilo de cabeceras */
+.tabla-usuarios tr:nth-child(2) {
+    background: linear-gradient(to bottom, #2c3e60, #2c3e40);
+    color: white;
+}
+
+.boton-taba-usuarios {
+    background-color: #888888;
+    /* Color a juego con tu navegación */
+    color: white;
+    padding: 2px 5px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: 'Times New Roman', Times, serif;
+    width: auto;
+}
+
+.columna-boton-editar {
+    text-align: center;
+    vertical-align: middle;
+    padding: none;
+    width: 8%;
+}
+
+.tabla-gestion-usuario {
+    width: 90%;
+    border-collapse: collapse;
+    margin: 20px auto;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.tabla-gestion-usuario th {
+    background-color: #333;
+    color: white;
+    padding: 12px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.tabla-gestion-usuario td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+/*----- TABLAS -----*/
+/*----- AVATARES -----*/
+#archivo-avatar {
+    display: none;
+}
+
+.seleccion-avatares {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.opcion-avatar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    gap: 10px;
+}
+
+.opcion-imagen-avatar {
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid transparent;
+    transition: 0.3s;
+}
+
+.opcion-avatar:hover .opcion-imagen-avatar {
+    border-color: #007bff;
+}
+
+.cuadro-subir-archivo {
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f0f0;
+    border: 2px dashed #ccc;
+    text-align: center;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.avatar {
+    height: 50px;
+    border-radius: 50%;
+}
+
+.avatar-container {
+    margin-right: 15px;
+    cursor: pointer;
+}
+
+/*----- AVATARES -----*/
+/*----- FOOTER -----*/
+.pie-pagina {
+
+    background-color: #686868;
+    color: white;
+    padding: 10px 0;
+    margin-top: 30px;
+    bottom: 0;
+}
+
+.footer-contenido {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0;
+}
+
+.footer-seccion {
+    max-height: 115px;
+}
+
+.footer-seccion-contenido {
+    columns: 2;
+    column-gap: 20px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    align-items: flex-start;
+}
+
+.footer-seccion-contenido li {
+    display: flex;
+    /* Cambia a flexbox */
+    flex-wrap: wrap;
+    /* Permite que los elementos se ajusten a nuevas filas */
+    gap: 0;
+    /* Espaciado entre elementos */
+    list-style: none;
+    /* Elimina los estilos predeterminados de la lista */
+    padding: 0;
+    /* Elimina el padding interno */
+    margin: 0;
+    /* Elimina el margen externo */
+    break-inside: avoid;
+}
+
+.footer-seccion-contenido li p {
+    margin: 0;
+    /* Elimina márgenes adicionales */
+    padding: 0;
+    /* Elimina padding adicional */
+    line-height: 1.5;
+    /* Ajusta la altura de línea */
+}
+
+.footer-seccion h4 {
+    margin-bottom: 10px;
+    color: #ff9900;
+    /* Color corporativo */
+}
+
+.footer-seccion ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    break-inside: avoid;
+}
+
+.footer-seccion li {
+    break-inside: avoid;
+    /* Evita que los nombres se dividan entre columnas */
+}
+
+.footer-seccion a {
+    color: #bbb;
+    text-decoration: none;
+}
+
+.footer-seccion a:hover {
+    color: white;
+}
+
+.footer-logo {
+    height: 40px;
+}
+
+/*----- FOOTER -----*/
+
+/*---------------------------------------- RAMON ----------------------------------------*/
+
+/*--------------------------------------- ANGELA ---------------------------------------*/
+
+/*Para productos*/
+
+.form-estilizado input[type="number"],
+.form-estilizado input[type="password"],
+.form-estilizado input[type="text"],
+.form-estilizado input[type="email"],
+.form-estilizado select,
+.form-estilizado textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Forzamos que el input de archivo tenga espacio para el texto */
+.form-estilizado input[type="file"] {
+    display: block;
+    width: 100%;
+    overflow: visible;
+    /* Permite que el texto se vea */
+    white-space: normal;
+    /* Permite saltos de línea si el nombre del archivo es largo */
+    padding: 15px;
+    background: #fdfdfd;
+    border: 1px dashed #ccc;
+}
+
+.form-estilizado {
+    width: 90%;
+    max-width: none;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+    /* para que el padding no sume ancho */
+}
+
+/* Ajustamos la cuadrícula de productos a 2 columnas */
+.cuadricula-objetos {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.precio-final-destacado {
+    margin: 10px 0 25px 0;
+    padding: 15px;
+    background-color: #eee;
+    border-radius: 5px;
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.precio-final-destacado strong {
+    font-size: 1.2em;
+    color: #333;
+}
+
+.grupo-checkbox {
+    margin-bottom: 20px;
+}
+
+.grupo-checkbox label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: normal;
+    margin-bottom: 8px;
+    cursor: pointer;
+}
+
+.grupo-checkbox input {
+    width: auto;
+    margin: 0;
+}
+
+/*Diseño tienda vista cliente*/
+.contenedor-pedido {
+    display: flex;
+    flex-direction: row;
+    /* Volvemos al diseño horizontal */
+    gap: 15px;
+    padding: 20px;
+}
+
+.menu-lateral {
+    width: 200px;
+    background: #f4f4f4;
+    padding: 15px;
+    border-radius: 8px;
+    height: fit-content;
+}
+
+.menu-lateral h3 {
+    margin-top: 0;
+}
+
+.menu-lateral ul {
+    list-style: none;
+    padding: 0;
+}
+
+.menu-lateral ul li a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: #333;
+    border-bottom: 1px solid #ddd;
+}
+
+.menu-lateral ul li a:hover {
+    background: #e0e0e0;
+}
+
+/* Cuadrícula de 3 columnas */
+.cuadricula-objetos {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    flex-grow: 1;
+}
+
+.tarjeta-item {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+}
+
+.tarjeta-item:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.tarjeta-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.tarjeta-item h4 {
+    padding: 10px;
+    margin: 0;
+    background: #fff;
+}
+
+.tabla-gestion-productos {
+    width: 90%;
+    border-collapse: collapse;
+    margin: 20px auto;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    min-width: 650px;
+}
+
+.tabla-gestion-productos th {
+    background-color: #333;
+    color: white;
+    padding: 12px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.tabla-gestion-productos td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.contenedor-tabla-scroll {
+    width: 100%;
+    overflow-x: auto;
+    /* Crea el scroll horizontal si es necesario */
+    margin-bottom: 20px;
+}
+
+.col-desc {
+    width: 25%;
+    /* Le damos un cuarto de la tabla a la descripción */
+    font-size: 0.8rem;
+    line-height: 1.2;
+}
+
+/* Reducimos un poco las imágenes para ganar espacio */
+.tabla-gestion img {
+    width: 40px;
+    height: 40px;
+}
+
+/*Para productos detalle*/
+.detalle-producto-centrado {
+    width: 80%;
+    margin: 40px auto;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+
+    position: relative;
+    z-index: 1;
+}
+
+.carrusel-contenedor {
+    position: relative;
+    width: 100%;
+    height: 280px;
+    background: #f9f9f9;
+}
+
+.carrusel {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.img-carrusel {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+}
+
+.img-carrusel.active {
+    display: block;
+}
+
+.btn-carrusel {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.3);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 18px;
+    z-index: 10;
+    transition: background 0.3s;
+}
+
+.btn-carrusel:hover {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.prev {
+    left: 0;
+    border-radius: 0 5px 5px 0;
+}
+
+.next {
+    right: 0;
+    border-radius: 5px 0 0 5px;
+}
+
+.info-detalle {
+    padding: 20px;
+    text-align: left;
+}
+
+.info-detalle h1 {
+    margin: 0 0 10px 0;
+    font-size: 1.5em;
+}
+
+.info-detalle .descripcion {
+    color: #666;
+    font-size: 0.95em;
+    line-height: 1.4;
+}
+
+.info-detalle .precio-detalle {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #e2001a;
+    margin: 15px 0;
+}
+
+.controles-pedido {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.selector-cantidad {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.selector-cantidad button {
+    width: 40px;
+    height: 40px;
+    background-color: #eeeeee;
+    border: 1px solid #ccc;
+    color: #000000;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.selector-cantidad input {
+    width: 50px;
+    text-align: center;
+    border: 1px solid #ddd;
+    padding: 5px;
+}
+
+.btn-carrito {
+    width: 100%;
+    padding: 12px;
+    font-weight: bold;
+}
+
+/*--------------------------------------- ANGELA ---------------------------------------*/
+
+
+/*--------------------------------------- MIGUEL ---------------------------------------*/
+
+/* Convertimos la tabla en una cuadrícula de tarjetas */
+.tabla-gestion,
+.tabla-gestion tbody {
+    display: grid;
+    /* Esto crea columnas automáticas. Cabrán tantas como entren de min 280px */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    width: 95%;
+    /* Usamos más ancho de pantalla en la tablet */
+    margin: 0 auto;
+    background: transparent;
+    box-shadow: none;
+    border: none;
+}
+
+/* Escondemos la cabecera, ya que el formato tarjeta es autoexplicativo */
+.tabla-gestion thead {
+    display: none;
+}
+
+/* Cada pedido (fila) es ahora una tarjeta con sombra */
+.tabla-gestion tr {
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    border: 2px solid #333;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s;
+}
+
+/* Un ligero efecto al tocar la tarjeta */
+.tabla-gestion tr:active {
+    transform: scale(0.98);
+}
+
+/* Ajustamos las celdas para que fluyan una debajo de otra */
+.tabla-gestion td {
+    display: block;
+    width: 100%;
+    text-align: center;
+    border: none;
+    padding: 8px 0;
+}
+
+/* Destacamos el número de pedido en gigante (suele ser la primera celda) */
+.tabla-gestion td:first-child strong {
+    font-size: 2.5em !important;
+    color: #e2001a;
+    display: block;
+    margin-bottom: 10px;
+    border-bottom: 2px dashed #ccc;
+    padding-bottom: 10px;
+}
+
+/* Hacemos los botones de acción GIGANTES para tocarlos rápido */
+.tabla-gestion td form button,
+.tabla-gestion td .boton-nuevo,
+.tabla-gestion td .boton-editar {
+    width: 100%;
+    padding: 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    border-radius: 10px;
+    margin-top: 10px;
+    box-sizing: border-box;
+}
+
+/* Ajuste específico para la lista de cocina (para que sea legible) */
+.tabla-gestion td ul {
+    font-size: 1.1em;
+    background-color: #f9f9f9;
+    padding: 15px !important;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.tabla-gestion td ul li button {
+    padding: 10px 15px !important;
+    font-size: 1em !important;
+    border-radius: 6px;
+}
+
+/*--------------------------------------- MIGUEL ---------------------------------------*/
+
+/*--------------------------------------- HECTOR ---------------------------------------*/
+
+/*Para categorias */
+
+.alerta-borrado {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+}
+
+.alerta-borrado h2 {
+    color: #333;
+    margin-top: 0;
+}
+
+.aviso-peligro {
+    background-color: #fff3f3;
+    color: #d32f2f;
+    padding: 15px;
+    border-radius: 6px;
+    border: 1px solid #ffcdd2;
+    font-family: Arial, sans-serif;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    margin: 20px 0;
+}
+
+.botones-confirmacion .boton-peligro,
+.botones-confirmacion .boton-cancelar {
+    display: inline-block;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-family: 'Times New Roman', Times, serif;
+    text-decoration: none;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    box-sizing: border-box;
+    vertical-align: middle;
+    width: auto;
+    min-width: 200px;
+}
+
+.botones-confirmacion form {
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
+
+.boton-peligro {
+    background-color: rgb(181, 5, 5) !important;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bold;
+}
+
+.boton-peligro:hover {
+    background-color: rgb(123, 4, 4) !important;
+}
+
+.boton-cancelar {
+    background-color: #888888;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: none;
+    font-family: 'Times New Roman', Times, serif;
+    display: inline-block;
+}
+
+.boton-cancelar:hover {
+    background-color: #555555;
+}
+
+.boton-nuevo {
+    background-color: rgb(214, 190, 50);
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-family: 'Times New Roman', Times, serif;
+    margin-bottom: 20px;
+    display: inline-block;
+}
+
+.boton-nuevo:hover {
+    background-color: rgb(173, 154, 45);
+}
+
+.boton-editar {
+    background-color: rgb(36, 123, 6);
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-family: 'Times New Roman', Times, serif;
+    margin-bottom: 10px;
+    display: inline-block;
+}
+
+.boton-editar:hover {
+    background-color: rgb(24, 84, 4);
+}
+
+.boton-borrar {
+    margin-top: 10px;
+    background-color: rgb(181, 5, 5);
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-family: 'Times New Roman', Times, serif;
+    margin-bottom: 20px;
+    display: inline-block;
+}
+
+.boton-borrar:hover {
+    background-color: rgb(123, 4, 4);
+}
+
+.acciones {
+    margin-top: 20px;
+}
+
+.tabla-gestion-categorias {
+    width: 90%;
+    border-collapse: collapse;
+    margin: 20px auto;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    min-width: 650px;
+}
+
+.tabla-gestion-categorias th {
+    background-color: #333;
+    color: white;
+    padding: 12px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.tabla-gestion-categorias td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+/*--------------------------------------- HECTOR ---------------------------------------*/
+
+/* Ocultar elementos exclusivos de móvil */
+.logo-movil {
+    display: none;
+}
