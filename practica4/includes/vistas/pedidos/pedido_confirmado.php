@@ -22,7 +22,7 @@ if (!$pedido || $pedido->getIdUsuario() !== $_SESSION['usuario']->id()) {
 
 $tituloPagina = "Pedido Confirmado";
 $css = [RAIZ_APP . "/css/default.css"];
-$header = "../../comun/header.php";
+$header = __DIR__ . "/../comun/header.php";
 $claseMain = "contenedor-centro";
 $js = [(RAIZ_APP . "/js/pedidos.js"), (RAIZ_APP . "/js/script.js")];
 

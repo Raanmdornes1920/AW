@@ -1,4 +1,4 @@
-<!-- DEFINIR tituloPagina, css, header, contenidoPrincipal y js antes del include y opcionalmente definir claseMain, contenidoAdicional y scriptManual -->
+<!-- DEFINIR tituloPagina, header, contenidoPrincipal y js antes del include y opcionalmente definir claseMain, contenidoAdicional y scriptManual -->
 <!DOCTYPE html>
 <html>
 

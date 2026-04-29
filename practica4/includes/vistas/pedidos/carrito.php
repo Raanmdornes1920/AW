@@ -74,49 +74,49 @@ if (empty($carrito)) {
     } else {
         $checkLocal = "checked";
     }
-    
-    $htmlLineas .= <<<EOF
-    <form action="apoyo/procesar_carrito.php" method="POST" class="form-estilizado" style="margin-top: 40px; max-width: 600px; margin-left: auto; margin-right: auto;">
-        <input type="hidden" name="accion" value="confirmar">
-        
-        <h2>1. Detalles del Pedido</h2>
-        <div class="grupo-checkbox" style="margin-bottom: 20px; border: 1px solid #ddd; padding: 15px; border-radius: 8px;">
-            <label><input type="radio" name="tipo_pedido" value="local" $checkLocal> Para consumir en el local</label>
-            <label><input type="radio" name="tipo_pedido" value="llevar" $checkLlevar> Para llevar</label>
-        </div>
-        
-        <h2>2. Forma de Pago</h2>
-        <div class="grupo-checkbox" style="margin-bottom: 20px; border: 1px solid #ddd; padding: 15px; border-radius: 8px;">
-            <label><input type="radio" name="metodo_pago" value="tarjeta" checked onchange="togglePago(this.value)"> Pago con Tarjeta</label>
-            <label><input type="radio" name="metodo_pago" value="camarero" onchange="togglePago(this.value)"> Pagar al camarero</label>
-        </div>
-        
-        <div id="seccion-tarjeta" style="background: #f1f1f1; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
-            <label>Número de Tarjeta:</label>
-            <input type="text" id="input-tarjeta" placeholder="1234 5678 9101 1121" pattern="\d{16}" title="Debe contener 16 dígitos numéricos" required>
-        </div>
-        
-        <div class="acciones" style="margin-top: 30px;">
-            <button type="submit" class="boton-nuevo" style="width: 100%;">Confirmar y Pagar</button>
-            <a href="apoyo/procesar_carrito.php?accion=clear" class="boton-borrar" style="display: block; text-align: center; margin-top: 10px;">Vaciar Carrito</a>
-        </div>
-    </form>
 
-    <script>
-    // RECUPERADO: Función segura para habilitar/deshabilitar la tarjeta
-    function togglePago(metodo) {
-        var seccionTarjeta = document.getElementById('seccion-tarjeta');
-        var inputTarjeta = document.getElementById('input-tarjeta');
-        if(metodo === 'camarero') {
-            seccionTarjeta.style.display = 'none';
-            inputTarjeta.removeAttribute('required'); // Quitamos la obligación para que deje enviar
+    $importeUsuario = number_format($total, 2);
+    $amount = (string)round((float)$importeUsuario * 100);
+    
+    $error = $_GET['error'] ?? null;
+    $htmlLineas .= <<<EOF
+        <form id="formulario-pago" action="apoyo/pago_redsys.php" method="POST" class="form-estilizado" ...>
+            <input type="hidden" name="amount" value="$amount">
+            <input type="hidden" name="accion" value="confirmar">
+
+            <span class="form-field-error">Ha habido un error al procesar el pago.</span>
+            <h2>1. Detalles del Pedido</h2>
+            <div class="grupo-checkbox" style="margin-bottom: 20px; border: 1px solid #ddd; padding: 15px; border-radius: 8px;">
+                <label><input type="radio" name="tipo_pedido" value="local" $checkLocal> Para consumir en el local</label>
+                <label><input type="radio" name="tipo_pedido" value="llevar" $checkLlevar> Para llevar</label>
+            </div>
+            
+            <h2>2. Forma de Pago</h2>
+            <div class="grupo-checkbox" style="margin-bottom: 20px; border: 1px solid #ddd; padding: 15px; border-radius: 8px;">
+                <label><input type="radio" name="metodo_pago" value="tarjeta" checked onchange="togglePago(this.value)"> Pago con Tarjeta</label>
+                <label><input type="radio" name="metodo_pago" value="camarero" onchange="togglePago(this.value)"> Pagar al camarero</label>
+            </div>
+            
+            <div class="acciones" style="margin-top: 30px;">
+                <button type="submit" class="boton-nuevo" style="width: 100%;">Confirmar y Pagar</button>
+                <a href="apoyo/procesar_carrito.php?accion=clear" class="boton-borrar" style="display: block; text-align: center; margin-top: 10px;">Vaciar Carrito</a>
+            </div>
+        </form>
+
+        <script>
+        if ('$error' === '1') { 
+            document.querySelector('.form-field-error').style.display = 'block';
         } else {
-            seccionTarjeta.style.display = 'block';
-            inputTarjeta.setAttribute('required', 'required'); // Volvemos a hacerlo obligatorio
+            document.querySelector('.form-field-error').style.display = 'none';
         }
-    }
-    </script>
-EOF;
+        
+        function togglePago(metodo) {
+            var formulario = document.getElementById('formulario-pago');
+            formulario.action = (metodo === 'tarjeta') ? "apoyo/pago_redsys.php" : "apoyo/procesar_carrito.php";
+        }
+        </script>
+    EOF;
+
 }
 
 $contenidoPrincipal = "<h1 style='text-align:center;'>Revisar Pedido</h1>" . $htmlLineas;
