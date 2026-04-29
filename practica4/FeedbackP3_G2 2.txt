@@ -1,0 +1,46 @@
+# Feedback de la P3 G2 (4 integrantes): 8.5
+
+## Funcionalidades implementadas 
+
+- [ ] Funcionalidad 3: Preparación de pedidos
+- [ ] Aspecto visual de la aplicación con CSS y característica Responsiveness.
+
+### Funcionalidad 3: Preparación de los pedidos
+Cocinero
+- [X] Cambiar estado de pedidos "En preparación" a "Cocinando" : pedidos_cocinero.php
+    se sugiere utilizar script de apoyo para las vistas
+
+- [X] Ver pedido a nivel de producto y cambiar estado del producto a "Listo cocina": pedidos_camarero.php
+	se sugiere utilizar script de apoyo para las vistas
+
+camarero
+- [X] Cambiar estado de pedidos "Listo cocina" a "Terminado"
+    se sugiere utilizar script de apoyo para las vistas
+
+
+Gerente
+- [X] Ver listado de pedidos activos (recibido, en preparación, cocinando, listo cocina, terminado): pedidos_gerente.php
+	se sugiere utilizar script de apoyo para las vistas	
+- [X] Ver pedidos en estado "Cocinando" a nivel de producto y cocinero: pedidos_gerente.php
+	se sugiere utilizar script de apoyo para las vistas	
+
+
+### Aspecto visual de la aplicación con CSS y característica Responsiveness.
+
+- [X] Los controles de usuario utilizan el máximo ancho disponible
+- [X] El layout de los elementos estructurales dependen del tamaño del contenedor
+- [X] En "Funcionalidad 2: Gestión de Pedidos" un cliente puede crear pedidos comodamente desde un smartphone y/o PC
+- [ ] En "Funcionalidad 2: Gestión de Pedidos" un camarero puede cobrar y entregar un pedido comodamente desde una tablet y/o PC
+    Se requiere utilizar todo el espacio disponible
+- [ ] En "Funcionalidad 3: Preparación de Pedidos" un cocinero puede preparar un pedido comodamente desde una tablet y/o PC
+    Se requiere utilizar todo el espacio disponible
+
+### Para la próxima entrega:
+
+- [] Añadir más datos de prueba: productos
+- [] En la vista "carrito_ver.php" al modificar la cantidad de productos, recalcular el precio del pedido.
+- [] Cliente: en historial de pedidos acceder a los detalles del pedido (en una vista diferente)
+- [] Camarero: en lista de pedidos para cobrar acceder a los detalles del pedido (en una vista diferente)
+- [] Cocinero: en la lista de pedidos a cocinar acceder a los detalles del pedido (en una vista diferente)
+- [] Gerente: en la lista de pedidos a supervisar acceder a los detalles del pedido (en una vista diferente)
+- [] Gerente: en la vista de detalle de categoria/producto visualizar la imagen de la categoría/producto

@@ -9,15 +9,18 @@ class PedidoDAO {
     private function obtenerSiguienteNumeroDia() {
         // Busca el pedido más alto de hoy
         $sql = "SELECT MAX(numero_pedido) as max_num FROM pedidos WHERE DATE(fecha) = CURDATE()";
-        $res = mysqli_query($this->db, $sql);
+        $stmt = mysqli_prepare($this->db, $sql);
+        mysqli_stmt_execute($stmt);
+        $res = mysqli_stmt_get_result($stmt);
         $row = mysqli_fetch_assoc($res);
         $numero = ($row['max_num'] !== null) ? $row['max_num'] + 1 : 1;
         
-        mysqli_free_result($res); // ¡Liberar recurso añadido!
+        mysqli_free_result($res);
+        mysqli_stmt_close($stmt);
         return $numero;
     }
 
-    public function guardar($pedido, $lineas_carrito) {
+    public function guardar($pedido, $lineas_carrito, $ofertas_aplicadas = []) {
         // Iniciamos transacción para asegurar que todo se guarda o no se guarda nada
         mysqli_begin_transaction($this->db);
         try {
@@ -51,6 +54,22 @@ class PedidoDAO {
                 mysqli_stmt_execute($stmt_linea);
             }
             mysqli_stmt_close($stmt_linea); // ¡Liberar recurso añadido!
+
+            if (!empty($ofertas_aplicadas)) {
+                $sql_oferta = "INSERT INTO pedido_ofertas (id_pedido, id_oferta, nombre_oferta, veces_aplicada, descuento_total) VALUES (?, ?, ?, ?, ?)";
+                $stmt_oferta = mysqli_prepare($this->db, $sql_oferta);
+
+                foreach ($ofertas_aplicadas as $oferta) {
+                    $id_oferta = (int)$oferta['id'];
+                    $nombre_oferta = $oferta['nombre'];
+                    $veces = (int)$oferta['veces'];
+                    $descuento_total = (float)$oferta['ahorro_total'];
+                    mysqli_stmt_bind_param($stmt_oferta, "iisid", $id_pedido, $id_oferta, $nombre_oferta, $veces, $descuento_total);
+                    mysqli_stmt_execute($stmt_oferta);
+                }
+
+                mysqli_stmt_close($stmt_oferta);
+            }
 
             // Si todo va bien, confirmamos los cambios
             mysqli_commit($this->db);
@@ -136,7 +155,9 @@ class PedidoDAO {
 
     public function obtenerLineasPedido($id_pedido) {
         // Añadimos p.cocinable a la consulta
-        $sql = "SELECT lp.*, p.nombre, p.cocinable FROM lineas_pedido lp 
+        $sql = "SELECT lp.*, p.nombre, p.cocinable, p.descripcion, p.precio_base, p.iva,
+                       (SELECT ruta_imagen FROM productos_imagenes WHERE id_producto = p.id ORDER BY orden LIMIT 1) AS imagen
+                FROM lineas_pedido lp
                 JOIN productos p ON lp.id_producto = p.id 
                 WHERE lp.id_pedido = ?";
         $stmt = mysqli_prepare($this->db, $sql);
@@ -182,6 +203,23 @@ class PedidoDAO {
         mysqli_free_result($res);
         mysqli_stmt_close($stmt);
         return $terminado;
+    }
+
+    public function obtenerOfertasPedido($id_pedido) {
+        $sql = "SELECT * FROM pedido_ofertas WHERE id_pedido = ? ORDER BY id ASC";
+        $stmt = mysqli_prepare($this->db, $sql);
+        mysqli_stmt_bind_param($stmt, "i", $id_pedido);
+        mysqli_stmt_execute($stmt);
+        $res = mysqli_stmt_get_result($stmt);
+
+        $ofertas = [];
+        while ($row = mysqli_fetch_assoc($res)) {
+            $ofertas[] = $row;
+        }
+
+        mysqli_free_result($res);
+        mysqli_stmt_close($stmt);
+        return $ofertas;
     }
 }
 ?>

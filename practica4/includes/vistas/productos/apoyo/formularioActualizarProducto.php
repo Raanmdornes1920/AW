@@ -39,6 +39,16 @@ class FormularioActualizarProducto extends formularioBase {
         $checkOfert = $this->producto->getOfertado() ? 'checked' : '';
         $checkCocinableSi = $this->producto->getCocinable() ? 'checked' : '';
         $checkCocinableNo = !$this->producto->getCocinable() ? 'checked' : '';
+        $imagenesActuales = $this->producto->getImagenesArray();
+        $htmlImagenesActuales = "";
+        if (empty($imagenesActuales)) {
+            $htmlImagenesActuales = "<p style='color:#666;'>Este producto no tiene imágenes cargadas.</p>";
+        } else {
+            foreach ($imagenesActuales as $imgActual) {
+                $rutaImg = RUTA_IMG . "/productos/" . htmlspecialchars($imgActual);
+                $htmlImagenesActuales .= "<img src='{$rutaImg}' alt='Imagen actual de {$nombreVal}' style='width:110px; height:90px; object-fit:cover; border-radius:8px; border:1px solid #ddd; margin:4px;'>";
+            }
+        }
 
         $htmlErroresGlobales = self::generaListaErroresGlobales($this->errores);
 
@@ -84,6 +94,11 @@ class FormularioActualizarProducto extends formularioBase {
                 <label>¿Requiere preparación en cocina?</label>
                 <label><input type="radio" name="cocinable" value="1" $checkCocinableSi> Sí (Comidas)</label>
                 <label><input type="radio" name="cocinable" value="0" $checkCocinableNo> No (Bebidas/Barra)</label>
+            </div>
+
+            <label>Imágenes actuales:</label>
+            <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0 18px 0;">
+                $htmlImagenesActuales
             </div>
 
             <label>Sustituir imágenes actuales:</label> 

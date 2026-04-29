@@ -25,7 +25,7 @@ if (empty($pedidos)) {
             <tr>
                 <th>Nº Pedido</th>
                 <th>Cliente</th>
-                <th>Estado y Detalle</th>
+                <th>Estado</th>
                 <th>Total</th>
                 <th>Acción</th>
             </tr>
@@ -48,18 +48,6 @@ if (empty($pedidos)) {
             $totalHtml .= "<div style='font-size: 0.75em; color: #27ae60;'>Ahorro: ".number_format($descuento, 2)." €</div>";
         }
         
-        // Detalle de productos si está en cocina (Requisito Funcionalidad 3)
-        $detalleProductos = "";
-        if ($estado === 'cocinando' || $estado === 'en_preparacion') {
-            $lineas = $pedidoSA->obtenerDetallesPedido($id);
-            $detalleProductos = "<div style='font-size: 0.85em; background: #eee; padding: 5px; border-radius: 4px; margin-top: 5px;'>";
-            foreach ($lineas as $l) {
-                $status = $l['preparado'] ? "✅" : "⏳";
-                $detalleProductos .= "<div>$status {$l['cantidad']}x {$l['nombre']}</div>";
-            }
-            $detalleProductos .= "</div>";
-        }
-
         $estadoVisual = ucfirst(str_replace('_', ' ', $estado));
 
         $htmlTabla .= "<tr>
@@ -67,10 +55,10 @@ if (empty($pedidos)) {
             <td data-label='Cliente'>ID: $idCliente</td>
             <td data-label='Estado'>
                 <span class='badge'>$estadoVisual</span>
-                $detalleProductos
             </td>
             <td data-label='Total'>$totalHtml</td>
             <td data-label='Acción'>
+                <a href='pedido_detalle.php?id={$id}' class='boton-editar' style='display:block; text-align:center; margin-bottom:8px;'>Ver detalle</a>
                 <form action='apoyo/procesar_estado_pedido.php' method='POST' onsubmit='return confirm(\"¿Seguro que quieres cancelar?\")'>
                     <input type='hidden' name='id_pedido' value='$id'>
                     <input type='hidden' name='nuevo_estado' value='cancelado'>

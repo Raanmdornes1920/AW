@@ -27,6 +27,7 @@ class FormularioActualizarCategoria extends formularioBase {
         $nombre = htmlspecialchars($this->categoria ? $this->categoria->getNombre() : ($datos['nombre'] ?? ''));
         $descripcion = htmlspecialchars($this->categoria ? $this->categoria->getDescripcion() : ($datos['descripcion'] ?? ''));
         $imagenActual = $this->categoria ? $this->categoria->getImagen() : ($datos['imagen_actual'] ?? 'categoria_default.jpg');
+        $rutaImagenActual = RUTA_IMG . "/categorias/" . htmlspecialchars($imagenActual);
 
         $htmlErroresGlobales = self::generaListaErroresGlobales($this->errores);
         $erroresCampos = self::generaErroresCampos(['nombre', 'descripcion', 'imagen'], $this->errores);
@@ -50,6 +51,7 @@ class FormularioActualizarCategoria extends formularioBase {
 
             <div class="info-imagen-actual" style="margin: 10px 0;">
                 <p>Imagen actual: <strong>$imagenActual</strong></p>
+                <img src="$rutaImagenActual" alt="Imagen actual de $nombre" style="width:160px; height:110px; object-fit:cover; border-radius:8px; border:1px solid #ddd;">
             </div>
 
             <label>Sustituir imagen (Opcional):</label>

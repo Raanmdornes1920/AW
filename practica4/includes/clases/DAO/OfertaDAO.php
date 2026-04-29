@@ -11,12 +11,15 @@ class OfertaDAO {
      */
     public function listarTodas() {
         $sql = "SELECT * FROM ofertas ORDER BY fecha_fin DESC";
-        $rs = mysqli_query($this->db, $sql);
+        $stmt = mysqli_prepare($this->db, $sql);
+        mysqli_stmt_execute($stmt);
+        $rs = mysqli_stmt_get_result($stmt);
         $ofertas = [];
         while ($fila = mysqli_fetch_assoc($rs)) {
             $ofertas[] = $this->crearOfertaConProductos($fila);
         }
         mysqli_free_result($rs);
+        mysqli_stmt_close($stmt);
         return $ofertas;
     }
 
