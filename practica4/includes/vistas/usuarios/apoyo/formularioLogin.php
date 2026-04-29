@@ -14,6 +14,7 @@ class FormularioLogin extends formularioBase {
 
     protected function generaCamposFormulario(&$datos) {
         $usuario = $datos['usuario'] ?? '';
+        $password = $datos['password'] ?? '';
 
         $htmlErroresGlobales = self::generaListaErroresGlobales($this->errores);
         $erroresCampos = self::generaErroresCampos(['usuario', 'password', 'campos_vacios'], $this->errores);
@@ -37,7 +38,7 @@ class FormularioLogin extends formularioBase {
 
         <label>Contraseña:</label>
         <br>
-        <input type="password" autocomplete="current-password" name="password" required>
+        <input type="password" autocomplete="current-password" name="password" value="$password" required>
         {$erroresCampos['password']}
         <br><br>
 
@@ -51,8 +52,8 @@ class FormularioLogin extends formularioBase {
         global $db_connection;
         $this->errores = [];
 
-        $userPost = $datos['usuario'];
-        $passPost = $datos['password'];
+        $userPost = filter_var($datos['usuario']);
+        $passPost = filter_var($datos['password']);
 
         if (empty($userPost) || empty($passPost)) {
             $this->errores['campos_vacios'] = 'Por favor, rellena todos los campos';

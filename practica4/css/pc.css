@@ -847,6 +847,11 @@ td {
     color: #ff8e8e;
 }
 
+.form-field-error{
+    display: none;
+    color: red;
+}
+
 /*----- MODALES -----*/
 /*----- NAVBAR -----*/
 .navegacion {

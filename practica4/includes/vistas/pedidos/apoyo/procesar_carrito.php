@@ -63,7 +63,31 @@ switch ($accion) {
         break;
 
     case 'confirmar':
-        $tipo = $_POST['tipo_pedido'] ?? $_GET['tipo'] ?? 'local';
+        // METER REDSYS
+        $dataBase64 = $_GET['Ds_MerchantParameters'] ?? '';
+        $tipo = '';
+        if($dataBase64 !== '') {
+            // 1. Decodificar de Base64 a JSON
+            $json = base64_decode(strtr($dataBase64, '-_', '+/')); // Redsys a veces usa Base64URL
+            
+            // 2. Convertir JSON a Array asociativo de PHP
+            $data = json_decode($json, true);
+
+            $tipo = $data['Ds_MerchantData'];
+            $codigoAuth = $data['Ds_AuthorisationCode'];
+
+            if ($codigoAuth == '++++++') {
+                // Si algo falla, lo devolvemos al carrito con un error
+                header("Location: ../carrito.php?tipo=$tipo&error=1");
+                break;
+            }
+            
+        }
+        else
+        {
+            $tipo = $_POST['tipo_pedido'] ?? $_GET['tipo'] ?? 'local';
+        }
+        
         $id_usuario = $_SESSION['usuario']->id(); 
         
         // RECOGEMOS EL MÉTODO DE PAGO DEL FORMULARIO
@@ -74,6 +98,7 @@ switch ($accion) {
         $id_pedido = $pedidoSA->procesarCompra($id_usuario, $tipo, $_SESSION['carrito'], $metodo_pago);
         
         if ($id_pedido) {
+            
             $_SESSION['carrito'] = []; // Vaciamos el carrito tras comprar
             header("Location: ../pedido_confirmado.php?id=" . $id_pedido);
         } else {

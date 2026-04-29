@@ -11,9 +11,13 @@ class UsuarioDAO {
     public function login($userPost, $passPost){
 
         $userEscaped = mysqli_real_escape_string($this->db, $userPost);
-        $sql = "SELECT * FROM usuarios WHERE nombre_usuario = '$userEscaped'";
+        $sql = "SELECT * FROM usuarios WHERE nombre_usuario = ?";
+        $stmt = mysqli_prepare($this->db, $sql);
 
-        $resultado = mysqli_query($this->db, $sql);
+        mysqli_stmt_bind_param($stmt, "s", $userPost);
+        mysqli_stmt_execute($stmt);
+        
+        $resultado = mysqli_stmt_get_result($stmt);
 
         if ($resultado && mysqli_num_rows($resultado) === 1) {
             $fila = mysqli_fetch_assoc($resultado);
@@ -32,8 +36,13 @@ class UsuarioDAO {
     public function usuarioValido($usuario){
         
         $nombre_sesion = $usuario->usuario();
-        $sql = "SELECT nombre_usuario FROM usuarios WHERE nombre_usuario = '$nombre_sesion'";
-        $resultado = mysqli_query($this->db, $sql);
+        $sql = "SELECT nombre_usuario FROM usuarios WHERE nombre_usuario = ?";
+        $stmt = mysqli_prepare($this->db, $sql);
+
+        mysqli_stmt_bind_param($stmt, "s", $nombre_sesion);
+        mysqli_stmt_execute($stmt);
+        
+        $resultado = mysqli_stmt_get_result($stmt);
         
         if ($fila = mysqli_fetch_assoc($resultado)) {
             return true;
@@ -44,9 +53,12 @@ class UsuarioDAO {
 
     public function usuarioEnUso($usuario){
         
-        $sql = "SELECT nombre_usuario FROM usuarios WHERE nombre_usuario = '$usuario'";
-        $resultado = mysqli_query($this->db, $sql);
-        
+        $sql = "SELECT nombre_usuario FROM usuarios WHERE nombre_usuario = ?";
+        $stmt = mysqli_prepare($this->db, $sql);
+        mysqli_stmt_bind_param($stmt, "s", $usuario);
+        mysqli_stmt_execute($stmt);
+        $resultado = mysqli_stmt_get_result($stmt);
+
         if ($fila = mysqli_fetch_assoc($resultado)) {
             return true;
         }
@@ -75,8 +87,10 @@ class UsuarioDAO {
     public function eliminarUsuario($id){
         $queryCheck = "SELECT nombre_usuario FROM usuarios WHERE id = ?";
         $stmtCheck = mysqli_prepare($this->db, $queryCheck);
+        
         mysqli_stmt_bind_param($stmtCheck, "i", $id);
         mysqli_stmt_execute($stmtCheck);
+        
         $resultado = mysqli_stmt_get_result($stmtCheck);
 
         if ($fila = mysqli_fetch_assoc($resultado)) {
@@ -96,9 +110,14 @@ class UsuarioDAO {
     }
     
     public function buscaUsuario($username){
-        $sql = "SELECT id, nombre_usuario, nombre, apellidos, email, rol, avatar FROM usuarios WHERE nombre_usuario = '$username'";
-        $resultado = mysqli_query($this->db, $sql);
+        $sql = "SELECT id, nombre_usuario, nombre, apellidos, email, rol, avatar FROM usuarios WHERE nombre_usuario = ?";
+        $stmt = mysqli_prepare($this->db, $sql);
         
+        mysqli_stmt_bind_param($stmt, "s", $username);
+        mysqli_stmt_execute($stmt);
+        
+        $resultado = mysqli_stmt_get_result($stmt);
+
         if($fila = mysqli_fetch_assoc($resultado)){
             return new Usuario($fila['id'], $fila['nombre_usuario'], $fila['nombre'], $fila['apellidos'], $fila['email'], $fila['rol'], $fila['avatar']); 
         }
@@ -109,9 +128,13 @@ class UsuarioDAO {
 
     public function validarPasswordUsuario($usuario, $pass){
 
-        $userEscaped = mysqli_real_escape_string($this->db, $usuario);
-        $sql = "SELECT * FROM usuarios WHERE nombre_usuario = '$userEscaped'";
-        $resultado = mysqli_query($this->db, $sql);
+        $sql = "SELECT * FROM usuarios WHERE nombre_usuario = ?";
+        $stmt = mysqli_prepare($this->db, $sql);
+        
+        mysqli_stmt_bind_param($stmt, "s", $usuario);
+        mysqli_stmt_execute($stmt);
+
+        $resultado = mysqli_stmt_get_result($stmt);
 
         if ($resultado && mysqli_num_rows($resultado) > 0) {
             $fila = mysqli_fetch_assoc($resultado);
@@ -128,6 +151,7 @@ class UsuarioDAO {
         $nuevaPassHash = password_hash($pass, PASSWORD_DEFAULT);        
         $query = "UPDATE usuarios SET password = ? WHERE BINARY nombre_usuario = ?";
         $stmt = mysqli_prepare($this->db, $query);
+        
         mysqli_stmt_bind_param($stmt, "ss", $nuevaPassHash, $usuario);
         
         return mysqli_stmt_execute($stmt);
@@ -143,13 +167,37 @@ class UsuarioDAO {
         $avatar = $datos['avatar'];
         $password = $datos['password']; // Password ya hasheada
 
-        $sql = "SELECT * FROM usuarios WHERE nombre_usuario = '$usuario'";
-        $resultado = mysqli_query($this->db, $sql);
+        $sql = "SELECT * FROM usuarios WHERE nombre_usuario = ?";
+        $stmt = mysqli_prepare($this->db, $sql);
         
+        mysqli_stmt_bind_param($stmt, "s", $usuario);
+        mysqli_stmt_execute($stmt);
+
+        $resultado = mysqli_stmt_get_result($stmt);
+
         if(!mysqli_fetch_assoc($resultado)){
-            $sql = "INSERT INTO usuarios (nombre_usuario, email, nombre, apellidos, password, rol, avatar) VALUES ('$usuario', '$email', '$nombre', '$apellidos', '$password', '$rol', '$avatar')";
-            if(mysqli_query($this->db, $sql)){
-                return new Usuario($id, $usuario, $nombre, $apellidos, $email, $rol, $avatar); 
+            $sql = "INSERT INTO usuarios (nombre_usuario, email, nombre, apellidos, password, rol, avatar) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            $stmt = mysqli_prepare($this->db, $sql);
+            
+            mysqli_stmt_bind_param($stmt, "sssssss", 
+                $usuario, 
+                $email, 
+                $nombre, 
+                $apellidos, 
+                $password, 
+                $rol, 
+                $avatar
+            );
+
+            if(mysqli_stmt_execute($stmt)){
+                $sql = "SELECT id FROM usuarios WHERE nombre_usuario = ?";
+                $stmt = mysqli_prepare($this->db, $sql);
+                
+                mysqli_stmt_bind_param($stmt, "s", $usuario);
+                mysqli_stmt_execute($stmt);
+
+                $resultado = mysqli_stmt_get_result($stmt);
+                return new Usuario($resultado['id'], $usuario, $nombre, $apellidos, $email, $rol, $avatar); 
             }
             else{
                 throw new ErrorAlInsertarBBDDException('No se ha podido crear al usuario ' . $usuario . ".");    
@@ -249,10 +297,13 @@ class UsuarioDAO {
         $userEscaped = mysqli_real_escape_string($this->db, $usuario);
         $mailEscaped = mysqli_real_escape_string($this->db, $email);
         
-        $sql = "SELECT * FROM usuarios WHERE nombre_usuario = '$userEscaped' OR email = '$mailEscaped'";
-
-        $resultado = mysqli_query($this->db, $sql);
-
+        $sql = "SELECT * FROM usuarios WHERE nombre_usuario = ? OR email = ?";
+        $stmt = mysqli_prepare($this->db, $sql);
+        
+        mysqli_stmt_bind_param($stmt, "ss", $userEscaped, $mailEscaped);
+        mysqli_stmt_execute($stmt);
+        
+        $resultado = mysqli_stmt_get_result($stmt);
 
         if ($resultado && mysqli_num_rows($resultado) === 0) {
             return true;

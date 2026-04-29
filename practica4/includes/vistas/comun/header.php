@@ -62,6 +62,7 @@ if (isset($_SESSION['carrito']) && is_array($_SESSION['carrito'])) {
                 <a href="<?php echo RUTA_VISTAS; ?>/usuarios/editar_perfil.php">Mi Perfil</a>
                 
                 <?php if($_SESSION['usuario']->rol() === 'cliente'): ?>
+                    <a href="<?php echo RUTA_VISTAS; ?>/pagos/pasarela.php">Redsys</a>
                     <a href="<?php echo RUTA_VISTAS; ?>/pedidos/carrito.php<?= (isset($_GET['tipo'])?"?tipo=" . $_GET['tipo']:"");?>">🛒 Mi Carrito <?= ($num_items_carrito > 0) ? "($num_items_carrito)" : "" ?></a>
                 <?php endif; ?>
                 <?php if($_SESSION['usuario']->rol() === 'gerente'): ?>
