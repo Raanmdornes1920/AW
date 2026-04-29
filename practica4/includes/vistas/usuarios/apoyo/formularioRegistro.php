@@ -18,7 +18,7 @@ class FormularioRegistro extends formularioBase {
         $usuario = $datos['usuario'] ?? '';
 
         $htmlErroresGlobales = self::generaListaErroresGlobales($this->errores);
-        $erroresCampos = self::generaErroresCampos(['nombre', 'apellidos', 'mail', 'usuario', 'password', 'password_confirm'], $this->errores);
+        $erroresCampos = self::generaErroresCampos(['avatar', 'nombre', 'apellidos', 'mail', 'usuario', 'password', 'password_confirm'], $this->errores);
 
         
         $ruta_avatares = AVATARES_INICIALES;
@@ -34,13 +34,13 @@ class FormularioRegistro extends formularioBase {
         {$htmlErroresGlobales}
         <div>
             <label>Nombre:</label><br>
-            <input type="text" name="nombre" value="$nombre" required>
+            <input type="text" name="nombre" value="$nombre">
             {$erroresCampos['nombre']}
         </div>
         <br>
         <div>
             <label>Apellidos:</label><br>
-            <input type="text" name="apellidos" value="$apellidos" required>
+            <input type="text" name="apellidos" value="$apellidos">
             {$erroresCampos['apellidos']}
         </div>
         <br>
@@ -58,6 +58,7 @@ class FormularioRegistro extends formularioBase {
         <br>
 
         {$htmlSelectorImagenes}
+        {$erroresCampos['avatar']}
 
         <br>
         <div>
@@ -68,13 +69,7 @@ class FormularioRegistro extends formularioBase {
         <br>
         <div>
             <label>Repetir Contraseña:</label><br>
-            <input type="password" autocomplete="current-password" name="password_confirm" required oninput="
-                if(document.getElementById('password').value != this.value) {
-                    this.setCustomValidity('Las contraseñas no coinciden');
-                } else {
-                    this.setCustomValidity('');
-                }
-            ">
+            <input type="password" autocomplete="current-password" name="password_confirm" required oninput="passwordMatch(this)">
             {$erroresCampos['password_confirm']}
         </div>
         <br>
@@ -89,16 +84,47 @@ class FormularioRegistro extends formularioBase {
         
         global $SA;
 
-        $nombrePost = ($datos['nombre'] ?? '');
-        $apellidosPost = ($datos['apellidos'] ?? '');
-        $mailPost = trim($datos['mail'] ?? '');
+        // Validar campos obligatorios
+        $faltan_datos = false;
+        if (empty($datos['usuario'])){
+            $this->errores['usuario'] = "Campo obligatorio.";
+            $faltan_datos = true;
+        } else if (empty($datos['mail'])){
+            $this->errores['mail'] = "Campo obligatorio.";
+            $faltan_datos = true;
+        } else if (empty($datos['avatar'])){
+            $this->errores['avatar'] = "Campo obligatorio.";
+            $faltan_datos = true;
+        } else if (empty($datos['password'])){
+            $this->errores['password'] = "Campo obligatorio.";
+            $faltan_datos = true;
+        } else if(empty($datos['password_confirm'])) {
+            $this->errores['password_confirm'] = "Campo obligatorio.";
+            $faltan_datos = true;
+        }
+
+        if ($faltan_datos) {
+            $this->errores[0] = "Faltan campos obligatorios.";
+            return;
+        }
+
+        // Sanear datos
+        $nombrePost = (filter_var($datos['nombre']) ?? '');
+        $apellidosPost = (filter_var($datos['apellidos']) ?? '');
+        $mailPost = trim(filter_var($datos['mail']) ?? '');
         $fotoPost = str_replace(' ', '\ ', ($datos['avatar'] ?? ''));
         $nombreImagen = "default.png";
         $rolPost = ((($datos['modo-admin'] ?? 'Falso') === "Verdadero")? ($datos['rol'] ?? 'cliente'): 'cliente');
 
-        $userPost = trim($datos['usuario'] ?? '');
-        $passPost = ($datos['password'] ?? 'password');
-        $passConfPost = ($datos['password_confirm'] ?? 'password_confirm');
+        $userPost = trim(filter_var($datos['usuario']) ?? '');
+        $passPost = (filter_var($datos['password']) ?? '');
+        $passConfPost = (filter_var($datos['password_confirm']) ?? '');
+
+        // Validar que las contraseñas coincidan
+        if ($passPost !== $passConfPost) {
+            $this->errores[1] = "Las contraseñas no coinciden.";
+            return;
+        }
 
         try {
             if ($SA->validarUserMail($userPost, $mailPost)) {
@@ -184,7 +210,7 @@ class FormularioRegistro extends formularioBase {
             }
 
         } catch (Exception $e) {
-            $this->errores['general'] = "Error al conectar con la base de datos.";
+            $this->errores[2] = "Error al conectar con la base de datos.";
         }
     }
 }

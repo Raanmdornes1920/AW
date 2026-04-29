@@ -6,6 +6,14 @@ function toggleMenu() {
     }
 }
 
+function passwordMatch(element) {
+    if(document.getElementById('password').value != element.value) {
+            element.setCustomValidity('Las contraseñas no coinciden');
+    } else {
+            element.setCustomValidity('');
+    }
+}
+
 window.addEventListener('DOMContentLoaded', function() {
     const menuToggle = document.getElementById('menu-toggle');
     const menu = document.getElementById('menu');
