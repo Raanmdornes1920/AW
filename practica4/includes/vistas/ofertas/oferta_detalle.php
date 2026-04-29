@@ -25,7 +25,7 @@ $veces = $ofertaSA->vecesAplicable($oferta, $carrito);
 $tituloPagina = $oferta->getNombre();
 $css = [RAIZ_APP . "/css/default.css"];
 $header = "../comun/header.php";
-$claseMain = "contenedor-centro";
+$claseMain = "contenedor-cliente";
 $js = [RAIZ_APP . "/js/script.js"];
 
 $nombre = htmlspecialchars($oferta->getNombre());
@@ -63,7 +63,7 @@ EOF;
 $accion = "";
 if ($yaAplicada) {
     $accion = <<<EOF
-    <form method="POST" action="../pedidos/apoyo/procesar_oferta.php">
+    <form class="form-accion-oferta" method="POST" action="../pedidos/apoyo/procesar_oferta.php">
         <input type="hidden" name="accion" value="quitar">
         <input type="hidden" name="id_oferta" value="{$idOferta}">
         <button type="submit" class="boton-borrar">Quitar oferta</button>
@@ -71,7 +71,7 @@ if ($yaAplicada) {
 EOF;
 } elseif ($veces > 0) {
     $accion = <<<EOF
-    <form method="POST" action="../pedidos/apoyo/procesar_oferta.php">
+    <form class="form-accion-oferta" method="POST" action="../pedidos/apoyo/procesar_oferta.php">
         <input type="hidden" name="accion" value="aplicar">
         <input type="hidden" name="id_oferta" value="{$idOferta}">
         <button type="submit" class="boton-nuevo">Aplicar al pedido</button>
@@ -86,25 +86,28 @@ $aplicableTexto = $veces > 0
     : "<span class='badge'>Todavía no aplicable</span>";
 
 $contenidoPrincipal = <<<EOF
-<section class="form-estilizado">
-    <div style="display:flex; justify-content:space-between; gap:12px; align-items:center; flex-wrap:wrap;">
-        <h1 style="margin:0;">{$nombre}</h1>
-        {$aplicableTexto}
-    </div>
-    <p style="color:#555;">{$descripcion}</p>
+<section class="pagina-cliente pagina-detalle-oferta">
+    <article class="panel-cliente detalle-oferta">
+        <header class="cabecera-panel">
+            <div>
+                <h1>{$nombre}</h1>
+                <p>{$descripcion}</p>
+            </div>
+            {$aplicableTexto}
+        </header>
 
-    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; background:#f9f9f9; padding:15px; border-radius:8px; margin:20px 0;">
-        <div><small>Precio pack</small><br><strong>{$precioPack} €</strong></div>
-        <div><small>Descuento</small><br><strong style="color:#e74c3c;">-{$descuento}%</strong></div>
-        <div><small>Precio final</small><br><strong style="color:#2e7d32;">{$precioFinal} €</strong></div>
-        <div><small>Ahorro</small><br><strong style="color:#2e7d32;">{$ahorro} €</strong></div>
-    </div>
+        <div class="resumen-oferta resumen-oferta-detalle">
+            <div class="dato-oferta"><small>Precio pack</small><br><strong>{$precioPack} €</strong></div>
+            <div class="dato-oferta"><small>Descuento</small><br><strong class="texto-descuento">-{$descuento}%</strong></div>
+            <div class="dato-oferta"><small>Precio final</small><br><strong class="texto-total">{$precioFinal} €</strong></div>
+            <div class="dato-oferta"><small>Ahorro</small><br><strong class="texto-ahorro">{$ahorro} €</strong></div>
+        </div>
 
-    <p><strong>Disponible:</strong> {$fechaInicio} - {$fechaFin}</p>
+        <p class="fecha-oferta"><strong>Disponible:</strong> {$fechaInicio} - {$fechaFin}</p>
 
-    <h2>Productos necesarios</h2>
-    <div class="contenedor-tabla-scroll">
-        <table class="tabla-gestion">
+        <h2>Productos necesarios</h2>
+        <div class="contenedor-tabla-scroll">
+            <table class="tabla-detalle tabla-detalle-oferta">
             <thead>
                 <tr>
                     <th>Producto</th>
@@ -116,13 +119,14 @@ $contenidoPrincipal = <<<EOF
             </thead>
             <tbody>{$productosHtml}</tbody>
         </table>
-    </div>
+        </div>
 
-    <div class="acciones" style="display:flex; gap:10px; flex-wrap:wrap; margin-top:25px;">
-        {$accion}
-        <a href="ofertas_cliente.php" class="boton-editar">Volver a ofertas</a>
-        <a href="../pedidos/carrito.php" class="boton-nuevo">Ir al carrito</a>
-    </div>
+        <div class="acciones">
+            {$accion}
+            <a href="ofertas_cliente.php" class="boton-editar">Volver a ofertas</a>
+            <a href="../pedidos/carrito.php" class="boton-nuevo">Ir al carrito</a>
+        </div>
+    </article>
 </section>
 EOF;
 

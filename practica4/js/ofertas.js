@@ -52,10 +52,9 @@ function agregarProductoOferta(idProductoPreseleccionado, cantidadPreseleccionad
 
     var fila = document.createElement('div');
     fila.className = 'fila-producto-oferta';
-    fila.style.cssText = 'display: flex; gap: 10px; align-items: center; margin-bottom: 10px; padding: 10px; background: #f1f1f1; border-radius: 8px;';
 
     // Crear select de productos
-    var selectHtml = '<select name="prod_ids[]" onchange="recalcularPrecioPack()" style="flex: 2; padding: 8px;" required>';
+    var selectHtml = '<select name="prod_ids[]" onchange="recalcularPrecioPack()" class="select-producto-oferta" required>';
     selectHtml += '<option value="">-- Selecciona producto --</option>';
     productosDisponibles.forEach(function(p) {
         var selected = (p.id == idPre) ? 'selected' : '';
@@ -66,11 +65,10 @@ function agregarProductoOferta(idProductoPreseleccionado, cantidadPreseleccionad
 
     fila.innerHTML = selectHtml +
         '<input type="number" name="prod_cants[]" value="' + cantPre + '" min="1" ' +
-        'style="flex: 0 0 80px; padding: 8px; text-align: center;" ' +
+        'class="cantidad-producto-oferta" ' +
         'oninput="recalcularPrecioPack()" placeholder="Cant." required>' +
         '<button type="button" onclick="eliminarFilaProducto(this)" ' +
-        'style="flex: 0 0 40px; background: #e74c3c; color: white; border: none; border-radius: 4px; ' +
-        'padding: 8px; cursor: pointer; font-size: 16px;" title="Quitar producto">✕</button>';
+        'class="boton-borrar boton-quitar-producto" title="Quitar producto">✕</button>';
 
     contenedor.appendChild(fila);
     recalcularPrecioPack();

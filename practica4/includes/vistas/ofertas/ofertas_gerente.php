@@ -12,7 +12,7 @@ $ofertas = $sa->obtenerTodas();
 $tituloPagina = "Gestión de Ofertas - Bistro FDI";
 $css = [RAIZ_APP . "/css/default.css"];
 $header = "../comun/header.php";
-$claseMain = "contenedor-centro";
+$claseMain = "contenedor-cliente";
 
 $filas = "";
 $hoy = date('Y-m-d');
@@ -51,16 +51,16 @@ foreach($ofertas as $oferta) {
 
     $filas .= <<<EOF
     <tr>
-        <td>{$nombre}</td>
-        <td class="col-desc">{$desc}</td>
-        <td>{$productosHtml}</td>
-        <td>{$precioSinDesc} €</td>
-        <td>{$descuento}%</td>
-        <td>{$precioConDesc} €</td>
-        <td>{$fechaInicio}</td>
-        <td>{$fechaFin}</td>
-        <td>{$badgeEstado}</td>
-        <td>
+        <td data-label="Nombre">{$nombre}</td>
+        <td data-label="Descripción" class="col-desc">{$desc}</td>
+        <td data-label="Productos">{$productosHtml}</td>
+        <td data-label="Precio Pack">{$precioSinDesc} €</td>
+        <td data-label="Descuento">{$descuento}%</td>
+        <td data-label="Precio Final">{$precioConDesc} €</td>
+        <td data-label="Inicio">{$fechaInicio}</td>
+        <td data-label="Fin">{$fechaFin}</td>
+        <td data-label="Estado">{$badgeEstado}</td>
+        <td data-label="Acciones">
             <a href="apoyo/oferta_actualizar.php?id={$id}" class="boton-editar">Editar</a>
             <a href="apoyo/oferta_borrar.php?id={$id}" class="boton-borrar">Eliminar</a>
         </td>
@@ -69,30 +69,36 @@ EOF;
 }
 
 $contenidoPrincipal = <<<EOF
-    <h1>Gestión de Ofertas</h1>
-    <a href="apoyo/oferta_crear.php" class="boton-nuevo">Nueva Oferta</a>
-    
-    <div class="contenedor-tabla-scroll">
-        <table class="tabla-gestion-productos">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Descripción</th>
-                    <th>Productos</th>
-                    <th>Precio Pack</th>
-                    <th>Descuento</th>
-                    <th>Precio Final</th>
-                    <th>Inicio</th>
-                    <th>Fin</th>
-                    <th>Estado</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                {$filas}
-            </tbody>
-        </table>
-    </div>
+    <section class="pagina-cliente pagina-admin-ofertas">
+        <header class="cabecera-pagina">
+            <h1>Gestión de Ofertas</h1>
+            <a href="apoyo/oferta_crear.php" class="boton-nuevo">Nueva Oferta</a>
+        </header>
+
+        <section class="panel-cliente">
+            <div class="contenedor-tabla-scroll">
+                <table class="tabla-detalle tabla-ofertas-gerente">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Productos</th>
+                            <th>Precio Pack</th>
+                            <th>Descuento</th>
+                            <th>Precio Final</th>
+                            <th>Inicio</th>
+                            <th>Fin</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {$filas}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </section>
 EOF;
 
 $js = [RAIZ_APP . "/js/script.js"];

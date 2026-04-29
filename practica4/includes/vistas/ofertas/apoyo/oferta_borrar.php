@@ -24,19 +24,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar_borrar'])) 
 $tituloPagina = "Eliminar Oferta";
 $css = [];
 $header = "../../comun/header.php";
-$claseMain = "contenedor-centro";
+$claseMain = "contenedor-cliente";
 $js = [RAIZ_APP . "/js/script.js"];
 
 $nombre = htmlspecialchars($oferta->getNombre());
 
 // Mostrar productos de la oferta en la confirmación
-$productosHtml = "<ul style='text-align: left; margin: 10px auto; max-width: 300px;'>";
+$productosHtml = "<ul class='lista-pack lista-confirmacion-oferta'>";
 foreach ($oferta->getProductos() as $p) {
     $productosHtml .= "<li>" . $p['cantidad'] . "x " . htmlspecialchars($p['nombre']) . "</li>";
 }
 $productosHtml .= "</ul>";
 
 $contenidoPrincipal = <<<EOF
+    <section class="pagina-cliente pagina-confirmacion-borrado">
     <div class="alerta-borrado">
         <h2>Confirmar Eliminación de Oferta</h2>
         <p>¿Estás seguro de que deseas eliminar la oferta <strong>{$nombre}</strong>?</p>
@@ -45,13 +46,14 @@ $contenidoPrincipal = <<<EOF
         <p><small>Nota: Esta acción no se puede deshacer. Los pedidos que ya aplicaron esta oferta no se verán afectados.</small></p>
         
         <div class="botones-confirmacion">
-            <form method="POST" style="display: inline;">
+            <form class="form-accion-oferta" method="POST">
                 <input type="hidden" name="confirmar_borrar" value="1">
                 <button type="submit" class="boton-peligro">Sí, eliminar oferta</button>
             </form>
             <a href="../ofertas_gerente.php" class="boton-cancelar">No, cancelar</a>
         </div>
     </div>
+    </section>
 EOF;
 
 require("../../comun/plantilla.php");

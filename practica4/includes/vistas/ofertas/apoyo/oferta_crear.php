@@ -11,13 +11,13 @@ if (!isset($_SESSION['login']) || $_SESSION['usuario']->rol() !== 'gerente') {
 
 $tituloPagina = "Nueva Oferta - Bistro FDI";
 $header = "../../comun/header.php";
-$claseMain = "contenedor-centro";
+$claseMain = "contenedor-cliente";
 
 $form = new FormularioCrearOferta($db_connection);
 $htmlForm = $form->gestiona();
 
 $contenidoPrincipal = <<<EOF
-    <section class="contenedor-centro" id="contenido">
+    <section class="pagina-cliente pagina-formulario-oferta" id="contenido">
         {$htmlForm}
     </section>
 EOF;

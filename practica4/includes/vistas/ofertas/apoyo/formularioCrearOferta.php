@@ -38,7 +38,7 @@ class FormularioCrearOferta extends formularioBase {
 
         return <<<EOF
         {$erroresGlobales}
-        <div class="form-estilizado">
+        <div class="panel-cliente formulario-oferta">
             <h2>Crear Nueva Oferta</h2>
             
             <label>Nombre de la oferta:</label>
@@ -53,9 +53,9 @@ class FormularioCrearOferta extends formularioBase {
             <label>Fecha de fin:</label>
             <input type="date" name="fecha_fin" required>
             
-            <hr style="margin: 20px 0;">
+            <hr class="separador-formulario">
             <h3>Productos de la oferta</h3>
-            <p style="font-size: 0.9em; color: #666;">Selecciona los productos y cantidades que componen esta oferta.</p>
+            <p class="texto-ayuda-formulario">Selecciona los productos y cantidades que componen esta oferta.</p>
 
             <input type="hidden" id="productosDisponiblesJSON" value="{$jsonData}">
 
@@ -63,14 +63,14 @@ class FormularioCrearOferta extends formularioBase {
                 <!-- Aquí se añaden dinámicamente las filas de productos -->
             </div>
 
-            <button type="button" onclick="agregarProductoOferta()" style="margin: 10px 0; background-color: #4CAF50; padding: 8px 16px; font-size: 14px;">
+            <button type="button" onclick="agregarProductoOferta()" class="boton-editar boton-agregar-producto">
                 + Añadir Producto
             </button>
 
-            <hr style="margin: 20px 0;">
+            <hr class="separador-formulario">
             <h3>Descuento</h3>
 
-            <div class="precio-final-destacado" style="margin-bottom: 15px;">
+            <div class="precio-final-destacado dato-calculo-oferta">
                 Precio del pack (sin descuento): <strong id="precio_pack_sin_descuento">0.00 €</strong>
             </div>
 
@@ -78,17 +78,17 @@ class FormularioCrearOferta extends formularioBase {
             <input type="number" step="0.01" min="0" id="precio_final_deseado" name="precio_final_deseado" 
                    oninput="recalcularDescuentoOferta()" placeholder="Introduce el precio final">
 
-            <div class="precio-final-destacado" style="margin: 15px 0;">
+            <div class="precio-final-destacado dato-calculo-oferta">
                 Porcentaje de descuento: <strong id="porcentaje_descuento_calculado">0.00%</strong>
             </div>
             
             <input type="hidden" name="descuento_porcentaje" id="descuento_porcentaje_hidden" value="0">
 
-            <div class="precio-final-destacado" style="margin-bottom: 15px; color: #4CAF50;">
+            <div class="precio-final-destacado dato-calculo-oferta dato-ahorro-oferta">
                 Ahorro para el cliente: <strong id="ahorro_cliente">0.00 €</strong>
             </div>
 
-            <div class="acciones" style="margin-top: 30px;">
+            <div class="acciones">
                 <button type="submit">Guardar Oferta</button>
                 <a href="../ofertas_gerente.php" class="boton-borrar">Cancelar</a>
             </div>

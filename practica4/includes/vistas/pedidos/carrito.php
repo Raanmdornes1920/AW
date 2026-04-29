@@ -16,20 +16,21 @@ $resumenOfertas = $ofertaSA->aplicarOfertasACarrito($carrito, $ofertasActivadas)
 $tituloPagina = "Tu Carrito";
 $css = [RAIZ_APP . "/css/default.css"];
 $header = "../comun/header.php";
-$claseMain = "contenedor-centro";
+$claseMain = "contenedor-cliente";
 $js = [(RAIZ_APP . "/js/pedidos.js"), (RAIZ_APP . "/js/script.js")];
 
 $htmlLineas = "";
 
 if (isset($_GET['error'])) {
-    $htmlLineas .= "<div class='alerta-error' style='background:#fff3e0;border:1px solid #ffe0b2;padding:12px;border-radius:8px;margin-bottom:20px;color:#e65100;'>No se pudo confirmar el pedido. Revisa el carrito e inténtalo de nuevo.</div>";
+    $htmlLineas .= "<div class='mensaje mensaje-error'>No se pudo confirmar el pedido. Revisa el carrito e inténtalo de nuevo.</div>";
 }
 
 if (empty($carrito)) {
-    $htmlLineas .= "<p>Tu carrito está vacío. ¡Anímate a pedir algo rico!</p>";
-    $htmlLineas .= '<a href="../productos/productos_cliente.php" class="boton-nuevo" style="display:inline-block; margin-top:20px;">Ver carta</a>';
+    $htmlLineas .= "<section class='panel-cliente estado-vacio'><p>Tu carrito está vacío. ¡Anímate a pedir algo rico!</p>";
+    $htmlLineas .= '<a href="../productos/productos_cliente.php" class="boton-nuevo">Ver carta</a></section>';
 } else {
-    $htmlLineas .= '<table class="tabla-gestion">
+    $htmlLineas .= '<div class="panel-cliente panel-tabla-carrito">
+        <table class="tabla-detalle tabla-carrito">
         <thead>
             <tr>
                 <th>Producto</th>
@@ -54,11 +55,11 @@ if (empty($carrito)) {
                 <td data-label='Producto'>{$nombre}</td>
                 <td data-label='Precio'>" . number_format($precio, 2) . " €</td>
                 <td data-label='Cantidad'>
-                    <form action='apoyo/procesar_carrito.php' method='POST' style='display:flex; gap:10px; align-items:center; justify-content:center;'>
+                    <form action='apoyo/procesar_carrito.php' method='POST' class='form-cantidad'>
                         <input type='hidden' name='accion' value='update'>
                         <input type='hidden' name='id_producto' value='{$idSeguro}'>
-                        <input type='number' name='cantidad' value='{$cantidadSeguro}' min='1' style='width: 60px; padding:5px;'>
-                        <button type='submit' class='boton-editar' style='padding: 5px 10px;'>↻</button>
+                        <input type='number' name='cantidad' value='{$cantidadSeguro}' min='1'>
+                        <button type='submit' class='boton-editar'>Actualizar</button>
                     </form>
                 </td>
                 <td data-label='Subtotal'>" . number_format($subtotal, 2) . " €</td>
@@ -68,22 +69,22 @@ if (empty($carrito)) {
             </tr>";
         }
     }
-    $htmlLineas .= "</tbody></table>";
+    $htmlLineas .= "</tbody></table></div>";
 
     $ofertasHtml = "";
     if (!empty($resumenOfertas['ofertas_aplicadas'])) {
-        $ofertasHtml .= "<ul style='list-style:none; padding:0; margin:10px 0;'>";
+        $ofertasHtml .= "<ul class='lista-ofertas-aplicadas'>";
         foreach ($resumenOfertas['ofertas_aplicadas'] as $oferta) {
             $nombreOferta = htmlspecialchars($oferta['nombre']);
             $veces = (int)$oferta['veces'];
             $ahorro = number_format($oferta['ahorro_total'], 2);
-            $ofertasHtml .= "<li style='padding:6px 0;'>✓ {$nombreOferta} x{$veces}: <strong>-{$ahorro} €</strong></li>";
+            $ofertasHtml .= "<li>{$nombreOferta} x{$veces}: <strong>-{$ahorro} €</strong></li>";
         }
         $ofertasHtml .= "</ul>";
     }
 
     if (!empty($resumenOfertas['ofertas_no_aplicables'])) {
-        $ofertasHtml .= "<div style='background:#fff3e0; border:1px solid #ffe0b2; padding:10px; border-radius:8px; margin-top:10px; color:#e65100;'>";
+        $ofertasHtml .= "<div class='mensaje mensaje-error'>";
         foreach ($resumenOfertas['ofertas_no_aplicables'] as $oferta) {
             $nombreOferta = htmlspecialchars($oferta['nombre']);
             $motivo = htmlspecialchars($oferta['motivo']);
@@ -97,23 +98,22 @@ if (empty($carrito)) {
     $totalFinal = number_format($resumenOfertas['total_final'], 2);
 
     $htmlLineas .= <<<EOF
-    <section class="form-estilizado" style="margin-top:25px;">
+    <section class="panel-cliente panel-carrito-ofertas">
         <h2>Ofertas del pedido</h2>
-        <p style="color:#666;">Puedes activar varias ofertas disponibles de forma secuencial. Si una oferta se cumple varias veces, se aplica automáticamente.</p>
         {$ofertasHtml}
-        <div class="acciones" style="display:flex; gap:10px; flex-wrap:wrap; margin-top:15px;">
+        <div class="acciones">
             <a href="../ofertas/ofertas_cliente.php" class="boton-editar">Ver ofertas disponibles</a>
-            <form action="apoyo/procesar_oferta.php" method="POST">
+            <form class="form-accion-oferta" action="apoyo/procesar_oferta.php" method="POST">
                 <input type="hidden" name="accion" value="clear">
                 <button type="submit" class="boton-borrar">Quitar ofertas</button>
             </form>
         </div>
     </section>
 
-    <div class="precio-final-destacado" style="text-align:right; margin-top:20px; font-size:1.2em;">
+    <div class="panel-cliente resumen-total-carrito">
         <div>Subtotal: <strong>{$totalSin} €</strong></div>
-        <div style="color:#27ae60;">Descuento: <strong>-{$descuento} €</strong></div>
-        <div style="font-size:1.3em;">Total a pagar: <strong>{$totalFinal} €</strong></div>
+        <div class="linea-descuento">Descuento: <strong>-{$descuento} €</strong></div>
+        <div class="linea-total">Total a pagar: <strong>{$totalFinal} €</strong></div>
     </div>
 EOF;
 
@@ -126,29 +126,29 @@ EOF;
     }
 
     $htmlLineas .= <<<EOF
-    <form action="apoyo/procesar_carrito.php" method="POST" class="form-estilizado" style="margin-top:40px; max-width:600px; margin-left:auto; margin-right:auto;">
+    <form action="apoyo/procesar_carrito.php" method="POST" class="panel-cliente formulario-checkout">
         <input type="hidden" name="accion" value="confirmar">
 
-        <h2>1. Detalles del Pedido</h2>
-        <div class="grupo-checkbox" style="margin-bottom:20px; border:1px solid #ddd; padding:15px; border-radius:8px;">
+        <h2>Detalles del pedido</h2>
+        <div class="grupo-opciones">
             <label><input type="radio" name="tipo_pedido" value="local" {$checkLocal}> Para consumir en el local</label>
             <label><input type="radio" name="tipo_pedido" value="llevar" {$checkLlevar}> Para llevar</label>
         </div>
 
-        <h2>2. Forma de Pago</h2>
-        <div class="grupo-checkbox" style="margin-bottom:20px; border:1px solid #ddd; padding:15px; border-radius:8px;">
+        <h2>Forma de pago</h2>
+        <div class="grupo-opciones">
             <label><input type="radio" name="metodo_pago" value="tarjeta" checked onchange="togglePago(this.value)"> Pago con Tarjeta</label>
             <label><input type="radio" name="metodo_pago" value="camarero" onchange="togglePago(this.value)"> Pagar al camarero</label>
         </div>
 
-        <div id="seccion-tarjeta" style="background:#f1f1f1; padding:15px; border-radius:8px; margin-bottom:20px;">
+        <div id="seccion-tarjeta" class="bloque-tarjeta">
             <label>Número de Tarjeta:</label>
             <input type="text" id="input-tarjeta" placeholder="1234 5678 9101 1121" pattern="\d{16}" title="Debe contener 16 dígitos numéricos" required>
         </div>
 
-        <div class="acciones" style="margin-top:30px;">
-            <button type="submit" class="boton-nuevo" style="width:100%;">Confirmar y Pagar</button>
-            <a href="apoyo/procesar_carrito.php?accion=clear" class="boton-borrar" style="display:block; text-align:center; margin-top:10px;">Vaciar Carrito</a>
+        <div class="acciones">
+            <button type="submit" class="boton-nuevo">Confirmar y Pagar</button>
+            <a href="apoyo/procesar_carrito.php?accion=clear" class="boton-borrar">Vaciar Carrito</a>
         </div>
     </form>
 
@@ -168,6 +168,6 @@ EOF;
 EOF;
 }
 
-$contenidoPrincipal = "<h1 style='text-align:center;'>Revisar Pedido</h1>" . $htmlLineas;
+$contenidoPrincipal = "<section class='pagina-cliente pagina-carrito'><header class='cabecera-pagina'><h1>Revisar Pedido</h1></header>{$htmlLineas}</section>";
 require("../comun/plantilla.php");
 ?>

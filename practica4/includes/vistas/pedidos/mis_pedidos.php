@@ -13,15 +13,15 @@ $pedidos = $pedidoSA->obtenerPedidosCliente($_SESSION['usuario']->id());
 $tituloPagina = "Mis Pedidos";
 $css = [RAIZ_APP . "/css/default.css"];
 $header = "../comun/header.php";
-$claseMain = "contenedor-centro";
+$claseMain = "contenedor-cliente";
 $js = [(RAIZ_APP . "/js/pedidos.js"), (RAIZ_APP . "/js/script.js")];
 
 $htmlTabla = "";
 
 if (empty($pedidos)) {
-    $htmlTabla = "<p>Aún no has realizado ningún pedido. ¡Anímate a probar nuestra carta!</p>";
+    $htmlTabla = "<section class='panel-cliente estado-vacio'><p>Aún no has realizado ningún pedido. ¡Anímate a probar nuestra carta!</p></section>";
 } else {
-    $htmlTabla .= '<table class="tabla-gestion">
+    $htmlTabla .= '<section class="panel-cliente"><div class="contenedor-tabla-scroll"><table class="tabla-detalle tabla-historial">
         <thead>
             <tr>
                 <th>Nº Pedido</th>
@@ -51,9 +51,9 @@ if (empty($pedidos)) {
             <td data-label='Detalle'><a href='pedido_detalle.php?id={$id}' class='boton-editar'>Ver detalle</a></td>
         </tr>";
     }
-    $htmlTabla .= "</tbody></table>";
+    $htmlTabla .= "</tbody></table></div></section>";
 }
 
-$contenidoPrincipal = "<h1>Historial de Mis Pedidos</h1>" . $htmlTabla;
+$contenidoPrincipal = "<section class='pagina-cliente pagina-historial'><header class='cabecera-pagina'><h1>Historial de Mis Pedidos</h1></header>{$htmlTabla}</section>";
 require("../comun/plantilla.php");
 ?>

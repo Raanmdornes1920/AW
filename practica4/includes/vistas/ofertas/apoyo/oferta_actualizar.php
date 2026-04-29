@@ -20,13 +20,13 @@ if (!$oferta) {
 
 $tituloPagina = "Actualizar: " . htmlspecialchars($oferta->getNombre());
 $header = "../../comun/header.php";
-$claseMain = "contenedor-centro";
+$claseMain = "contenedor-cliente";
 
 $form = new FormularioActualizarOferta($db_connection, $oferta);
 $htmlForm = $form->gestiona();
 
 $contenidoPrincipal = <<<EOF
-    <section class="contenedor-centro" id="contenido">
+    <section class="pagina-cliente pagina-formulario-oferta" id="contenido">
         {$htmlForm}
     </section>
 EOF;

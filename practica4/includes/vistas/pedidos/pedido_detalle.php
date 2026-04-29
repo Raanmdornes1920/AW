@@ -33,7 +33,7 @@ $ofertas = $pedidoSA->obtenerOfertasPedido($pedido->getId());
 $tituloPagina = "Detalle del Pedido";
 $css = [RAIZ_APP . "/css/default.css"];
 $header = "../comun/header.php";
-$claseMain = "contenedor-centro";
+$claseMain = "contenedor-cliente";
 $js = [(RAIZ_APP . "/js/pedidos.js"), (RAIZ_APP . "/js/script.js")];
 
 $numero = $pedido->getNumeroPedido();
@@ -71,12 +71,12 @@ foreach ($lineas as $linea) {
 
     $accionLinea = "";
     if ($rol === 'cocinero' && $estado === 'cocinando' && $cocinable && !$preparado) {
-        $accionLinea = "<form action='apoyo/procesar_linea.php' method='POST'>
+        $accionLinea = "<form class='form-accion-oferta' action='apoyo/procesar_linea.php' method='POST'>
             <input type='hidden' name='id_linea' value='{$idLinea}'>
             <button type='submit' class='boton-editar'>Listo</button>
         </form>";
     } elseif ($rol === 'camarero' && $estado === 'listo_cocina' && !$cocinable && !$preparado) {
-        $accionLinea = "<form action='apoyo/procesar_linea.php' method='POST'>
+        $accionLinea = "<form class='form-accion-oferta' action='apoyo/procesar_linea.php' method='POST'>
             <input type='hidden' name='id_linea' value='{$idLinea}'>
             <button type='submit' class='boton-editar'>Servir</button>
         </form>";
@@ -97,12 +97,12 @@ EOF;
 
 $ofertasHtml = "";
 if (!empty($ofertas)) {
-    $ofertasHtml = "<section class='form-estilizado' style='margin-top:25px;'><h2>Ofertas aplicadas</h2><ul style='list-style:none; padding:0;'>";
+    $ofertasHtml = "<section class='panel-cliente panel-ofertas-pedido'><h2>Ofertas aplicadas</h2><ul class='lista-ofertas-aplicadas'>";
     foreach ($ofertas as $oferta) {
         $nombreOferta = htmlspecialchars($oferta['nombre_oferta']);
         $veces = (int)$oferta['veces_aplicada'];
         $descOferta = number_format($oferta['descuento_total'], 2);
-        $ofertasHtml .= "<li style='padding:6px 0;'>{$nombreOferta} x{$veces}: <strong>-{$descOferta} €</strong></li>";
+        $ofertasHtml .= "<li>{$nombreOferta} x{$veces}: <strong>-{$descOferta} €</strong></li>";
     }
     $ofertasHtml .= "</ul></section>";
 }
@@ -110,23 +110,23 @@ if (!empty($ofertas)) {
 $accionesRol = "";
 if ($rol === 'camarero') {
     if ($estado === 'recibido') {
-        $accionesRol = "<form action='apoyo/procesar_estado_pedido.php' method='POST'>
+        $accionesRol = "<form class='form-accion-oferta' action='apoyo/procesar_estado_pedido.php' method='POST'>
             <input type='hidden' name='id_pedido' value='{$idPedido}'>
             <input type='hidden' name='nuevo_estado' value='en_preparacion'>
-            <button type='submit' class='boton-nuevo' style='background-color:#FF9800;'>Cobrar y enviar a cocina</button>
+            <button type='submit' class='boton-nuevo'>Cobrar y enviar a cocina</button>
         </form>";
     } elseif ($estado === 'listo_cocina') {
         if ($todasListas) {
-            $accionesRol = "<form action='apoyo/procesar_estado_pedido.php' method='POST'>
+            $accionesRol = "<form class='form-accion-oferta' action='apoyo/procesar_estado_pedido.php' method='POST'>
                 <input type='hidden' name='id_pedido' value='{$idPedido}'>
                 <input type='hidden' name='nuevo_estado' value='terminado'>
                 <button type='submit' class='boton-nuevo'>Bandeja lista</button>
             </form>";
         } else {
-            $accionesRol = "<p style='background:#fff3e0; border:1px solid #ffe0b2; padding:12px; border-radius:8px; color:#e65100;'>Quedan productos de barra por servir antes de terminar la bandeja.</p>";
+            $accionesRol = "<p class='mensaje mensaje-error'>Quedan productos de barra por servir antes de terminar la bandeja.</p>";
         }
     } elseif ($estado === 'terminado') {
-        $accionesRol = "<form action='apoyo/procesar_estado_pedido.php' method='POST'>
+        $accionesRol = "<form class='form-accion-oferta' action='apoyo/procesar_estado_pedido.php' method='POST'>
             <input type='hidden' name='id_pedido' value='{$idPedido}'>
             <input type='hidden' name='nuevo_estado' value='entregado'>
             <button type='submit' class='boton-nuevo'>Entregar cliente</button>
@@ -134,24 +134,24 @@ if ($rol === 'camarero') {
     }
 } elseif ($rol === 'cocinero') {
     if ($estado === 'en_preparacion') {
-        $accionesRol = "<form action='apoyo/procesar_estado_pedido.php' method='POST'>
+        $accionesRol = "<form class='form-accion-oferta' action='apoyo/procesar_estado_pedido.php' method='POST'>
             <input type='hidden' name='id_pedido' value='{$idPedido}'>
             <input type='hidden' name='nuevo_estado' value='cocinando'>
-            <button type='submit' class='boton-nuevo' style='background-color:#E91E63;'>Empezar a cocinar</button>
+            <button type='submit' class='boton-nuevo'>Empezar a cocinar</button>
         </form>";
     } elseif ($estado === 'cocinando') {
         if (!$hayCocinablesPendientes) {
-            $accionesRol = "<form action='apoyo/procesar_estado_pedido.php' method='POST'>
+            $accionesRol = "<form class='form-accion-oferta' action='apoyo/procesar_estado_pedido.php' method='POST'>
                 <input type='hidden' name='id_pedido' value='{$idPedido}'>
                 <input type='hidden' name='nuevo_estado' value='listo_cocina'>
                 <button type='submit' class='boton-nuevo'>Pedido completado</button>
             </form>";
         } else {
-            $accionesRol = "<p style='background:#f9f9f9; padding:12px; border-radius:8px;'>Marca como listos todos los productos de cocina para finalizar.</p>";
+            $accionesRol = "<p class='mensaje mensaje-info'>Marca como listos todos los productos de cocina para finalizar.</p>";
         }
     }
 } elseif ($rol === 'gerente' && in_array($estado, ['recibido', 'en_preparacion', 'cocinando', 'listo_cocina', 'terminado'], true)) {
-    $accionesRol = "<form action='apoyo/procesar_estado_pedido.php' method='POST' onsubmit='return confirm(\"¿Seguro que quieres cancelar este pedido?\")'>
+    $accionesRol = "<form class='form-accion-oferta' action='apoyo/procesar_estado_pedido.php' method='POST' onsubmit='return confirm(\"¿Seguro que quieres cancelar este pedido?\")'>
         <input type='hidden' name='id_pedido' value='{$idPedido}'>
         <input type='hidden' name='nuevo_estado' value='cancelado'>
         <button type='submit' class='boton-borrar'>Cancelar pedido</button>
@@ -168,28 +168,29 @@ if ($rol === 'camarero') {
 }
 
 $descuentoHtml = $pedido->getDescuentoAplicado() > 0
-    ? "<p><strong>Subtotal sin descuentos:</strong> {$totalSin} €</p><p><strong>Descuento aplicado:</strong> -{$descuento} €</p>"
+    ? "<div class='bloque-descuento'><p><strong>Subtotal sin descuentos:</strong> {$totalSin} €</p><p><strong>Descuento aplicado:</strong> -{$descuento} €</p></div>"
     : "";
 
 $contenidoPrincipal = <<<EOF
-<section class="form-estilizado">
-    <div style="display:flex; justify-content:space-between; gap:12px; align-items:center; flex-wrap:wrap;">
-        <h1 style="margin:0;">Pedido #{$numero}</h1>
+<section class="pagina-cliente pagina-detalle-pedido">
+<article class="panel-cliente detalle-pedido">
+    <header class="cabecera-panel">
+        <h1>Pedido #{$numero}</h1>
         <span class="badge">{$estadoVisual}</span>
-    </div>
+    </header>
 
-    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px; background:#f9f9f9; padding:15px; border-radius:8px; margin:20px 0;">
-        <p><strong>Fecha:</strong><br>{$fecha}</p>
-        <p><strong>Tipo:</strong><br>{$tipo}</p>
-        <p><strong>Cliente:</strong><br>ID {$idUsuarioPedido}</p>
-        <p><strong>Total:</strong><br>{$total} €</p>
+    <div class="resumen-pedido">
+        <p><strong>Fecha</strong><br>{$fecha}</p>
+        <p><strong>Tipo</strong><br>{$tipo}</p>
+        <p><strong>Cliente</strong><br>ID {$idUsuarioPedido}</p>
+        <p><strong>Total</strong><br>{$total} €</p>
     </div>
 
     {$descuentoHtml}
 
     <h2>Productos del pedido</h2>
     <div class="contenedor-tabla-scroll">
-        <table class="tabla-gestion">
+        <table class="tabla-detalle tabla-pedido-detalle">
             <thead>
                 <tr>
                     <th>Producto</th>
@@ -204,14 +205,15 @@ $contenidoPrincipal = <<<EOF
             <tbody>{$lineasHtml}</tbody>
         </table>
     </div>
-</section>
+</article>
 
 {$ofertasHtml}
 
-<div class="acciones" style="display:flex; gap:10px; flex-wrap:wrap; margin-top:25px;">
+<div class="acciones acciones-detalle">
     {$accionesRol}
     <a href="{$volver}" class="boton-editar">Volver</a>
 </div>
+</section>
 EOF;
 
 require("../comun/plantilla.php");
