@@ -11,16 +11,28 @@ $prodSA = new ProductoSA($db_connection);
 $id_cat = $_GET['id_categoria'] ?? null;
 
 if ($id_cat) {
+<<<<<<< HEAD
     $productos = $prodSA->buscarPorCategoria($id_cat); 
     $tituloPagina = "Productos de la categoría";
 } else {
     $productos = $prodSA->listarTodos(); 
+=======
+    $productos = $prodSA->buscarPorCategoria($id_cat);
+    $tituloPagina = "Productos de la categoría";
+} else {
+    $productos = $prodSA->listarTodos();
+>>>>>>> angela
     $tituloPagina = "Todos los productos";
 }
 
 $css = [];
+<<<<<<< HEAD
 $js = []; 
 $header = __DIR__ . "/../comun/header.php"; 
+=======
+$js = [];
+$header = __DIR__ . "/../comun/header.php";
+>>>>>>> angela
 $claseMain = "contenedor-centro";
 
 $htmlProductos = "";

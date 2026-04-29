@@ -14,7 +14,11 @@ $js = [(RAIZ_APP . "/js/script.js"), (RAIZ_APP . "/js/editar_perfil.js")];
 $claseMain = "contenedor-centro-index";
 $header = (__DIR__ . "/../comun/header.php");
 
+<<<<<<< HEAD
 ob_start(); // Capturamos el contenido del include 
+=======
+ob_start(); // Capturamos el contenido del include
+>>>>>>> angela
 ?>
 
 <h1 id="titulo-descripcion">Gestión de Usuarios</h1>

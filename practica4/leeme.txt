@@ -20,12 +20,20 @@ Funcionalidad 1: Gestion de Productos (Completada)
     Productos: completado
         Modelo de Datos:
             Implementación de las tablas 'productos' y 'productos_imagenes'. Esta última tabla necesaria para el carrousel de imágenes
+<<<<<<< HEAD
         Vista cliente: 
+=======
+        Vista cliente:
+>>>>>>> angela
             Listado de todos los productos, listado de productos por categorías y vista de detalle de producto.
             Carrousel de imagenes en detalle del producto.
             Opción para añadir más unidades de un producto.
             Botón para añadir al carrito.
+<<<<<<< HEAD
         Vista gerente: 
+=======
+        Vista gerente:
+>>>>>>> angela
             Tabla de gestion de los productos (listado de productos, opción de crear, editar y borrar).
             Pantalla de confirmación de eliminación de un producto.
             El producto puede estar 'disponible' o 'no disponible', y 'en carta' o 'retirado'
@@ -54,5 +62,9 @@ Funcionalidad 3: Preparación de los pedidos (Completada)
     Vista Cocinero:
         Panel de comandas de cocina (diseñado para tablet/apaisado).
         Opciones para asumir un pedido (pasar de "En preparación" a "Cocinando").
+<<<<<<< HEAD
         Gestión exhaustiva producto a producto: permite marcar individualmente cada producto como "Listo" y 
+=======
+        Gestión exhaustiva producto a producto: permite marcar individualmente cada producto como "Listo" y
+>>>>>>> angela
         bloquea la finalización del pedido hasta que todos los platos de la comanda están preparados (pasando a "Listo cocina").

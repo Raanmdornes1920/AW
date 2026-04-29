@@ -84,6 +84,7 @@ class FormularioRegistro extends formularioBase {
         
         global $SA;
 
+<<<<<<< HEAD
         // Validar campos obligatorios
         $faltan_datos = false;
         if (empty($datos['usuario'])){
@@ -104,10 +105,31 @@ class FormularioRegistro extends formularioBase {
         }
 
         if ($faltan_datos) {
+=======
+        // Validar TODOS los campos obligatorios de forma independiente (no encadenados con else if)
+        if (empty($datos['usuario'])){
+            $this->errores['usuario'] = "Campo obligatorio.";
+        }
+        if (empty($datos['mail'])){
+            $this->errores['mail'] = "Campo obligatorio.";
+        }
+        if (empty($datos['avatar'])){
+            $this->errores['avatar'] = "Campo obligatorio.";
+        }
+        if (empty($datos['password'])){
+            $this->errores['password'] = "Campo obligatorio.";
+        }
+        if(empty($datos['password_confirm'])) {
+            $this->errores['password_confirm'] = "Campo obligatorio.";
+        }
+
+        if (count($this->errores) > 0) {
+>>>>>>> angela
             $this->errores[0] = "Faltan campos obligatorios.";
             return;
         }
 
+<<<<<<< HEAD
         // Sanear datos
         $nombrePost = (filter_var($datos['nombre']) ?? '');
         $apellidosPost = (filter_var($datos['apellidos']) ?? '');
@@ -123,6 +145,30 @@ class FormularioRegistro extends formularioBase {
         // Validar que las contraseñas coincidan
         if ($passPost !== $passConfPost) {
             $this->errores[1] = "Las contraseñas no coinciden.";
+=======
+        // Validar que las contraseñas coincidan (validación servidor)
+        if ($datos['password'] !== $datos['password_confirm']) {
+            $this->errores['password_confirm'] = "Las contraseñas no coinciden.";
+            $this->errores[1] = "Las contraseñas no coinciden.";
+            return;
+        }
+
+        // Sanear datos de entrada con filter_var
+        $nombrePost = filter_var(trim($datos['nombre'] ?? ''), FILTER_SANITIZE_SPECIAL_CHARS);
+        $apellidosPost = filter_var(trim($datos['apellidos'] ?? ''), FILTER_SANITIZE_SPECIAL_CHARS);
+        $mailPost = filter_var(trim($datos['mail']), FILTER_SANITIZE_EMAIL);
+        $fotoPost = str_replace(' ', '\\ ', ($datos['avatar'] ?? ''));
+        $nombreImagen = "default.png";
+        $rolPost = ((($datos['modo-admin'] ?? 'Falso') === "Verdadero")? ($datos['rol'] ?? 'cliente'): 'cliente');
+
+        $userPost = filter_var(trim($datos['usuario']), FILTER_SANITIZE_SPECIAL_CHARS);
+        $passPost = $datos['password'];
+        $passConfPost = $datos['password_confirm'];
+
+        // Validar formato de email
+        if (!filter_var($mailPost, FILTER_VALIDATE_EMAIL)) {
+            $this->errores['mail'] = "El formato del correo electrónico no es válido.";
+>>>>>>> angela
             return;
         }
 
@@ -191,7 +237,11 @@ class FormularioRegistro extends formularioBase {
                 exit();
             }
             else{
+<<<<<<< HEAD
                 $this->errores['usuario'] = 'Usuaro ya ocupado';
+=======
+                $this->errores['usuario'] = 'Usuario ya ocupado';
+>>>>>>> angela
             }
             
         } catch (MailOcupadoException $e2) {

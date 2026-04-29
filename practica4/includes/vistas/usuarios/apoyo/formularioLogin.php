@@ -14,6 +14,7 @@ class FormularioLogin extends formularioBase {
 
     protected function generaCamposFormulario(&$datos) {
         $usuario = $datos['usuario'] ?? '';
+<<<<<<< HEAD
         $password = $datos['password'] ?? '';
 
         $htmlErroresGlobales = self::generaListaErroresGlobales($this->errores);
@@ -22,6 +23,11 @@ class FormularioLogin extends formularioBase {
         ob_start();
         include __DIR__ . "/vistas/comun/selector_imagenes.php"; 
         $htmlSelectorImagenes = ob_get_clean();
+=======
+
+        $htmlErroresGlobales = self::generaListaErroresGlobales($this->errores);
+        $erroresCampos = self::generaErroresCampos(['usuario', 'password', 'campos_vacios'], $this->errores);
+>>>>>>> angela
         
         foreach ($erroresCampos as $key => $value) {
             $erroresCampos[$key] = $value . '<br>';
@@ -38,7 +44,11 @@ class FormularioLogin extends formularioBase {
 
         <label>Contraseña:</label>
         <br>
+<<<<<<< HEAD
         <input type="password" autocomplete="current-password" name="password" value="$password" required>
+=======
+        <input type="password" autocomplete="current-password" name="password" required>
+>>>>>>> angela
         {$erroresCampos['password']}
         <br><br>
 
@@ -52,11 +62,21 @@ class FormularioLogin extends formularioBase {
         global $db_connection;
         $this->errores = [];
 
+<<<<<<< HEAD
         $userPost = filter_var($datos['usuario']);
         $passPost = filter_var($datos['password']);
 
         if (empty($userPost) || empty($passPost)) {
             $this->errores['campos_vacios'] = 'Por favor, rellena todos los campos';
+=======
+        // Saneamiento de datos de entrada con filter_var
+        $userPost = filter_var(trim($datos['usuario'] ?? ''), FILTER_SANITIZE_SPECIAL_CHARS);
+        $passPost = $datos['password'] ?? '';
+
+        if (empty($userPost) || empty($passPost)) {
+            $this->errores['campos_vacios'] = 'Por favor, rellena todos los campos';
+            return;
+>>>>>>> angela
         }
         
         try {

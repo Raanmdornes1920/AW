@@ -36,9 +36,17 @@ class CategoriaSA {
             $datos['id'] ?? null,
             trim($datos['nombre']),
             trim($datos['descripcion']),
+<<<<<<< HEAD
            $imagen 
         );
         return $this->dao->guardar($c);
     }
     
+=======
+           $imagen
+        );
+        return $this->dao->guardar($c);
+    }
+
+>>>>>>> angela
 }

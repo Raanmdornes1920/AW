@@ -10,7 +10,11 @@ class FormularioActualizarProducto extends formularioBase {
         // Inicializamos el formulario base
         parent::__construct('formActualizarProducto', [
             'enctype' => 'multipart/form-data',
+<<<<<<< HEAD
             'urlRedireccion' => '../productos_gerente.php'
+=======
+            'urlRedireccion' => RAIZ_APP . '/includes/vistas/productos/productos_gerente.php'
+>>>>>>> angela
         ]);
         $this->db = $db_connection;
         $this->producto = $producto;
@@ -39,6 +43,7 @@ class FormularioActualizarProducto extends formularioBase {
         $checkOfert = $this->producto->getOfertado() ? 'checked' : '';
         $checkCocinableSi = $this->producto->getCocinable() ? 'checked' : '';
         $checkCocinableNo = !$this->producto->getCocinable() ? 'checked' : '';
+<<<<<<< HEAD
 
         $erroresGlobales = self::generaListaErroresGlobales($this->errores);
 
@@ -46,6 +51,23 @@ class FormularioActualizarProducto extends formularioBase {
         // Usamos un DIV con la clase para que el CSS lo trate igual que al de Crear.
         return <<<EOF
         $erroresGlobales
+=======
+        $imagenesActuales = $this->producto->getImagenesArray();
+        $htmlImagenesActuales = "";
+        if (empty($imagenesActuales)) {
+            $htmlImagenesActuales = "<p style='color:#666;'>Este producto no tiene imágenes cargadas.</p>";
+        } else {
+            foreach ($imagenesActuales as $imgActual) {
+                $rutaImg = RUTA_IMG . "/productos/" . htmlspecialchars($imgActual);
+                $htmlImagenesActuales .= "<img src='{$rutaImg}' alt='Imagen actual de {$nombreVal}' style='width:110px; height:90px; object-fit:cover; border-radius:8px; border:1px solid #ddd; margin:4px;'>";
+            }
+        }
+
+        $htmlErroresGlobales = self::generaListaErroresGlobales($this->errores);
+
+        return <<<EOF
+        $htmlErroresGlobales
+>>>>>>> angela
         <div class="form-estilizado">
             <input type="hidden" name="accion" value="actualizar">
             <input type="hidden" name="id" value="$idVal">
@@ -88,6 +110,14 @@ class FormularioActualizarProducto extends formularioBase {
                 <label><input type="radio" name="cocinable" value="0" $checkCocinableNo> No (Bebidas/Barra)</label>
             </div>
 
+<<<<<<< HEAD
+=======
+            <label>Imágenes actuales:</label>
+            <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0 18px 0;">
+                $htmlImagenesActuales
+            </div>
+
+>>>>>>> angela
             <label>Sustituir imágenes actuales:</label> 
             <input type="file" name="imagenes[]" id="input_imagenes" accept="image/*" multiple onchange="previsualizarImagenes(this)">
             
@@ -106,7 +136,70 @@ EOF;
     }
 
     protected function procesaFormulario(&$datos) {
+<<<<<<< HEAD
         // Aquí iría tu lógica de ProductoSA->actualizar(...)
         // Similar a la que tenías en el procesar_producto.php
     }
 }
+=======
+        $this->errores = [];
+
+        // Saneamiento
+        $id = filter_var($datos['id'] ?? 0, FILTER_SANITIZE_NUMBER_INT);
+        $id_categoria = filter_var($datos['id_categoria'] ?? 0, FILTER_SANITIZE_NUMBER_INT);
+        $nombre = filter_var(trim($datos['nombre'] ?? ''), FILTER_SANITIZE_SPECIAL_CHARS);
+        $descripcion = filter_var(trim($datos['descripcion'] ?? ''), FILTER_SANITIZE_SPECIAL_CHARS);
+        $precio_base = filter_var($datos['precio_base'] ?? 0, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+        $iva = filter_var($datos['iva'] ?? 21, FILTER_SANITIZE_NUMBER_INT);
+        $disponible = isset($datos['disponible']) ? 1 : 0;
+        $ofertado = isset($datos['ofertado']) ? 1 : 0;
+        $cocinable = filter_var($datos['cocinable'] ?? 1, FILTER_SANITIZE_NUMBER_INT);
+
+        if (empty($nombre)) {
+            $this->errores['nombre'] = "El nombre es obligatorio.";
+        }
+
+        if (count($this->errores) > 0) {
+            return;
+        }
+
+        // Procesamiento de imágenes nuevas
+        $imagenesSubidas = [];
+        if (isset($_FILES['imagenes']) && !empty($_FILES['imagenes']['name'][0])) {
+            foreach ($_FILES['imagenes']['tmp_name'] as $key => $tmp_name) {
+                if ($_FILES['imagenes']['error'][$key] === UPLOAD_ERR_OK) {
+                    $ext = pathinfo($_FILES['imagenes']['name'][$key], PATHINFO_EXTENSION);
+                    $nombreNuevo = uniqid('prod_') . '_' . $key . '.' . $ext;
+                    $rutaDestino = DIR_RAIZ . "/img/productos/" . $nombreNuevo;
+                    
+                    if (move_uploaded_file($tmp_name, $rutaDestino)) {
+                        $imagenesSubidas[] = $nombreNuevo;
+                    }
+                }
+            }
+        }
+
+        $datosProducto = [
+            'id' => $id,
+            'id_categoria' => $id_categoria,
+            'nombre' => $nombre,
+            'descripcion' => $descripcion,
+            'precio_base' => $precio_base,
+            'iva' => $iva,
+            'disponible' => $disponible,
+            'ofertado' => $ofertado,
+            'cocinable' => $cocinable
+        ];
+
+        // Si hay imágenes nuevas, las añadimos. Si no, ProductoSA se encarga de mantener las viejas.
+        if (!empty($imagenesSubidas)) {
+            $datosProducto['imagenes'] = $imagenesSubidas;
+        }
+
+        $sa = new ProductoSA($this->db);
+        if (!$sa->guardarProducto($datosProducto)) {
+            $this->errores[] = "Error técnico al intentar actualizar el producto.";
+        }
+    }
+}
+>>>>>>> angela

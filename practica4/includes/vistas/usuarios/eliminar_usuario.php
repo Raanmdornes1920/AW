@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 <?php 
+=======
+<?php
+>>>>>>> angela
 require_once (__DIR__ . '/../../config.php');
 session_start();
 $SA = new UsuarioSA($db_connection);
@@ -25,7 +29,11 @@ ob_start(); // Capturamos el contenido del include
             <th colspan="6" class="titulo-tabla">
                 EMPLEADOS
             </th>
+<<<<<<< HEAD
         </tr>    
+=======
+        </tr>
+>>>>>>> angela
         <tr>
             <th>Usuario</th>
             <th>Nombre</th>
@@ -34,12 +42,21 @@ ob_start(); // Capturamos el contenido del include
             <th>Rol</th>
             <th>Opciones</th>
         </tr>
+<<<<<<< HEAD
         <?php 
             $lista_usuarios = $SA->getListaUsuarios();
             if ($lista_usuarios) { 
                 foreach ($lista_usuarios as $usuario){
                     $rolActual = $usuario->rol(); 
                     
+=======
+        <?php
+            $lista_usuarios = $SA->getListaUsuarios();
+            if ($lista_usuarios) {
+                foreach ($lista_usuarios as $usuario){
+                    $rolActual = $usuario->rol();
+
+>>>>>>> angela
                     if($rolActual !== 'cliente'){
             ?>
                 <tr>
@@ -52,9 +69,15 @@ ob_start(); // Capturamos el contenido del include
                         <button onclick="abrirConfirmacionDelete(<?php echo $usuario->id() . ', \'' . $usuario->usuario() . '\'' . ', \'' . $_SESSION['usuario']->usuario() . '\'';?>)" class="boton-taba-usuarios" >Eliminar</button>
                     </td>
                 </tr>
+<<<<<<< HEAD
             <?php 
                     }
                 } 
+=======
+            <?php
+                    }
+                }
+>>>>>>> angela
                 $lista_usuarios->rewind();
             }
         ?>
@@ -67,7 +90,11 @@ ob_start(); // Capturamos el contenido del include
             <th colspan="6" class="titulo-tabla">
                 CLIENTES
             </th>
+<<<<<<< HEAD
         </tr>    
+=======
+        </tr>
+>>>>>>> angela
         <tr>
             <th>Usuario</th>
             <th>Nombre</th>
@@ -76,11 +103,19 @@ ob_start(); // Capturamos el contenido del include
             <th>Rol</th>
             <th>Opciones</th>
         </tr>
+<<<<<<< HEAD
         <?php 
             if ($lista_usuarios) { 
                 foreach ($lista_usuarios as $usuario){
                     $rolActual = $usuario->rol(); 
                     
+=======
+        <?php
+            if ($lista_usuarios) {
+                foreach ($lista_usuarios as $usuario){
+                    $rolActual = $usuario->rol();
+
+>>>>>>> angela
                     if($rolActual === 'cliente'){
             ?>
                 <tr>
@@ -93,9 +128,15 @@ ob_start(); // Capturamos el contenido del include
                         <button onclick="abrirConfirmacionDelete(<?php echo $usuario->id() . ', \'' . $usuario->usuario() . '\'' . ', \'' . $_SESSION['usuario']->usuario() . '\'';?>)" class="boton-taba-usuarios" >Eliminar</button>
                     </td>
                 </tr>
+<<<<<<< HEAD
             <?php 
                     }
                 } 
+=======
+            <?php
+                    }
+                }
+>>>>>>> angela
                 $lista_usuarios->rewind();
             }
         ?>
@@ -132,7 +173,11 @@ ob_start(); // Capturamos el contenido del include
 </div>
 <!-- Confirmacion Eliminar Usuario -->
 <!-- Errores -->
+<<<<<<< HEAD
 <?php 
+=======
+<?php
+>>>>>>> angela
 if (isset($_SESSION['error_editar_perfil']) && $_SESSION['error_editar_perfil'] !== "Ninguno"){
     echo '<div id="modalError" class="modal">';
     echo '<div class="modal-contenido">';
@@ -143,7 +188,11 @@ if (isset($_SESSION['error_editar_perfil']) && $_SESSION['error_editar_perfil'] 
     echo '</div>';
     unset($_SESSION['error_editar_perfil']);
 }?>
+<<<<<<< HEAD
 <?php 
+=======
+<?php
+>>>>>>> angela
 if (isset($_SESSION['error_crear_perfil']) && $_SESSION['error_crear_perfil'] !== "Ninguno"){
     echo '<div id="modalError" class="modal">';
     echo '<div class="modal-contenido">';
@@ -163,7 +212,11 @@ if(isset($_SESSION['error_editar_perfil']) && $_SESSION['error_editar_perfil'] =
     echo '<span class="cerrar-modal-error">&times;</span>';
     if (isset($_SESSION['cambio'])) {
         echo '<h3>Se ha eliminado al usuario '. $_SESSION['cambio'] .'</h3>';
+<<<<<<< HEAD
     } 
+=======
+    }
+>>>>>>> angela
     echo '</div>';
     echo '</div>';
     unset($_SESSION['cambio']);

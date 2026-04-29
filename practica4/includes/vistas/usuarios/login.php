@@ -11,10 +11,17 @@ $claseMain = "contenedor-centro";
 $form = new FormularioLogin();
 $htmlForm = $form->gestiona();
 $contenidoPrincipal = <<<EOF
+<<<<<<< HEAD
         
             <h1>Inicio de Sesion</h1>
             $htmlForm
         
+=======
+
+            <h1>Inicio de Sesion</h1>
+            $htmlForm
+
+>>>>>>> angela
 EOF;
 
 $js = [(RAIZ_APP . "/js/script.js")];

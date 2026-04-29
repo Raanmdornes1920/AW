@@ -28,12 +28,17 @@ class FormularioCrearProducto extends formularioBase {
         $erroresGlobales
         <div class="form-estilizado">
             <h2>Crear Nuevo Producto</h2>
+<<<<<<< HEAD
             
+=======
+
+>>>>>>> angela
             <label>Categoría:</label>
             <select name="id_categoria" required>
                 $optionsCategorias
             </select>
 
+<<<<<<< HEAD
             <label>Nombre:</label> 
             <input type="text" name="nombre" required>
             
@@ -43,6 +48,17 @@ class FormularioCrearProducto extends formularioBase {
             <label>Precio Base (€):</label> 
             <input type="number" step="0.01" id="p_base" name="precio_base" oninput="recalcular()" required>
             
+=======
+            <label>Nombre:</label>
+            <input type="text" name="nombre" required>
+
+            <label>Descripción:</label>
+            <textarea name="descripcion" rows="4" required></textarea>
+
+            <label>Precio Base (€):</label>
+            <input type="number" step="0.01" id="p_base" name="precio_base" oninput="recalcular()" required>
+
+>>>>>>> angela
             <label>IVA:</label>
             <select id="p_iva" name="iva" onchange="recalcular()">
                 <option value="4">4%</option>
@@ -65,7 +81,11 @@ class FormularioCrearProducto extends formularioBase {
                 <label><input type="radio" name="cocinable" value="0"> No (Bebidas/Barra)</label>
             </div>
 
+<<<<<<< HEAD
             <label>Imágenes del producto:</label> 
+=======
+            <label>Imágenes del producto:</label>
+>>>>>>> angela
             <input type="file" name="imagenes[]" id="input_imagenes" accept="image/*" multiple onchange="previsualizarImagenes(this)">
 
             <div class="carrusel-contenedor" style="margin-top: 20px; max-width: 500px; margin-left: auto; margin-right: auto;">
@@ -101,7 +121,11 @@ EOF;
                     $ext = pathinfo($_FILES['imagenes']['name'][$key], PATHINFO_EXTENSION);
                     $nombreNuevo = uniqid('prod_') . '_' . $key . '.' . $ext;
                     $rutaDestino = __DIR__ . "/../../../../img/productos/" . $nombreNuevo;
+<<<<<<< HEAD
                     
+=======
+
+>>>>>>> angela
                     if (move_uploaded_file($tmp_name, $rutaDestino)) {
                         $imagenesSubidas[] = $nombreNuevo;
                     }

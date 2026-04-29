@@ -62,7 +62,11 @@ class Usuario implements JsonSerializable {
     public function rol() {
         return $this->rol;
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> angela
     public function avatar() {
         return $this->avatar;
     }
@@ -87,7 +91,11 @@ class Usuario implements JsonSerializable {
     public function set_rol($rol) {
         $this->rol = $rol;
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> angela
     public function set_avatar($avatar) {
         $this->avatar = $avatar;
     }
@@ -131,6 +139,10 @@ class Usuario implements JsonSerializable {
 
         return false;
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> angela
 }
 ?>

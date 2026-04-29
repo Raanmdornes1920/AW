@@ -28,6 +28,10 @@ if (isset($_SESSION['carrito']) && is_array($_SESSION['carrito'])) {
         <?php if($_SESSION['usuario']->rol() === 'gerente') {
             echo '<a class="'.clase_activa('categorias_gerente.php', $pagina_actual).'" href="'.RUTA_VISTAS.'/categorias/categorias_gerente.php">Categorias</a>';
             echo '<a class="'.clase_activa('productos_gerente.php', $pagina_actual).'" href="'.RUTA_VISTAS.'/productos/productos_gerente.php">Productos</a>';
+<<<<<<< HEAD
+=======
+            echo '<a class="'.clase_activa('ofertas_gerente.php', $pagina_actual).'" href="'.RUTA_VISTAS.'/ofertas/ofertas_gerente.php">Ofertas</a>';
+>>>>>>> angela
             // Añadido el enlace para que el gerente supervise todo
             echo '<a class="'.clase_activa('pedidos_gerente.php', $pagina_actual).'" href="'.RUTA_VISTAS.'/pedidos/pedidos_gerente.php">Supervisar Pedidos</a>';
         }
@@ -42,6 +46,10 @@ if (isset($_SESSION['carrito']) && is_array($_SESSION['carrito'])) {
         else if($_SESSION['usuario']->rol() === 'cliente') {
             // Añadido enlace a la carta para que puedan comprar y la ruta correcta a mis pedidos
             echo '<a class="'.clase_activa('productos_cliente.php', $pagina_actual).'" href="'.RUTA_VISTAS.'/productos/productos_cliente.php' . (isset($_GET['tipo'])?"?tipo=".$_GET['tipo']:"") . '">Nuestra Carta</a>';
+<<<<<<< HEAD
+=======
+            echo '<a class="'.clase_activa('ofertas_cliente.php', $pagina_actual).'" href="'.RUTA_VISTAS.'/ofertas/ofertas_cliente.php">Ofertas</a>';
+>>>>>>> angela
             echo '<a class="'.clase_activa('mis_pedidos.php', $pagina_actual).'" href="'.RUTA_VISTAS.'/pedidos/mis_pedidos.php">Mis Pedidos</a>';
         }
         ?>
@@ -71,4 +79,8 @@ if (isset($_SESSION['carrito']) && is_array($_SESSION['carrito'])) {
             </div>
         </div>    
     </div>
+<<<<<<< HEAD
 </header>
+=======
+</header>
+>>>>>>> angela

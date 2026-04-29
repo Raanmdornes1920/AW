@@ -9,9 +9,15 @@ if (!isset($_SESSION['login']) || $_SESSION['usuario']->rol() !== 'gerente') {
 $sa = new ProductoSA($db_connection);
 $producto = $sa->buscarProducto($_GET['id'] ?? 0);
 
+<<<<<<< HEAD
 if (!$producto) { 
     header("Location: ../productos_gerente.php"); 
     exit; 
+=======
+if (!$producto) {
+    header("Location: ../productos_gerente.php");
+    exit;
+>>>>>>> angela
 }
 
 $tituloPagina = "Retirar Producto";
@@ -28,7 +34,11 @@ $contenidoPrincipal = <<<EOF
         <h2>Confirmar Retirada de Carta</h2>
         <p>¿Estás seguro de que deseas retirar el producto <strong>$nombre</strong> de la carta?</p>
         <p><small>Nota: El producto dejará de estar visible para los clientes pero se mantendrá en el historial del inventario.</small></p>
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> angela
         <div class="botones-confirmacion">
             <form action="procesar_producto.php" method="POST" style="display: inline;">
                 <input type="hidden" name="id" value="{$producto->getId()}">

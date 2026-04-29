@@ -25,7 +25,11 @@ abstract class formularioBase
         $this->formId = $formId;
 
         $opcionesPorDefecto = array('action' => null, 'method' => 'POST', 'enctype' => null, 'urlRedireccion' => null);
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> angela
         $opciones = array_merge($opcionesPorDefecto, $opciones);
 
         $this->action         = $opciones['action'];
@@ -33,7 +37,11 @@ abstract class formularioBase
         $this->enctype        = $opciones['enctype'];
         $this->urlRedireccion = $opciones['urlRedireccion'];
 
+<<<<<<< HEAD
         if (!$this->action) 
+=======
+        if (!$this->action)
+>>>>>>> angela
         {
             $this->action = htmlspecialchars($_SERVER['REQUEST_URI']);
         }
@@ -48,6 +56,7 @@ abstract class formularioBase
         // print_r($_FILES); // Esto te dirá qué está llegando realmente
         // echo "</pre>";
         // die();
+<<<<<<< HEAD
         
         if (strcasecmp('GET', $this->method) == 0) 
         {
@@ -57,23 +66,48 @@ abstract class formularioBase
         $this->errores = [];
 
         if (!$this->formularioEnviado($datos)) 
+=======
+
+        if (strcasecmp('GET', $this->method) == 0)
+        {
+            $datos = &$_GET;
+        }
+
+        $this->errores = [];
+
+        if (!$this->formularioEnviado($datos))
+>>>>>>> angela
         {
             return $this->generaFormulario();
         }
 
         $this->procesaFormulario($datos);
+<<<<<<< HEAD
         
         $esValido = count($this->errores) === 0;
 
         if (! $esValido ) 
+=======
+
+        $esValido = count($this->errores) === 0;
+
+        if (! $esValido )
+>>>>>>> angela
         {
             return $this->generaFormulario($datos);
         }
 
+<<<<<<< HEAD
         if ($this->urlRedireccion !== null) 
         {
             header("Location: {$this->urlRedireccion}");
     
+=======
+        if ($this->urlRedireccion !== null)
+        {
+            header("Location: {$this->urlRedireccion}");
+
+>>>>>>> angela
             exit();
         }
     }
@@ -108,6 +142,7 @@ abstract class formularioBase
     protected static function generaListaErroresGlobales($errores = array())
     {
         $html = '';
+<<<<<<< HEAD
         
         $keys = array_filter(array_keys($errores), function($v) 
         {
@@ -123,6 +158,23 @@ abstract class formularioBase
                 $html .= "<li>{$errores[$key]}</li>";
             }
             
+=======
+
+        $keys = array_filter(array_keys($errores), function($v)
+        {
+            return is_numeric($v);
+        });
+
+        if (count($keys) > 0)
+        {
+            $html = '<ul class="errores">';
+
+            foreach($keys as $key)
+            {
+                $html .= "<li>{$errores[$key]}</li>";
+            }
+
+>>>>>>> angela
             $html .= '</ul>';
         }
 
@@ -134,6 +186,7 @@ abstract class formularioBase
         return isset($errores[$campo]) ? "<span class=\"form-field-error\">{$errores[$campo]}</span>": '';
     }
 
+<<<<<<< HEAD
     protected static function generaErroresCampos($campos, $errores) 
     {
         $erroresCampos = [];
@@ -147,12 +200,31 @@ abstract class formularioBase
     }
     
     
+=======
+    protected static function generaErroresCampos($campos, $errores)
+    {
+        $erroresCampos = [];
+
+        foreach($campos as $campo)
+        {
+            $erroresCampos[$campo] = self::generarError($campo, $errores);
+        }
+
+        return $erroresCampos;
+    }
+
+
+>>>>>>> angela
     //endregion
 
     //region Métodos abstractos
 
     abstract protected function generaCamposFormulario(&$datos);
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> angela
     abstract protected function procesaFormulario(&$datos);
 
     //endregion

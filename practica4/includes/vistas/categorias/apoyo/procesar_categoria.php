@@ -8,11 +8,15 @@ if (!isset($_SESSION['login']) || $_SESSION['usuario']->rol() !== 'gerente') {
     exit("No autorizado");
 }
 
+<<<<<<< HEAD
 $sa = new CategoriaSA($db_connection);
+=======
+>>>>>>> angela
 $accion = $_POST['accion'] ?? $_GET['accion'] ?? '';
 
 if ($accion === 'crear') {
     $formulario = new FormularioCrearCategoria();
+<<<<<<< HEAD
     $datos = $formulario->saneaDatos($_POST);
 
     $nombreImagen = 'categoria_default.jpg';
@@ -50,6 +54,29 @@ if ($accion === 'crear') {
     $sa->guardarCategoria($datos);
 
 } elseif ($accion === 'eliminar_definitivo') {
+=======
+    $htmlForm = $formulario->gestiona();
+    
+    // Si gestiona devuelve HTML, es que hubo errores o es la primera carga
+    if ($htmlForm !== null) {
+        // En este caso, como procesar_categoria es un script de apoyo, 
+        // lo ideal es que el formulario redireccione o nosotros manejemos la salida.
+        // Pero siguiendo el patrón de formularioBase, si estamos aquí es porque 
+        // el formulario se envió a este script.
+        echo $htmlForm; 
+    }
+
+} elseif ($accion === 'actualizar') {
+    $formulario = new FormularioActualizarCategoria();
+    $htmlForm = $formulario->gestiona();
+    
+    if ($htmlForm !== null) {
+        echo $htmlForm;
+    }
+
+} elseif ($accion === 'eliminar_definitivo') {
+    $sa = new CategoriaSA($db_connection);
+>>>>>>> angela
     $id = $_POST['id'] ?? 0;
     $resultado = $sa->borrarCategoria($id);
 
@@ -60,7 +87,14 @@ if ($accion === 'crear') {
         header("Location: categoria_borrar.php?id=$id&error=" . urlencode($resultado));
         exit;
     }
+<<<<<<< HEAD
 }
 
 header("Location: ../categorias_gerente.php");
 exit;
+=======
+} else {
+    header("Location: ../categorias_gerente.php");
+    exit;
+}
+>>>>>>> angela

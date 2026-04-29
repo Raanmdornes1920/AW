@@ -18,11 +18,19 @@ function cambiarImagen(n) {
     if (imagenes.length <= 1) return;
 
     imagenes[indexActual].classList.remove('active');
+<<<<<<< HEAD
     
     indexActual += n;
     if (indexActual >= imagenes.length) indexActual = 0;
     if (indexActual < 0) indexActual = imagenes.length - 1;
     
+=======
+
+    indexActual += n;
+    if (indexActual >= imagenes.length) indexActual = 0;
+    if (indexActual < 0) indexActual = imagenes.length - 1;
+
+>>>>>>> angela
     imagenes[indexActual].classList.add('active');
 }
 
@@ -63,7 +71,11 @@ function previsualizarImagenes(input) {
             }
             reader.readAsDataURL(file);
         });
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> angela
         contenedor.style.display = 'block'; // Asegurar que sea visible
     }
 }

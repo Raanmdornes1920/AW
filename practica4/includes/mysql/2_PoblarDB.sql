@@ -48,4 +48,8 @@ INSERT INTO `productos_imagenes` (`id`, `id_producto`, `ruta_imagen`, `orden`) V
 (58, 17, 'prod_69d8c048d3b1a_1.webp', 2),
 (59, 18, 'prod_69d8c05c7d157_0.jpg', 1);
 
+<<<<<<< HEAD
 SET FOREIGN_KEY_CHECKS = 1;
+=======
+SET FOREIGN_KEY_CHECKS = 1;
+>>>>>>> angela

@@ -12,7 +12,11 @@ $pedidos = $pedidoSA->obtenerPedidosCocinero();
 $tituloPagina = "Panel de Cocina";
 $css = [RAIZ_APP . "/css/default.css"];
 $header = "../comun/header.php";
+<<<<<<< HEAD
 $claseMain = "contenedor-centro";
+=======
+$claseMain = "contenedor-fullwidth";
+>>>>>>> angela
 $js = [(RAIZ_APP . "/js/pedidos.js"), (RAIZ_APP . "/js/script.js")];
 
 $htmlTabla = "";
@@ -26,7 +30,12 @@ if (empty($pedidos)) {
                 <th>Nº Pedido</th>
                 <th>Fecha/Hora</th>
                 <th>Tipo</th>
+<<<<<<< HEAD
                 <th>Estado y Detalles</th>
+=======
+                <th>Estado</th>
+                <th>Acción</th>
+>>>>>>> angela
             </tr>
         </thead>
         <tbody>';
@@ -42,12 +51,17 @@ if (empty($pedidos)) {
         
         if ($estado === 'en_preparacion') {
             $botonAccion = "
+<<<<<<< HEAD
+=======
+                <a href='pedido_detalle.php?id={$id}' class='boton-editar' style='display:block; text-align:center; margin-bottom:8px;'>Ver detalle</a>
+>>>>>>> angela
                 <form action='apoyo/procesar_estado_pedido.php' method='POST'>
                     <input type='hidden' name='id_pedido' value='$id'>
                     <input type='hidden' name='nuevo_estado' value='cocinando'>
                     <button type='submit' class='boton-nuevo' style='background-color:#E91E63;'>Empezar a Cocinar</button>
                 </form>";
         } elseif ($estado === 'cocinando') {
+<<<<<<< HEAD
             // Desplegar la lista de productos a preparar
             $lineas = $pedidoSA->obtenerDetallesPedido($id);
             $htmlLineas = "<ul style='list-style:none; padding:0; text-align:left;'>";
@@ -91,6 +105,9 @@ if (empty($pedidos)) {
                 </form>";
             }
             $botonAccion = $htmlLineas;
+=======
+            $botonAccion = "<a href='pedido_detalle.php?id={$id}' class='boton-nuevo' style='display:block; text-align:center;'>Abrir comanda</a>";
+>>>>>>> angela
         }
 
         $estadoVisual = ucfirst(str_replace('_', ' ', $estado));
@@ -99,10 +116,15 @@ if (empty($pedidos)) {
             <td><strong style='font-size: 1.4em; color: #d32f2f;'>#$num</strong></td>
             <td>$fecha</td>
             <td>$tipo</td>
+<<<<<<< HEAD
             <td>
                 <div style='margin-bottom: 10px;'><span class='badge'>$estadoVisual</span></div>
                 $botonAccion
             </td>
+=======
+            <td><span class='badge'>$estadoVisual</span></td>
+            <td>$botonAccion</td>
+>>>>>>> angela
         </tr>";
     }
     $htmlTabla .= "</tbody></table>";
@@ -110,4 +132,8 @@ if (empty($pedidos)) {
 
 $contenidoPrincipal = "<h1>👩‍🍳 Comandas de Cocina 👨‍🍳</h1>" . $htmlTabla;
 require("../comun/plantilla.php");
+<<<<<<< HEAD
 ?>
+=======
+?>
+>>>>>>> angela

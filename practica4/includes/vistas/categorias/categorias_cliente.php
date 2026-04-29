@@ -11,9 +11,15 @@ $catSA = new CategoriaSA($db_connection);
 $categorias = $catSA->obtenerTodas();
 
 $tituloPagina = "Categorías";
+<<<<<<< HEAD
 $css = [RAIZ_APP . "/css/default.css"]; 
 $js = []; 
 $header = __DIR__ . "/../comun/header.php"; 
+=======
+$css = [RAIZ_APP . "/css/default.css"];
+$js = [];
+$header = __DIR__ . "/../comun/header.php";
+>>>>>>> angela
 $claseMain = "contenedor-centro";
 
 $htmlCategorias = "";
@@ -22,7 +28,11 @@ foreach ($categorias as $cat) {
     $id = $cat->getId();
     $imagen = RAIZ_APP . "/img/categorias/" . ($cat->getImagen() ?: 'categoria_default.png');
     $tipo = (isset($_GET['tipo'])?"&tipo=".$_GET['tipo']:"");
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> angela
     $htmlCategorias .= <<<EOF
         <a href="../productos/productos_cliente.php?id_categoria=$id$tipo" class="tarjeta-item">
             <img src="$imagen" alt="$nombre">

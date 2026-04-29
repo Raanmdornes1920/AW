@@ -1,7 +1,11 @@
 <?php
 require_once (__DIR__ . '/../../config.php');
 require_once (DIR_RAIZ . '/includes/vistas/usuarios/apoyo/formularioCrearUsuario.php');
+<<<<<<< HEAD
 session_start(); 
+=======
+session_start();
+>>>>>>> angela
 $SA = new UsuarioSA($db_connection);
 
 if (!isset($_SESSION['login']) || $_SESSION['login'] !== true || $_SESSION['usuario']->rol() !== 'gerente') {

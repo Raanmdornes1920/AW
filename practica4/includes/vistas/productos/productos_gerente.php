@@ -3,7 +3,11 @@ require_once '../../config.php';
 session_start();
 
 if (!isset($_SESSION['login']) || $_SESSION['usuario']->rol() !== 'gerente') {
+<<<<<<< HEAD
     header("Location: " . RAIZ_APP . "/index.php"); 
+=======
+    header("Location: " . RAIZ_APP . "/index.php");
+>>>>>>> angela
     exit;
 }
 
@@ -11,7 +15,11 @@ $sa = new ProductoSA($db_connection);
 $productos = $sa->getGestionAdmin();
 
 $tituloPagina = "Gestión de Productos - Bistro FDI";
+<<<<<<< HEAD
 $css = []; 
+=======
+$css = [];
+>>>>>>> angela
 $header = "../comun/header.php";
 $claseMain = "contenedor-centro";
 
@@ -23,11 +31,19 @@ foreach($productos as $p) {
     $desc = htmlspecialchars($p->getDescripcion());
     $precio = number_format($p->getPrecioFinal(), 2);
     $id = $p->getId();
+<<<<<<< HEAD
     
     $badgeStock = $p->getDisponible() 
         ? '<span class="badge badge-success">Disponible</span>' 
         : '<span class="badge badge-danger">Sin Stock</span>';
         
+=======
+
+    $badgeStock = $p->getDisponible()
+        ? '<span class="badge badge-success">Disponible</span>'
+        : '<span class="badge badge-danger">Sin Stock</span>';
+
+>>>>>>> angela
     $estado = $p->getOfertado() ? 'En Carta' : 'Retirado';
 
     // NUEVO CAMPO: Comprobamos si el producto es cocinable para ponerle un icono
@@ -53,7 +69,11 @@ EOF;
 $contenidoPrincipal = <<<EOF
     <h1>Gestión de Productos</h1>
     <a href="apoyo/productos_crear.php" class="boton-nuevo">Nuevo Producto</a>
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> angela
     <div class="contenedor-tabla-scroll">
         <table class="tabla-gestion-productos">
             <thead>

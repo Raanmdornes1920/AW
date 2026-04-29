@@ -8,17 +8,27 @@ class ProductoDAO {
     }
 
     public function listarTodos() {
+<<<<<<< HEAD
         $sql = "SELECT p.*, c.nombre as cat_nombre, 
                 (SELECT ruta_imagen FROM productos_imagenes WHERE id_producto = p.id LIMIT 1) as ruta_imagen 
                 FROM productos p 
                 LEFT JOIN categorias c ON p.id_categoria = c.id 
                 ORDER BY p.nombre ASC";
                 
+=======
+        $sql = "SELECT p.*, c.nombre as cat_nombre,
+                (SELECT ruta_imagen FROM productos_imagenes WHERE id_producto = p.id LIMIT 1) as ruta_imagen
+                FROM productos p
+                LEFT JOIN categorias c ON p.id_categoria = c.id
+                ORDER BY p.nombre ASC";
+
+>>>>>>> angela
         $res = mysqli_query($this->db, $sql);
         $productos = [];
         while ($row = mysqli_fetch_assoc($res)) {
             $imagen = !empty($row['ruta_imagen']) ? $row['ruta_imagen'] : 'default.png';
             $cocinable = isset($row['cocinable']) ? $row['cocinable'] : 1;
+<<<<<<< HEAD
             
             $productos[] = new Producto(
                 $row['id'], $row['id_categoria'], $row['nombre'], $row['descripcion'], 
@@ -27,6 +37,16 @@ class ProductoDAO {
             );
         }
         mysqli_free_result($res); 
+=======
+
+            $productos[] = new Producto(
+                $row['id'], $row['id_categoria'], $row['nombre'], $row['descripcion'],
+                $row['precio_base'], $row['iva'], $row['disponible'], $row['ofertado'],
+                $cocinable, $row['cat_nombre'], [$imagen]
+            );
+        }
+        mysqli_free_result($res);
+>>>>>>> angela
         return $productos;
     }
 
@@ -36,7 +56,11 @@ class ProductoDAO {
         mysqli_stmt_bind_param($stmt, "i", $id);
         mysqli_stmt_execute($stmt);
         $res = mysqli_stmt_get_result($stmt);
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> angela
         if ($row = mysqli_fetch_assoc($res)) {
             // Buscamos todas las imágenes de este producto
             $imgSql = "SELECT ruta_imagen FROM productos_imagenes WHERE id_producto = ? ORDER BY orden";
@@ -48,13 +72,22 @@ class ProductoDAO {
             while($imgRow = mysqli_fetch_assoc($imgRes)) {
                 $imagenes[] = $imgRow['ruta_imagen'];
             }
+<<<<<<< HEAD
             
+=======
+
+>>>>>>> angela
             if (empty($imagenes)) { $imagenes = ['default.png']; }
 
             $cocinable = isset($row['cocinable']) ? $row['cocinable'] : 1;
 
+<<<<<<< HEAD
             return new Producto($row['id'], $row['id_categoria'], $row['nombre'], $row['descripcion'], 
                                 $row['precio_base'], $row['iva'], $row['disponible'], $row['ofertado'], 
+=======
+            return new Producto($row['id'], $row['id_categoria'], $row['nombre'], $row['descripcion'],
+                                $row['precio_base'], $row['iva'], $row['disponible'], $row['ofertado'],
+>>>>>>> angela
                                 $cocinable, $row['cat_nombre'], $imagenes);
         }
         return null;
@@ -65,6 +98,7 @@ class ProductoDAO {
             // UPDATE
             $sql = "UPDATE productos SET id_categoria=?, nombre=?, descripcion=?, precio_base=?, iva=?, disponible=?, ofertado=?, cocinable=? WHERE id=?";
             $stmt = mysqli_prepare($this->db, $sql);
+<<<<<<< HEAD
             
             $id_cat = $p->getIdCategoria(); 
             $nom = $p->getNombre(); 
@@ -76,6 +110,19 @@ class ProductoDAO {
             $cocinable = $p->getCocinable(); 
             $id = $p->getId();
             
+=======
+
+            $id_cat = $p->getIdCategoria();
+            $nom = $p->getNombre();
+            $desc = $p->getDescripcion();
+            $pb = $p->getPrecioBase();
+            $iva = $p->getIva();
+            $disp = $p->getDisponible();
+            $ofert = $p->getOfertado();
+            $cocinable = $p->getCocinable();
+            $id = $p->getId();
+
+>>>>>>> angela
             mysqli_stmt_bind_param($stmt, "issidiiii", $id_cat, $nom, $desc, $pb, $iva, $disp, $ofert, $cocinable, $id);
             $result = mysqli_stmt_execute($stmt);
             $id_producto = $id;
@@ -83,6 +130,7 @@ class ProductoDAO {
             // INSERT
             $sql = "INSERT INTO productos (id_categoria, nombre, descripcion, precio_base, iva, disponible, ofertado, cocinable) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt = mysqli_prepare($this->db, $sql);
+<<<<<<< HEAD
             
             $id_cat = $p->getIdCategoria(); 
             $nom = $p->getNombre(); 
@@ -93,15 +141,35 @@ class ProductoDAO {
             $ofert = $p->getOfertado(); 
             $cocinable = $p->getCocinable();
             
+=======
+
+            $id_cat = $p->getIdCategoria();
+            $nom = $p->getNombre();
+            $desc = $p->getDescripcion();
+            $pb = $p->getPrecioBase();
+            $iva = $p->getIva();
+            $disp = $p->getDisponible();
+            $ofert = $p->getOfertado();
+            $cocinable = $p->getCocinable();
+
+>>>>>>> angela
             mysqli_stmt_bind_param($stmt, "issidiii", $id_cat, $nom, $desc, $pb, $iva, $disp, $ofert, $cocinable);
             $result = mysqli_stmt_execute($stmt);
             $id_producto = mysqli_insert_id($this->db);
         }
+<<<<<<< HEAD
     
         // GESTIÓN DE IMÁGENES:
         // Si el resultado de la consulta principal fue bien y el objeto trae imágenes
         if ($result && is_array($p->getImagenesArray())) {
             
+=======
+
+        // GESTIÓN DE IMÁGENES:
+        // Si el resultado de la consulta principal fue bien y el objeto trae imágenes
+        if ($result && is_array($p->getImagenesArray())) {
+
+>>>>>>> angela
             // 1. Borramos las asociaciones antiguas para este producto (limpieza)
             // Solo lo hacemos si el array de imágenes no está vacío para no dejar el producto sin foto por error
             if (!empty($p->getImagenesArray())) {

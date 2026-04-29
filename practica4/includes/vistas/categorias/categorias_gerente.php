@@ -7,7 +7,11 @@ if (!isset($_SESSION['login']) || $_SESSION['usuario']->rol() !== 'gerente') {
 }
 
 $sa = new CategoriaSA($db_connection);
+<<<<<<< HEAD
 $categorias = $sa->obtenerTodas(); 
+=======
+$categorias = $sa->obtenerTodas();
+>>>>>>> angela
 
 $tituloPagina = "Gestión de Categorías - Bistro FDI";
 $css = [RAIZ_APP . "/css/default.css"];
@@ -37,7 +41,11 @@ EOF;
 $contenidoPrincipal = <<<EOF
     <h1>Gestión de Categorías</h1>
     <a href="apoyo/categoria_crear.php" class="boton-nuevo">Nueva Categoría</a>
+<<<<<<< HEAD
    
+=======
+
+>>>>>>> angela
     <div class="contenedor-tabla-scroll">
         <table class="tabla-gestion-categorias">
             <thead>

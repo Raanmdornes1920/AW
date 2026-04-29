@@ -14,7 +14,11 @@ if (!$producto) {
 
 $tituloPagina = $producto->getNombre();
 $css = [];
+<<<<<<< HEAD
 $js = []; 
+=======
+$js = [];
+>>>>>>> angela
 $header = __DIR__ . "/../comun/header.php";
 $claseMain = "contenedor-centro";
 
@@ -42,7 +46,11 @@ $contenidoPrincipal = <<<EOF
         <h1>{$producto->getNombre()}</h1>
         <p class="descripcion">{$producto->getDescripcion()}</p>
         <p class="precio-detalle">{$producto->getPrecioFinal()} €</p>
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> angela
         <div class="controles-pedido">
             <div class="selector-cantidad">
                 <button type="button" onclick="modificarCantidad(-1)">-</button>

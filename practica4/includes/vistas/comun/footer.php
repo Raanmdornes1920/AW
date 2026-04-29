@@ -4,7 +4,11 @@
             <img src="<?= RUTA_IMG ?>/logo1.svg" alt="Logo" class="footer-logo">
             <p>&copy; <?= date('Y') ?> BistroFDI</p>
         </div>
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> angela
         <div class="footer-seccion">
             <h4>Enlaces Rápidos</h4>
             <ul class="footer-seccion-contenido">

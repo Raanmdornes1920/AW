@@ -20,15 +20,23 @@ class FormularioCrearUsuario extends formularioBase {
         $htmlErroresGlobales = self::generaListaErroresGlobales($this->errores);
         $erroresCampos = self::generaErroresCampos(['nombre', 'apellidos', 'mail', 'usuario', 'password', 'password_confirm'], $this->errores);
 
+<<<<<<< HEAD
         
         $ruta_avatares = IMAGENES_BASE;
         ob_start();
         include __DIR__ . "/../../comun/selector_imagenes.php"; 
+=======
+
+        $ruta_avatares = IMAGENES_BASE;
+        ob_start();
+        include __DIR__ . "/../../comun/selector_imagenes.php";
+>>>>>>> angela
         $htmlSelectorImagenes = ob_get_clean();
 
         foreach ($erroresCampos as $key => $value) {
             $erroresCampos[$key] = $value . '<br>';
         }
+<<<<<<< HEAD
         
         $ruta_volver = htmlspecialchars(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : RAIZ_APP . "/");
         $ruta_volver2 = htmlspecialchars(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : RUTA_VISTAS . '/ajustes_admin.php');
@@ -36,6 +44,15 @@ class FormularioCrearUsuario extends formularioBase {
         $html = <<<EOF
         {$htmlErroresGlobales}
         
+=======
+
+        $ruta_volver = htmlspecialchars(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : RAIZ_APP . "/");
+        $ruta_volver2 = htmlspecialchars(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : RUTA_VISTAS . '/ajustes_admin.php');
+
+        $html = <<<EOF
+        {$htmlErroresGlobales}
+
+>>>>>>> angela
         <label>Nombre:</label>
         <br>
         <input type="text" name="nombre" required>
@@ -47,7 +64,11 @@ class FormularioCrearUsuario extends formularioBase {
         <input type="text" name="apellidos" required>
         <br>
         {$erroresCampos['apellidos']}
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> angela
         <label>Correo Electrónico:</label>
         <br>
         <input type="email" name="mail" required>
@@ -77,7 +98,11 @@ class FormularioCrearUsuario extends formularioBase {
 
         <input type="hidden" name="modo-admin" value="Verdadero">
         <input type="hidden" name="volver" value="{$ruta_volver}">
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> angela
         <div class="contenedor-botones">
             <button type="submit" id="boton_aceptar">Crear Usuario</button>
             <button onclick="window.location.href='{$ruta_volver2}'" type="button" id="boton_cancelar">Volver</button>
@@ -90,7 +115,11 @@ class FormularioCrearUsuario extends formularioBase {
     protected function procesaFormulario(&$datos) {
         $this->errores = [];
         global $SA;
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> angela
         $nombrePost = ($datos['nombre'] ?? '');
         $apellidosPost = ($datos['apellidos'] ?? '');
         $mailPost = trim($datos['mail'] ?? '');
@@ -104,6 +133,7 @@ class FormularioCrearUsuario extends formularioBase {
 
         try {
             if ($SA->validarUserMail($userPost, $mailPost)) {
+<<<<<<< HEAD
             
                 if (isset($datos['avatar']) && $datos['avatar'] === 'custom' && isset($_FILES['avatar-custom']) && $_FILES['avatar-custom']['error'] === UPLOAD_ERR_OK) {
                     
@@ -122,6 +152,26 @@ class FormularioCrearUsuario extends formularioBase {
                 }
                 else{
                     
+=======
+
+                if (isset($datos['avatar']) && $datos['avatar'] === 'custom' && isset($_FILES['avatar-custom']) && $_FILES['avatar-custom']['error'] === UPLOAD_ERR_OK) {
+
+                    $fileTmpPath = $_FILES['avatar-custom']['tmp_name'];
+                    $fileName = $_FILES['avatar-custom']['name'];
+
+                    $fileNameClean = time() . "_" . preg_replace("/[^a-zA-Z0-9.]/", "_", $fileName);
+
+                    $dest_path = DIR_RAIZ . "/img/perfiles/" . $fileNameClean;
+
+                    if(move_uploaded_file($fileTmpPath, $dest_path)) {
+
+                        $nombreImagen = $fileNameClean;
+                        chmod($dest_path, 0666);
+                    }
+                }
+                else{
+
+>>>>>>> angela
                     $nombreImagen = $datos['avatar'];
                     $dest_path = "../img/perfiles/" . $nombreImagen;
                 }
@@ -136,23 +186,39 @@ class FormularioCrearUsuario extends formularioBase {
                     'rol' => $rolPost,
                     'avatar' => $nombreImagen
                 ];
+<<<<<<< HEAD
                 
+=======
+
+>>>>>>> angela
                 if ($SA->crearUsuario($datosUsuario)) {
                     if (session_status() === PHP_SESSION_NONE) {
                         session_start();
                     }
+<<<<<<< HEAD
                     
+=======
+
+>>>>>>> angela
                     if(isset($datos['modo-admin']) && $datos['modo-admin'] === "Verdadero"){
                         $_SESSION['cambio'] = "Crear Usuario";
                         $_SESSION['error_editar_perfil'] = "Ninguno";
                     }
+<<<<<<< HEAD
                     else{                        
+=======
+                    else{
+>>>>>>> angela
                         $_SESSION['login'] = true;
                         $_SESSION['usuario'] = $SA->buscaUsuario($userPost);
                     }
                     header("Location: " . (isset($datos['volver']) ? $datos['volver'] : RAIZ_APP . "/"));
                     exit();
+<<<<<<< HEAD
                     
+=======
+
+>>>>>>> angela
                 }
             }
             // No hay else, porque la función validarUserMail devuelve true, o lanza una excepción si el usuario o el mail ya existen.
@@ -166,7 +232,11 @@ class FormularioCrearUsuario extends formularioBase {
             else{
                 $this->errores['usuario'] = 'Usuaro ya ocupado';
             }
+<<<<<<< HEAD
             
+=======
+
+>>>>>>> angela
         } catch (MailOcupadoException $e2) {
 
             if(isset($datos['modo-admin']) && $datos['modo-admin'] === "Verdadero"){

@@ -14,8 +14,13 @@ if ($es_local) {
 } else {
     define('RAIZ_APP', '');
     define('DIR_RAIZ', dirname(__DIR__));
+<<<<<<< HEAD
     
     $host = "vm016.db.swarm.test"; 
+=======
+
+    $host = "vm016.db.swarm.test";
+>>>>>>> angela
     $pass = "d5J40AQKX1qVwwSGwr05";
 }
 

@@ -29,9 +29,15 @@ $botonBorrar = !$errorMsg ? '<button type="submit" class="boton-peligro">Sí, el
 $contenidoPrincipal = <<<EOF
     <div class="alerta-borrado">
         <h2>Confirmar eliminación</h2>
+<<<<<<< HEAD
         
         $htmlError
         
+=======
+
+        $htmlError
+
+>>>>>>> angela
         <div class="botones-confirmacion">
             <form action="procesar_categoria.php" method="POST" style="background:none; box-shadow:none; padding:0; width:auto; display:inline;">
                 <input type="hidden" name="id" value="{$cat->getId()}">

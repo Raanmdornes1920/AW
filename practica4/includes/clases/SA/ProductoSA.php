@@ -6,7 +6,11 @@ class ProductoSA {
 
     public function __construct($db_connection) {
         $this->db = $db_connection;
+<<<<<<< HEAD
         $this->dao = new ProductoDAO($db_connection); 
+=======
+        $this->dao = new ProductoDAO($db_connection);
+>>>>>>> angela
     }
 
     public function getCatalogoCliente() {
@@ -47,6 +51,7 @@ class ProductoSA {
     public function guardarProducto($datos) {
         $id = (isset($datos['id']) && !empty($datos['id'])) ? $datos['id'] : null;
         $esNuevo = ($id === null);
+<<<<<<< HEAD
     
         $imagenesParaObjeto = [];
     
@@ -54,10 +59,20 @@ class ProductoSA {
         if (isset($datos['imagenes']) && is_array($datos['imagenes']) && !empty($datos['imagenes'])) {
             $imagenesParaObjeto = $datos['imagenes']; 
         } 
+=======
+
+        $imagenesParaObjeto = [];
+
+        // Si vienen imágenes nuevas (subidas en el formulario)
+        if (isset($datos['imagenes']) && is_array($datos['imagenes']) && !empty($datos['imagenes'])) {
+            $imagenesParaObjeto = $datos['imagenes'];
+        }
+>>>>>>> angela
         // Si no vienen nuevas pero es una edición, rescatamos las que ya tiene en BD
         elseif (!$esNuevo) {
             $productoExistente = $this->dao->obtenerPorId($id);
             if ($productoExistente) {
+<<<<<<< HEAD
                 $imagenesParaObjeto = $productoExistente->getImagenesArray(); 
             }
         }
@@ -80,6 +95,30 @@ class ProductoSA {
             $imagenesParaObjeto      
         );
     
+=======
+                $imagenesParaObjeto = $productoExistente->getImagenesArray();
+            }
+        }
+
+        $disponible = isset($datos['disponible']) ? (int)$datos['disponible'] : ($esNuevo ? 1 : 0);
+        $ofertado = isset($datos['ofertado']) ? (int)$datos['ofertado'] : ($esNuevo ? 1 : 0);
+        $cocinable = isset($datos['cocinable']) ? (int)$datos['cocinable'] : 1;
+
+        $p = new Producto(
+            $id,
+            $datos['id_categoria'],
+            trim($datos['nombre']),
+            trim($datos['descripcion']),
+            $datos['precio_base'],
+            $datos['iva'],
+            $disponible,
+            $ofertado,
+            $cocinable,
+            '',
+            $imagenesParaObjeto
+        );
+
+>>>>>>> angela
         return $this->dao->guardar($p);
     }
 
@@ -87,6 +126,7 @@ class ProductoSA {
         $p = $this->dao->obtenerPorId($id);
         if ($p) {
             $nuevoOfertado = $p->getOfertado() ? 0 : 1;
+<<<<<<< HEAD
             
             // IMPORTANTE: Al reconstruir el objeto, debemos pasarle el array de imágenes
             // que ya tiene, de lo contrario el DAO pensará que las hemos borrado todas.
@@ -101,6 +141,22 @@ class ProductoSA {
                 $nuevoOfertado,
                 $p->getCocinable(), // Pasamos cocinable
                 $p->getNombreCategoria(), 
+=======
+
+            // IMPORTANTE: Al reconstruir el objeto, debemos pasarle el array de imágenes
+            // que ya tiene, de lo contrario el DAO pensará que las hemos borrado todas.
+            $pActualizado = new Producto(
+                $p->getId(),
+                $p->getIdCategoria(),
+                $p->getNombre(),
+                $p->getDescripcion(),
+                $p->getPrecioBase(),
+                $p->getIva(),
+                $p->getDisponible(),
+                $nuevoOfertado,
+                $p->getCocinable(), // Pasamos cocinable
+                $p->getNombreCategoria(),
+>>>>>>> angela
                 $p->getImagenesArray() // Pasamos el array completo de imágenes
             );
             return $this->dao->guardar($pActualizado);

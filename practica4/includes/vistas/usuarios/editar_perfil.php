@@ -22,7 +22,11 @@ ob_start(); ?>
             <div class="capa-editar">
                 <a onclick="abrirModalAvatar()"><img src="<?php echo RUTA_IMG; ?>/iconos/lapiz_blanco.png" class="icono-lapiz-img" alt="Editar"></a>
             </div>
+<<<<<<< HEAD
             
+=======
+
+>>>>>>> angela
         </figure>
         <h2 id="nombre-usuario"><?php echo $_SESSION['usuario']->usuario(); ?></h2>
         <img onclick="abrirModal('Usuario', '<?php echo base64_encode($_SESSION['usuario']->usuario()); ?>')"src="<?php echo RUTA_IMG; ?>/iconos/lapiz.png" id="boton-editar-usuario" alt="Editar">
@@ -54,7 +58,11 @@ ob_start(); ?>
         </div>
     </article>
 </div>
+<<<<<<< HEAD
 <?php 
+=======
+<?php
+>>>>>>> angela
 $contenidoPrincipal = ob_get_clean();
 ob_start(); ?>
 
@@ -63,7 +71,11 @@ ob_start(); ?>
         <span class="cerrar-modal-avatar">&times;</span>
         <h3>Editar Avatar</h3>
         <form action="apoyo/editar_avatar.php" id="formEditar" method="POST" enctype="multipart/form-data">
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> angela
             <div class="seleccion-avatares">
                 <?php if($_SESSION['usuario']->rol() === 'cliente'){
                         foreach (AVATARES_INICIALES as $indice => $archivo): ?>
@@ -110,7 +122,11 @@ ob_start(); ?>
                 <br>
                 <br>
             </div>
+<<<<<<< HEAD
             
+=======
+
+>>>>>>> angela
             <button type="submit" class="boton-guardar">Guardar cambios</button>
         </form>
     </div>
@@ -144,7 +160,11 @@ ob_start(); ?>
     </div>
 </div>
 <!-- Contenido -->
+<<<<<<< HEAD
 <?php 
+=======
+<?php
+>>>>>>> angela
 
 if (isset($_SESSION['error_editar_perfil']) && $_SESSION['error_editar_perfil'] !== "Ninguno"){
     echo '<div id="modalError" class="modal">';

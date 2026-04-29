@@ -34,6 +34,7 @@ window.onload = function(){
 
     // Cerrar si el usuario hace clic fuera de la ventana blanca
     window.addEventListener('click', function(event) {
+<<<<<<< HEAD
         
         const esZonaSegura = event.target.closest('.modal-contenido') || 
                             event.target.closest('.perfil-container-edit-admin');
@@ -42,6 +43,16 @@ window.onload = function(){
             return; 
         }
         
+=======
+
+        const esZonaSegura = event.target.closest('.modal-contenido') ||
+                            event.target.closest('.perfil-container-edit-admin');
+
+        if (esZonaSegura) {
+            return;
+        }
+
+>>>>>>> angela
         // Cerrar modales
         if (event.target == modalEditarAvatar) {
             document.getElementById("avatar-nuevo").value = "";
@@ -87,7 +98,11 @@ window.onload = function(){
             modalEditarUsuario.style.display = "none";
         }
         if (event.target == modalEliminarusuario) {
+<<<<<<< HEAD
             document.getElementById("span-nombre-usuario").innerText = null; 
+=======
+            document.getElementById("span-nombre-usuario").innerText = null;
+>>>>>>> angela
             document.getElementById("input-id-eliminar").value = null;
             modalEliminarusuario.style.display = "none";
         }
@@ -112,7 +127,11 @@ window.onload = function(){
     }
     else if(modalEliminarusuario){
         document.querySelector(".cerrar-modal-del").addEventListener('click', function() {
+<<<<<<< HEAD
             document.getElementById("span-nombre-usuario").innerText = null; 
+=======
+            document.getElementById("span-nombre-usuario").innerText = null;
+>>>>>>> angela
             document.getElementById("input-id-eliminar").value = null;
             modalEliminarusuario.style.display = "none";
         });
@@ -162,15 +181,25 @@ function abrirModal(nombreCampo, valorBase64) {
     spanCampo.innerText = nombreCampo; // Cambia el título dinámicamente
     document.getElementById("label-nuevo-valor").innerText = nombreCampo + ": ";
     document.getElementById("campo-editar").value = nombreCampo;
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> angela
     if(nombreCampo == "Usuario"){
         document.getElementById("campo-editar").autocomplete = "username";
     }
 
     // Decodificar valorBase64 y para no romper con caracteres especiales
+<<<<<<< HEAD
     document.getElementById("nuevo-valor").value = decodeURIComponent(window.atob(valorBase64)); 
     modal.style.display = "block";
     
+=======
+    document.getElementById("nuevo-valor").value = decodeURIComponent(window.atob(valorBase64));
+    modal.style.display = "block";
+
+>>>>>>> angela
 }
 
 function abrirModalPassword() {
@@ -179,7 +208,11 @@ function abrirModalPassword() {
 
 function abrirModalEditarUsuario(id, usuario){
     id_a_editar = id;
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> angela
     inputsId.forEach(input => {
         input.value = id;
     });
@@ -201,6 +234,7 @@ function abrirModalAdmin(nombreCampo) {
     spanCampo.innerText = nombreCampo; // Cambia el título dinámicamente
     document.getElementById("label-nuevo-valor").innerText = nombreCampo + ": ";
     document.getElementById("campo-editar").value = nombreCampo;
+<<<<<<< HEAD
     
     switch(nombreCampo){
         case "Usuario":
@@ -225,6 +259,32 @@ function abrirModalAdmin(nombreCampo) {
 }
 function abrirModalAdminRol() {
     
+=======
+
+    switch(nombreCampo){
+        case "Usuario":
+            document.getElementById("campo-editar").autocomplete = "username";
+            document.getElementById("nuevo-valor").value = diccionario_usuarios[id_a_editar]['nombre_usuario'];
+            break;
+        case "Nombre":
+            document.getElementById("nuevo-valor").value = diccionario_usuarios[id_a_editar]['nombre'];
+            break;
+        case "Apellidos":
+            document.getElementById("nuevo-valor").value = diccionario_usuarios[id_a_editar]['apellidos'];
+            break;
+        case "Email":
+            document.getElementById("nuevo-valor").value = diccionario_usuarios[id_a_editar]['email'];
+            break;
+        case "Rol":
+            document.getElementById("nuevo-valor").value = diccionario_usuarios[id_a_editar]['rol'];
+            break;
+    }
+
+    modalAdmin.style.display = "block";
+}
+function abrirModalAdminRol() {
+
+>>>>>>> angela
     if (document.activeElement) { // Desbuguear el elemento con focus
         document.activeElement.blur();
     }
@@ -232,17 +292,27 @@ function abrirModalAdminRol() {
 
     document.getElementById('select-rol-usuario').value = diccionario_usuarios[id_a_editar]['rol'];
     modalAdminEditarRol.style.display = "block";
+<<<<<<< HEAD
     
     
     select.blur(); // Des seleccionar el desplegable
 }
 function abrirModalAdminPassword() {
     
+=======
+
+
+    select.blur(); // Des seleccionar el desplegable
+}
+function abrirModalAdminPassword() {
+
+>>>>>>> angela
     document.getElementById('usuario-reset-contrasena').innerText = diccionario_usuarios[id_a_editar]['nombre_usuario'];
     modalAdminPassword.style.display = "block";
 }
 
 function CerrarEliminarUsuario(){
+<<<<<<< HEAD
     document.getElementById("span-nombre-usuario").innerText = null; 
     document.getElementById("input-id-eliminar").value = null;
     document.getElementById("modalAdminEliminarusuario").style.display = "none"; 
@@ -250,6 +320,15 @@ function CerrarEliminarUsuario(){
 
 function abrirConfirmacionDelete(id, usuario, usuarioLogueado){
     document.getElementById("span-nombre-usuario").innerText = usuario; 
+=======
+    document.getElementById("span-nombre-usuario").innerText = null;
+    document.getElementById("input-id-eliminar").value = null;
+    document.getElementById("modalAdminEliminarusuario").style.display = "none";
+}
+
+function abrirConfirmacionDelete(id, usuario, usuarioLogueado){
+    document.getElementById("span-nombre-usuario").innerText = usuario;
+>>>>>>> angela
     document.getElementById("input-id-eliminar").value = id;
 
     if(usuarioLogueado == usuario){
@@ -261,4 +340,7 @@ function abrirConfirmacionDelete(id, usuario, usuarioLogueado){
 
     document.getElementById("modalAdminEliminarusuario").style.display = "block";
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> angela

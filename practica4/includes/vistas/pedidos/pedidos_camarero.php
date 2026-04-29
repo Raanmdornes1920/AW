@@ -14,7 +14,11 @@ $pedidos = $pedidoSA->obtenerPedidosCamarero();
 $tituloPagina = "Panel de Camarero";
 $css = [RAIZ_APP . "/css/default.css"];
 $header = "../comun/header.php";
+<<<<<<< HEAD
 $claseMain = "contenedor-centro";
+=======
+$claseMain = "contenedor-fullwidth";
+>>>>>>> angela
 $js = [(RAIZ_APP . "/js/pedidos.js"), (RAIZ_APP . "/js/script.js")];
 
 // Variables para separar en dos vistas/tablas distintas
@@ -32,6 +36,10 @@ foreach ($pedidos as $p) {
     if ($estado === 'recibido') {
         // TABLA 1: COBROS PENDIENTES
         $botonAccion = "
+<<<<<<< HEAD
+=======
+            <a href='pedido_detalle.php?id={$id}' class='boton-editar' style='display:block; text-align:center; margin-bottom:8px;'>Ver detalle</a>
+>>>>>>> angela
             <form action='apoyo/procesar_estado_pedido.php' method='POST'>
                 <input type='hidden' name='id_pedido' value='$id'>
                 <input type='hidden' name='nuevo_estado' value='en_preparacion'>
@@ -46,6 +54,7 @@ foreach ($pedidos as $p) {
             <td data-label='Acción'>$botonAccion</td>
         </tr>";
     } elseif ($estado === 'listo_cocina' || $estado === 'terminado') {
+<<<<<<< HEAD
         // TABLA 2: PREPARAR BANDEJA Y ENTREGAR
         
         // Obtenemos las líneas para verificar si el camarero tiene que añadir bebidas
@@ -101,11 +110,18 @@ foreach ($pedidos as $p) {
                     <button type='submit' class='boton-nuevo' style='width: 100%;'>Entregar Cliente</button>
                 </form>";
         }
+=======
+        // TABLA 2: la bandeja se gestiona en la vista separada de detalle.
+        $botonAccion = "<a href='pedido_detalle.php?id={$id}' class='boton-nuevo' style='display:block; text-align:center;'>Gestionar detalle</a>";
+>>>>>>> angela
 
         $htmlPreparacion .= "<tr>
             <td data-label='Nº Pedido' style='vertical-align: top;'><strong style='font-size: 1.2em;'>#$num</strong></td>
             <td data-label='Estado/Tipo' style='vertical-align: top;'>$tipo<br><br><span class='badge'>$estadoVisual</span></td>
+<<<<<<< HEAD
             <td data-label='Detalles' style='vertical-align: top;'>$listaProductos</td>
+=======
+>>>>>>> angela
             <td data-label='Acción' style='vertical-align: middle;'>$botonAccion</td>
         </tr>";
     }
@@ -120,7 +136,11 @@ $tablaCobrosFinal = empty($htmlCobros) ? "<p style='text-align:center; padding:2
 
 $tablaPreparacionFinal = empty($htmlPreparacion) ? "<p style='text-align:center; padding:20px;'>No hay pedidos pendientes de entrega.</p>" : "
     <table class='tabla-gestion'>
+<<<<<<< HEAD
         <thead><tr><th>Nº Pedido</th><th>Tipo/Estado</th><th>Detalles del Pedido (Bebidas, etc.)</th><th>Acción</th></tr></thead>
+=======
+        <thead><tr><th>Nº Pedido</th><th>Tipo/Estado</th><th>Acción</th></tr></thead>
+>>>>>>> angela
         <tbody>$htmlPreparacion</tbody>
     </table>";
 
@@ -136,4 +156,8 @@ $contenidoPrincipal = <<<EOF
 EOF;
 
 require("../comun/plantilla.php");
+<<<<<<< HEAD
 ?>
+=======
+?>
+>>>>>>> angela

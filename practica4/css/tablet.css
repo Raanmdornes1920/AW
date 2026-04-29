@@ -295,6 +295,23 @@ td {
     width: 100%;
 }
 
+<<<<<<< HEAD
+=======
+.contenedor-fullwidth {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 20px;
+    box-sizing: border-box;
+    width: 98%;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+>>>>>>> angela
 .contenedor-centro-index {
     flex-grow: 1;
     /*Para que ocupe todo el espacio vacio*/
@@ -847,11 +864,14 @@ td {
     color: #ff8e8e;
 }
 
+<<<<<<< HEAD
 .form-field-error{
     display: none;
     color: red;
 }
 
+=======
+>>>>>>> angela
 /*----- MODALES -----*/
 /*----- NAVBAR -----*/
 .navegacion {
@@ -1904,4 +1924,546 @@ td {
 /* Ocultar elementos exclusivos de móvil */
 .logo-movil {
     display: none;
+<<<<<<< HEAD
 }
+=======
+}
+
+/*--------------------------------------- FUNCIONALIDAD 4 CLIENTE ---------------------------------------*/
+.contenedor-cliente {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    padding: 46px 20px 10px;
+    box-sizing: border-box;
+}
+
+.pagina-cliente {
+    width: min(940px, 100%);
+    margin: 0 auto;
+}
+
+.cabecera-pagina {
+    text-align: center;
+    margin: 0 auto 24px;
+}
+
+.cabecera-pagina h1 {
+    margin: 0 0 8px;
+}
+
+.cabecera-pagina p,
+.cabecera-panel p,
+.descripcion-oferta {
+    color: #555;
+    font-family: Arial, sans-serif;
+    line-height: 1.45;
+}
+
+.panel-cliente {
+    width: 100%;
+    margin: 0 auto 22px;
+    padding: 22px;
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    box-sizing: border-box;
+}
+
+form.panel-cliente,
+.formulario-checkout,
+.form-accion-oferta,
+.form-cantidad {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    width: auto;
+    text-align: inherit;
+    box-sizing: border-box;
+}
+
+.mensaje {
+    width: 100%;
+    padding: 14px 16px;
+    margin: 0 0 18px;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+.mensaje-error {
+    background: #fff4e5;
+    border: 1px solid #ffd29a;
+    color: #8a4a00;
+}
+
+.mensaje-exito {
+    background: #edf7ed;
+    border: 1px solid #bddfbd;
+    color: #245c24;
+}
+
+.mensaje-info {
+    background: #f4f4f4;
+    border: 1px solid #d9d9d9;
+    color: #333;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: #eeeeee;
+    color: #333;
+    font-family: Arial, sans-serif;
+    font-size: 0.86rem;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.badge-success {
+    background: #e7f4df;
+    color: #2d641b;
+}
+
+.badge-danger {
+    background: #fde8e8;
+    color: #9b1c1c;
+}
+
+.rejilla-ofertas {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.tarjeta-oferta {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 100%;
+    padding: 18px;
+    background: #ffffff;
+    border: 1px solid #d8d8d8;
+    border-left: 6px solid #9a9a9a;
+    border-radius: 8px;
+    box-shadow: 0 5px 14px rgba(0, 0, 0, 0.08);
+    box-sizing: border-box;
+}
+
+.tarjeta-oferta-disponible,
+.tarjeta-oferta-aplicada {
+    border-left-color: #4f8a2f;
+}
+
+.tarjeta-oferta-pendiente {
+    border-left-color: #8a8a8a;
+}
+
+.cabecera-tarjeta-oferta,
+.cabecera-panel {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+}
+
+.cabecera-tarjeta-oferta h2,
+.cabecera-panel h1 {
+    margin: 0;
+}
+
+.descripcion-oferta {
+    margin: 0;
+}
+
+.lista-pack,
+.lista-ofertas-aplicadas {
+    margin: 0;
+    padding-left: 18px;
+    font-family: Arial, sans-serif;
+    line-height: 1.5;
+}
+
+.lista-ofertas-aplicadas {
+    list-style: none;
+    padding-left: 0;
+}
+
+.lista-ofertas-aplicadas li {
+    padding: 8px 0;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.lista-ofertas-aplicadas li:last-child {
+    border-bottom: 0;
+}
+
+.resumen-oferta,
+.resumen-pedido {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    padding: 14px;
+    background: #f6f6f6;
+    border: 1px solid #e4e4e4;
+    border-radius: 8px;
+}
+
+.resumen-oferta {
+    margin-top: auto;
+}
+
+.dato-oferta,
+.resumen-pedido p {
+    margin: 0;
+}
+
+.dato-oferta small {
+    color: #666;
+    font-family: Arial, sans-serif;
+}
+
+.texto-tachado {
+    color: #777;
+    text-decoration: line-through;
+}
+
+.texto-descuento,
+.linea-descuento {
+    color: #a93d16;
+}
+
+.texto-total,
+.texto-ahorro,
+.linea-total {
+    color: #2d641b;
+}
+
+.texto-total,
+.linea-total {
+    font-size: 1.18em;
+}
+
+.fecha-oferta {
+    display: block;
+    color: #666;
+    font-family: Arial, sans-serif;
+}
+
+.pagina-cliente .acciones {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.pagina-cliente .acciones a,
+.pagina-cliente .acciones button,
+.pagina-cliente .boton-nuevo,
+.pagina-cliente .boton-editar,
+.pagina-cliente .boton-borrar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    margin: 0;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.acciones-oferta > a,
+.acciones-oferta > form {
+    flex: 1 1 160px;
+}
+
+.acciones-oferta button,
+.acciones-oferta a {
+    width: 100%;
+}
+
+.panel-resumen-ofertas {
+    border-color: #bddfbd;
+    background: #f5fbf2;
+}
+
+.panel-resumen-ofertas h2,
+.panel-carrito-ofertas h2 {
+    margin-top: 0;
+}
+
+.contenedor-tabla-scroll,
+.panel-tabla-carrito {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.resumen-total-carrito {
+    display: grid;
+    gap: 8px;
+    text-align: right;
+    font-family: Arial, sans-serif;
+}
+
+.tabla-detalle {
+    width: 100%;
+    min-width: 680px;
+    border-collapse: collapse;
+    margin: 0;
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: none;
+}
+
+.tabla-detalle th,
+.tabla-detalle td {
+    border: 0;
+    border-bottom: 1px solid #e7e7e7;
+    padding: 12px 10px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.tabla-detalle th {
+    background: #333333;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+}
+
+.tabla-detalle tr:last-child td {
+    border-bottom: 0;
+}
+
+.tabla-ofertas-gerente {
+    min-width: 1000px;
+}
+
+.form-cantidad {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.form-cantidad input[type="number"] {
+    width: 70px;
+    margin: 0;
+    padding: 9px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.form-cantidad .boton-editar {
+    min-height: 36px;
+    padding: 8px 10px;
+}
+
+.formulario-checkout {
+    max-width: 760px;
+    padding: 24px;
+}
+
+.pagina-formulario-oferta {
+    max-width: 880px;
+}
+
+#formCrearOferta,
+#formActualizarOferta {
+    width: 100%;
+    max-width: none;
+    margin: 0 auto;
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+.formulario-oferta {
+    width: 100%;
+}
+
+.formulario-oferta h2 {
+    margin-top: 0;
+    text-align: center;
+}
+
+.separador-formulario {
+    margin: 22px 0;
+    border: 0;
+    border-top: 1px solid #dddddd;
+}
+
+.texto-ayuda-formulario {
+    margin: 0 0 14px;
+    color: #666;
+    font-family: Arial, sans-serif;
+}
+
+.fila-producto-oferta {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 88px 44px;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 12px;
+    background: #f6f6f6;
+    border: 1px solid #e1e1e1;
+    border-radius: 8px;
+}
+
+.select-producto-oferta,
+.cantidad-producto-oferta {
+    width: 100%;
+    margin: 0;
+    padding: 9px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+.cantidad-producto-oferta {
+    text-align: center;
+}
+
+.boton-quitar-producto {
+    min-width: 44px;
+    padding: 9px;
+}
+
+.boton-agregar-producto {
+    margin: 6px 0 0;
+}
+
+.dato-calculo-oferta {
+    margin: 14px 0;
+}
+
+.dato-ahorro-oferta {
+    color: #2d641b;
+}
+
+.formulario-oferta .acciones button[type="submit"] {
+    background-color: rgb(214, 190, 50);
+    color: white;
+}
+
+.formulario-oferta .acciones button[type="submit"]:hover {
+    background-color: rgb(173, 154, 45);
+}
+
+.formulario-checkout h2 {
+    margin: 0 0 12px;
+}
+
+.grupo-opciones,
+.bloque-tarjeta {
+    margin-bottom: 20px;
+    padding: 16px;
+    background: #f6f6f6;
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+}
+
+.grupo-opciones {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.grupo-opciones label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    font-weight: 700;
+}
+
+.grupo-opciones input {
+    width: auto;
+    margin: 0;
+}
+
+.bloque-tarjeta input[type="text"] {
+    margin-bottom: 0;
+}
+
+.estado-vacio {
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+.lista-confirmacion-oferta {
+    max-width: 360px;
+    margin: 12px auto;
+    text-align: left;
+}
+
+.pedido-confirmado {
+    max-width: 720px;
+    text-align: center;
+}
+
+.pedido-confirmado h1 {
+    color: #2d641b;
+    margin-top: 0;
+}
+
+.numero-pedido-confirmado {
+    margin: 14px 0 22px;
+    color: #333;
+    font-size: 3.4rem;
+    font-weight: 700;
+}
+
+.resumen-confirmacion {
+    margin: 0 0 22px;
+    padding: 18px;
+    background: #f6f6f6;
+    border: 1px solid #e4e4e4;
+    border-radius: 8px;
+}
+
+.bloque-descuento {
+    margin: 16px 0 22px;
+    padding: 14px 16px;
+    background: #f5fbf2;
+    border: 1px solid #bddfbd;
+    border-radius: 8px;
+    font-family: Arial, sans-serif;
+}
+
+.bloque-descuento p {
+    margin: 4px 0;
+}
+
+.detalle-pedido h2,
+.detalle-oferta h2 {
+    margin-top: 24px;
+}
+
+/*--------------------------------------- FUNCIONALIDAD 4 CLIENTE ---------------------------------------*/
+>>>>>>> angela
