@@ -17,6 +17,15 @@ $claveSecreta = "sq7HjrUOBfKmC576ILgskD5srU870gJ7"; // LA CLAVE QUE TE DIERON
 $orderId = "BI" . time(); // Debe ser único (máx 12 caracteres)
 
 // 4. Crear el array de parámetros
+
+// Detectar si es HTTP o HTTPS
+$protocolo = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https://" : "http://";
+
+// Obtener el dominio (localhost, vm016.containers.fdi.ucm.es, etc.)
+$dominio = $_SERVER['HTTP_HOST'];
+
+$urlActual = $protocolo . $dominio . dirname($_SERVER['PHP_SELF']);
+
 $params = [
     "DS_MERCHANT_AMOUNT" => $amount,
     "DS_MERCHANT_ORDER" => $orderId,
@@ -25,8 +34,8 @@ $params = [
     "DS_MERCHANT_TRANSACTIONTYPE" => $transaccion,
     "DS_MERCHANT_TERMINAL" => $terminal,
     "DS_MERCHANT_MERCHANTURL" => $urlTienda,
-    "DS_MERCHANT_URLOK" => $es_local?"http://localhost/AW/practica4/includes/vistas/pedidos/apoyo/procesar_carrito.php?accion=confirmar&metodo_pago=tarjeta":"https://vm016.containers.fdi.ucm.es/includes/vistas/pagos/ok.php",
-    "DS_MERCHANT_URLKO" => $es_local?"http://localhost/AW/practica4/includes/vistas/pedidos/apoyo/procesar_carrito.php?accion=confirmar&&metodo_pago=tarjeta":"https://vm016.containers.fdi.ucm.es/includes/vistas/pagos/ko.php",
+    "DS_MERCHANT_URLOK" => $urlActual . "/procesar_carrito.php?accion=confirmar&metodo_pago=tarjeta",
+    "DS_MERCHANT_URLKO" => $urlActual . "/procesar_carrito.php?accion=confirmar&metodo_pago=tarjeta",
     "DS_MERCHANT_MERCHANTDATA" => $_POST['tipo_pedido']
 ];
 
