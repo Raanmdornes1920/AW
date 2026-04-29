@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 10-04-2026 a las 15:48:58
--- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
+-- Tiempo de generación: 29-04-2026 a las 17:35:07
+-- Versión del servidor: 10.4.28-MariaDB
+-- Versión de PHP: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -59,6 +59,33 @@ CREATE TABLE `lineas_pedido` (
   `cantidad` int(11) NOT NULL,
   `precio_unitario` decimal(10,2) NOT NULL,
   `preparado` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ofertas`
+--
+
+CREATE TABLE `ofertas` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(255) NOT NULL,
+  `descripcion` text DEFAULT NULL,
+  `fecha_inicio` date NOT NULL,
+  `fecha_fin` date NOT NULL,
+  `descuento_porcentaje` decimal(5,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `oferta_productos`
+--
+
+CREATE TABLE `oferta_productos` (
+  `id_oferta` int(11) NOT NULL,
+  `id_producto` int(11) NOT NULL,
+  `cantidad` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -183,6 +210,19 @@ ALTER TABLE `lineas_pedido`
   ADD KEY `fk_linea_producto` (`id_producto`);
 
 --
+-- Indices de la tabla `ofertas`
+--
+ALTER TABLE `ofertas`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `oferta_productos`
+--
+ALTER TABLE `oferta_productos`
+  ADD PRIMARY KEY (`id_oferta`,`id_producto`),
+  ADD KEY `id_producto` (`id_producto`);
+
+--
 -- Indices de la tabla `pedidos`
 --
 ALTER TABLE `pedidos`
@@ -228,6 +268,12 @@ ALTER TABLE `lineas_pedido`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
+-- AUTO_INCREMENT de la tabla `ofertas`
+--
+ALTER TABLE `ofertas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `pedidos`
 --
 ALTER TABLE `pedidos`
@@ -261,6 +307,13 @@ ALTER TABLE `usuarios`
 ALTER TABLE `lineas_pedido`
   ADD CONSTRAINT `fk_linea_pedido` FOREIGN KEY (`id_pedido`) REFERENCES `pedidos` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_linea_producto` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id`);
+
+--
+-- Filtros para la tabla `oferta_productos`
+--
+ALTER TABLE `oferta_productos`
+  ADD CONSTRAINT `oferta_productos_ibfk_1` FOREIGN KEY (`id_oferta`) REFERENCES `ofertas` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `oferta_productos_ibfk_2` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id`);
 
 --
 -- Filtros para la tabla `pedidos`
