@@ -1,121 +1,3 @@
-/*$(document).ready(function()
-{
-    $("#botonGetUsuariosTest").on("click", showUsersTest);
-
-    $("#botonGetUsuarios").on("click", showUsers);
-})
-
-function showUsersTest()
-{
-    $.ajax({
-        url: 'https://reqres.in/api/users?per_page=12',
-        method: 'GET',
-        headers: 
-        {
-            'x-api-key': 'reqres_aec19625519d45d58e805f33e24c9ad3'
-        },
-        success: function (response) 
-        {
-            $("#listaUsuariosTest").empty();
-            
-            var usersList = $("#listaUsuariosTest");
-
-            $.each(response.data, function(index, element)
-            {
-                usersList.append(
-                    '<div class="col-6 col-md-4 col-lg-3">'
-                    +       '<p>' + element.first_name + '</p>'
-                    +       '<img src="https://i.pravatar.cc/150?u=' + element.id + '">'
-                    + '</div>'
-                );
-            });
-        },
-        error: function (err) 
-        {
-            console.error(err.responseText);
-        }
-    });
-}
-
-function showUsers()
-{
-
-    $.get('http://localhost/Ejemplo1V2/includes/Apis/userApi.php', {"action" : "getAllUsers" }, function(response)
-    {
-        var htmlTable = 
-            '<table class="table table-bordered">'
-          + '   <thead>'
-          + '       <tr>'
-          + '           <th>Id</th>'
-          + '           <th>Usuario</th>'
-          + '           <th>Nombre</th>'
-          + '           <th>Acciones</th>'
-          + '        </tr>'
-          + '   </thead>'
-          + '   <tbody>';
-
-        $.each(response, function(index, element)
-        {
-            htmlTable += '<tr name="' + element.id + '">';
-
-            htmlTable += '<td>' + element.id + '</td>';
-            htmlTable += '<td>' + element.nombreUsuario + '</td>';
-            htmlTable += '<td>' + element.nombre + '</td>';
-            htmlTable += '<td>' 
-                      +       '<a class="btn btn-primary btn-sm mx-1" href="updateUser.php?id=' + element.id + '">'
-                      +             'Actualizar'
-                      +       '</a>'
-                      +       '<a class="btn btn-warning btn-sm mx-1" href="enableUser.php?id=' + element.id + '">'
-                      +             'Habilitar'
-                      +       '</a>'
-                      +       '<a id="btnEliminarUser" name="' + element.id + '" class="btn btn-danger btn-sm" role="button">'
-                      +             'Eliminar'
-                      +       '</a>'
-                      + '</td>';
-
-            htmlTable += '</tr>';
-        });
-
-        htmlTable += '</tbody></table>';
-
-        $("#listaUsuariosTest").empty();
-
-        var usersList = $("#listaUsuariosTest");
-        
-        usersList.append(htmlTable);
-    });
-}
-
-$(document).on("click", "#btnEliminarUser", function(event)
-{
-    var userId = event.currentTarget.name;
-    
-    DeleteUser(userId);
-});
-
-var DeleteUser = function(userId)
-{
-    $.post('http://localhost/Class10/Ejemplo1V2/includes/Apis/userApi.php', {"action" : "deleteUser", "idUser" : userId }, function(result)
-    {
-        if (result == "success")
-        {
-            $('tr[name="' + userId + '"]').hide("slow");
-        }
-    });
-}*/
-
-
-
-
-
-
-
-
-
-
-
-
-
 // Variables globales
 let modal, modalEditarAvatar, btnCerrarAvatar, btnCerrar, spanCampo, modalPassword;
 let btnCerrarPassword, modalError, btnCerrarError, btnCerrarEditAdmin, modalEditarUsuario;
@@ -269,6 +151,8 @@ window.onload = function(){
             document.getElementById('contenedor-centro-edit-admin').style.display = "none";
         });
     }
+
+    // TODO: Una vez implementado AJAX, añadir funcion para que salte la alerta de Bootstrap y llame a timerAlertasBootstrap()
 }
 
 // Funciones para abrir el modal
@@ -279,6 +163,13 @@ function abrirModalAvatar() {
 function abrirModal(nombreCampo, valorBase64) {
     spanCampo.innerText = nombreCampo; // Cambia el título dinámicamente
     document.getElementById("label-nuevo-valor").innerText = nombreCampo + ": ";
+    
+    if(nombreCampo == "Usuario" || nombreCampo == "Email"){
+        document.getElementById("nuevo-valor").required = true;
+    } else {
+        document.getElementById("nuevo-valor").required = false;
+    }
+
     document.getElementById("campo-editar").value = nombreCampo;
 
     if(nombreCampo == "Usuario"){
@@ -379,3 +270,86 @@ function abrirConfirmacionDelete(id, usuario, usuarioLogueado){
 
     document.getElementById("modalAdminEliminarusuario").style.display = "block";
 }
+
+
+// ----------------------------------- Funciones AJAX -----------------------------------
+
+let alertaTimer = null; // Timer de alerta Bootstrap
+
+// Funcion AJAX para editar datos
+function enviarDatosFormulario(event) {
+    event.preventDefault(); // Evita que la página se recargue
+
+    const formulario = event.target;
+    const formData = new FormData(formulario); // Captura todos los inputs automáticamente
+
+    fetch('apoyo/editar_dato.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {// Validamos la respuesta AJAX
+        if (!response.ok) throw new Error('Error en la red');
+        return response.json(); // Si todo OK, lanzamos respuesta json al siguiente paso
+    })
+    .then(data => { // Operamos con datos json
+    
+        // 1. Cerrar el modal y limpiar el campo
+        document.getElementById("nuevo-valor").value = "";
+        modal.style.display = "none";
+        if(data['error_editar_perfil'] === "Ninguno"){
+            document.getElementById(`btn-editar-${data['cambio'].toLowerCase()}`).onclick = function() { abrirModal(data['cambio'], btoa(data['nuevo_valor'])); };
+        }
+
+        console.log(data);
+        // 2. Refrescar la parte del perfil que cambió y lanzar mensaje:
+        if (data['error_editar_perfil'] === "Ninguno" && data['cambio'] !== "Password" && data['cambio'] !== "Avatar") {
+            const elementoDato = document.getElementById(`${data['cambio'].toLowerCase()}-perfil-usuario`);
+            elementoDato.innerText = data['nuevo_valor'];
+        }
+        else if(data['error_editar_perfil'] === "Ninguno" && data['cambio'] === "Avatar"){
+            const elementoAvatar = document.getElementById(`Logo-Usuario`);
+            elementoAvatar.src = "../../../img/perfiles/" + data['nuevo_valor'];
+        }
+
+        timerAlertasBootstrap((data['error_editar_perfil'] === "Ninguno") ? (data['cambio'] === 'Password' ? 'Contraseña actualizada correctamente.' : data['cambio'] + ' actualizado correctamente.') : data['error_editar_perfil'], (data['error_editar_perfil'] === "Ninguno") ? 'success' : 'danger');
+        
+    })
+    .catch(error => {
+        
+        console.error('Error:', error);
+        //alert('Ocurrió un error al guardar los datos');
+    });
+}
+
+function cerrarAlertaBootstrap(){
+    const alerta = document.getElementById('alerta-perfil');
+    alerta.classList.remove('show');
+    alerta.classList.add('d-none');
+    clearTimeout(alertaTimer);
+}
+
+// Establece el timer de 10 segundos para cerrar la alerta de Bootstrap
+function timerAlertasBootstrap(mensaje, tipo = 'success') {
+    const alerta = document.getElementById('alerta-perfil');
+    if (!alerta.classList.contains('d-none')) {
+        clearTimeout(alertaTimer);
+    }
+    const texto = document.getElementById('alerta-mensaje');
+    
+    // 1. Configurar mensaje y colores
+    texto.innerHTML = `<strong>${mensaje}</strong>`;
+    alerta.className = `alert alert-${tipo} alert-dismissible fade show mx-auto mb-3`; // Aplicamos clases de Bootstrap
+    alerta.classList.remove('d-none'); // La hacemos visible
+
+    // 2. Auto-cierre tras 10 segundos
+    alertaTimer = setTimeout(() => {
+        // Usamos el objeto de Bootstrap para cerrarla con animación
+        const bsAlert = bootstrap.Alert.getOrCreateInstance(alerta);
+        if (alerta.classList.contains('show')) {
+            alerta.classList.remove('show');
+            alerta.classList.add('d-none')
+        }
+    }, 10000);
+}
+
+// ----------------------------------- Funciones AJAX -----------------------------------

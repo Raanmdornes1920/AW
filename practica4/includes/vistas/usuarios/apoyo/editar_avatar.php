@@ -7,6 +7,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
     header("Location: ../index.php");
     exit();
 }
+// TODO: Adaptar para AJAX
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 

@@ -17,8 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (strtolower($campo) === 'usuario'){
 
         if ($SA->usuarioEnUso($nuevoValor)) {
-            $_SESSION['error_editar_perfil'] = "El nombre de usuario ya existe.";
-            header("Location: " . RUTA_VISTAS . "/usuarios/editar_perfil.php");
+            echo json_encode(['error_editar_perfil' => "El nombre de usuario ya existe."]);
             exit();
         }
     }
@@ -26,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Validar el campo a editar
     $camposPermitidos = ['Usuario', 'Nombre', 'Apellidos', 'Email'];
     if (!in_array($campo, $camposPermitidos)) {
-        $_SESSION['error_editar_perfil'] = "El campo '$campo' no está permitido.";
+        echo json_encode(['error_editar_perfil' => "El campo '$campo' no está permitido."]);
         exit();
     }
 
@@ -38,23 +37,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $columna = strtolower($campo);
     }
 
-    if ($SA->modificarUsuario($_SESSION['usuario']->id(), strtolower($columna),$nuevoValor)) {
+    if ($SA->modificarUsuario($_SESSION['usuario']->id(), strtolower($columna), $nuevoValor)) {
         try {
 
             $_SESSION['usuario']->modificarUsuario($campo, $nuevoValor);
-            $_SESSION['cambio'] = $campo;
-            $_SESSION['error_editar_perfil'] = "Ninguno";
+            echo json_encode(['cambio' => $campo, 'nuevo_valor' => $nuevoValor, 'error_editar_perfil' => "Ninguno"]);
 
         } catch (CampoInexistenteException $e) {
-            $_SESSION['error_editar_perfil'] = "Error al actualizar el dato $campo con el valor $nuevoValor";
+            echo json_encode(['error_editar_perfil' => "Error al actualizar el dato $campo con el valor $nuevoValor"]);
         }
 
     } else {
-        $_SESSION['error_editar_perfil'] = "No se ha podido actualizar el dato $campo con el valor $nuevoValor";
+        echo json_encode(['error_editar_perfil' => "No se ha podido actualizar el dato $campo con el valor $nuevoValor"]);
     }
 } else {
-    echo json_encode(['success' => false, 'message' => 'Método no permitido']);
+    echo json_encode(['error_editar_perfil' => 'Método no permitido']);
 }
-header("Location: " . RUTA_VISTAS . "/usuarios/editar_perfil.php");
 exit();
 ?>

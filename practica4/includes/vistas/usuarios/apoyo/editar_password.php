@@ -8,6 +8,8 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
     exit();
 }
 
+// TODO: Adaptar para AJAX
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pass = $_POST['contrasena'];
     $nuevaPass = $_POST['nueva-contrasena'];
