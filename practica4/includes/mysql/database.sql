@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 30-04-2026 a las 19:54:44
+-- Tiempo de generación: 30-04-2026 a las 19:58:58
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -76,6 +76,13 @@ CREATE TABLE `ofertas` (
   `descuento_porcentaje` decimal(5,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `ofertas`
+--
+
+INSERT INTO `ofertas` (`id`, `nombre`, `descripcion`, `fecha_inicio`, `fecha_fin`, `descuento_porcentaje`) VALUES
+(1, 'Menú healthy', 'Zumo a elegir + Ensalada César', '2026-04-30', '2026-05-30', 35.06);
+
 -- --------------------------------------------------------
 
 --
@@ -87,6 +94,14 @@ CREATE TABLE `oferta_productos` (
   `id_producto` int(11) NOT NULL,
   `cantidad` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `oferta_productos`
+--
+
+INSERT INTO `oferta_productos` (`id_oferta`, `id_producto`, `cantidad`) VALUES
+(1, 5, 1),
+(1, 43, 1);
 
 -- --------------------------------------------------------
 
@@ -384,7 +399,7 @@ ALTER TABLE `lineas_pedido`
 -- AUTO_INCREMENT de la tabla `ofertas`
 --
 ALTER TABLE `ofertas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `pedidos`
