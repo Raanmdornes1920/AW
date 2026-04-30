@@ -30,27 +30,29 @@ $js = [RAIZ_APP . "/js/script.js"];
 $nombre = htmlspecialchars($oferta->getNombre());
 
 // Mostrar productos de la oferta en la confirmación
-$productosHtml = "<ul class='lista-pack lista-confirmacion-oferta'>";
+$productosHtml = "<ul class='list-group mb-3'>";
 foreach ($oferta->getProductos() as $p) {
-    $productosHtml .= "<li>" . $p['cantidad'] . "x " . htmlspecialchars($p['nombre']) . "</li>";
+    $productosHtml .= "<li class='list-group-item'>" . $p['cantidad'] . "x " . htmlspecialchars($p['nombre']) . "</li>";
 }
 $productosHtml .= "</ul>";
 
 $contenidoPrincipal = <<<EOF
-    <section class="pagina-cliente pagina-confirmacion-borrado">
-    <div class="alerta-borrado">
-        <h2>Confirmar Eliminación de Oferta</h2>
+    <section>
+    <div class="card shadow-sm mx-auto" style="max-width: 720px;">
+        <div class="card-body p-4">
+        <h1 class="h3">Confirmar eliminación de oferta</h1>
         <p>¿Estás seguro de que deseas eliminar la oferta <strong>{$nombre}</strong>?</p>
         <p>Productos incluidos:</p>
         {$productosHtml}
-        <p><small>Nota: Esta acción no se puede deshacer. Los pedidos que ya aplicaron esta oferta no se verán afectados.</small></p>
+        <p class="text-secondary small">Esta acción no se puede deshacer. Los pedidos que ya aplicaron esta oferta no se verán afectados.</p>
         
-        <div class="botones-confirmacion">
-            <form class="form-accion-oferta" method="POST">
+        <div class="d-flex flex-wrap gap-2">
+            <form method="POST">
                 <input type="hidden" name="confirmar_borrar" value="1">
-                <button type="submit" class="boton-peligro">Sí, eliminar oferta</button>
+                <button type="submit" class="btn btn-danger">Sí, eliminar oferta</button>
             </form>
-            <a href="../ofertas_gerente.php" class="boton-cancelar">No, cancelar</a>
+            <a href="../ofertas_gerente.php" class="btn btn-outline-secondary">No, cancelar</a>
+        </div>
         </div>
     </div>
     </section>

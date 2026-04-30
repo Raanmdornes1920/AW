@@ -12,39 +12,23 @@ class FormularioCrearUsuario extends formularioBase {
 
     protected function generaCamposFormulario(&$datos) {
         // Recuperar valores previos para no borrarlos si hay error
-        $nombre = $datos['nombre'] ?? '';
-        $apellidos = $datos['apellidos'] ?? '';
-        $mail = $datos['mail'] ?? '';
-        $usuario = $datos['usuario'] ?? '';
+        $nombre = htmlspecialchars($datos['nombre'] ?? '', ENT_QUOTES, 'UTF-8');
+        $apellidos = htmlspecialchars($datos['apellidos'] ?? '', ENT_QUOTES, 'UTF-8');
+        $mail = htmlspecialchars($datos['mail'] ?? '', ENT_QUOTES, 'UTF-8');
+        $usuario = htmlspecialchars($datos['usuario'] ?? '', ENT_QUOTES, 'UTF-8');
 
         $htmlErroresGlobales = self::generaListaErroresGlobales($this->errores);
         $erroresCampos = self::generaErroresCampos(['nombre', 'apellidos', 'mail', 'usuario', 'password', 'password_confirm'], $this->errores);
 
-<<<<<<< HEAD
-        
-        $ruta_avatares = IMAGENES_BASE;
-        ob_start();
-        include __DIR__ . "/../../comun/selector_imagenes.php"; 
-=======
 
         $ruta_avatares = IMAGENES_BASE;
         ob_start();
         include __DIR__ . "/../../comun/selector_imagenes.php";
->>>>>>> angela
         $htmlSelectorImagenes = ob_get_clean();
 
         foreach ($erroresCampos as $key => $value) {
             $erroresCampos[$key] = $value . '<br>';
         }
-<<<<<<< HEAD
-        
-        $ruta_volver = htmlspecialchars(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : RAIZ_APP . "/");
-        $ruta_volver2 = htmlspecialchars(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : RUTA_VISTAS . '/ajustes_admin.php');
-        
-        $html = <<<EOF
-        {$htmlErroresGlobales}
-        
-=======
 
         $ruta_volver = htmlspecialchars(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : RAIZ_APP . "/");
         $ruta_volver2 = htmlspecialchars(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : RUTA_VISTAS . '/ajustes_admin.php');
@@ -52,44 +36,45 @@ class FormularioCrearUsuario extends formularioBase {
         $html = <<<EOF
         {$htmlErroresGlobales}
 
->>>>>>> angela
-        <label>Nombre:</label>
-        <br>
-        <input type="text" name="nombre" required>
-        <br>
-        {$erroresCampos['nombre']}
+        <div class="row g-3">
+        <div class="col-12 col-md-6">
+            <label class="form-label">Nombre</label>
+            <input class="form-control" type="text" name="nombre" value="$nombre" required>
+            {$erroresCampos['nombre']}
+        </div>
 
-        <label>Apellidos:</label>
-        <br>
-        <input type="text" name="apellidos" required>
-        <br>
-        {$erroresCampos['apellidos']}
-<<<<<<< HEAD
-        
-=======
+        <div class="col-12 col-md-6">
+            <label class="form-label">Apellidos</label>
+            <input class="form-control" type="text" name="apellidos" value="$apellidos" required>
+            {$erroresCampos['apellidos']}
+        </div>
 
->>>>>>> angela
-        <label>Correo Electrónico:</label>
-        <br>
-        <input type="email" name="mail" required>
-        <br>
-        {$erroresCampos['mail']}
+        <div class="col-12 col-md-6">
+            <label class="form-label">Correo electrónico</label>
+            <input class="form-control" type="email" name="mail" value="$mail" required>
+            {$erroresCampos['mail']}
+        </div>
 
-        <label>Usuario:</label>
-        <br>
-        <input type="text" name="usuario" required>
-        <br>
-        {$erroresCampos['usuario']}
+        <div class="col-12 col-md-6">
+            <label class="form-label">Usuario</label>
+            <input class="form-control" type="text" name="usuario" value="$usuario" required>
+            {$erroresCampos['usuario']}
+        </div>
+        </div>
 
+        <div class="mt-3">
         {$htmlSelectorImagenes}
+        </div>
 
-        <label>Rol:</label>
-        <select name="rol" id="select-rol-usuario">
+        <div class="mb-4">
+        <label class="form-label">Rol</label>
+        <select class="form-select" name="rol" id="select-rol-usuario">
             <option value="gerente">Gerente</option>
             <option value="cocinero">Cocinero</option>
             <option value="camarero">Camarero</option>
             <option value="cliente" selected>Cliente</option>
         </select>
+        </div>
 
         <input id="password" type="hidden" name="password" value="1234" required>
         {$erroresCampos['password']}
@@ -98,14 +83,10 @@ class FormularioCrearUsuario extends formularioBase {
 
         <input type="hidden" name="modo-admin" value="Verdadero">
         <input type="hidden" name="volver" value="{$ruta_volver}">
-<<<<<<< HEAD
-        
-=======
 
->>>>>>> angela
-        <div class="contenedor-botones">
-            <button type="submit" id="boton_aceptar">Crear Usuario</button>
-            <button onclick="window.location.href='{$ruta_volver2}'" type="button" id="boton_cancelar">Volver</button>
+        <div class="d-flex flex-wrap gap-2">
+            <button class="btn btn-success" type="submit" id="boton_aceptar">Crear usuario</button>
+            <button class="btn btn-outline-secondary" onclick="window.location.href='{$ruta_volver2}'" type="button" id="boton_cancelar">Volver</button>
         </div>
         EOF;
 
@@ -115,11 +96,7 @@ class FormularioCrearUsuario extends formularioBase {
     protected function procesaFormulario(&$datos) {
         $this->errores = [];
         global $SA;
-<<<<<<< HEAD
-        
-=======
 
->>>>>>> angela
         $nombrePost = ($datos['nombre'] ?? '');
         $apellidosPost = ($datos['apellidos'] ?? '');
         $mailPost = trim($datos['mail'] ?? '');
@@ -133,26 +110,6 @@ class FormularioCrearUsuario extends formularioBase {
 
         try {
             if ($SA->validarUserMail($userPost, $mailPost)) {
-<<<<<<< HEAD
-            
-                if (isset($datos['avatar']) && $datos['avatar'] === 'custom' && isset($_FILES['avatar-custom']) && $_FILES['avatar-custom']['error'] === UPLOAD_ERR_OK) {
-                    
-                    $fileTmpPath = $_FILES['avatar-custom']['tmp_name'];
-                    $fileName = $_FILES['avatar-custom']['name'];
-                    
-                    $fileNameClean = time() . "_" . preg_replace("/[^a-zA-Z0-9.]/", "_", $fileName);
-                    
-                    $dest_path = DIR_RAIZ . "/img/perfiles/" . $fileNameClean;
-                    
-                    if(move_uploaded_file($fileTmpPath, $dest_path)) {
-                        
-                        $nombreImagen = $fileNameClean;
-                        chmod($dest_path, 0666); 
-                    }
-                }
-                else{
-                    
-=======
 
                 if (isset($datos['avatar']) && $datos['avatar'] === 'custom' && isset($_FILES['avatar-custom']) && $_FILES['avatar-custom']['error'] === UPLOAD_ERR_OK) {
 
@@ -171,7 +128,6 @@ class FormularioCrearUsuario extends formularioBase {
                 }
                 else{
 
->>>>>>> angela
                     $nombreImagen = $datos['avatar'];
                     $dest_path = "../img/perfiles/" . $nombreImagen;
                 }
@@ -186,39 +142,23 @@ class FormularioCrearUsuario extends formularioBase {
                     'rol' => $rolPost,
                     'avatar' => $nombreImagen
                 ];
-<<<<<<< HEAD
-                
-=======
 
->>>>>>> angela
                 if ($SA->crearUsuario($datosUsuario)) {
                     if (session_status() === PHP_SESSION_NONE) {
                         session_start();
                     }
-<<<<<<< HEAD
-                    
-=======
 
->>>>>>> angela
                     if(isset($datos['modo-admin']) && $datos['modo-admin'] === "Verdadero"){
                         $_SESSION['cambio'] = "Crear Usuario";
                         $_SESSION['error_editar_perfil'] = "Ninguno";
                     }
-<<<<<<< HEAD
-                    else{                        
-=======
                     else{
->>>>>>> angela
                         $_SESSION['login'] = true;
                         $_SESSION['usuario'] = $SA->buscaUsuario($userPost);
                     }
                     header("Location: " . (isset($datos['volver']) ? $datos['volver'] : RAIZ_APP . "/"));
                     exit();
-<<<<<<< HEAD
-                    
-=======
 
->>>>>>> angela
                 }
             }
             // No hay else, porque la función validarUserMail devuelve true, o lanza una excepción si el usuario o el mail ya existen.
@@ -232,11 +172,7 @@ class FormularioCrearUsuario extends formularioBase {
             else{
                 $this->errores['usuario'] = 'Usuaro ya ocupado';
             }
-<<<<<<< HEAD
-            
-=======
 
->>>>>>> angela
         } catch (MailOcupadoException $e2) {
 
             if(isset($datos['modo-admin']) && $datos['modo-admin'] === "Verdadero"){

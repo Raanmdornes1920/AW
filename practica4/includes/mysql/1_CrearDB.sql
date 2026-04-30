@@ -8,12 +8,9 @@ CREATE DATABASE IF NOT EXISTS `database` DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4
 GRANT ALL PRIVILEGES ON `database`.* TO 'root'@'localhost' IDENTIFIED BY '';
 GRANT ALL PRIVILEGES ON `database`.* TO 'root'@'%' IDENTIFIED BY 'd5J40AQKX1qVwwSGwr05';
 
-<<<<<<< HEAD
-=======
 DROP TABLE IF EXISTS `pedido_ofertas`;
 DROP TABLE IF EXISTS `oferta_productos`;
 DROP TABLE IF EXISTS `ofertas`;
->>>>>>> angela
 DROP TABLE IF EXISTS `productos_imagenes`;
 DROP TABLE IF EXISTS `lineas_pedido`;
 DROP TABLE IF EXISTS `pedidos`;
@@ -39,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `categorias` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) NOT NULL UNIQUE,
   `descripcion` text DEFAULT NULL,
-  `imagen` varchar(255) DEFAULT 'default_cat.png',
+  `imagen` varchar(255) DEFAULT 'categoria_default.jpg',
   `activa` tinyint(1) DEFAULT 1,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -95,8 +92,4 @@ CREATE TABLE IF NOT EXISTS `lineas_pedido` (
   CONSTRAINT `fk_linea_producto` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-<<<<<<< HEAD
 SET FOREIGN_KEY_CHECKS = 1;
-=======
-SET FOREIGN_KEY_CHECKS = 1;
->>>>>>> angela

@@ -13,11 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nuevaPass = $_POST['nueva-contrasena'];
     $confirmarPass = $_POST['confirmar-contrasena'];
     $user = $_SESSION['usuario']->usuario();
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> angela
     try{
         // Contraseña actual correcta
         if ($SA->validarPasswordUsuario($user, $pass)) {

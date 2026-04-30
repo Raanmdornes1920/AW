@@ -21,7 +21,7 @@ class FormularioCrearOferta extends formularioBase {
         $productosJSON = [];
         foreach ($productos as $p) {
             $precioFinal = number_format($p->getPrecioFinal(), 2, '.', '');
-            $optionsProductos .= '<option value="' . $p->getId() . '" data-precio="' . $precioFinal . '">' 
+            $optionsProductos .= '<option value="' . $p->getId() . '" data-precio="' . $precioFinal . '">'
                 . htmlspecialchars($p->getNombre()) . ' (' . $precioFinal . ' €)</option>';
             $productosJSON[] = [
                 'id' => $p->getId(),
@@ -38,24 +38,35 @@ class FormularioCrearOferta extends formularioBase {
 
         return <<<EOF
         {$erroresGlobales}
-        <div class="panel-cliente formulario-oferta">
-            <h2>Crear Nueva Oferta</h2>
-            
-            <label>Nombre de la oferta:</label>
-            <input type="text" name="nombre" required placeholder="Ej: Desayuno Andaluz">
-            
-            <label>Descripción:</label>
-            <textarea name="descripcion" rows="3" required placeholder="Describe la oferta..."></textarea>
-            
-            <label>Fecha de inicio:</label>
-            <input type="date" name="fecha_inicio" required value="{$hoy}">
-            
-            <label>Fecha de fin:</label>
-            <input type="date" name="fecha_fin" required>
-            
-            <hr class="separador-formulario">
-            <h3>Productos de la oferta</h3>
-            <p class="texto-ayuda-formulario">Selecciona los productos y cantidades que componen esta oferta.</p>
+        <div class="card shadow-sm mx-auto" style="max-width: 900px;">
+        <div class="card-body p-4">
+            <h1 class="h3 mb-4">Crear nueva oferta</h1>
+
+            <div class="mb-3">
+            <label class="form-label">Nombre de la oferta</label>
+            <input class="form-control" type="text" name="nombre" required placeholder="Ej: Desayuno Andaluz">
+            </div>
+
+            <div class="mb-3">
+            <label class="form-label">Descripción</label>
+            <textarea class="form-control" name="descripcion" rows="3" required placeholder="Describe la oferta..."></textarea>
+            </div>
+
+            <div class="row g-3 mb-4">
+            <div class="col-12 col-md-6">
+            <label class="form-label">Fecha de inicio</label>
+            <input class="form-control" type="date" name="fecha_inicio" required value="{$hoy}">
+            </div>
+
+            <div class="col-12 col-md-6">
+            <label class="form-label">Fecha de fin</label>
+            <input class="form-control" type="date" name="fecha_fin" required>
+            </div>
+            </div>
+
+            <hr>
+            <h2 class="h4">Productos de la oferta</h2>
+            <p class="text-secondary">Selecciona los productos y cantidades que componen esta oferta.</p>
 
             <input type="hidden" id="productosDisponiblesJSON" value="{$jsonData}">
 
@@ -63,35 +74,38 @@ class FormularioCrearOferta extends formularioBase {
                 <!-- Aquí se añaden dinámicamente las filas de productos -->
             </div>
 
-            <button type="button" onclick="agregarProductoOferta()" class="boton-editar boton-agregar-producto">
+            <button type="button" onclick="agregarProductoOferta()" class="btn btn-outline-primary">
                 + Añadir Producto
             </button>
 
-            <hr class="separador-formulario">
-            <h3>Descuento</h3>
+            <hr>
+            <h2 class="h4">Descuento</h2>
 
-            <div class="precio-final-destacado dato-calculo-oferta">
+            <div class="alert alert-info">
                 Precio del pack (sin descuento): <strong id="precio_pack_sin_descuento">0.00 €</strong>
             </div>
 
-            <label>Precio final deseado (€):</label>
-            <input type="number" step="0.01" min="0" id="precio_final_deseado" name="precio_final_deseado" 
+            <div class="mb-3">
+            <label class="form-label">Precio final deseado (€)</label>
+            <input class="form-control" type="number" step="0.01" min="0" id="precio_final_deseado" name="precio_final_deseado"
                    oninput="recalcularDescuentoOferta()" placeholder="Introduce el precio final">
+            </div>
 
-            <div class="precio-final-destacado dato-calculo-oferta">
+            <div class="alert alert-secondary">
                 Porcentaje de descuento: <strong id="porcentaje_descuento_calculado">0.00%</strong>
             </div>
-            
+
             <input type="hidden" name="descuento_porcentaje" id="descuento_porcentaje_hidden" value="0">
 
-            <div class="precio-final-destacado dato-calculo-oferta dato-ahorro-oferta">
+            <div class="alert alert-success">
                 Ahorro para el cliente: <strong id="ahorro_cliente">0.00 €</strong>
             </div>
 
-            <div class="acciones">
-                <button type="submit">Guardar Oferta</button>
-                <a href="../ofertas_gerente.php" class="boton-borrar">Cancelar</a>
+            <div class="d-flex flex-wrap gap-2">
+                <button class="btn btn-success" type="submit">Guardar oferta</button>
+                <a href="../ofertas_gerente.php" class="btn btn-outline-secondary">Cancelar</a>
             </div>
+        </div>
         </div>
 EOF;
     }

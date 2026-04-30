@@ -10,7 +10,7 @@ $pedidoSA = new PedidoSA($db_connection);
 $pedidos = $pedidoSA->obtenerPedidosPendientes(); 
 
 $tituloPagina = "Supervisión de Pedidos";
-$css = [RAIZ_APP . "/css/default.css"];
+$css = [];
 $header = "../comun/header.php";
 $claseMain = "contenedor-centro";
 $js = [(RAIZ_APP . "/js/pedidos.js"), (RAIZ_APP . "/js/script.js")];
@@ -18,18 +18,14 @@ $js = [(RAIZ_APP . "/js/pedidos.js"), (RAIZ_APP . "/js/script.js")];
 $htmlTabla = "";
 
 if (empty($pedidos)) {
-    $htmlTabla = "<p>No hay pedidos activos en este momento.</p>";
+    $htmlTabla = "<div class='alert alert-success mb-0'>No hay pedidos activos en este momento.</div>";
 } else {
-    $htmlTabla .= '<table class="tabla-gestion">
+    $htmlTabla .= '<div class="table-responsive"><table class="table table-striped table-hover align-middle mb-0">
         <thead>
             <tr>
                 <th>Nº Pedido</th>
                 <th>Cliente</th>
-<<<<<<< HEAD
-                <th>Estado y Detalle</th>
-=======
                 <th>Estado</th>
->>>>>>> angela
                 <th>Total</th>
                 <th>Acción</th>
             </tr>
@@ -41,22 +37,6 @@ if (empty($pedidos)) {
         $id = $p->getId();
         $num = $p->getNumeroPedido();
         $total = number_format($p->getTotal(), 2);
-<<<<<<< HEAD
-        $idCliente = $p->getIdUsuario();
-        
-        // Detalle de productos si está en cocina (Requisito Funcionalidad 3)
-        $detalleProductos = "";
-        if ($estado === 'cocinando' || $estado === 'en_preparacion') {
-            $lineas = $pedidoSA->obtenerDetallesPedido($id);
-            $detalleProductos = "<div style='font-size: 0.85em; background: #eee; padding: 5px; border-radius: 4px; margin-top: 5px;'>";
-            foreach ($lineas as $l) {
-                $status = $l['preparado'] ? "✅" : "⏳";
-                $detalleProductos .= "<div>$status {$l['cantidad']}x {$l['nombre']}</div>";
-            }
-            $detalleProductos .= "</div>";
-        }
-
-=======
         $totalOriginal = $p->getTotalSinDescuento();
         $descuento = $p->getDescuentoAplicado();
         $idCliente = $p->getIdUsuario();
@@ -68,40 +48,30 @@ if (empty($pedidos)) {
             $totalHtml .= "<div style='font-size: 0.75em; color: #27ae60;'>Ahorro: ".number_format($descuento, 2)." €</div>";
         }
         
->>>>>>> angela
         $estadoVisual = ucfirst(str_replace('_', ' ', $estado));
 
         $htmlTabla .= "<tr>
-            <td data-label='Nº Pedido'><strong>#$num</strong></td>
-            <td data-label='Cliente'>ID: $idCliente</td>
-            <td data-label='Estado'>
-                <span class='badge'>$estadoVisual</span>
-<<<<<<< HEAD
-                $detalleProductos
+            <td><strong>#$num</strong></td>
+            <td>ID: $idCliente</td>
+            <td>
+                <span class='badge text-bg-secondary'>$estadoVisual</span>
             </td>
-            <td data-label='Total'>$total €</td>
-            <td data-label='Acción'>
-=======
-            </td>
-            <td data-label='Total'>$totalHtml</td>
-            <td data-label='Acción'>
-                <a href='pedido_detalle.php?id={$id}' class='boton-editar' style='display:block; text-align:center; margin-bottom:8px;'>Ver detalle</a>
->>>>>>> angela
+            <td>$totalHtml</td>
+            <td>
+                <div class='d-grid gap-2'>
+                <a href='pedido_detalle.php?id={$id}' class='btn btn-sm btn-outline-primary'>Ver detalle</a>
                 <form action='apoyo/procesar_estado_pedido.php' method='POST' onsubmit='return confirm(\"¿Seguro que quieres cancelar?\")'>
                     <input type='hidden' name='id_pedido' value='$id'>
                     <input type='hidden' name='nuevo_estado' value='cancelado'>
-                    <button type='submit' class='boton-borrar' style='padding: 5px 10px;'>Cancelar</button>
+                    <button type='submit' class='btn btn-sm btn-outline-danger w-100'>Cancelar</button>
                 </form>
+                </div>
             </td>
         </tr>";
     }
-    $htmlTabla .= "</tbody></table>";
+    $htmlTabla .= "</tbody></table></div>";
 }
 
-$contenidoPrincipal = "<h1>Panel de Gerencia: Pedidos Activos</h1>" . $htmlTabla;
+$contenidoPrincipal = "<section class='card shadow-sm'><div class='card-body'><h1 class='h2 mb-4'>Panel de Gerencia: Pedidos Activos</h1>" . $htmlTabla . "</div></section>";
 require("../comun/plantilla.php");
-<<<<<<< HEAD
 ?>
-=======
-?>
->>>>>>> angela

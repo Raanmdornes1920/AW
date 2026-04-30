@@ -15,11 +15,7 @@ function confirmarCancelacion() {
     return confirm("¿Estás seguro de que deseas cancelar el pedido? Se vaciará el carrito.");
 }
 
-<<<<<<< HEAD
-// 3. Recalcular subtotal en el carrito sin recargar 
-=======
 // 3. Recalcular subtotal en el carrito sin recargar
->>>>>>> angela
 function actualizarSubtotal(idProducto, precio) {
     const cantidad = document.getElementById(`cant_${idProducto}`).value;
     const subtotalElemento = document.getElementById(`sub_${idProducto}`);

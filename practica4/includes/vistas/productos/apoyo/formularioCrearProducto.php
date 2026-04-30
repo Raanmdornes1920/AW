@@ -26,78 +26,86 @@ class FormularioCrearProducto extends formularioBase {
 
         return <<<EOF
         $erroresGlobales
-        <div class="form-estilizado">
-            <h2>Crear Nuevo Producto</h2>
-<<<<<<< HEAD
-            
-=======
+        <div class="card shadow-sm mx-auto" style="max-width: 900px;">
+        <div class="card-body p-4">
+            <h1 class="h3 mb-4">Crear nuevo producto</h1>
 
->>>>>>> angela
-            <label>Categoría:</label>
-            <select name="id_categoria" required>
+            <div class="mb-3">
+            <label class="form-label">Categoría</label>
+            <select class="form-select" name="id_categoria" required>
                 $optionsCategorias
             </select>
+            </div>
 
-<<<<<<< HEAD
-            <label>Nombre:</label> 
-            <input type="text" name="nombre" required>
-            
-            <label>Descripción:</label> 
-            <textarea name="descripcion" rows="4" required></textarea>
-            
-            <label>Precio Base (€):</label> 
-            <input type="number" step="0.01" id="p_base" name="precio_base" oninput="recalcular()" required>
-            
-=======
-            <label>Nombre:</label>
-            <input type="text" name="nombre" required>
+            <div class="mb-3">
+            <label class="form-label">Nombre</label>
+            <input class="form-control" type="text" name="nombre" required>
+            </div>
 
-            <label>Descripción:</label>
-            <textarea name="descripcion" rows="4" required></textarea>
+            <div class="mb-3">
+            <label class="form-label">Descripción</label>
+            <textarea class="form-control" name="descripcion" rows="4" required></textarea>
+            </div>
 
-            <label>Precio Base (€):</label>
-            <input type="number" step="0.01" id="p_base" name="precio_base" oninput="recalcular()" required>
+            <div class="row g-3">
+            <div class="col-12 col-md-6">
+            <label class="form-label">Precio base (€)</label>
+            <input class="form-control" type="number" step="0.01" id="p_base" name="precio_base" oninput="recalcular()" required>
+            </div>
 
->>>>>>> angela
-            <label>IVA:</label>
-            <select id="p_iva" name="iva" onchange="recalcular()">
+            <div class="col-12 col-md-6">
+            <label class="form-label">IVA</label>
+            <select class="form-select" id="p_iva" name="iva" onchange="recalcular()">
                 <option value="4">4%</option>
                 <option value="10">10%</option>
                 <option value="21" selected>21%</option>
             </select>
+            </div>
+            </div>
 
-            <div class="precio-final-destacado">
+            <div class="alert alert-info mt-3">
                 Precio Final (con IVA): <strong id="p_final">0.00 €</strong>
             </div>
 
-            <div class="grupo-checkbox">
-                <label><input type="checkbox" name="disponible" value="1" checked> Stock disponible</label>
-                <label><input type="checkbox" name="ofertado" value="1" checked> Ofertado en carta</label>
+            <div class="row g-3 mb-3">
+                <div class="col-12 col-md-6 form-check">
+                    <input class="form-check-input" id="disponible" type="checkbox" name="disponible" value="1" checked>
+                    <label class="form-check-label" for="disponible">Stock disponible</label>
+                </div>
+                <div class="col-12 col-md-6 form-check">
+                    <input class="form-check-input" id="ofertado" type="checkbox" name="ofertado" value="1" checked>
+                    <label class="form-check-label" for="ofertado">Ofertado en carta</label>
+                </div>
             </div>
 
-            <div class="grupo-checkbox" style="margin-top: 15px;">
-                <label>¿Requiere preparación en cocina?</label>
-                <label><input type="radio" name="cocinable" value="1" checked> Sí (Comidas)</label>
-                <label><input type="radio" name="cocinable" value="0"> No (Bebidas/Barra)</label>
+            <fieldset class="mb-3">
+                <legend class="form-label fs-6">¿Requiere preparación en cocina?</legend>
+                <div class="form-check">
+                    <input class="form-check-input" id="cocinable-si" type="radio" name="cocinable" value="1" checked>
+                    <label class="form-check-label" for="cocinable-si">Sí (comidas)</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" id="cocinable-no" type="radio" name="cocinable" value="0">
+                    <label class="form-check-label" for="cocinable-no">No (bebidas/barra)</label>
+                </div>
+            </fieldset>
+
+            <div class="mb-3">
+            <label class="form-label">Imágenes del producto</label>
+            <input class="form-control" type="file" name="imagenes[]" id="input_imagenes" accept="image/*" multiple onchange="previsualizarImagenes(this)">
             </div>
 
-<<<<<<< HEAD
-            <label>Imágenes del producto:</label> 
-=======
-            <label>Imágenes del producto:</label>
->>>>>>> angela
-            <input type="file" name="imagenes[]" id="input_imagenes" accept="image/*" multiple onchange="previsualizarImagenes(this)">
-
-            <div class="carrusel-contenedor" style="margin-top: 20px; max-width: 500px; margin-left: auto; margin-right: auto;">
-                <div class="carrusel" id="carrusel_previsualizacion">
+            <div class="position-relative bg-light border rounded p-3 mb-4" style="max-width: 520px;">
+                <div id="carrusel_previsualizacion">
                     <p style="color: #666;">Selecciona imágenes para ver la previsualización</p>
                 </div>
             </div>
 
-            <div class="acciones" style="margin-top: 30px;">
-                <button type="submit">Guardar Producto</button>
-                <a href="../productos_gerente.php" class="boton-borrar">Cancelar</a>
+            <div class="d-flex flex-wrap gap-2">
+                <button class="btn btn-success" type="submit">Guardar producto</button>
+                <a href="../productos_gerente.php" class="btn btn-outline-secondary">Cancelar</a>
             </div>
+        </div>
         </div>
 EOF;
     }
@@ -121,11 +129,7 @@ EOF;
                     $ext = pathinfo($_FILES['imagenes']['name'][$key], PATHINFO_EXTENSION);
                     $nombreNuevo = uniqid('prod_') . '_' . $key . '.' . $ext;
                     $rutaDestino = __DIR__ . "/../../../../img/productos/" . $nombreNuevo;
-<<<<<<< HEAD
-                    
-=======
 
->>>>>>> angela
                     if (move_uploaded_file($tmp_name, $rutaDestino)) {
                         $imagenesSubidas[] = $nombreNuevo;
                     }

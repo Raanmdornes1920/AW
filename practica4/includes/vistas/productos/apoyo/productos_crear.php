@@ -23,7 +23,7 @@ $htmlForm = $form->gestiona();
 
 // 3. Preparamos el contenido para la plantilla
 $contenidoPrincipal = <<<EOF
-    <section class="contenedor-centro" id="contenido">
+    <section id="contenido">
         $htmlForm
     </section>
 EOF;

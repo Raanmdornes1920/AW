@@ -9,17 +9,6 @@ class PedidoDAO {
     private function obtenerSiguienteNumeroDia() {
         // Busca el pedido más alto de hoy
         $sql = "SELECT MAX(numero_pedido) as max_num FROM pedidos WHERE DATE(fecha) = CURDATE()";
-<<<<<<< HEAD
-        $res = mysqli_query($this->db, $sql);
-        $row = mysqli_fetch_assoc($res);
-        $numero = ($row['max_num'] !== null) ? $row['max_num'] + 1 : 1;
-        
-        mysqli_free_result($res); // ¡Liberar recurso añadido!
-        return $numero;
-    }
-
-    public function guardar($pedido, $lineas_carrito) {
-=======
         $stmt = mysqli_prepare($this->db, $sql);
         mysqli_stmt_execute($stmt);
         $res = mysqli_stmt_get_result($stmt);
@@ -32,33 +21,23 @@ class PedidoDAO {
     }
 
     public function guardar($pedido, $lineas_carrito, $ofertas_aplicadas = []) {
->>>>>>> angela
         // Iniciamos transacción para asegurar que todo se guarda o no se guarda nada
         mysqli_begin_transaction($this->db);
         try {
             $numero_pedido = $this->obtenerSiguienteNumeroDia();
             
             // 1. Insertar en tabla pedidos
-<<<<<<< HEAD
-            $sql = "INSERT INTO pedidos (numero_pedido, id_usuario, estado, tipo, total) VALUES (?, ?, ?, ?, ?)";
-=======
             $sql = "INSERT INTO pedidos (numero_pedido, id_usuario, estado, tipo, total, total_sin_descuento, descuento_aplicado) VALUES (?, ?, ?, ?, ?, ?, ?)";
->>>>>>> angela
             $stmt = mysqli_prepare($this->db, $sql);
             
             $id_user = $pedido->getIdUsuario();
             $estado = $pedido->getEstado();
             $tipo = $pedido->getTipo();
             $total = $pedido->getTotal();
-<<<<<<< HEAD
-            
-            mysqli_stmt_bind_param($stmt, "iissd", $numero_pedido, $id_user, $estado, $tipo, $total);
-=======
             $total_sin = $pedido->getTotalSinDescuento();
             $desc_app = $pedido->getDescuentoAplicado();
             
             mysqli_stmt_bind_param($stmt, "iissddd", $numero_pedido, $id_user, $estado, $tipo, $total, $total_sin, $desc_app);
->>>>>>> angela
             mysqli_stmt_execute($stmt);
             $id_pedido = mysqli_insert_id($this->db);
             mysqli_stmt_close($stmt); // ¡Liberar recurso añadido!
@@ -76,8 +55,6 @@ class PedidoDAO {
             }
             mysqli_stmt_close($stmt_linea); // ¡Liberar recurso añadido!
 
-<<<<<<< HEAD
-=======
             if (!empty($ofertas_aplicadas)) {
                 $sql_oferta = "INSERT INTO pedido_ofertas (id_pedido, id_oferta, nombre_oferta, veces_aplicada, descuento_total) VALUES (?, ?, ?, ?, ?)";
                 $stmt_oferta = mysqli_prepare($this->db, $sql_oferta);
@@ -94,7 +71,6 @@ class PedidoDAO {
                 mysqli_stmt_close($stmt_oferta);
             }
 
->>>>>>> angela
             // Si todo va bien, confirmamos los cambios
             mysqli_commit($this->db);
             return $id_pedido;
@@ -116,12 +92,8 @@ class PedidoDAO {
         $pedidos = [];
         while ($row = mysqli_fetch_assoc($res)) {
             $pedidos[] = new Pedido($row['id'], $row['numero_pedido'], $row['id_usuario'], 
-<<<<<<< HEAD
-                                    $row['fecha'], $row['estado'], $row['tipo'], $row['total']);
-=======
                                     $row['fecha'], $row['estado'], $row['tipo'], $row['total'],
                                     $row['total_sin_descuento'], $row['descuento_aplicado']);
->>>>>>> angela
         }
         
         mysqli_free_result($res); // ¡Liberar recurso añadido!
@@ -139,12 +111,8 @@ class PedidoDAO {
         $pedido = null;
         if ($row = mysqli_fetch_assoc($res)) {
             $pedido = new Pedido($row['id'], $row['numero_pedido'], $row['id_usuario'], 
-<<<<<<< HEAD
-                              $row['fecha'], $row['estado'], $row['tipo'], $row['total']);
-=======
                               $row['fecha'], $row['estado'], $row['tipo'], $row['total'],
                               $row['total_sin_descuento'], $row['descuento_aplicado']);
->>>>>>> angela
         }
         
         mysqli_free_result($res); // ¡Liberar recurso añadido!
@@ -166,12 +134,8 @@ class PedidoDAO {
         $pedidos = [];
         while ($row = mysqli_fetch_assoc($res)) {
             $pedidos[] = new Pedido($row['id'], $row['numero_pedido'], $row['id_usuario'], 
-<<<<<<< HEAD
-                                    $row['fecha'], $row['estado'], $row['tipo'], $row['total']);
-=======
                                     $row['fecha'], $row['estado'], $row['tipo'], $row['total'],
                                     $row['total_sin_descuento'], $row['descuento_aplicado']);
->>>>>>> angela
         }
         
         mysqli_free_result($res); // ¡Liberar recurso añadido!
@@ -191,13 +155,9 @@ class PedidoDAO {
 
     public function obtenerLineasPedido($id_pedido) {
         // Añadimos p.cocinable a la consulta
-<<<<<<< HEAD
-        $sql = "SELECT lp.*, p.nombre, p.cocinable FROM lineas_pedido lp 
-=======
         $sql = "SELECT lp.*, p.nombre, p.cocinable, p.descripcion, p.precio_base, p.iva,
                        (SELECT ruta_imagen FROM productos_imagenes WHERE id_producto = p.id ORDER BY orden LIMIT 1) AS imagen
                 FROM lineas_pedido lp
->>>>>>> angela
                 JOIN productos p ON lp.id_producto = p.id 
                 WHERE lp.id_pedido = ?";
         $stmt = mysqli_prepare($this->db, $sql);
@@ -244,10 +204,6 @@ class PedidoDAO {
         mysqli_stmt_close($stmt);
         return $terminado;
     }
-<<<<<<< HEAD
-}
-?>
-=======
 
     public function obtenerOfertasPedido($id_pedido) {
         $sql = "SELECT * FROM pedido_ofertas WHERE id_pedido = ? ORDER BY id ASC";
@@ -267,4 +223,3 @@ class PedidoDAO {
     }
 }
 ?>
->>>>>>> angela

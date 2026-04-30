@@ -31,7 +31,7 @@ $lineas = $pedidoSA->obtenerDetallesPedido($pedido->getId());
 $ofertas = $pedidoSA->obtenerOfertasPedido($pedido->getId());
 
 $tituloPagina = "Detalle del Pedido";
-$css = [RAIZ_APP . "/css/default.css"];
+$css = [];
 $header = "../comun/header.php";
 $claseMain = "contenedor-cliente";
 $js = [(RAIZ_APP . "/js/pedidos.js"), (RAIZ_APP . "/js/script.js")];
@@ -60,7 +60,7 @@ foreach ($lineas as $linea) {
     $preparado = (int)$linea['preparado'] === 1;
     $cocinable = isset($linea['cocinable']) && (int)$linea['cocinable'] === 1;
     $tipoLinea = $cocinable ? 'Cocina' : 'Barra';
-    $estadoLinea = $preparado ? "<span class='badge badge-success'>Listo</span>" : "<span class='badge'>Pendiente</span>";
+    $estadoLinea = $preparado ? "<span class='badge text-bg-success'>Listo</span>" : "<span class='badge text-bg-secondary'>Pendiente</span>";
 
     if (!$preparado) {
         $todasListas = false;
@@ -73,38 +73,38 @@ foreach ($lineas as $linea) {
     if ($rol === 'cocinero' && $estado === 'cocinando' && $cocinable && !$preparado) {
         $accionLinea = "<form class='form-accion-oferta' action='apoyo/procesar_linea.php' method='POST'>
             <input type='hidden' name='id_linea' value='{$idLinea}'>
-            <button type='submit' class='boton-editar'>Listo</button>
+            <button type='submit' class='btn btn-sm btn-outline-primary'>Listo</button>
         </form>";
     } elseif ($rol === 'camarero' && $estado === 'listo_cocina' && !$cocinable && !$preparado) {
         $accionLinea = "<form class='form-accion-oferta' action='apoyo/procesar_linea.php' method='POST'>
             <input type='hidden' name='id_linea' value='{$idLinea}'>
-            <button type='submit' class='boton-editar'>Servir</button>
+            <button type='submit' class='btn btn-sm btn-outline-primary'>Servir</button>
         </form>";
     }
 
     $lineasHtml .= <<<EOF
     <tr>
-        <td data-label="Producto">{$nombre}</td>
-        <td data-label="Cantidad">{$cantidad}</td>
-        <td data-label="Tipo">{$tipoLinea}</td>
-        <td data-label="Estado">{$estadoLinea}</td>
-        <td data-label="Precio">{$precioUnitario} €</td>
-        <td data-label="Subtotal">{$subtotal} €</td>
-        <td data-label="Acción">{$accionLinea}</td>
+        <td>{$nombre}</td>
+        <td>{$cantidad}</td>
+        <td>{$tipoLinea}</td>
+        <td>{$estadoLinea}</td>
+        <td>{$precioUnitario} €</td>
+        <td>{$subtotal} €</td>
+        <td>{$accionLinea}</td>
     </tr>
 EOF;
 }
 
 $ofertasHtml = "";
 if (!empty($ofertas)) {
-    $ofertasHtml = "<section class='panel-cliente panel-ofertas-pedido'><h2>Ofertas aplicadas</h2><ul class='lista-ofertas-aplicadas'>";
+    $ofertasHtml = "<section class='card shadow-sm mt-4'><div class='card-body'><h2 class='h4'>Ofertas aplicadas</h2><ul class='list-group'>";
     foreach ($ofertas as $oferta) {
         $nombreOferta = htmlspecialchars($oferta['nombre_oferta']);
         $veces = (int)$oferta['veces_aplicada'];
         $descOferta = number_format($oferta['descuento_total'], 2);
-        $ofertasHtml .= "<li>{$nombreOferta} x{$veces}: <strong>-{$descOferta} €</strong></li>";
+        $ofertasHtml .= "<li class='list-group-item d-flex justify-content-between'><span>{$nombreOferta} x{$veces}</span><strong class='text-danger'>-{$descOferta} €</strong></li>";
     }
-    $ofertasHtml .= "</ul></section>";
+    $ofertasHtml .= "</ul></div></section>";
 }
 
 $accionesRol = "";
@@ -113,23 +113,23 @@ if ($rol === 'camarero') {
         $accionesRol = "<form class='form-accion-oferta' action='apoyo/procesar_estado_pedido.php' method='POST'>
             <input type='hidden' name='id_pedido' value='{$idPedido}'>
             <input type='hidden' name='nuevo_estado' value='en_preparacion'>
-            <button type='submit' class='boton-nuevo'>Cobrar y enviar a cocina</button>
+            <button type='submit' class='btn btn-success btn-lg'>Cobrar y enviar a cocina</button>
         </form>";
     } elseif ($estado === 'listo_cocina') {
         if ($todasListas) {
             $accionesRol = "<form class='form-accion-oferta' action='apoyo/procesar_estado_pedido.php' method='POST'>
                 <input type='hidden' name='id_pedido' value='{$idPedido}'>
                 <input type='hidden' name='nuevo_estado' value='terminado'>
-                <button type='submit' class='boton-nuevo'>Bandeja lista</button>
+                <button type='submit' class='btn btn-success btn-lg'>Bandeja lista</button>
             </form>";
         } else {
-            $accionesRol = "<p class='mensaje mensaje-error'>Quedan productos de barra por servir antes de terminar la bandeja.</p>";
+            $accionesRol = "<div class='alert alert-warning mb-0'>Quedan productos de barra por servir antes de terminar la bandeja.</div>";
         }
     } elseif ($estado === 'terminado') {
         $accionesRol = "<form class='form-accion-oferta' action='apoyo/procesar_estado_pedido.php' method='POST'>
             <input type='hidden' name='id_pedido' value='{$idPedido}'>
             <input type='hidden' name='nuevo_estado' value='entregado'>
-            <button type='submit' class='boton-nuevo'>Entregar cliente</button>
+            <button type='submit' class='btn btn-success btn-lg'>Entregar cliente</button>
         </form>";
     }
 } elseif ($rol === 'cocinero') {
@@ -137,24 +137,24 @@ if ($rol === 'camarero') {
         $accionesRol = "<form class='form-accion-oferta' action='apoyo/procesar_estado_pedido.php' method='POST'>
             <input type='hidden' name='id_pedido' value='{$idPedido}'>
             <input type='hidden' name='nuevo_estado' value='cocinando'>
-            <button type='submit' class='boton-nuevo'>Empezar a cocinar</button>
+            <button type='submit' class='btn btn-primary btn-lg'>Empezar a cocinar</button>
         </form>";
     } elseif ($estado === 'cocinando') {
         if (!$hayCocinablesPendientes) {
             $accionesRol = "<form class='form-accion-oferta' action='apoyo/procesar_estado_pedido.php' method='POST'>
                 <input type='hidden' name='id_pedido' value='{$idPedido}'>
                 <input type='hidden' name='nuevo_estado' value='listo_cocina'>
-                <button type='submit' class='boton-nuevo'>Pedido completado</button>
+                <button type='submit' class='btn btn-success btn-lg'>Pedido completado</button>
             </form>";
         } else {
-            $accionesRol = "<p class='mensaje mensaje-info'>Marca como listos todos los productos de cocina para finalizar.</p>";
+            $accionesRol = "<div class='alert alert-info mb-0'>Marca como listos todos los productos de cocina para finalizar.</div>";
         }
     }
 } elseif ($rol === 'gerente' && in_array($estado, ['recibido', 'en_preparacion', 'cocinando', 'listo_cocina', 'terminado'], true)) {
     $accionesRol = "<form class='form-accion-oferta' action='apoyo/procesar_estado_pedido.php' method='POST' onsubmit='return confirm(\"¿Seguro que quieres cancelar este pedido?\")'>
         <input type='hidden' name='id_pedido' value='{$idPedido}'>
         <input type='hidden' name='nuevo_estado' value='cancelado'>
-        <button type='submit' class='boton-borrar'>Cancelar pedido</button>
+        <button type='submit' class='btn btn-outline-danger btn-lg'>Cancelar pedido</button>
     </form>";
 }
 
@@ -168,29 +168,30 @@ if ($rol === 'camarero') {
 }
 
 $descuentoHtml = $pedido->getDescuentoAplicado() > 0
-    ? "<div class='bloque-descuento'><p><strong>Subtotal sin descuentos:</strong> {$totalSin} €</p><p><strong>Descuento aplicado:</strong> -{$descuento} €</p></div>"
+    ? "<div class='alert alert-success'><p class='mb-1'><strong>Subtotal sin descuentos:</strong> {$totalSin} €</p><p class='mb-0'><strong>Descuento aplicado:</strong> -{$descuento} €</p></div>"
     : "";
 
 $contenidoPrincipal = <<<EOF
-<section class="pagina-cliente pagina-detalle-pedido">
-<article class="panel-cliente detalle-pedido">
-    <header class="cabecera-panel">
-        <h1>Pedido #{$numero}</h1>
-        <span class="badge">{$estadoVisual}</span>
+<section>
+<article class="card shadow-sm">
+    <div class="card-body p-4">
+    <header class="d-flex flex-column flex-md-row justify-content-between gap-3 align-items-md-start mb-4">
+        <h1 class="h2 mb-0">Pedido #{$numero}</h1>
+        <span class="badge text-bg-secondary fs-6">{$estadoVisual}</span>
     </header>
 
-    <div class="resumen-pedido">
-        <p><strong>Fecha</strong><br>{$fecha}</p>
-        <p><strong>Tipo</strong><br>{$tipo}</p>
-        <p><strong>Cliente</strong><br>ID {$idUsuarioPedido}</p>
-        <p><strong>Total</strong><br>{$total} €</p>
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-lg-3"><div class="border rounded p-3 h-100"><strong>Fecha</strong><br>{$fecha}</div></div>
+        <div class="col-6 col-lg-3"><div class="border rounded p-3 h-100"><strong>Tipo</strong><br>{$tipo}</div></div>
+        <div class="col-6 col-lg-3"><div class="border rounded p-3 h-100"><strong>Cliente</strong><br>ID {$idUsuarioPedido}</div></div>
+        <div class="col-6 col-lg-3"><div class="border rounded p-3 h-100"><strong>Total</strong><br>{$total} €</div></div>
     </div>
 
     {$descuentoHtml}
 
-    <h2>Productos del pedido</h2>
-    <div class="contenedor-tabla-scroll">
-        <table class="tabla-detalle tabla-pedido-detalle">
+    <h2 class="h4">Productos del pedido</h2>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle">
             <thead>
                 <tr>
                     <th>Producto</th>
@@ -205,13 +206,14 @@ $contenidoPrincipal = <<<EOF
             <tbody>{$lineasHtml}</tbody>
         </table>
     </div>
+    </div>
 </article>
 
 {$ofertasHtml}
 
-<div class="acciones acciones-detalle">
+<div class="d-flex flex-wrap gap-2 mt-4">
     {$accionesRol}
-    <a href="{$volver}" class="boton-editar">Volver</a>
+    <a href="{$volver}" class="btn btn-outline-secondary btn-lg">Volver</a>
 </div>
 </section>
 EOF;

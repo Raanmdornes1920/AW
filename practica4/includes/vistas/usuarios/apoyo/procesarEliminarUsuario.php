@@ -20,11 +20,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true || $_SESSION['usua
 $usuario_propio = ($_POST['id-usuario'] === $_SESSION['usuario']->id());
 
 if(isset($_POST['modo-admin']) && $_POST['modo-admin'] === "Verdadero"){
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> angela
     $id_usuario = intval($_POST['id-usuario']);
 
     try {
@@ -35,11 +31,7 @@ if(isset($_POST['modo-admin']) && $_POST['modo-admin'] === "Verdadero"){
     }catch (UsuarioNoExisteException $e1) {
 
         $_SESSION['error_editar_perfil'] = "El usuario con ID " . $id_usuario . " no existe.";
-<<<<<<< HEAD
-        
-=======
 
->>>>>>> angela
     } catch (ErrorEnConsultaException $e2) {
 
         $_SESSION['error_editar_perfil'] = "No se ha podido eliminar al usuario con ID " . $id_usuario . ".";

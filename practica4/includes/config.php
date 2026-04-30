@@ -3,10 +3,20 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-$es_local = ($_SERVER['REMOTE_ADDR'] == '127.0.0.1' || $_SERVER['HTTP_HOST'] == 'localhost');
+$httpHost = $_SERVER['HTTP_HOST'] ?? '';
+$remoteAddr = $_SERVER['REMOTE_ADDR'] ?? '';
+$es_local = ($remoteAddr == '127.0.0.1' || str_starts_with($httpHost, 'localhost') || str_starts_with($httpHost, '127.0.0.1'));
+
+$scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
+$basePath = str_replace('\\', '/', dirname($scriptName));
+$posIncludes = strpos($basePath, '/includes');
+if ($posIncludes !== false) {
+    $basePath = substr($basePath, 0, $posIncludes);
+}
+$basePath = rtrim($basePath, '/');
 
 if ($es_local) {
-    define('RAIZ_APP', '/AW/practica4');
+    define('RAIZ_APP', $basePath === '' ? '' : $basePath);
     define('DIR_RAIZ', dirname(__DIR__));
 
     $host = "127.0.0.1";
@@ -14,13 +24,8 @@ if ($es_local) {
 } else {
     define('RAIZ_APP', '');
     define('DIR_RAIZ', dirname(__DIR__));
-<<<<<<< HEAD
-    
-    $host = "vm016.db.swarm.test"; 
-=======
 
     $host = "vm016.db.swarm.test";
->>>>>>> angela
     $pass = "d5J40AQKX1qVwwSGwr05";
 }
 

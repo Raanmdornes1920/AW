@@ -3,23 +3,6 @@ require_once '../../config.php';
 session_start();
 
 if (!isset($_SESSION['login']) || $_SESSION['usuario']->rol() !== 'cliente') {
-<<<<<<< HEAD
-    header("Location: " . RAIZ_APP . "/"); exit;
-}
-
-$id_pedido = $_GET['id'] ?? null;
-if (!$id_pedido) {
-    header("Location: ../productos/productos_cliente.php"); exit;
-}
-
-$pedidoSA = new PedidoSA($db_connection);
-// NOTA: Para hacer esto perfecto, deberías añadir un método en PedidoDAO y PedidoSA llamado "obtenerPorId($id)"
-// Asumiremos que lo has añadido igual que en ProductoSA.
-$pedido = $pedidoSA->obtenerPorId($id_pedido); 
-
-if (!$pedido || $pedido->getIdUsuario() !== $_SESSION['usuario']->id()) {
-    header("Location: ../productos/productos_cliente.php"); exit;
-=======
     header("Location: " . RAIZ_APP . "/");
     exit;
 }
@@ -36,42 +19,10 @@ $pedido = $pedidoSA->obtenerPorId($id_pedido);
 if (!$pedido || (int)$pedido->getIdUsuario() !== (int)$_SESSION['usuario']->id()) {
     header("Location: ../productos/productos_cliente.php");
     exit;
->>>>>>> angela
 }
 
 $tituloPagina = "Pedido Confirmado";
-$css = [RAIZ_APP . "/css/default.css"];
-<<<<<<< HEAD
-$header = __DIR__ . "/../comun/header.php";
-$claseMain = "contenedor-centro";
-$js = [(RAIZ_APP . "/js/pedidos.js"), (RAIZ_APP . "/js/script.js")];
-
-$numero_pedido = $pedido->getNumeroPedido();
-$estado = ucfirst(str_replace('_', ' ', $pedido->getEstado()));
-$tipo = ucfirst($pedido->getTipo());
-
-$contenidoPrincipal = <<<EOF
-<div class="form-estilizado" style="text-align: center; margin-top: 50px;">
-    <h1 style="color: #4CAF50;">¡Pedido Realizado con Éxito!</h1>
-    <p style="font-size: 1.2em; margin-top: 20px;">Tu número de pedido es:</p>
-    <div style="font-size: 4em; font-weight: bold; margin: 20px 0; color: #333;">#{$numero_pedido}</div>
-    
-    <div style="background-color: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
-        <p><strong>Estado actual:</strong> <span class="badge badge-success">{$estado}</span></p>
-        <p><strong>Tipo de consumo:</strong> {$tipo}</p>
-        <p><strong>Total pagado:</strong> {$pedido->getTotal()} €</p>
-    </div>
-    
-    <p>Puedes revisar el estado de tu pedido en tu perfil en cualquier momento.</p>
-    
-    <div class="acciones" style="margin-top: 30px; justify-content: center;">
-        <a href="../productos/productos_cliente.php" class="boton-nuevo">Volver al inicio</a>
-    </div>
-</div>
-EOF;
-
-require("../comun/plantilla.php");
-=======
+$css = [];
 $header = "../comun/header.php";
 $claseMain = "contenedor-cliente";
 $js = [(RAIZ_APP . "/js/pedidos.js"), (RAIZ_APP . "/js/script.js")];
@@ -88,14 +39,16 @@ $detalleDescuento = $pedido->getDescuentoAplicado() > 0
     : "";
 
 $contenidoPrincipal = <<<EOF
-<section class="pagina-cliente pagina-confirmacion">
-<article class="panel-cliente pedido-confirmado">
-    <h1>Pedido realizado con éxito</h1>
-    <p>Tu número de pedido es</p>
-    <div class="numero-pedido-confirmado">#{$numero_pedido}</div>
+<section class="row justify-content-center">
+<article class="col-12 col-lg-7">
+<div class="card shadow-sm text-center">
+    <div class="card-body p-5">
+    <h1 class="h2 text-success">Pedido realizado con éxito</h1>
+    <p class="text-secondary">Tu número de pedido es</p>
+    <div class="display-4 fw-bold mb-4">#{$numero_pedido}</div>
 
-    <div class="resumen-confirmacion">
-        <p><strong>Estado actual:</strong> <span class="badge badge-success">{$estado}</span></p>
+    <div class="text-start border rounded p-3 mb-4">
+        <p><strong>Estado actual:</strong> <span class="badge text-bg-success">{$estado}</span></p>
         <p><strong>Tipo de consumo:</strong> {$tipo}</p>
         {$detalleDescuento}
         <p><strong>Total pagado:</strong> {$total} €</p>
@@ -103,14 +56,15 @@ $contenidoPrincipal = <<<EOF
 
     <p>Puedes revisar el estado de tu pedido en tu perfil en cualquier momento.</p>
 
-    <div class="acciones">
-        <a href="pedido_detalle.php?id={$idPedido}" class="boton-editar">Ver detalle</a>
-        <a href="../productos/productos_cliente.php" class="boton-nuevo">Volver al inicio</a>
+    <div class="d-flex flex-wrap justify-content-center gap-2">
+        <a href="pedido_detalle.php?id={$idPedido}" class="btn btn-outline-primary">Ver detalle</a>
+        <a href="../productos/productos_cliente.php" class="btn btn-primary">Volver al inicio</a>
     </div>
+</div>
+</div>
 </article>
 </section>
 EOF;
 
 require("../comun/plantilla.php");
 ?>
->>>>>>> angela

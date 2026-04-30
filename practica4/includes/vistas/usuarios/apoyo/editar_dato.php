@@ -13,11 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nuevoValor = $_POST['nuevo-valor'];
     $nuevoRol = $_POST['nuevo-rol'] ?? null; // Para el caso de editar rol
     $user = $_SESSION['usuario']->usuario();
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> angela
     if (strtolower($campo) === 'usuario'){
 
         if ($SA->usuarioEnUso($nuevoValor)) {
@@ -41,11 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     else{
         $columna = strtolower($campo);
     }
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> angela
     if ($SA->modificarUsuario($_SESSION['usuario']->id(), strtolower($columna),$nuevoValor)) {
         try {
 
@@ -56,11 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } catch (CampoInexistenteException $e) {
             $_SESSION['error_editar_perfil'] = "Error al actualizar el dato $campo con el valor $nuevoValor";
         }
-<<<<<<< HEAD
-        
-=======
 
->>>>>>> angela
     } else {
         $_SESSION['error_editar_perfil'] = "No se ha podido actualizar el dato $campo con el valor $nuevoValor";
     }

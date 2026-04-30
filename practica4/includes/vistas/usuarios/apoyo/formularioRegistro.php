@@ -12,10 +12,10 @@ class FormularioRegistro extends formularioBase {
 
     protected function generaCamposFormulario(&$datos) {
         // Recuperar valores previos para no borrarlos si hay error
-        $nombre = $datos['nombre'] ?? '';
-        $apellidos = $datos['apellidos'] ?? '';
-        $mail = $datos['mail'] ?? '';
-        $usuario = $datos['usuario'] ?? '';
+        $nombre = htmlspecialchars($datos['nombre'] ?? '', ENT_QUOTES, 'UTF-8');
+        $apellidos = htmlspecialchars($datos['apellidos'] ?? '', ENT_QUOTES, 'UTF-8');
+        $mail = htmlspecialchars($datos['mail'] ?? '', ENT_QUOTES, 'UTF-8');
+        $usuario = htmlspecialchars($datos['usuario'] ?? '', ENT_QUOTES, 'UTF-8');
 
         $htmlErroresGlobales = self::generaListaErroresGlobales($this->errores);
         $erroresCampos = self::generaErroresCampos(['avatar', 'nombre', 'apellidos', 'mail', 'usuario', 'password', 'password_confirm'], $this->errores);
@@ -32,48 +32,41 @@ class FormularioRegistro extends formularioBase {
 
         $html = <<<EOF
         {$htmlErroresGlobales}
-        <div>
-            <label>Nombre:</label><br>
-            <input type="text" name="nombre" value="$nombre">
+        <div class="mb-3">
+            <label class="form-label">Nombre</label>
+            <input class="form-control" type="text" name="nombre" value="$nombre">
             {$erroresCampos['nombre']}
         </div>
-        <br>
-        <div>
-            <label>Apellidos:</label><br>
-            <input type="text" name="apellidos" value="$apellidos">
+        <div class="mb-3">
+            <label class="form-label">Apellidos</label>
+            <input class="form-control" type="text" name="apellidos" value="$apellidos">
             {$erroresCampos['apellidos']}
         </div>
-        <br>
-        <div>
-            <label>Correo Electrónico:</label><br>
-            <input type="email" name="mail" value="$mail" required>
+        <div class="mb-3">
+            <label class="form-label">Correo electrónico</label>
+            <input class="form-control" type="email" name="mail" value="$mail" required>
             {$erroresCampos['mail']}
         </div>
-        <br>
-        <div>
-            <label>Usuario:</label><br>
-            <input type="text" autocomplete="username" name="usuario" value="$usuario" required>
+        <div class="mb-3">
+            <label class="form-label">Usuario</label>
+            <input class="form-control" type="text" autocomplete="username" name="usuario" value="$usuario" required>
             {$erroresCampos['usuario']}
         </div>
-        <br>
 
         {$htmlSelectorImagenes}
         {$erroresCampos['avatar']}
 
-        <br>
-        <div>
-            <label>Contraseña:</label><br>
-            <input id="password" type="password" autocomplete="current-password" name="password" required>
+        <div class="mb-3">
+            <label class="form-label">Contraseña</label>
+            <input class="form-control" id="password" type="password" autocomplete="new-password" name="password" required>
             {$erroresCampos['password']}
         </div>
-        <br>
-        <div>
-            <label>Repetir Contraseña:</label><br>
-            <input type="password" autocomplete="current-password" name="password_confirm" required oninput="passwordMatch(this)">
+        <div class="mb-4">
+            <label class="form-label">Repetir contraseña</label>
+            <input class="form-control" type="password" autocomplete="new-password" name="password_confirm" required oninput="passwordMatch(this)">
             {$erroresCampos['password_confirm']}
         </div>
-        <br>
-        <button type="submit" name="registro">Registrarme</button>
+        <button class="btn btn-primary w-100" type="submit" name="registro">Registrarme</button>
         EOF;
 
         return $html;
@@ -84,28 +77,6 @@ class FormularioRegistro extends formularioBase {
         
         global $SA;
 
-<<<<<<< HEAD
-        // Validar campos obligatorios
-        $faltan_datos = false;
-        if (empty($datos['usuario'])){
-            $this->errores['usuario'] = "Campo obligatorio.";
-            $faltan_datos = true;
-        } else if (empty($datos['mail'])){
-            $this->errores['mail'] = "Campo obligatorio.";
-            $faltan_datos = true;
-        } else if (empty($datos['avatar'])){
-            $this->errores['avatar'] = "Campo obligatorio.";
-            $faltan_datos = true;
-        } else if (empty($datos['password'])){
-            $this->errores['password'] = "Campo obligatorio.";
-            $faltan_datos = true;
-        } else if(empty($datos['password_confirm'])) {
-            $this->errores['password_confirm'] = "Campo obligatorio.";
-            $faltan_datos = true;
-        }
-
-        if ($faltan_datos) {
-=======
         // Validar TODOS los campos obligatorios de forma independiente (no encadenados con else if)
         if (empty($datos['usuario'])){
             $this->errores['usuario'] = "Campo obligatorio.";
@@ -124,28 +95,10 @@ class FormularioRegistro extends formularioBase {
         }
 
         if (count($this->errores) > 0) {
->>>>>>> angela
             $this->errores[0] = "Faltan campos obligatorios.";
             return;
         }
 
-<<<<<<< HEAD
-        // Sanear datos
-        $nombrePost = (filter_var($datos['nombre']) ?? '');
-        $apellidosPost = (filter_var($datos['apellidos']) ?? '');
-        $mailPost = trim(filter_var($datos['mail']) ?? '');
-        $fotoPost = str_replace(' ', '\ ', ($datos['avatar'] ?? ''));
-        $nombreImagen = "default.png";
-        $rolPost = ((($datos['modo-admin'] ?? 'Falso') === "Verdadero")? ($datos['rol'] ?? 'cliente'): 'cliente');
-
-        $userPost = trim(filter_var($datos['usuario']) ?? '');
-        $passPost = (filter_var($datos['password']) ?? '');
-        $passConfPost = (filter_var($datos['password_confirm']) ?? '');
-
-        // Validar que las contraseñas coincidan
-        if ($passPost !== $passConfPost) {
-            $this->errores[1] = "Las contraseñas no coinciden.";
-=======
         // Validar que las contraseñas coincidan (validación servidor)
         if ($datos['password'] !== $datos['password_confirm']) {
             $this->errores['password_confirm'] = "Las contraseñas no coinciden.";
@@ -168,7 +121,6 @@ class FormularioRegistro extends formularioBase {
         // Validar formato de email
         if (!filter_var($mailPost, FILTER_VALIDATE_EMAIL)) {
             $this->errores['mail'] = "El formato del correo electrónico no es válido.";
->>>>>>> angela
             return;
         }
 
@@ -237,11 +189,7 @@ class FormularioRegistro extends formularioBase {
                 exit();
             }
             else{
-<<<<<<< HEAD
-                $this->errores['usuario'] = 'Usuaro ya ocupado';
-=======
                 $this->errores['usuario'] = 'Usuario ya ocupado';
->>>>>>> angela
             }
             
         } catch (MailOcupadoException $e2) {

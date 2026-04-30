@@ -26,7 +26,7 @@ $form = new FormularioActualizarOferta($db_connection, $oferta);
 $htmlForm = $form->gestiona();
 
 $contenidoPrincipal = <<<EOF
-    <section class="pagina-cliente pagina-formulario-oferta" id="contenido">
+    <section id="contenido">
         {$htmlForm}
     </section>
 EOF;

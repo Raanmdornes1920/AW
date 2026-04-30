@@ -295,8 +295,6 @@ td {
     width: 100%;
 }
 
-<<<<<<< HEAD
-=======
 .contenedor-fullwidth {
     flex-grow: 1;
     display: flex;
@@ -311,7 +309,6 @@ td {
     margin-right: auto;
 }
 
->>>>>>> angela
 .contenedor-centro-index {
     flex-grow: 1;
     /*Para que ocupe todo el espacio vacio*/
@@ -864,14 +861,6 @@ td {
     color: #ff8e8e;
 }
 
-<<<<<<< HEAD
-.form-field-error{
-    display: none;
-    color: red;
-}
-
-=======
->>>>>>> angela
 /*----- MODALES -----*/
 /*----- NAVBAR -----*/
 .navegacion {
@@ -1641,8 +1630,6 @@ td {
 
 /*--------------------------------------- HECTOR ---------------------------------------*/
 
-<<<<<<< HEAD
-=======
 /*--------------------------------------- FUNCIONALIDAD 4 CLIENTE ---------------------------------------*/
 .contenedor-cliente {
     flex-grow: 1;
@@ -2187,7 +2174,6 @@ form.panel-cliente,
 
 /*--------------------------------------- FUNCIONALIDAD 4 CLIENTE ---------------------------------------*/
 
->>>>>>> angela
 /*Para categorias */
 
 .alerta-borrado {
@@ -2344,8 +2330,4 @@ form.panel-cliente,
     margin-top: 20px;
 }
 
-<<<<<<< HEAD
 /*--------------------------------------- HECTOR ---------------------------------------*/
-=======
-/*--------------------------------------- HECTOR ---------------------------------------*/
->>>>>>> angela

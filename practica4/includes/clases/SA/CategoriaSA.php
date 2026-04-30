@@ -16,12 +16,13 @@ class CategoriaSA {
     }
 
     public function borrarCategoria($id) {
-        if (!$id) return "ID de categoría no válido.";
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+        if (!$id || $id <= 0) return "ID de categoría no válido.";
 
         $totalProductos = $this->dao->contarProductosAsociados($id);
 
-        if ($data['total'] > 0) {
-            return "No se puede eliminar: Esta categoría tiene {$data['total']} productos asociados. Debes moverlos o eliminarlos antes de borrar la categoría.";
+        if ($totalProductos > 0) {
+            return "No se puede eliminar: Esta categoría tiene {$totalProductos} productos asociados. Debes moverlos o eliminarlos antes de borrar la categoría.";
         }
 
         $exito = $this->dao->borrar($id);
@@ -36,17 +37,9 @@ class CategoriaSA {
             $datos['id'] ?? null,
             trim($datos['nombre']),
             trim($datos['descripcion']),
-<<<<<<< HEAD
-           $imagen 
-        );
-        return $this->dao->guardar($c);
-    }
-    
-=======
            $imagen
         );
         return $this->dao->guardar($c);
     }
 
->>>>>>> angela
 }

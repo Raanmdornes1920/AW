@@ -1,43 +1,5 @@
 <?php
 require_once (__DIR__ . '/../../../config.php');
-<<<<<<< HEAD
-
-class FormularioActualizarCategoria {
-
-    private $categoria;
-
-    public function __construct($categoria = null) {
-        $this->categoria = $categoria;
-    }
-
-    public function gestiona() {
-        if (!$this->categoria) {
-            return "<p>Error: No se ha proporcionado una categoría para actualizar.</p>";
-        }
-        return $this->generaFormulario();
-    }
-
-    public function saneaDatos($datos) {
-        $datosSaneados = [];
-
-        $datosSaneados['id'] = filter_var($datos['id'] ?? 0, FILTER_SANITIZE_NUMBER_INT);
-        $datosSaneados['nombre'] = filter_var($datos['nombre'] ?? '', FILTER_SANITIZE_SPECIAL_CHARS);
-        $datosSaneados['descripcion'] = filter_var($datos['descripcion'] ?? '', FILTER_SANITIZE_SPECIAL_CHARS);
-        $datosSaneados['accion'] = $datos['accion'] ?? 'actualizar';
-        
-
-        return $datosSaneados;
-    }
-
-    private function generaFormulario() {
-        $id = $this->categoria->getId();
-        $nombre = htmlspecialchars($this->categoria->getNombre());
-        $descripcion = htmlspecialchars($this->categoria->getDescripcion());
-        $imagenActual = $this->categoria->getImagen();
-
-        return <<<EOF
-        <form action="procesar_categoria.php" method="POST" enctype="multipart/form-data" class="form-estilizado">
-=======
 require_once (__DIR__ . '/../../comun/formularioBase.php');
 
 class FormularioActualizarCategoria extends formularioBase {
@@ -48,7 +10,6 @@ class FormularioActualizarCategoria extends formularioBase {
     public function __construct($categoria = null) {
         global $db_connection;
         parent::__construct('formActualizarCategoria', [
-            'action' => RAIZ_APP . '/includes/vistas/categorias/apoyo/procesar_categoria.php',
             'enctype' => 'multipart/form-data',
             'urlRedireccion' => RAIZ_APP . '/includes/vistas/categorias/categorias_gerente.php'
         ]);
@@ -62,9 +23,9 @@ class FormularioActualizarCategoria extends formularioBase {
         }
 
         $id = $this->categoria ? $this->categoria->getId() : $datos['id'];
-        $nombre = htmlspecialchars($this->categoria ? $this->categoria->getNombre() : ($datos['nombre'] ?? ''));
-        $descripcion = htmlspecialchars($this->categoria ? $this->categoria->getDescripcion() : ($datos['descripcion'] ?? ''));
-        $imagenActual = $this->categoria ? $this->categoria->getImagen() : ($datos['imagen_actual'] ?? 'categoria_default.jpg');
+        $nombre = htmlspecialchars($this->categoria ? $this->categoria->getNombre() : ($datos['nombre'] ?? ''), ENT_QUOTES, 'UTF-8');
+        $descripcion = htmlspecialchars($this->categoria ? $this->categoria->getDescripcion() : ($datos['descripcion'] ?? ''), ENT_QUOTES, 'UTF-8');
+        $imagenActual = htmlspecialchars($this->categoria ? $this->categoria->getImagen() : ($datos['imagen_actual'] ?? 'categoria_default.jpg'), ENT_QUOTES, 'UTF-8');
         $rutaImagenActual = RUTA_IMG . "/categorias/" . htmlspecialchars($imagenActual);
 
         $htmlErroresGlobales = self::generaListaErroresGlobales($this->errores);
@@ -72,53 +33,42 @@ class FormularioActualizarCategoria extends formularioBase {
 
         return <<<EOF
         $htmlErroresGlobales
-        <div class="form-estilizado">
->>>>>>> angela
+        <div class="card shadow-sm mx-auto" style="max-width: 760px;">
+        <div class="card-body p-4">
             <input type="hidden" name="accion" value="actualizar">
             <input type="hidden" name="id" value="$id">
             <input type="hidden" name="imagen_actual" value="$imagenActual">
 
-            <h2>Editar Categoría: $nombre</h2>
+            <h1 class="h3 mb-4">Editar categoría: $nombre</h1>
             
-            <label>Nombre:</label>
-            <input type="text" name="nombre" value="$nombre" required>
-<<<<<<< HEAD
-            
-            <label>Descripción:</label>
-            <textarea name="descripcion" rows="3" required>$descripcion</textarea>
-
-            <div class="info-imagen-actual" style="margin: 10px 0;">
-                <p>Imagen actual: <strong>$imagenActual</strong></p>
-=======
+            <div class="mb-3">
+            <label class="form-label">Nombre</label>
+            <input class="form-control" type="text" name="nombre" value="$nombre" required>
             {$erroresCampos['nombre']}
+            </div>
             
-            <label>Descripción:</label>
-            <textarea name="descripcion" rows="3" required>$descripcion</textarea>
+            <div class="mb-3">
+            <label class="form-label">Descripción</label>
+            <textarea class="form-control" name="descripcion" rows="3" required>$descripcion</textarea>
             {$erroresCampos['descripcion']}
-
-            <div class="info-imagen-actual" style="margin: 10px 0;">
-                <p>Imagen actual: <strong>$imagenActual</strong></p>
-                <img src="$rutaImagenActual" alt="Imagen actual de $nombre" style="width:160px; height:110px; object-fit:cover; border-radius:8px; border:1px solid #ddd;">
->>>>>>> angela
             </div>
 
-            <label>Sustituir imagen (Opcional):</label>
-            <input type="file" name="imagen" accept="image/*">
-<<<<<<< HEAD
-=======
+            <div class="mb-3">
+                <p class="mb-2">Imagen actual: <strong>$imagenActual</strong></p>
+                <img src="$rutaImagenActual" alt="Imagen actual de $nombre" class="rounded border object-fit-cover" style="width:160px; height:110px;">
+            </div>
+
+            <div class="mb-4">
+            <label class="form-label">Sustituir imagen opcional</label>
+            <input class="form-control" type="file" name="imagen" accept="image/*">
             {$erroresCampos['imagen']}
->>>>>>> angela
-            
-            <div class="acciones" style="margin-top: 20px;">
-                <button type="submit">Actualizar Cambios</button>
-                <a href="../categorias_gerente.php" class="boton-borrar">Cancelar</a>
             </div>
-<<<<<<< HEAD
-        </form>
-EOF;
-    }
-}
-=======
+            
+            <div class="d-flex flex-wrap gap-2">
+                <button class="btn btn-success" type="submit">Actualizar cambios</button>
+                <a href="../categorias_gerente.php" class="btn btn-outline-secondary">Cancelar</a>
+            </div>
+        </div>
         </div>
 EOF;
     }
@@ -143,9 +93,20 @@ EOF;
             return;
         }
 
-        // Procesar nueva imagen si existe
-        if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
-            $ext = pathinfo($_FILES['imagen']['name'], PATHINFO_EXTENSION);
+        if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] !== UPLOAD_ERR_NO_FILE) {
+            if ($_FILES['imagen']['error'] !== UPLOAD_ERR_OK) {
+                $this->errores['imagen'] = "No se pudo subir la imagen.";
+                return;
+            }
+
+            $ext = strtolower(pathinfo($_FILES['imagen']['name'], PATHINFO_EXTENSION));
+            $extensionesPermitidas = ['jpg', 'jpeg', 'png', 'webp', 'avif'];
+
+            if (!in_array($ext, $extensionesPermitidas, true) || getimagesize($_FILES['imagen']['tmp_name']) === false) {
+                $this->errores['imagen'] = "El archivo debe ser una imagen válida.";
+                return;
+            }
+
             $nombreNuevo = uniqid('cat_') . '.' . $ext;
             $rutaDestino = DIR_RAIZ . "/img/categorias/" . $nombreNuevo;
 
@@ -169,4 +130,3 @@ EOF;
         }
     }
 }
->>>>>>> angela

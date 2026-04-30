@@ -9,162 +9,127 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
 }
 
 $tituloPagina = "Perfil- BISTRO FDI";
-$css = [(RAIZ_APP . "/css/default.css"), (RAIZ_APP . "/css/modales.css")];
+$css = [];
 $header = (__DIR__ . "/../comun/header.php");
 $claseMain = "contenedor-centro";
 ob_start(); ?>
 
-<div class="perfil-container">
-    <h1 id="titulo-perfil">Perfil</h1>
-    <div class="imagen-usarname-container">
-        <figure id="contenedor-avatar">
-            <img id="Logo-Usuario" src="<?php echo RUTA_IMG . '/perfiles/' . $_SESSION['usuario']->avatar(); ?>" alt="Logo de Usuario">
-            <div class="capa-editar">
-                <a onclick="abrirModalAvatar()"><img src="<?php echo RUTA_IMG; ?>/iconos/lapiz_blanco.png" class="icono-lapiz-img" alt="Editar"></a>
-            </div>
-<<<<<<< HEAD
-            
-=======
-
->>>>>>> angela
-        </figure>
-        <h2 id="nombre-usuario"><?php echo $_SESSION['usuario']->usuario(); ?></h2>
-        <img onclick="abrirModal('Usuario', '<?php echo base64_encode($_SESSION['usuario']->usuario()); ?>')"src="<?php echo RUTA_IMG; ?>/iconos/lapiz.png" id="boton-editar-usuario" alt="Editar">
+<div class="card shadow-sm mx-auto" style="max-width: 760px;">
+    <div class="card-body p-4">
+    <h1 class="h3 mb-4">Perfil</h1>
+    <div class="text-center mb-4">
+        <img id="Logo-Usuario" src="<?php echo RUTA_IMG . '/perfiles/' . $_SESSION['usuario']->avatar(); ?>" alt="Logo de Usuario">
+        <h2 class="h4 mt-3"><?php echo htmlspecialchars($_SESSION['usuario']->usuario()); ?></h2>
+        <div class="d-flex justify-content-center gap-2">
+            <button class="btn btn-sm btn-outline-primary" onclick="abrirModalAvatar()">Cambiar avatar</button>
+            <button class="btn btn-sm btn-outline-primary" onclick="abrirModal('Usuario', '<?php echo base64_encode($_SESSION['usuario']->usuario()); ?>')">Editar usuario</button>
+        </div>
     </div>
-    <br>
     <article>
-        <div class="fila-dato">
-            <h2 class="tipo-dato-usuario">Nombre:</h2>
-            <h2 class="datos-usuario"><?php echo $_SESSION['usuario']->nombre(); ?></h2>
-            <img onclick="abrirModal('Nombre', '<?php echo base64_encode($_SESSION['usuario']->nombre()); ?>')" src="<?php echo RUTA_IMG; ?>/iconos/lapiz.png" class="lapiz-negro" id="boton-editar-nombre" alt="Editar">
+        <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+            <div><strong>Nombre:</strong> <?php echo htmlspecialchars($_SESSION['usuario']->nombre()); ?></div>
+            <button class="btn btn-sm btn-outline-primary" onclick="abrirModal('Nombre', '<?php echo base64_encode($_SESSION['usuario']->nombre()); ?>')">Editar</button>
         </div>
-        <br>
-        <div class="fila-dato">
-            <h2 class="tipo-dato-usuario">Apellidos:</h2>
-            <h2 class="datos-usuario"><?php echo $_SESSION['usuario']->apellidos(); ?></h2>
-            <img onclick="abrirModal('Apellidos', '<?php echo base64_encode($_SESSION['usuario']->apellidos()); ?>')" src="<?php echo RUTA_IMG; ?>/iconos/lapiz.png" class="lapiz-negro" id="boton-editar-apellidos" alt="Editar">
+        <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+            <div><strong>Apellidos:</strong> <?php echo htmlspecialchars($_SESSION['usuario']->apellidos()); ?></div>
+            <button class="btn btn-sm btn-outline-primary" onclick="abrirModal('Apellidos', '<?php echo base64_encode($_SESSION['usuario']->apellidos()); ?>')">Editar</button>
         </div>
-        <br>
-        <div class="fila-dato">
-            <h2 class="tipo-dato-usuario">Email:</h2>
-            <h2 class="datos-usuario"><?php echo $_SESSION['usuario']->email(); ?></h2>
-            <img onclick="abrirModal('Email', '<?php echo base64_encode($_SESSION['usuario']->email()); ?>')" src="<?php echo RUTA_IMG; ?>/iconos/lapiz.png" class="lapiz-negro" id="boton-editar-email" alt="Editar">
+        <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+            <div><strong>Email:</strong> <?php echo htmlspecialchars($_SESSION['usuario']->email()); ?></div>
+            <button class="btn btn-sm btn-outline-primary" onclick="abrirModal('Email', '<?php echo base64_encode($_SESSION['usuario']->email()); ?>')">Editar</button>
         </div>
-        <br>
-        <div class="centrado">
-            <button id="boton_aceptar" onclick="abrirModalPassword()">Cambiar Contraseña</button>
-            <br><br>
-            <button id="boton_cancelar" onclick="window.location.href='<?php echo RAIZ_APP; ?>/'">Volver</button>
+        <div class="d-flex flex-wrap gap-2 mt-4">
+            <button class="btn btn-warning" onclick="abrirModalPassword()">Cambiar contraseña</button>
+            <button class="btn btn-outline-secondary" onclick="window.location.href='<?php echo RAIZ_APP; ?>/'">Volver</button>
         </div>
     </article>
+    </div>
 </div>
-<<<<<<< HEAD
-<?php 
-=======
 <?php
->>>>>>> angela
 $contenidoPrincipal = ob_get_clean();
 ob_start(); ?>
 
 <div id="modalEditarAvatar" class="modal">
     <div class="modal-contenido">
         <span class="cerrar-modal-avatar">&times;</span>
-        <h3>Editar Avatar</h3>
+        <h3 class="h4 mb-3">Editar Avatar</h3>
         <form action="apoyo/editar_avatar.php" id="formEditar" method="POST" enctype="multipart/form-data">
-<<<<<<< HEAD
-        
-=======
 
->>>>>>> angela
-            <div class="seleccion-avatares">
+            <div class="row row-cols-3 row-cols-sm-4 g-3 mb-3">
                 <?php if($_SESSION['usuario']->rol() === 'cliente'){
                         foreach (AVATARES_INICIALES as $indice => $archivo): ?>
-                        <label class="opcion-avatar">
-                            <img class="opcion-imagen-avatar" src="<?php echo RUTA_IMG . '/perfiles/' . $archivo; ?>" alt="Avatar <?= $indice; ?>">
-                            <input type="radio" name="foto_perfil" value="<?= $archivo; ?>">
+                        <label class="opcion-avatar col text-center">
+                            <input class="btn-check" type="radio" name="foto_perfil" value="<?= $archivo; ?>">
+                            <span class="btn btn-outline-secondary w-100 p-2"><img class="rounded-circle object-fit-cover" style="width:54px;height:54px;" src="<?php echo RUTA_IMG . '/perfiles/' . $archivo; ?>" alt="Avatar <?= $indice; ?>"></span>
                         </label>
                     <?php endforeach;
                 }
                 elseif($_SESSION['usuario']->rol() === 'camarero'){
                         foreach (AVATARES_CAMARERO as $indice => $archivo): ?>
-                        <label class="opcion-avatar">
-                            <img class="opcion-imagen-avatar" src="<?php echo RUTA_IMG . '/perfiles/' . $archivo; ?>" alt="Avatar <?= $indice; ?>">
-                            <input type="radio" name="foto_perfil" value="<?= $archivo; ?>">
+                        <label class="opcion-avatar col text-center">
+                            <input class="btn-check" type="radio" name="foto_perfil" value="<?= $archivo; ?>">
+                            <span class="btn btn-outline-secondary w-100 p-2"><img class="rounded-circle object-fit-cover" style="width:54px;height:54px;" src="<?php echo RUTA_IMG . '/perfiles/' . $archivo; ?>" alt="Avatar <?= $indice; ?>"></span>
                         </label>
                     <?php endforeach;
                 }elseif($_SESSION['usuario']->rol() === 'cocinero'){
                         foreach (AVATARES_COCINERO as $indice => $archivo): ?>
-                        <label class="opcion-avatar">
-                            <img class="opcion-imagen-avatar" src="<?php echo RUTA_IMG . '/perfiles/' . $archivo; ?>" alt="Avatar <?= $indice; ?>">
-                            <input type="radio" name="foto_perfil" value="<?= $archivo; ?>">
+                        <label class="opcion-avatar col text-center">
+                            <input class="btn-check" type="radio" name="foto_perfil" value="<?= $archivo; ?>">
+                            <span class="btn btn-outline-secondary w-100 p-2"><img class="rounded-circle object-fit-cover" style="width:54px;height:54px;" src="<?php echo RUTA_IMG . '/perfiles/' . $archivo; ?>" alt="Avatar <?= $indice; ?>"></span>
                         </label>
                     <?php endforeach;
                 }else{
                         foreach (IMAGENES_BASE as $indice => $archivo): ?>
-                        <label class="opcion-avatar">
-                            <img class="opcion-imagen-avatar" src="<?php echo RUTA_IMG . '/perfiles/' . $archivo; ?>" alt="Avatar <?= $indice; ?>">
-                            <input type="radio" name="foto_perfil" value="<?= $archivo; ?>">
+                        <label class="opcion-avatar col text-center">
+                            <input class="btn-check" type="radio" name="foto_perfil" value="<?= $archivo; ?>">
+                            <span class="btn btn-outline-secondary w-100 p-2"><img class="rounded-circle object-fit-cover" style="width:54px;height:54px;" src="<?php echo RUTA_IMG . '/perfiles/' . $archivo; ?>" alt="Avatar <?= $indice; ?>"></span>
                         </label>
                     <?php endforeach;
                 }?>
-                <label class="opcion-avatar">
-                    <div class="cuadro-subir-archivo">
-                        <p>Elegir<br>Archivo</p>
-                    </div>
-                    <input type="radio" name="foto_perfil" value="custom" id="radio-custom">
+                <label class="opcion-avatar col text-center">
+                    <input class="btn-check" type="radio" name="foto_perfil" value="custom" id="radio-custom">
+                    <span class="btn btn-outline-secondary w-100 p-3">Subir archivo</span>
                 </label>
             </div>
 
             <div id="archivo-avatar">
-                <br>
-                <input type="file" id="avatar-nuevo" name="foto_perfil" accept="image/*">
-                <br>
-                <br>
-                <br>
+                <input class="form-control mb-3" type="file" id="avatar-nuevo" name="foto_perfil" accept="image/*">
             </div>
-<<<<<<< HEAD
-            
-=======
 
->>>>>>> angela
-            <button type="submit" class="boton-guardar">Guardar cambios</button>
+            <button type="submit" class="btn btn-success">Guardar cambios</button>
         </form>
     </div>
 </div>
 <div id="modalEditar" class="modal">
     <div class="modal-contenido">
         <span class="cerrar-modal">&times;</span>
-        <h3>Editar <span id="campo-a-editar"></span></h3>
+        <h3 class="h4 mb-3">Editar <span id="campo-a-editar"></span></h3>
         <form action="apoyo/editar_dato.php" id="formEditar" method="POST">
             <input type="hidden" id="campo-editar" autocomplete="off" name="campo-editar" value="error">
-            <label id="label-nuevo-valor"></label>
-            <input type="text" id="nuevo-valor" name="nuevo-valor" required>
-            <button type="submit" class="boton-guardar">Guardar cambios</button>
+            <label class="form-label" id="label-nuevo-valor"></label>
+            <input class="form-control mb-3" type="text" id="nuevo-valor" name="nuevo-valor" required>
+            <button type="submit" class="btn btn-success">Guardar cambios</button>
         </form>
     </div>
 </div>
 <div id="modalEditarPassword" class="modal">
     <div class="modal-contenido">
         <span class="cerrar-modal-pass">&times;</span>
-        <h3>Editar Contraseña</h3>
+        <h3 class="h4 mb-3">Editar Contraseña</h3>
         <form action="apoyo/editar_password.php" id="formEditarPassword" method="POST">
             <input type="text" autocomplete="username" name="usuario" value="<?php echo $_SESSION['usuario']->usuario(); ?>" hidden>
-            <label>Contraseña Actual:</label>
-            <input type="password" id="contrasena" autocomplete="current-password" name="contrasena" placeholder="Contraseña actual" required>
-            <label>Nueva Contraseña:</label>
-            <input type="password" id="nueva-contrasena" autocomplete="new-password" name="nueva-contrasena" placeholder="Nueva contraseña"required>
-            <label>Confirmar Nueva Contraseña:</label>
-            <input type="password" id="confirmar-contrasena" autocomplete="new-password" name="confirmar-contrasena" placeholder="Confirmar nueva contraseña"required><br>
-            <button type="submit" class="boton-guardar">Guardar cambios</button>
+            <label class="form-label">Contraseña actual</label>
+            <input class="form-control mb-3" type="password" id="contrasena" autocomplete="current-password" name="contrasena" placeholder="Contraseña actual" required>
+            <label class="form-label">Nueva contraseña</label>
+            <input class="form-control mb-3" type="password" id="nueva-contrasena" autocomplete="new-password" name="nueva-contrasena" placeholder="Nueva contraseña" required>
+            <label class="form-label">Confirmar nueva contraseña</label>
+            <input class="form-control mb-3" type="password" id="confirmar-contrasena" autocomplete="new-password" name="confirmar-contrasena" placeholder="Confirmar nueva contraseña" required>
+            <button type="submit" class="btn btn-success">Guardar cambios</button>
         </form>
     </div>
 </div>
 <!-- Contenido -->
-<<<<<<< HEAD
-<?php 
-=======
 <?php
->>>>>>> angela
 
 if (isset($_SESSION['error_editar_perfil']) && $_SESSION['error_editar_perfil'] !== "Ninguno"){
     echo '<div id="modalError" class="modal">';

@@ -1,27 +1,17 @@
-<<<<<<< HEAD
-<?php 
-require_once ('includes/config.php');
-session_start(); 
-=======
 <?php
 require_once ('includes/config.php');
 session_start();
->>>>>>> angela
 $SA = new UsuarioSA($db_connection);
 
 // DEFINIR tituloPagina, css, header, contenidoPrincipal y js  antes del include
 
 $tituloPagina = "Bistro FDI";
-$css = [(RUTA_CSS . "/default.css")];
+$css = [];
 $js = [(RAIZ_APP . "/js/script.js"),(RAIZ_APP . "/js/pedidos.js")];
 $claseMain = "contenedor-centro";
 
 ob_start(); // Capturamos el contenido del include
-<<<<<<< HEAD
-if(isset($_SESSION['login']) && $_SESSION['login']){        
-=======
 if(isset($_SESSION['login']) && $_SESSION['login']){
->>>>>>> angela
     if ($SA->usuarioValido($_SESSION['usuario'])) {
         $header = (DIR_RAIZ . '/includes/vistas/comun/header.php');
         include (DIR_RAIZ . '/includes/vistas/usuarios/inicio.php');

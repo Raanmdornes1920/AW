@@ -7,47 +7,45 @@ if (!isset($_SESSION['login']) || $_SESSION['usuario']->rol() !== 'gerente') {
 }
 
 $sa = new CategoriaSA($db_connection);
-<<<<<<< HEAD
-$categorias = $sa->obtenerTodas(); 
-=======
 $categorias = $sa->obtenerTodas();
->>>>>>> angela
 
 $tituloPagina = "Gestión de Categorías - Bistro FDI";
-$css = [RAIZ_APP . "/css/default.css"];
+$css = [];
 $header = "../comun/header.php";
 $claseMain = "contenedor-centro";
 
 $filas = "";
 foreach($categorias as $cat) {
-    $img = !empty($cat->getImagen()) ? RUTA_IMG . "/categorias/" . htmlspecialchars($cat->getImagen()) : RUTA_IMG . "/categorias/default_cat.png";
+    $img = !empty($cat->getImagen()) ? RUTA_IMG . "/categorias/" . htmlspecialchars($cat->getImagen()) : RUTA_IMG . "/categorias/categoria_default.jpg";
     $nombre = htmlspecialchars($cat->getNombre());
     $desc = htmlspecialchars($cat->getDescripcion());
     $id = $cat->getId();
 
     $filas .= <<<EOF
     <tr>
-        <td><img src="$img" width="50" height="50" style="object-fit: cover;"></td>
+        <td><img src="$img" class="rounded table-img" alt="$nombre"></td>
         <td>$nombre</td>
         <td>$desc</td>
         <td>
-            <a href="apoyo/categoria_actualizar.php?id=$id" class="boton-editar">Editar</a>
-            <a href="apoyo/categoria_borrar.php?id=$id" class="boton-borrar">Eliminar</a>
+            <div class="btn-group btn-group-sm" role="group">
+                <a href="apoyo/categoria_actualizar.php?id=$id" class="btn btn-outline-primary">Editar</a>
+                <a href="apoyo/categoria_borrar.php?id=$id" class="btn btn-outline-danger">Eliminar</a>
+            </div>
         </td>
     </tr>
 EOF;
 }
 
 $contenidoPrincipal = <<<EOF
-    <h1>Gestión de Categorías</h1>
-    <a href="apoyo/categoria_crear.php" class="boton-nuevo">Nueva Categoría</a>
-<<<<<<< HEAD
-   
-=======
+    <div class="d-flex flex-column flex-sm-row justify-content-between gap-3 align-items-sm-center mb-4">
+        <h1 class="h2 mb-0">Gestión de Categorías</h1>
+        <a href="apoyo/categoria_crear.php" class="btn btn-success">Nueva Categoría</a>
+    </div>
 
->>>>>>> angela
-    <div class="contenedor-tabla-scroll">
-        <table class="tabla-gestion-categorias">
+    <div class="card shadow-sm">
+    <div class="card-body">
+    <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle mb-0">
             <thead>
                 <tr>
                     <th>Imagen</th>
@@ -60,6 +58,8 @@ $contenidoPrincipal = <<<EOF
                 $filas
             </tbody>
         </table>
+    </div>
+    </div>
     </div>
 EOF;
 

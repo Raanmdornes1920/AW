@@ -10,7 +10,7 @@ $sa = new OfertaSA($db_connection);
 $ofertas = $sa->obtenerTodas();
 
 $tituloPagina = "Gestión de Ofertas - Bistro FDI";
-$css = [RAIZ_APP . "/css/default.css"];
+$css = [];
 $header = "../comun/header.php";
 $claseMain = "contenedor-cliente";
 
@@ -42,42 +42,45 @@ foreach($ofertas as $oferta) {
 
     // Estado activa/caducada
     if ($oferta->estaActiva()) {
-        $badgeEstado = '<span class="badge badge-success">Activa</span>';
+        $badgeEstado = '<span class="badge text-bg-success">Activa</span>';
     } elseif ($oferta->getFechaFin() < $hoy) {
-        $badgeEstado = '<span class="badge badge-danger">Caducada</span>';
+        $badgeEstado = '<span class="badge text-bg-danger">Caducada</span>';
     } else {
-        $badgeEstado = '<span class="badge">Programada</span>';
+        $badgeEstado = '<span class="badge text-bg-secondary">Programada</span>';
     }
 
     $filas .= <<<EOF
     <tr>
-        <td data-label="Nombre">{$nombre}</td>
-        <td data-label="Descripción" class="col-desc">{$desc}</td>
-        <td data-label="Productos">{$productosHtml}</td>
-        <td data-label="Precio Pack">{$precioSinDesc} €</td>
-        <td data-label="Descuento">{$descuento}%</td>
-        <td data-label="Precio Final">{$precioConDesc} €</td>
-        <td data-label="Inicio">{$fechaInicio}</td>
-        <td data-label="Fin">{$fechaFin}</td>
-        <td data-label="Estado">{$badgeEstado}</td>
-        <td data-label="Acciones">
-            <a href="apoyo/oferta_actualizar.php?id={$id}" class="boton-editar">Editar</a>
-            <a href="apoyo/oferta_borrar.php?id={$id}" class="boton-borrar">Eliminar</a>
+        <td>{$nombre}</td>
+        <td class="text-truncate" style="max-width: 240px;">{$desc}</td>
+        <td>{$productosHtml}</td>
+        <td>{$precioSinDesc} €</td>
+        <td>{$descuento}%</td>
+        <td>{$precioConDesc} €</td>
+        <td>{$fechaInicio}</td>
+        <td>{$fechaFin}</td>
+        <td>{$badgeEstado}</td>
+        <td>
+            <div class="btn-group btn-group-sm" role="group">
+                <a href="apoyo/oferta_actualizar.php?id={$id}" class="btn btn-outline-primary">Editar</a>
+                <a href="apoyo/oferta_borrar.php?id={$id}" class="btn btn-outline-danger">Eliminar</a>
+            </div>
         </td>
     </tr>
 EOF;
 }
 
 $contenidoPrincipal = <<<EOF
-    <section class="pagina-cliente pagina-admin-ofertas">
-        <header class="cabecera-pagina">
-            <h1>Gestión de Ofertas</h1>
-            <a href="apoyo/oferta_crear.php" class="boton-nuevo">Nueva Oferta</a>
+    <section>
+        <header class="d-flex flex-column flex-sm-row justify-content-between gap-3 align-items-sm-center mb-4">
+            <h1 class="h2 mb-0">Gestión de Ofertas</h1>
+            <a href="apoyo/oferta_crear.php" class="btn btn-success">Nueva Oferta</a>
         </header>
 
-        <section class="panel-cliente">
-            <div class="contenedor-tabla-scroll">
-                <table class="tabla-detalle tabla-ofertas-gerente">
+        <section class="card shadow-sm">
+            <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover align-middle mb-0">
                     <thead>
                         <tr>
                             <th>Nombre</th>
@@ -96,6 +99,7 @@ $contenidoPrincipal = <<<EOF
                         {$filas}
                     </tbody>
                 </table>
+            </div>
             </div>
         </section>
     </section>

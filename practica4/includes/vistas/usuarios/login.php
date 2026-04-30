@@ -5,23 +5,22 @@ require_once __DIR__ . '/apoyo/formularioLogin.php';
 //session_start();
 
 $tituloPagina = "Login - Bistro FDI";
-$css = [(RAIZ_APP . "/css/default.css")];
+$css = [];
 $claseMain = "contenedor-centro";
 
 $form = new FormularioLogin();
 $htmlForm = $form->gestiona();
 $contenidoPrincipal = <<<EOF
-<<<<<<< HEAD
-        
-            <h1>Inicio de Sesion</h1>
-            $htmlForm
-        
-=======
-
-            <h1>Inicio de Sesion</h1>
-            $htmlForm
-
->>>>>>> angela
+<div class="row justify-content-center">
+    <div class="col-12 col-sm-10 col-md-7 col-lg-5">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <h1 class="h3 mb-4 text-center">Inicio de sesión</h1>
+                $htmlForm
+            </div>
+        </div>
+    </div>
+</div>
 EOF;
 
 $js = [(RAIZ_APP . "/js/script.js")];

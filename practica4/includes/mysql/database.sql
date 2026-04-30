@@ -11,10 +11,6 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-<<<<<<< HEAD
-
-=======
->>>>>>> angela
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -34,7 +30,7 @@ CREATE TABLE `categorias` (
   `id` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
   `descripcion` text DEFAULT NULL,
-  `imagen` varchar(255) DEFAULT 'default_cat.png',
+  `imagen` varchar(255) DEFAULT 'categoria_default.jpg',
   `activa` tinyint(1) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -104,9 +100,6 @@ CREATE TABLE `pedidos` (
   `fecha` datetime DEFAULT current_timestamp(),
   `estado` enum('recibido','en_preparacion','cocinando','listo_cocina','terminado','entregado','cancelado') DEFAULT 'recibido',
   `tipo` enum('local','llevar') NOT NULL,
-<<<<<<< HEAD
-  `total` decimal(10,2) NOT NULL
-=======
   `total` decimal(10,2) NOT NULL,
   `total_sin_descuento` decimal(10,2) DEFAULT NULL,
   `descuento_aplicado` decimal(10,2) DEFAULT 0.00
@@ -125,7 +118,6 @@ CREATE TABLE `pedido_ofertas` (
   `nombre_oferta` varchar(150) NOT NULL,
   `veces_aplicada` int(11) NOT NULL DEFAULT 1,
   `descuento_total` decimal(10,2) NOT NULL DEFAULT 0.00
->>>>>>> angela
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -218,87 +210,39 @@ INSERT INTO `usuarios` (`id`, `nombre_usuario`, `email`, `nombre`, `apellidos`, 
 -- Índices para tablas volcadas
 --
 
-<<<<<<< HEAD
---
--- Indices de la tabla `categorias`
---
-=======
->>>>>>> angela
 ALTER TABLE `categorias`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `nombre` (`nombre`);
 
-<<<<<<< HEAD
---
--- Indices de la tabla `lineas_pedido`
---
-=======
->>>>>>> angela
 ALTER TABLE `lineas_pedido`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_linea_pedido` (`id_pedido`),
   ADD KEY `fk_linea_producto` (`id_producto`);
 
-<<<<<<< HEAD
---
--- Indices de la tabla `ofertas`
---
 ALTER TABLE `ofertas`
   ADD PRIMARY KEY (`id`);
 
---
--- Indices de la tabla `oferta_productos`
---
-=======
-ALTER TABLE `ofertas`
-  ADD PRIMARY KEY (`id`);
-
->>>>>>> angela
 ALTER TABLE `oferta_productos`
   ADD PRIMARY KEY (`id_oferta`,`id_producto`),
   ADD KEY `id_producto` (`id_producto`);
 
-<<<<<<< HEAD
---
--- Indices de la tabla `pedidos`
---
-=======
->>>>>>> angela
 ALTER TABLE `pedidos`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_pedido_usuario` (`id_usuario`);
 
-<<<<<<< HEAD
---
--- Indices de la tabla `productos`
---
-=======
 ALTER TABLE `pedido_ofertas`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_pedido_ofertas_pedido` (`id_pedido`),
   ADD KEY `fk_pedido_ofertas_oferta` (`id_oferta`);
 
->>>>>>> angela
 ALTER TABLE `productos`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_prod_cat` (`id_categoria`);
 
-<<<<<<< HEAD
---
--- Indices de la tabla `productos_imagenes`
---
-=======
->>>>>>> angela
 ALTER TABLE `productos_imagenes`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_img_prod` (`id_producto`);
 
-<<<<<<< HEAD
---
--- Indices de la tabla `usuarios`
---
-=======
->>>>>>> angela
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `nombre_usuario` (`nombre_usuario`),
@@ -308,47 +252,6 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
-<<<<<<< HEAD
---
--- AUTO_INCREMENT de la tabla `categorias`
---
-ALTER TABLE `categorias`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-
---
--- AUTO_INCREMENT de la tabla `lineas_pedido`
---
-ALTER TABLE `lineas_pedido`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
-
---
--- AUTO_INCREMENT de la tabla `ofertas`
---
-ALTER TABLE `ofertas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `pedidos`
---
-ALTER TABLE `pedidos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-
---
--- AUTO_INCREMENT de la tabla `productos`
---
-ALTER TABLE `productos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
-
---
--- AUTO_INCREMENT de la tabla `productos_imagenes`
---
-ALTER TABLE `productos_imagenes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
-
---
--- AUTO_INCREMENT de la tabla `usuarios`
---
-=======
 ALTER TABLE `categorias`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
@@ -370,7 +273,6 @@ ALTER TABLE `productos`
 ALTER TABLE `productos_imagenes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
->>>>>>> angela
 ALTER TABLE `usuarios`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
@@ -378,45 +280,14 @@ ALTER TABLE `usuarios`
 -- Restricciones para tablas volcadas
 --
 
-<<<<<<< HEAD
---
--- Filtros para la tabla `lineas_pedido`
---
-=======
->>>>>>> angela
 ALTER TABLE `lineas_pedido`
   ADD CONSTRAINT `fk_linea_pedido` FOREIGN KEY (`id_pedido`) REFERENCES `pedidos` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_linea_producto` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id`);
 
-<<<<<<< HEAD
---
--- Filtros para la tabla `oferta_productos`
---
-=======
->>>>>>> angela
 ALTER TABLE `oferta_productos`
   ADD CONSTRAINT `oferta_productos_ibfk_1` FOREIGN KEY (`id_oferta`) REFERENCES `ofertas` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `oferta_productos_ibfk_2` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id`);
 
-<<<<<<< HEAD
---
--- Filtros para la tabla `pedidos`
---
-ALTER TABLE `pedidos`
-  ADD CONSTRAINT `fk_pedido_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`);
-
---
--- Filtros para la tabla `productos`
---
-ALTER TABLE `productos`
-  ADD CONSTRAINT `fk_prod_cat` FOREIGN KEY (`id_categoria`) REFERENCES `categorias` (`id`);
-
---
--- Filtros para la tabla `productos_imagenes`
---
-ALTER TABLE `productos_imagenes`
-  ADD CONSTRAINT `fk_img_prod` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id`) ON DELETE CASCADE;
-=======
 ALTER TABLE `pedidos`
   ADD CONSTRAINT `fk_pedido_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`);
 
@@ -430,7 +301,6 @@ ALTER TABLE `productos`
 ALTER TABLE `productos_imagenes`
   ADD CONSTRAINT `fk_img_prod` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id`) ON DELETE CASCADE;
 
->>>>>>> angela
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -51,24 +51,24 @@ function agregarProductoOferta(idProductoPreseleccionado, cantidadPreseleccionad
     var cantPre = cantidadPreseleccionada || 1;
 
     var fila = document.createElement('div');
-    fila.className = 'fila-producto-oferta';
+    fila.className = 'fila-producto-oferta row g-2 align-items-end mb-2';
 
     // Crear select de productos
-    var selectHtml = '<select name="prod_ids[]" onchange="recalcularPrecioPack()" class="select-producto-oferta" required>';
+    var selectHtml = '<div class="col-12 col-md-7"><select name="prod_ids[]" onchange="recalcularPrecioPack()" class="form-select" required>';
     selectHtml += '<option value="">-- Selecciona producto --</option>';
     productosDisponibles.forEach(function(p) {
         var selected = (p.id == idPre) ? 'selected' : '';
         selectHtml += '<option value="' + p.id + '" data-precio="' + p.precio + '" ' + selected + '>' 
             + p.nombre + ' (' + p.precio.toFixed(2) + ' €)</option>';
     });
-    selectHtml += '</select>';
+    selectHtml += '</select></div>';
 
     fila.innerHTML = selectHtml +
-        '<input type="number" name="prod_cants[]" value="' + cantPre + '" min="1" ' +
-        'class="cantidad-producto-oferta" ' +
-        'oninput="recalcularPrecioPack()" placeholder="Cant." required>' +
-        '<button type="button" onclick="eliminarFilaProducto(this)" ' +
-        'class="boton-borrar boton-quitar-producto" title="Quitar producto">✕</button>';
+        '<div class="col-6 col-md-3"><input type="number" name="prod_cants[]" value="' + cantPre + '" min="1" ' +
+        'class="form-control" ' +
+        'oninput="recalcularPrecioPack()" placeholder="Cant." required></div>' +
+        '<div class="col-6 col-md-2"><button type="button" onclick="eliminarFilaProducto(this)" ' +
+        'class="btn btn-outline-danger w-100" title="Quitar producto">Quitar</button></div>';
 
     contenedor.appendChild(fila);
     recalcularPrecioPack();

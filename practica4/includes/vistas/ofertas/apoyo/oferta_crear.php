@@ -17,7 +17,7 @@ $form = new FormularioCrearOferta($db_connection);
 $htmlForm = $form->gestiona();
 
 $contenidoPrincipal = <<<EOF
-    <section class="pagina-cliente pagina-formulario-oferta" id="contenido">
+    <section id="contenido">
         {$htmlForm}
     </section>
 EOF;

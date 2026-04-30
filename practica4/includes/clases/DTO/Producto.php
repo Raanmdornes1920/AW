@@ -8,13 +8,8 @@ class Producto {
     private $iva;
     private $disponible;
     private $ofertado;
-<<<<<<< HEAD
-    private $cocinable; 
-    private $nombre_categoria; 
-=======
     private $cocinable;
     private $nombre_categoria;
->>>>>>> angela
     private $imagenes = [];
 
     public function __construct($id, $id_cat, $nom, $desc, $pb, $iva, $disp, $ofert, $cocinable = 1, $cat_nom = '', $imagenes = []) {
@@ -26,15 +21,9 @@ class Producto {
         $this->iva = $iva;
         $this->disponible = $disp;
         $this->ofertado = $ofert;
-<<<<<<< HEAD
-        $this->cocinable = $cocinable; 
-        $this->nombre_categoria = $cat_nom;
-        $this->imagenes = is_array($imagenes) ? $imagenes : [$imagenes];    
-=======
         $this->cocinable = $cocinable;
         $this->nombre_categoria = $cat_nom;
         $this->imagenes = is_array($imagenes) ? $imagenes : [$imagenes];
->>>>>>> angela
     }
 
     public function getId() { return $this->id; }
@@ -45,26 +34,6 @@ class Producto {
     public function getIva() { return $this->iva; }
     public function getDisponible() { return $this->disponible; }
     public function getOfertado() { return $this->ofertado; }
-<<<<<<< HEAD
-    public function getCocinable() { return $this->cocinable; } 
-    public function getNombreCategoria() { return $this->nombre_categoria; }
-    
-    // MÉTODOS DE IMÁGENES BLINDADOS
-    public function getImagen() { 
-        if (empty($this->imagenes)) return 'default.png';
-        
-        $img = $this->imagenes;
-        
-        while (is_array($img)) {
-            $img = !empty($img) ? array_values($img)[0] : 'default.png';
-        }
-        
-        return (string) $img;
-    }
-    
-    public function getImagenesArray() { 
-        return is_array($this->imagenes) ? $this->imagenes : []; 
-=======
     public function getCocinable() { return $this->cocinable; }
     public function getNombreCategoria() { return $this->nombre_categoria; }
 
@@ -83,7 +52,6 @@ class Producto {
 
     public function getImagenesArray() {
         return is_array($this->imagenes) ? $this->imagenes : [];
->>>>>>> angela
     }
 
     public function getPrecioFinal() {

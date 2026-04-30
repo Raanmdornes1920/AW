@@ -20,7 +20,7 @@ if (!$cat) {
 $formulario = new FormularioActualizarCategoria($cat);
 
 $tituloPagina = "Editar Categoría";
-$css = [RAIZ_APP . "/css/default.css"];
+$css = [];
 $header = "../../comun/header.php";
 $claseMain = "contenedor-centro";
 

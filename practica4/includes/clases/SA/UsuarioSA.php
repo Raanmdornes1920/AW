@@ -18,11 +18,7 @@ class UsuarioSA {
     public function usuarioEnUso($usuario){
         return $this->DAO->usuarioEnUso($usuario);
     }
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> angela
     public function getListaUsuarios() {
         return $this->DAO->listaUsuarios();
     }

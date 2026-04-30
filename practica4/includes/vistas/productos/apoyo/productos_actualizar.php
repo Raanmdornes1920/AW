@@ -33,7 +33,7 @@ $form = new FormularioActualizarProducto($db_connection, $producto);
 $htmlForm = $form->gestiona();
 
 $contenidoPrincipal = <<<EOF
-    <section class="contenedor-centro" id="contenido">
+    <section id="contenido">
         $htmlForm
     </section>
 EOF;
