@@ -16,7 +16,7 @@ if ($posIncludes !== false) {
 $basePath = rtrim($basePath, '/');
 
 if ($es_local) {
-    define('RAIZ_APP', $basePath === '' ? '' : $basePath);
+     define('RAIZ_APP', '/AW/practica4');
     define('DIR_RAIZ', dirname(__DIR__));
 
     $host = "127.0.0.1";
@@ -50,7 +50,7 @@ define('AVATARES_INICIALES', ['default.png', 'base/base1.png', 'base/base2.png',
 $user = "root";
 $db   = "database";
 
-$db_connection = mysqli_connect($host, $user, $pass, $db, 3308);
+$db_connection = mysqli_connect($host, $user, $pass, $db, 3306);
 
 // Incluimos todo dentro de carpeta clases
 define('DIR_CLASES', __DIR__ . '/clases');
