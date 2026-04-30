@@ -1,0 +1,85 @@
+/*---------------------------------------- RAMON ----------------------------------------*/
+/*----- NAVBAR -----*/
+/* Ajustes para Móvil (Menos de 600px) */
+@media (max-width: 600px) {
+    .navbar-brand {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        margin: 0;
+    }
+
+    .navbar-collapse {
+        margin-top: 10px;
+        background: white;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+}
+
+/* Ajuste para PC/Tablet (Más de 600px) */
+@media (min-width: 600.01px) {
+    .navbar-collapse {
+        flex-basis: 100%;
+        flex-grow: 1;
+    }
+}
+/*----- NAVBAR -----*/
+
+/*----- PERFIL -----*/
+[class*="btn-editar-"] {
+    transition: all 0.4s ease; /* Suaviza la animación */
+}
+
+[class*="btn-editar-"]:hover {
+    transform: scale(1.2) !important; /* Mantiene el centrado y crece un 10% */
+}
+
+.btn-editar-usuario:hover {
+    transform: translateY(-50%) scale(1.2) !important; /* Mantiene el centrado y crece un 10% */
+}
+
+[class*="btn-editar-"]:hover i {
+    display: inline-block;
+}
+
+#contenedor-avatar {
+    /* Esto es vital: asegura que cualquier cosa absoluta muera en el borde del círculo */
+    -webkit-mask-image: -webkit-radial-gradient(white, black);
+    isolation: isolate; /* Crea un nuevo contexto de renderizado */
+}
+
+.capa-editar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    
+    /* Evita que la capa detecte clics fuera del círculo si hay márgenes */
+    pointer-events: none; 
+}
+
+#contenedor-avatar:hover .capa-editar {
+    opacity: 1;
+}
+
+/* Permitimos clics de nuevo solo cuando es visible */
+#contenedor-avatar:hover {
+    pointer-events: auto;
+}
+
+/*----- PERFIL -----*/
+
+
+
+/*---------------------------------------- RAMON ----------------------------------------*/

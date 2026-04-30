@@ -1,4 +1,4 @@
-$(document).ready(function()
+/*$(document).ready(function()
 {
     $("#botonGetUsuariosTest").on("click", showUsersTest);
 
@@ -102,7 +102,7 @@ var DeleteUser = function(userId)
             $('tr[name="' + userId + '"]').hide("slow");
         }
     });
-}
+}*/
 
 
 

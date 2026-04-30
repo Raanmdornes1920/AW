@@ -18,27 +18,34 @@ ob_start(); ?>
     <div class="card-body p-4">
     <h1 class="h3 mb-4">Perfil</h1>
     <div class="text-center mb-4">
-        <img id="Logo-Usuario" src="<?php echo RUTA_IMG . '/perfiles/' . $_SESSION['usuario']->avatar(); ?>" alt="Logo de Usuario">
-        <h2 class="h4 mt-3"><?php echo htmlspecialchars($_SESSION['usuario']->usuario()); ?></h2>
-        <div class="d-flex justify-content-center gap-2">
-            <button class="btn btn-sm btn-outline-primary" onclick="abrirModalAvatar()">Cambiar avatar</button>
-            <button class="btn btn-sm btn-outline-primary" onclick="abrirModal('Usuario', '<?php echo base64_encode($_SESSION['usuario']->usuario()); ?>')">Editar usuario</button>
+
+        <figure id="contenedor-avatar" class="position-relative d-inline-block rounded-circle overflow-hidden shadow-sm" style="width: 150px; height: 150px; cursor: pointer;" onclick="abrirModalAvatar()">
+            <img id="Logo-Usuario" class="w-100 h-100 object-fit-cover" src="<?php echo RUTA_IMG . '/perfiles/' . $_SESSION['usuario']->avatar(); ?>" alt="Logo de Usuario">
+            <div class="capa-editar">
+                <i class="bi bi-pencil-fill text-white fs-2"></i>
+            </div>
+        </figure>
+
+        <div class="d-block position-relative d-inline-block mt-3">
+            <h2 class="h4 m-0 d-inline-block"><?php echo htmlspecialchars($_SESSION['usuario']->usuario()); ?></h2>
+            <button class="btn btn-sm btn-outline-none position-absolute top-50 translate-middle-y ms-2 btn-editar-usuario" onclick="abrirModal('Usuario', '<?php echo base64_encode($_SESSION['usuario']->usuario()); ?>')"><i class="bi bi-pencil-fill fs-5"></i></button>
         </div>
+        
     </div>
     <article>
         <div class="d-flex justify-content-between align-items-center border-bottom py-2">
             <div><strong>Nombre:</strong> <?php echo htmlspecialchars($_SESSION['usuario']->nombre()); ?></div>
-            <button class="btn btn-sm btn-outline-primary" onclick="abrirModal('Nombre', '<?php echo base64_encode($_SESSION['usuario']->nombre()); ?>')">Editar</button>
+            <button class="btn btn-sm btn-outline-none btn-editar-nombre" onclick="abrirModal('Nombre', '<?php echo base64_encode($_SESSION['usuario']->nombre()); ?>')"><i class="bi bi-pencil-fill fs-5"></i></button>
         </div>
         <div class="d-flex justify-content-between align-items-center border-bottom py-2">
             <div><strong>Apellidos:</strong> <?php echo htmlspecialchars($_SESSION['usuario']->apellidos()); ?></div>
-            <button class="btn btn-sm btn-outline-primary" onclick="abrirModal('Apellidos', '<?php echo base64_encode($_SESSION['usuario']->apellidos()); ?>')">Editar</button>
+            <button class="btn btn-sm btn-outline-none btn-editar-apellidos" onclick="abrirModal('Apellidos', '<?php echo base64_encode($_SESSION['usuario']->apellidos()); ?>')"><i class="bi bi-pencil-fill fs-5"></i></button>
         </div>
         <div class="d-flex justify-content-between align-items-center border-bottom py-2">
             <div><strong>Email:</strong> <?php echo htmlspecialchars($_SESSION['usuario']->email()); ?></div>
-            <button class="btn btn-sm btn-outline-primary" onclick="abrirModal('Email', '<?php echo base64_encode($_SESSION['usuario']->email()); ?>')">Editar</button>
+            <button class="btn btn-sm btn-outline-none btn-editar-email" onclick="abrirModal('Email', '<?php echo base64_encode($_SESSION['usuario']->email()); ?>')"><i class="bi bi-pencil-fill fs-5"></i></button>
         </div>
-        <div class="d-flex flex-wrap gap-2 mt-4">
+        <div class="d-flex flex-wrap justify-content-center gap-2 mt-4">
             <button class="btn btn-warning" onclick="abrirModalPassword()">Cambiar contraseña</button>
             <button class="btn btn-outline-secondary" onclick="window.location.href='<?php echo RAIZ_APP; ?>/'">Volver</button>
         </div>
