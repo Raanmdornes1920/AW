@@ -12,7 +12,7 @@ $pedidoSA = new PedidoSA($db_connection);
 $pedidos = $pedidoSA->obtenerPedidosCamarero(); 
 
 $tituloPagina = "Panel de Camarero";
-$css = [RAIZ_APP . "/css/default.css"];
+$css = [];
 $header = "../comun/header.php";
 $claseMain = "contenedor-fullwidth";
 $js = [(RAIZ_APP . "/js/pedidos.js"), (RAIZ_APP . "/js/script.js")];
@@ -32,54 +32,70 @@ foreach ($pedidos as $p) {
     if ($estado === 'recibido') {
         // TABLA 1: COBROS PENDIENTES
         $botonAccion = "
-            <a href='pedido_detalle.php?id={$id}' class='boton-editar' style='display:block; text-align:center; margin-bottom:8px;'>Ver detalle</a>
+            <div class='d-grid gap-2'>
+            <a href='pedido_detalle.php?id={$id}' class='btn btn-outline-primary btn-lg'>Ver detalle</a>
             <form action='apoyo/procesar_estado_pedido.php' method='POST'>
                 <input type='hidden' name='id_pedido' value='$id'>
                 <input type='hidden' name='nuevo_estado' value='en_preparacion'>
-                <button type='submit' class='boton-nuevo' style='background-color:#FF9800;'>Cobrar y Enviar a Cocina</button>
-            </form>";
+                <button type='submit' class='btn btn-warning btn-lg w-100'>Cobrar y enviar a cocina</button>
+            </form>
+            </div>";
 
         $htmlCobros .= "<tr>
-            <td data-label='Nº Pedido'><strong style='font-size: 1.2em;'>#$num</strong></td>
-            <td data-label='Tipo'>$tipo</td>
-            <td data-label='Total'>$total €</td>
-            <td data-label='Estado'><span class='badge'>$estadoVisual</span></td>
-            <td data-label='Acción'>$botonAccion</td>
+            <td><strong class='fs-4'>#$num</strong></td>
+            <td>$tipo</td>
+            <td>$total €</td>
+            <td><span class='badge text-bg-secondary'>$estadoVisual</span></td>
+            <td>$botonAccion</td>
         </tr>";
     } elseif ($estado === 'listo_cocina' || $estado === 'terminado') {
         // TABLA 2: la bandeja se gestiona en la vista separada de detalle.
-        $botonAccion = "<a href='pedido_detalle.php?id={$id}' class='boton-nuevo' style='display:block; text-align:center;'>Gestionar detalle</a>";
+        $botonAccion = "<a href='pedido_detalle.php?id={$id}' class='btn btn-success btn-lg w-100'>Gestionar detalle</a>";
 
         $htmlPreparacion .= "<tr>
-            <td data-label='Nº Pedido' style='vertical-align: top;'><strong style='font-size: 1.2em;'>#$num</strong></td>
-            <td data-label='Estado/Tipo' style='vertical-align: top;'>$tipo<br><br><span class='badge'>$estadoVisual</span></td>
-            <td data-label='Acción' style='vertical-align: middle;'>$botonAccion</td>
+            <td><strong class='fs-4'>#$num</strong></td>
+            <td>$tipo<br><span class='badge text-bg-secondary'>$estadoVisual</span></td>
+            <td>$botonAccion</td>
         </tr>";
     }
 }
 
 // Componer HTML final de las tablas controlando si están vacías
-$tablaCobrosFinal = empty($htmlCobros) ? "<p style='text-align:center; padding:20px;'>No hay pedidos pendientes de cobro.</p>" : "
-    <table class='tabla-gestion'>
+$tablaCobrosFinal = empty($htmlCobros) ? "<div class='alert alert-info mb-0'>No hay pedidos pendientes de cobro.</div>" : "
+    <div class='table-responsive'><table class='table table-striped table-hover align-middle mb-0'>
         <thead><tr><th>Nº Pedido</th><th>Tipo</th><th>Total</th><th>Estado</th><th>Acción</th></tr></thead>
         <tbody>$htmlCobros</tbody>
-    </table>";
+    </table></div>";
 
-$tablaPreparacionFinal = empty($htmlPreparacion) ? "<p style='text-align:center; padding:20px;'>No hay pedidos pendientes de entrega.</p>" : "
-    <table class='tabla-gestion'>
+$tablaPreparacionFinal = empty($htmlPreparacion) ? "<div class='alert alert-info mb-0'>No hay pedidos pendientes de entrega.</div>" : "
+    <div class='table-responsive'><table class='table table-striped table-hover align-middle mb-0'>
         <thead><tr><th>Nº Pedido</th><th>Tipo/Estado</th><th>Acción</th></tr></thead>
         <tbody>$htmlPreparacion</tbody>
-    </table>";
+    </table></div>";
 
 $contenidoPrincipal = <<<EOF
-    <h1 style="text-align: center; margin-bottom: 5px;">Gestión de Camareros</h1>
-    <p style="text-align: center; color: #666; margin-bottom: 30px;">Recuerda recargar la página periódicamente para ver nuevos pedidos.</p>
+    <header class="text-center mb-4">
+        <h1 class="h2">Gestión de Camareros</h1>
+        <p class="text-secondary">Recuerda recargar la página periódicamente para ver nuevos pedidos.</p>
+    </header>
     
-    <h2 style="color: #FF9800; border-bottom: 2px solid #FF9800; padding-bottom: 5px;">1. Nuevos (Cobro y envío a Cocina)</h2>
-    $tablaCobrosFinal
+    <section class="card shadow-sm mb-4">
+        <div class="card-header bg-warning-subtle">
+            <h2 class="h4 mb-0">1. Nuevos (Cobro y envío a Cocina)</h2>
+        </div>
+        <div class="card-body">
+            $tablaCobrosFinal
+        </div>
+    </section>
 
-    <h2 style="margin-top: 40px; color: #4CAF50; border-bottom: 2px solid #4CAF50; padding-bottom: 5px;">2. Entregas (Bandejas y Bolsas)</h2>
-    $tablaPreparacionFinal
+    <section class="card shadow-sm">
+        <div class="card-header bg-success-subtle">
+            <h2 class="h4 mb-0">2. Entregas (Bandejas y Bolsas)</h2>
+        </div>
+        <div class="card-body">
+            $tablaPreparacionFinal
+        </div>
+    </section>
 EOF;
 
 require("../comun/plantilla.php");

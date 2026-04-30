@@ -107,4 +107,27 @@ class ProductoSA {
         }
         return false;
     }
+
+    public function retirarDeCarta($id) {
+        $p = $this->dao->obtenerPorId($id);
+        if (!$p) {
+            return false;
+        }
+
+        $pActualizado = new Producto(
+            $p->getId(),
+            $p->getIdCategoria(),
+            $p->getNombre(),
+            $p->getDescripcion(),
+            $p->getPrecioBase(),
+            $p->getIva(),
+            $p->getDisponible(),
+            0,
+            $p->getCocinable(),
+            $p->getNombreCategoria(),
+            $p->getImagenesArray()
+        );
+
+        return $this->dao->guardar($pActualizado);
+    }
 }

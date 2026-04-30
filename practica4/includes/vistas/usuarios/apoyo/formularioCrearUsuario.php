@@ -12,10 +12,10 @@ class FormularioCrearUsuario extends formularioBase {
 
     protected function generaCamposFormulario(&$datos) {
         // Recuperar valores previos para no borrarlos si hay error
-        $nombre = $datos['nombre'] ?? '';
-        $apellidos = $datos['apellidos'] ?? '';
-        $mail = $datos['mail'] ?? '';
-        $usuario = $datos['usuario'] ?? '';
+        $nombre = htmlspecialchars($datos['nombre'] ?? '', ENT_QUOTES, 'UTF-8');
+        $apellidos = htmlspecialchars($datos['apellidos'] ?? '', ENT_QUOTES, 'UTF-8');
+        $mail = htmlspecialchars($datos['mail'] ?? '', ENT_QUOTES, 'UTF-8');
+        $usuario = htmlspecialchars($datos['usuario'] ?? '', ENT_QUOTES, 'UTF-8');
 
         $htmlErroresGlobales = self::generaListaErroresGlobales($this->errores);
         $erroresCampos = self::generaErroresCampos(['nombre', 'apellidos', 'mail', 'usuario', 'password', 'password_confirm'], $this->errores);
@@ -36,39 +36,45 @@ class FormularioCrearUsuario extends formularioBase {
         $html = <<<EOF
         {$htmlErroresGlobales}
 
-        <label>Nombre:</label>
-        <br>
-        <input type="text" name="nombre" required>
-        <br>
-        {$erroresCampos['nombre']}
+        <div class="row g-3">
+        <div class="col-12 col-md-6">
+            <label class="form-label">Nombre</label>
+            <input class="form-control" type="text" name="nombre" value="$nombre" required>
+            {$erroresCampos['nombre']}
+        </div>
 
-        <label>Apellidos:</label>
-        <br>
-        <input type="text" name="apellidos" required>
-        <br>
-        {$erroresCampos['apellidos']}
+        <div class="col-12 col-md-6">
+            <label class="form-label">Apellidos</label>
+            <input class="form-control" type="text" name="apellidos" value="$apellidos" required>
+            {$erroresCampos['apellidos']}
+        </div>
 
-        <label>Correo Electrónico:</label>
-        <br>
-        <input type="email" name="mail" required>
-        <br>
-        {$erroresCampos['mail']}
+        <div class="col-12 col-md-6">
+            <label class="form-label">Correo electrónico</label>
+            <input class="form-control" type="email" name="mail" value="$mail" required>
+            {$erroresCampos['mail']}
+        </div>
 
-        <label>Usuario:</label>
-        <br>
-        <input type="text" name="usuario" required>
-        <br>
-        {$erroresCampos['usuario']}
+        <div class="col-12 col-md-6">
+            <label class="form-label">Usuario</label>
+            <input class="form-control" type="text" name="usuario" value="$usuario" required>
+            {$erroresCampos['usuario']}
+        </div>
+        </div>
 
+        <div class="mt-3">
         {$htmlSelectorImagenes}
+        </div>
 
-        <label>Rol:</label>
-        <select name="rol" id="select-rol-usuario">
+        <div class="mb-4">
+        <label class="form-label">Rol</label>
+        <select class="form-select" name="rol" id="select-rol-usuario">
             <option value="gerente">Gerente</option>
             <option value="cocinero">Cocinero</option>
             <option value="camarero">Camarero</option>
             <option value="cliente" selected>Cliente</option>
         </select>
+        </div>
 
         <input id="password" type="hidden" name="password" value="1234" required>
         {$erroresCampos['password']}
@@ -78,9 +84,9 @@ class FormularioCrearUsuario extends formularioBase {
         <input type="hidden" name="modo-admin" value="Verdadero">
         <input type="hidden" name="volver" value="{$ruta_volver}">
 
-        <div class="contenedor-botones">
-            <button type="submit" id="boton_aceptar">Crear Usuario</button>
-            <button onclick="window.location.href='{$ruta_volver2}'" type="button" id="boton_cancelar">Volver</button>
+        <div class="d-flex flex-wrap gap-2">
+            <button class="btn btn-success" type="submit" id="boton_aceptar">Crear usuario</button>
+            <button class="btn btn-outline-secondary" onclick="window.location.href='{$ruta_volver2}'" type="button" id="boton_cancelar">Volver</button>
         </div>
         EOF;
 

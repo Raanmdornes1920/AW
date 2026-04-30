@@ -12,7 +12,7 @@ if (!isset($_SESSION['login']) || $_SESSION['usuario']->rol() !== 'gerente') {
 $formulario = new FormularioCrearCategoria();
 
 $tituloPagina = "Nueva Categoría";
-$css = [RAIZ_APP . "/css/default.css"];
+$css = [];
 $header = "../../comun/header.php";
 $claseMain = "contenedor-centro";
 

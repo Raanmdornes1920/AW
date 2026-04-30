@@ -23,7 +23,7 @@ $yaAplicada = in_array((int)$oferta->getId(), array_map('intval', $activadas), t
 $veces = $ofertaSA->vecesAplicable($oferta, $carrito);
 
 $tituloPagina = $oferta->getNombre();
-$css = [RAIZ_APP . "/css/default.css"];
+$css = [];
 $header = "../comun/header.php";
 $claseMain = "contenedor-cliente";
 $js = [RAIZ_APP . "/js/script.js"];
@@ -46,16 +46,16 @@ foreach ($oferta->getProductos() as $producto) {
     $nombreProducto = htmlspecialchars($producto['nombre']);
     $precio = number_format($producto['precio_con_iva'], 2);
     $estadoProducto = $cantidadCarrito >= $cantidadNecesaria
-        ? "<span class='badge badge-success'>En carrito: {$cantidadCarrito}</span>"
-        : "<span class='badge'>En carrito: {$cantidadCarrito}</span>";
+        ? "<span class='badge text-bg-success'>En carrito: {$cantidadCarrito}</span>"
+        : "<span class='badge text-bg-secondary'>En carrito: {$cantidadCarrito}</span>";
 
     $productosHtml .= <<<EOF
     <tr>
-        <td data-label="Producto">{$nombreProducto}</td>
-        <td data-label="Necesitas">{$cantidadNecesaria}</td>
-        <td data-label="Tu carrito">{$estadoProducto}</td>
-        <td data-label="Precio unidad">{$precio} €</td>
-        <td data-label="Acción"><a href="../productos/productos_detalle.php?id={$idProducto}" class="boton-editar">Ver producto</a></td>
+        <td>{$nombreProducto}</td>
+        <td>{$cantidadNecesaria}</td>
+        <td>{$estadoProducto}</td>
+        <td>{$precio} €</td>
+        <td><a href="../productos/productos_detalle.php?id={$idProducto}" class="btn btn-sm btn-outline-primary">Ver producto</a></td>
     </tr>
 EOF;
 }
@@ -66,7 +66,7 @@ if ($yaAplicada) {
     <form class="form-accion-oferta" method="POST" action="../pedidos/apoyo/procesar_oferta.php">
         <input type="hidden" name="accion" value="quitar">
         <input type="hidden" name="id_oferta" value="{$idOferta}">
-        <button type="submit" class="boton-borrar">Quitar oferta</button>
+        <button type="submit" class="btn btn-outline-danger">Quitar oferta</button>
     </form>
 EOF;
 } elseif ($veces > 0) {
@@ -74,40 +74,41 @@ EOF;
     <form class="form-accion-oferta" method="POST" action="../pedidos/apoyo/procesar_oferta.php">
         <input type="hidden" name="accion" value="aplicar">
         <input type="hidden" name="id_oferta" value="{$idOferta}">
-        <button type="submit" class="boton-nuevo">Aplicar al pedido</button>
+        <button type="submit" class="btn btn-success">Aplicar al pedido</button>
     </form>
 EOF;
 } else {
-    $accion = "<a href='../productos/productos_cliente.php' class='boton-editar'>Añadir productos necesarios</a>";
+    $accion = "<a href='../productos/productos_cliente.php' class='btn btn-outline-primary'>Añadir productos necesarios</a>";
 }
 
 $aplicableTexto = $veces > 0
-    ? "<span class='badge badge-success'>Aplicable automáticamente x{$veces}</span>"
-    : "<span class='badge'>Todavía no aplicable</span>";
+    ? "<span class='badge text-bg-success'>Aplicable automáticamente x{$veces}</span>"
+    : "<span class='badge text-bg-secondary'>Todavía no aplicable</span>";
 
 $contenidoPrincipal = <<<EOF
-<section class="pagina-cliente pagina-detalle-oferta">
-    <article class="panel-cliente detalle-oferta">
-        <header class="cabecera-panel">
+<section>
+    <article class="card shadow-sm">
+        <div class="card-body p-4">
+        <header class="d-flex flex-column flex-lg-row justify-content-between gap-3 align-items-lg-start mb-4">
             <div>
-                <h1>{$nombre}</h1>
-                <p>{$descripcion}</p>
+                <h1 class="h2">{$nombre}</h1>
+                <p class="text-secondary mb-0">{$descripcion}</p>
             </div>
             {$aplicableTexto}
         </header>
 
-        <div class="resumen-oferta resumen-oferta-detalle">
-            <div class="dato-oferta"><small>Precio pack</small><br><strong>{$precioPack} €</strong></div>
-            <div class="dato-oferta"><small>Descuento</small><br><strong class="texto-descuento">-{$descuento}%</strong></div>
-            <div class="dato-oferta"><small>Precio final</small><br><strong class="texto-total">{$precioFinal} €</strong></div>
-            <div class="dato-oferta"><small>Ahorro</small><br><strong class="texto-ahorro">{$ahorro} €</strong></div>
+        <div class="row g-3 mb-4">
+            <div class="col-6 col-lg-3"><div class="border rounded p-3 h-100"><small class="text-secondary">Precio pack</small><br><strong>{$precioPack} €</strong></div></div>
+            <div class="col-6 col-lg-3"><div class="border rounded p-3 h-100"><small class="text-secondary">Descuento</small><br><strong class="text-danger">-{$descuento}%</strong></div></div>
+            <div class="col-6 col-lg-3"><div class="border rounded p-3 h-100"><small class="text-secondary">Precio final</small><br><strong class="text-success">{$precioFinal} €</strong></div></div>
+            <div class="col-6 col-lg-3"><div class="border rounded p-3 h-100"><small class="text-secondary">Ahorro</small><br><strong>{$ahorro} €</strong></div></div>
         </div>
 
-        <p class="fecha-oferta"><strong>Disponible:</strong> {$fechaInicio} - {$fechaFin}</p>
+        <p class="text-secondary"><strong>Disponible:</strong> {$fechaInicio} - {$fechaFin}</p>
 
-        <h2>Productos necesarios</h2>
-        <div class="contenedor-tabla-scroll">
-            <table class="tabla-detalle tabla-detalle-oferta">
+        <h2 class="h4">Productos necesarios</h2>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle">
             <thead>
                 <tr>
                     <th>Producto</th>
@@ -121,10 +122,11 @@ $contenidoPrincipal = <<<EOF
         </table>
         </div>
 
-        <div class="acciones">
+        <div class="d-flex flex-wrap gap-2 mt-4">
             {$accion}
-            <a href="ofertas_cliente.php" class="boton-editar">Volver a ofertas</a>
-            <a href="../pedidos/carrito.php" class="boton-nuevo">Ir al carrito</a>
+            <a href="ofertas_cliente.php" class="btn btn-outline-secondary">Volver a ofertas</a>
+            <a href="../pedidos/carrito.php" class="btn btn-primary">Ir al carrito</a>
+        </div>
         </div>
     </article>
 </section>

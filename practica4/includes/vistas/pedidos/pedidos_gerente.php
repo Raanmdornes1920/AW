@@ -10,7 +10,7 @@ $pedidoSA = new PedidoSA($db_connection);
 $pedidos = $pedidoSA->obtenerPedidosPendientes(); 
 
 $tituloPagina = "Supervisión de Pedidos";
-$css = [RAIZ_APP . "/css/default.css"];
+$css = [];
 $header = "../comun/header.php";
 $claseMain = "contenedor-centro";
 $js = [(RAIZ_APP . "/js/pedidos.js"), (RAIZ_APP . "/js/script.js")];
@@ -18,9 +18,9 @@ $js = [(RAIZ_APP . "/js/pedidos.js"), (RAIZ_APP . "/js/script.js")];
 $htmlTabla = "";
 
 if (empty($pedidos)) {
-    $htmlTabla = "<p>No hay pedidos activos en este momento.</p>";
+    $htmlTabla = "<div class='alert alert-success mb-0'>No hay pedidos activos en este momento.</div>";
 } else {
-    $htmlTabla .= '<table class="tabla-gestion">
+    $htmlTabla .= '<div class="table-responsive"><table class="table table-striped table-hover align-middle mb-0">
         <thead>
             <tr>
                 <th>Nº Pedido</th>
@@ -51,25 +51,27 @@ if (empty($pedidos)) {
         $estadoVisual = ucfirst(str_replace('_', ' ', $estado));
 
         $htmlTabla .= "<tr>
-            <td data-label='Nº Pedido'><strong>#$num</strong></td>
-            <td data-label='Cliente'>ID: $idCliente</td>
-            <td data-label='Estado'>
-                <span class='badge'>$estadoVisual</span>
+            <td><strong>#$num</strong></td>
+            <td>ID: $idCliente</td>
+            <td>
+                <span class='badge text-bg-secondary'>$estadoVisual</span>
             </td>
-            <td data-label='Total'>$totalHtml</td>
-            <td data-label='Acción'>
-                <a href='pedido_detalle.php?id={$id}' class='boton-editar' style='display:block; text-align:center; margin-bottom:8px;'>Ver detalle</a>
+            <td>$totalHtml</td>
+            <td>
+                <div class='d-grid gap-2'>
+                <a href='pedido_detalle.php?id={$id}' class='btn btn-sm btn-outline-primary'>Ver detalle</a>
                 <form action='apoyo/procesar_estado_pedido.php' method='POST' onsubmit='return confirm(\"¿Seguro que quieres cancelar?\")'>
                     <input type='hidden' name='id_pedido' value='$id'>
                     <input type='hidden' name='nuevo_estado' value='cancelado'>
-                    <button type='submit' class='boton-borrar' style='padding: 5px 10px;'>Cancelar</button>
+                    <button type='submit' class='btn btn-sm btn-outline-danger w-100'>Cancelar</button>
                 </form>
+                </div>
             </td>
         </tr>";
     }
-    $htmlTabla .= "</tbody></table>";
+    $htmlTabla .= "</tbody></table></div>";
 }
 
-$contenidoPrincipal = "<h1>Panel de Gerencia: Pedidos Activos</h1>" . $htmlTabla;
+$contenidoPrincipal = "<section class='card shadow-sm'><div class='card-body'><h1 class='h2 mb-4'>Panel de Gerencia: Pedidos Activos</h1>" . $htmlTabla . "</div></section>";
 require("../comun/plantilla.php");
 ?>

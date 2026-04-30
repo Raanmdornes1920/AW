@@ -6,7 +6,7 @@ $SA = new UsuarioSA($db_connection);
 // DEFINIR tituloPagina, css, header, contenidoPrincipal y js  antes del include
 
 $tituloPagina = "Bistro FDI";
-$css = [(RUTA_CSS . "/default.css")];
+$css = [];
 $js = [(RAIZ_APP . "/js/script.js"),(RAIZ_APP . "/js/pedidos.js")];
 $claseMain = "contenedor-centro";
 

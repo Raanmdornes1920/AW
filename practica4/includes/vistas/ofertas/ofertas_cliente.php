@@ -22,7 +22,7 @@ foreach ($resumen['ofertas_aplicadas'] as $aplicada) {
 }
 
 $tituloPagina = "Ofertas Disponibles";
-$css        = [RAIZ_APP . "/css/default.css"];
+$css = [];
 $header     = "../comun/header.php";
 $claseMain  = "contenedor-cliente";
 $js         = [RAIZ_APP . "/js/script.js"];
@@ -31,11 +31,11 @@ $js         = [RAIZ_APP . "/js/script.js"];
 $flash = "";
 if (isset($_GET['error'])) {
     $msg = htmlspecialchars($_GET['error']);
-    $flash = "<div class='mensaje mensaje-error'>{$msg}</div>";
+    $flash = "<div class='alert alert-danger'>{$msg}</div>";
 }
 if (isset($_GET['ok'])) {
     $msg = htmlspecialchars($_GET['ok']);
-    $flash = "<div class='mensaje mensaje-exito'>{$msg}</div>";
+    $flash = "<div class='alert alert-success'>{$msg}</div>";
 }
 
 // Tarjetas de ofertas
@@ -55,9 +55,9 @@ foreach ($ofertasInfo as $info) {
     $hasta     = date('d/m/Y', strtotime($oferta->getFechaFin()));
 
     // Lista de productos del pack
-    $listaProds = "<ul class='lista-pack'>";
+    $listaProds = "<ul class='list-group list-group-flush mb-3'>";
     foreach ($oferta->getProductos() as $p) {
-        $listaProds .= "<li>" . (int)$p['cantidad'] . "x " . htmlspecialchars($p['nombre']) . "</li>";
+        $listaProds .= "<li class='list-group-item px-0'>" . (int)$p['cantidad'] . "x " . htmlspecialchars($p['nombre']) . "</li>";
     }
     $listaProds .= "</ul>";
 
@@ -66,69 +66,73 @@ foreach ($ofertasInfo as $info) {
     if ($yaAplicada) {
         $vecesAplicada = isset($aplicadasPorId[(int)$id]) ? (int)$aplicadasPorId[(int)$id]['veces'] : 0;
         $textoBadge = $vecesAplicada > 0 ? "Aplicada x{$vecesAplicada}" : "Activada, pendiente";
-        $badge  = "<span class='badge badge-success'>{$textoBadge}</span>";
+        $badge  = "<span class='badge text-bg-success'>{$textoBadge}</span>";
         $accion = "<form class='form-accion-oferta' method='POST' action='" . RUTA_VISTAS . "/pedidos/apoyo/procesar_oferta.php'>
                        <input type='hidden' name='accion' value='quitar'>
                        <input type='hidden' name='id_oferta' value='{$id}'>
-                       <button type='submit' class='boton-borrar'>Quitar oferta</button>
+                       <button type='submit' class='btn btn-outline-danger w-100'>Quitar oferta</button>
                    </form>";
-        $estadoTarjeta = "tarjeta-oferta-aplicada";
+        $estadoTarjeta = "border-success";
     } elseif ($aplicable) {
-        $badge  = "<span class='badge badge-success'>¡Aplicable x{$veces}!</span>";
+        $badge  = "<span class='badge text-bg-success'>¡Aplicable x{$veces}!</span>";
         $accion = "<form class='form-accion-oferta' method='POST' action='" . RUTA_VISTAS . "/pedidos/apoyo/procesar_oferta.php'>
                        <input type='hidden' name='accion' value='aplicar'>
                        <input type='hidden' name='id_oferta' value='{$id}'>
-                       <button type='submit' class='boton-nuevo'>Aplicar al pedido</button>
+                       <button type='submit' class='btn btn-success w-100'>Aplicar al pedido</button>
                    </form>";
-        $estadoTarjeta = "tarjeta-oferta-disponible";
+        $estadoTarjeta = "border-success";
     } else {
-        $badge  = "<span class='badge'>No aplicable aún</span>";
-        $accion = "<a href='" . RUTA_VISTAS . "/productos/productos_cliente.php' class='boton-editar'>Ver productos necesarios</a>";
-        $estadoTarjeta = "tarjeta-oferta-pendiente";
+        $badge  = "<span class='badge text-bg-secondary'>No aplicable aún</span>";
+        $accion = "<a href='" . RUTA_VISTAS . "/productos/productos_cliente.php' class='btn btn-outline-primary w-100'>Ver productos necesarios</a>";
+        $estadoTarjeta = "";
     }
 
     $tarjetas .= <<<EOF
-        <article class="tarjeta-oferta {$estadoTarjeta}">
-            <header class="cabecera-tarjeta-oferta">
-                <h2>{$nombre}</h2>
+        <div class="col">
+        <article class="card h-100 shadow-sm {$estadoTarjeta}">
+            <div class="card-body d-flex flex-column">
+            <header class="d-flex justify-content-between gap-3 align-items-start mb-3">
+                <h2 class="h4 card-title mb-0">{$nombre}</h2>
                 {$badge}
             </header>
-            <p class="descripcion-oferta">{$desc}</p>
+            <p class="card-text text-secondary">{$desc}</p>
 
             <strong>El pack incluye:</strong>
             {$listaProds}
 
-            <div class="resumen-oferta">
-                <div class="dato-oferta">
+            <div class="row g-2 mb-3">
+                <div class="col-6">
                     <small>Precio sin descuento</small><br>
-                    <span class="texto-tachado">{$precioPack} €</span>
+                    <span class="text-decoration-line-through text-secondary">{$precioPack} €</span>
                 </div>
-                <div class="dato-oferta">
+                <div class="col-6">
                     <small>Descuento</small><br>
-                    <strong class="texto-descuento">-{$descuento}%</strong>
+                    <strong class="text-danger">-{$descuento}%</strong>
                 </div>
-                <div class="dato-oferta">
+                <div class="col-6">
                     <small>Precio del pack</small><br>
-                    <strong class="texto-total">{$precioFinal} €</strong>
+                    <strong class="text-success">{$precioFinal} €</strong>
                 </div>
-                <div class="dato-oferta">
+                <div class="col-6">
                     <small>Te ahorras</small><br>
-                    <strong class="texto-ahorro">{$ahorro} €</strong>
+                    <strong>{$ahorro} €</strong>
                 </div>
             </div>
 
-            <small class="fecha-oferta">Disponible hasta el {$hasta}</small>
+            <small class="text-secondary mt-auto">Disponible hasta el {$hasta}</small>
 
-            <div class="acciones acciones-oferta">
-                <a href="oferta_detalle.php?id={$id}" class="boton-editar">Ver detalles</a>
+            <div class="d-grid gap-2 mt-3">
+                <a href="oferta_detalle.php?id={$id}" class="btn btn-outline-primary">Ver detalles</a>
                 {$accion}
             </div>
+            </div>
         </article>
+        </div>
 EOF;
 }
 
 if (empty($tarjetas)) {
-    $tarjetas = "<p class='estado-vacio'>No hay ofertas disponibles en este momento.</p>";
+    $tarjetas = "<div class='col-12'><div class='alert alert-info'>No hay ofertas disponibles en este momento.</div></div>";
 }
 
 // Resumen de descuento actual (si hay ofertas aplicadas)
@@ -138,35 +142,37 @@ if (!empty($activadas)) {
     $descTotal   = number_format($resumen['descuento_total'], 2);
     $totalFinal  = number_format($resumen['total_final'], 2);
     $resumenHtml = <<<EOF
-        <aside class="panel-cliente panel-resumen-ofertas">
-            <h2>Resumen de tus ofertas activas</h2>
-            <div class="resumen-total-carrito">
-                <div>Subtotal carrito: <strong>{$totalSin} €</strong></div>
-                <div class="linea-descuento">Descuento aplicado: <strong>-{$descTotal} €</strong></div>
-                <div class="linea-total">Total estimado: <strong>{$totalFinal} €</strong></div>
+        <aside class="card shadow-sm mb-4">
+            <div class="card-body">
+            <h2 class="h4">Resumen de tus ofertas activas</h2>
+            <div class="row g-2 mb-3">
+                <div class="col-12 col-md-4">Subtotal carrito: <strong>{$totalSin} €</strong></div>
+                <div class="col-12 col-md-4 text-danger">Descuento aplicado: <strong>-{$descTotal} €</strong></div>
+                <div class="col-12 col-md-4 text-success">Total estimado: <strong>{$totalFinal} €</strong></div>
             </div>
-            <div class="acciones">
-                <a href="../pedidos/carrito.php" class="boton-nuevo">Ir al carrito</a>
-                <form class="form-accion-oferta" action="../pedidos/apoyo/procesar_oferta.php" method="POST">
+            <div class="d-flex flex-wrap gap-2">
+                <a href="../pedidos/carrito.php" class="btn btn-success">Ir al carrito</a>
+                <form action="../pedidos/apoyo/procesar_oferta.php" method="POST">
                     <input type="hidden" name="accion" value="clear">
-                    <button type="submit" class="boton-borrar">Quitar ofertas</button>
+                    <button type="submit" class="btn btn-outline-danger">Quitar ofertas</button>
                 </form>
+            </div>
             </div>
         </aside>
 EOF;
 }
 
 $contenidoPrincipal = <<<EOF
-    <section class="pagina-cliente pagina-ofertas">
-        <header class="cabecera-pagina">
-            <h1>Nuestras Ofertas</h1>
-            <p>Descuentos activos para tu pedido</p>
+    <section>
+        <header class="mb-4">
+            <h1 class="h2">Nuestras Ofertas</h1>
+            <p class="text-secondary">Descuentos activos para tu pedido</p>
         </header>
 
         {$flash}
         {$resumenHtml}
 
-        <section class="rejilla-ofertas">
+        <section class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
             {$tarjetas}
         </section>
     </section>

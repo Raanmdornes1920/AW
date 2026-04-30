@@ -11,7 +11,7 @@ $catSA = new CategoriaSA($db_connection);
 $categorias = $catSA->obtenerTodas();
 
 $tituloPagina = "Categorías";
-$css = [RAIZ_APP . "/css/default.css"];
+$css = [];
 $js = [];
 $header = __DIR__ . "/../comun/header.php";
 $claseMain = "contenedor-centro";
@@ -20,29 +20,37 @@ $htmlCategorias = "";
 foreach ($categorias as $cat) {
     $nombre = htmlspecialchars($cat->getNombre());
     $id = $cat->getId();
-    $imagen = RAIZ_APP . "/img/categorias/" . ($cat->getImagen() ?: 'categoria_default.png');
+    $imagen = RAIZ_APP . "/img/categorias/" . ($cat->getImagen() ?: 'categoria_default.jpg');
     $tipo = (isset($_GET['tipo'])?"&tipo=".$_GET['tipo']:"");
 
     $htmlCategorias .= <<<EOF
-        <a href="../productos/productos_cliente.php?id_categoria=$id$tipo" class="tarjeta-item">
-            <img src="$imagen" alt="$nombre">
-            <h4>$nombre</h4>
+        <div class="col">
+        <a href="../productos/productos_cliente.php?id_categoria=$id$tipo" class="card h-100 text-decoration-none text-dark shadow-sm">
+            <img src="$imagen" class="card-img-top card-img-fixed" alt="$nombre">
+            <div class="card-body">
+                <h2 class="h5 card-title mb-0">$nombre</h2>
+            </div>
         </a>
+        </div>
 EOF;
 }
 $tipo = (isset($_GET['tipo'])?"?tipo=".$_GET['tipo']:"");
 $contenidoPrincipal = <<<EOF
-<div class="contenedor-pedido">
-    <aside class="menu-lateral">
-        <h3>Menú</h3>
-        <ul>
-            <li><a href="categorias_cliente.php$tipo">Categorías</a></li>
-            <li><a href="../productos/productos_cliente.php$tipo">Todos los productos</a></li>
-        </ul>
+<div class="row g-4">
+    <aside class="col-12 col-lg-3">
+        <div class="list-group shadow-sm">
+            <a class="list-group-item list-group-item-action active" href="categorias_cliente.php$tipo">Categorías</a>
+            <a class="list-group-item list-group-item-action" href="../productos/productos_cliente.php$tipo">Todos los productos</a>
+        </div>
     </aside>
 
-    <section class="cuadricula-objetos">
-        $htmlCategorias
+    <section class="col-12 col-lg-9">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1 class="h2 mb-0">Categorías</h1>
+        </div>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-3 g-4">
+            $htmlCategorias
+        </div>
     </section>
 </div>
 EOF;

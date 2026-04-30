@@ -12,10 +12,10 @@ class FormularioRegistro extends formularioBase {
 
     protected function generaCamposFormulario(&$datos) {
         // Recuperar valores previos para no borrarlos si hay error
-        $nombre = $datos['nombre'] ?? '';
-        $apellidos = $datos['apellidos'] ?? '';
-        $mail = $datos['mail'] ?? '';
-        $usuario = $datos['usuario'] ?? '';
+        $nombre = htmlspecialchars($datos['nombre'] ?? '', ENT_QUOTES, 'UTF-8');
+        $apellidos = htmlspecialchars($datos['apellidos'] ?? '', ENT_QUOTES, 'UTF-8');
+        $mail = htmlspecialchars($datos['mail'] ?? '', ENT_QUOTES, 'UTF-8');
+        $usuario = htmlspecialchars($datos['usuario'] ?? '', ENT_QUOTES, 'UTF-8');
 
         $htmlErroresGlobales = self::generaListaErroresGlobales($this->errores);
         $erroresCampos = self::generaErroresCampos(['avatar', 'nombre', 'apellidos', 'mail', 'usuario', 'password', 'password_confirm'], $this->errores);
@@ -32,48 +32,41 @@ class FormularioRegistro extends formularioBase {
 
         $html = <<<EOF
         {$htmlErroresGlobales}
-        <div>
-            <label>Nombre:</label><br>
-            <input type="text" name="nombre" value="$nombre">
+        <div class="mb-3">
+            <label class="form-label">Nombre</label>
+            <input class="form-control" type="text" name="nombre" value="$nombre">
             {$erroresCampos['nombre']}
         </div>
-        <br>
-        <div>
-            <label>Apellidos:</label><br>
-            <input type="text" name="apellidos" value="$apellidos">
+        <div class="mb-3">
+            <label class="form-label">Apellidos</label>
+            <input class="form-control" type="text" name="apellidos" value="$apellidos">
             {$erroresCampos['apellidos']}
         </div>
-        <br>
-        <div>
-            <label>Correo Electrónico:</label><br>
-            <input type="email" name="mail" value="$mail" required>
+        <div class="mb-3">
+            <label class="form-label">Correo electrónico</label>
+            <input class="form-control" type="email" name="mail" value="$mail" required>
             {$erroresCampos['mail']}
         </div>
-        <br>
-        <div>
-            <label>Usuario:</label><br>
-            <input type="text" autocomplete="username" name="usuario" value="$usuario" required>
+        <div class="mb-3">
+            <label class="form-label">Usuario</label>
+            <input class="form-control" type="text" autocomplete="username" name="usuario" value="$usuario" required>
             {$erroresCampos['usuario']}
         </div>
-        <br>
 
         {$htmlSelectorImagenes}
         {$erroresCampos['avatar']}
 
-        <br>
-        <div>
-            <label>Contraseña:</label><br>
-            <input id="password" type="password" autocomplete="current-password" name="password" required>
+        <div class="mb-3">
+            <label class="form-label">Contraseña</label>
+            <input class="form-control" id="password" type="password" autocomplete="new-password" name="password" required>
             {$erroresCampos['password']}
         </div>
-        <br>
-        <div>
-            <label>Repetir Contraseña:</label><br>
-            <input type="password" autocomplete="current-password" name="password_confirm" required oninput="passwordMatch(this)">
+        <div class="mb-4">
+            <label class="form-label">Repetir contraseña</label>
+            <input class="form-control" type="password" autocomplete="new-password" name="password_confirm" required oninput="passwordMatch(this)">
             {$erroresCampos['password_confirm']}
         </div>
-        <br>
-        <button type="submit" name="registro">Registrarme</button>
+        <button class="btn btn-primary w-100" type="submit" name="registro">Registrarme</button>
         EOF;
 
         return $html;

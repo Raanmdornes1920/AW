@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `categorias` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) NOT NULL UNIQUE,
   `descripcion` text DEFAULT NULL,
-  `imagen` varchar(255) DEFAULT 'default_cat.png',
+  `imagen` varchar(255) DEFAULT 'categoria_default.jpg',
   `activa` tinyint(1) DEFAULT 1,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

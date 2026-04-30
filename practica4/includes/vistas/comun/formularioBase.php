@@ -92,7 +92,7 @@ abstract class formularioBase
         $enctypeAtt = $this->enctype != null ? "enctype=\"{$this->enctype}\"" : '';
 
         $htmlForm = <<<EOS
-        <form method="{$this->method}" action="{$this->action}" id="{$this->formId}" {$enctypeAtt}>
+        <form method="{$this->method}" action="{$this->action}" id="{$this->formId}" {$enctypeAtt} class="needs-validation" novalidate>
                 <input type="hidden" name="formId" value="{$this->formId}" />
                 $htmlCamposFormularios
         </form>
@@ -116,14 +116,14 @@ abstract class formularioBase
 
         if (count($keys) > 0)
         {
-            $html = '<ul class="errores">';
+            $html = '<div class="alert alert-danger" role="alert"><ul class="mb-0">';
 
             foreach($keys as $key)
             {
                 $html .= "<li>{$errores[$key]}</li>";
             }
 
-            $html .= '</ul>';
+            $html .= '</ul></div>';
         }
 
         return $html;
@@ -131,7 +131,7 @@ abstract class formularioBase
 
     protected static function generarError($campo, $errores)
     {
-        return isset($errores[$campo]) ? "<span class=\"form-field-error\">{$errores[$campo]}</span>": '';
+        return isset($errores[$campo]) ? "<div class=\"invalid-feedback d-block\">{$errores[$campo]}</div>": '';
     }
 
     protected static function generaErroresCampos($campos, $errores)

@@ -13,7 +13,7 @@ class FormularioLogin extends formularioBase {
     }
 
     protected function generaCamposFormulario(&$datos) {
-        $usuario = $datos['usuario'] ?? '';
+        $usuario = htmlspecialchars($datos['usuario'] ?? '', ENT_QUOTES, 'UTF-8');
 
         $htmlErroresGlobales = self::generaListaErroresGlobales($this->errores);
         $erroresCampos = self::generaErroresCampos(['usuario', 'password', 'campos_vacios'], $this->errores);
@@ -25,19 +25,19 @@ class FormularioLogin extends formularioBase {
         $html = <<<EOF
         {$htmlErroresGlobales}
         {$erroresCampos['campos_vacios']}
-        <label>Usuario:</label>
-        <br>
-        <input type="text" name="usuario" autocomplete="username" value="$usuario" required>
-        {$erroresCampos['usuario']}
-        <br>
+        <div class="mb-3">
+            <label class="form-label">Usuario</label>
+            <input class="form-control" type="text" name="usuario" autocomplete="username" value="$usuario" required>
+            {$erroresCampos['usuario']}
+        </div>
 
-        <label>Contraseña:</label>
-        <br>
-        <input type="password" autocomplete="current-password" name="password" required>
-        {$erroresCampos['password']}
-        <br><br>
+        <div class="mb-4">
+            <label class="form-label">Contraseña</label>
+            <input class="form-control" type="password" autocomplete="current-password" name="password" required>
+            {$erroresCampos['password']}
+        </div>
 
-        <button type="submit">Entrar</button>
+        <button class="btn btn-primary w-100" type="submit">Entrar</button>
         EOF;
 
         return $html;

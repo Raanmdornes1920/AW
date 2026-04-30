@@ -9,7 +9,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true || $_SESSION['usua
 }
 
 $tituloPagina = "Gestionar Usuarios - BISTRO FDI";
-$css = [(RUTA_CSS . "/default.css"), (RUTA_CSS . "/modales.css")];
+$css = [];
 $js = [(RAIZ_APP . "/js/script.js"), (RAIZ_APP . "/js/editar_perfil.js")];
 $claseMain = "contenedor-centro-index";
 $header = (__DIR__ . "/../comun/header.php");
@@ -17,15 +17,22 @@ $header = (__DIR__ . "/../comun/header.php");
 ob_start(); // Capturamos el contenido del include
 ?>
 
-<h1 id="titulo-descripcion">Gestión de Usuarios</h1>
+<div class="d-flex flex-column flex-sm-row justify-content-between gap-3 align-items-sm-center mb-4">
+    <h1 class="h2 mb-0">Gestión de Usuarios</h1>
+    <div class="d-flex flex-wrap gap-2">
+        <a href="<?php echo RUTA_VISTAS . "/usuarios/crear_usuario.php"; ?>" class="btn btn-success">Crear usuario</a>
+        <a href="<?php echo RUTA_VISTAS . "/usuarios/eliminar_usuario.php"; ?>" class="btn btn-outline-danger">Eliminar usuario</a>
+    </div>
+</div>
 
-<div class="contenedor-tabla-usuarios">
-    <table class="tabla-usuarios" cellpadding="6">
-        <tr>
-            <th colspan="6" class="titulo-tabla">
-                EMPLEADOS
-            </th>
-        </tr>
+<div class="card shadow-sm mb-4">
+    <div class="card-header bg-white">
+        <h2 class="h5 mb-0">Empleados</h2>
+    </div>
+    <div class="card-body">
+    <div class="table-responsive">
+    <table class="table table-striped table-hover align-middle mb-0">
+        <thead>
         <tr>
             <th>Usuario</th>
             <th>Nombre</th>
@@ -34,6 +41,8 @@ ob_start(); // Capturamos el contenido del include
             <th>Rol</th>
             <th>Opciones</th>
         </tr>
+        </thead>
+        <tbody>
         <?php
         $usuarios_por_id = [];
         $lista_usuarios = $SA->getListaUsuarios();
@@ -45,13 +54,13 @@ ob_start(); // Capturamos el contenido del include
                     $usuarios_por_id[$usuario->id()] = $usuario;
         ?>
                     <tr>
-                        <td data-label="Usuario"><?php echo htmlspecialchars($usuario->usuario()); ?></td>
-                        <td data-label="Nombre"><?php echo htmlspecialchars($usuario->nombre()); ?></td>
-                        <td data-label="Apellidos"><?php echo htmlspecialchars($usuario->apellidos()); ?></td>
-                        <td data-label="Email"><?php echo htmlspecialchars($usuario->email()); ?></td>
-                        <td data-label="Rol"><?php echo htmlspecialchars($rolActual); ?></td>
-                        <td class="columna-boton-editar">
-                            <button class="boton-taba-usuarios" onclick='abrirModalEditarUsuario(<?php echo $usuario->id() . ", " . json_encode($usuario); ?>)'>Editar</button>
+                        <td><?php echo htmlspecialchars($usuario->usuario()); ?></td>
+                        <td><?php echo htmlspecialchars($usuario->nombre()); ?></td>
+                        <td><?php echo htmlspecialchars($usuario->apellidos()); ?></td>
+                        <td><?php echo htmlspecialchars($usuario->email()); ?></td>
+                        <td><span class="badge text-bg-secondary"><?php echo htmlspecialchars($rolActual); ?></span></td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-primary" onclick='abrirModalEditarUsuario(<?php echo $usuario->id() . ", " . json_encode($usuario); ?>)'>Editar</button>
                         </td>
                     </tr>
         <?php
@@ -60,16 +69,20 @@ ob_start(); // Capturamos el contenido del include
             $lista_usuarios->rewind();
         }
         ?>
+        </tbody>
     </table>
+    </div>
+    </div>
 </div>
-<br><br>
-<div class="contenedor-tabla-usuarios">
-    <table class="tabla-usuarios" cellpadding="6">
-        <tr>
-            <th colspan="6" class="titulo-tabla">
-                CLIENTES
-            </th>
-        </tr>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-white">
+        <h2 class="h5 mb-0">Clientes</h2>
+    </div>
+    <div class="card-body">
+    <div class="table-responsive">
+    <table class="table table-striped table-hover align-middle mb-0">
+        <thead>
         <tr>
             <th>Usuario</th>
             <th>Nombre</th>
@@ -78,6 +91,8 @@ ob_start(); // Capturamos el contenido del include
             <th>Rol</th>
             <th>Opciones</th>
         </tr>
+        </thead>
+        <tbody>
         <?php
         if ($lista_usuarios) {
             foreach ($lista_usuarios as $usuario) {
@@ -87,13 +102,13 @@ ob_start(); // Capturamos el contenido del include
                     $usuarios_por_id[$usuario->id()] = $usuario;
         ?>
                     <tr>
-                        <td data-label="Usuario"><?php echo htmlspecialchars($usuario->usuario()); ?></td>
-                        <td data-label="Nombre"><?php echo htmlspecialchars($usuario->nombre()); ?></td>
-                        <td data-label="Apellidos"><?php echo htmlspecialchars($usuario->apellidos()); ?></td>
-                        <td data-label="Email"><?php echo htmlspecialchars($usuario->email()); ?></td>
-                        <td data-label="Rol"><?php echo htmlspecialchars($rolActual); ?></td>
-                        <td class="columna-boton-editar">
-                            <button class="boton-taba-usuarios" onclick='abrirModalEditarUsuario(<?php echo $usuario->id() . ", " . json_encode($usuario); ?>)'>Editar</button>
+                        <td><?php echo htmlspecialchars($usuario->usuario()); ?></td>
+                        <td><?php echo htmlspecialchars($usuario->nombre()); ?></td>
+                        <td><?php echo htmlspecialchars($usuario->apellidos()); ?></td>
+                        <td><?php echo htmlspecialchars($usuario->email()); ?></td>
+                        <td><span class="badge text-bg-secondary"><?php echo htmlspecialchars($rolActual); ?></span></td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-primary" onclick='abrirModalEditarUsuario(<?php echo $usuario->id() . ", " . json_encode($usuario); ?>)'>Editar</button>
                         </td>
                     </tr>
         <?php
@@ -102,12 +117,10 @@ ob_start(); // Capturamos el contenido del include
             $lista_usuarios->rewind();
         }
         ?>
+        </tbody>
     </table>
-</div>
-<br><br>
-<div>
-    <a href="<?php echo RUTA_VISTAS . "/usuarios/crear_usuario.php"; ?>"><button class="botones-gestion-usuarios">Crear Usuario</button></a>
-    <a href="<?php echo RUTA_VISTAS . "/usuarios/eliminar_usuario.php"; ?>"><button class="botones-gestion-usuarios">Eliminar Usuario</button></a>
+    </div>
+    </div>
 </div>
 
 <?php
@@ -119,47 +132,36 @@ ob_start();
 <section id="contenedor-centro-edit-admin">
     <div class="perfil-container-edit-admin">
         <span class="cerrar-modal-edit-admin">&times;</span>
-        <h1 id="titulo-perfil">Editar Perfil</h1>
-        <div class="imagen-usarname-container">
-            <figure id="contenedor-avatar">
+        <h1 class="h3 mb-4">Editar Perfil</h1>
+        <div class="text-center mb-4">
+            <figure class="d-inline-block position-relative">
                 <img id="Logo-Usuario" src="" alt="Logo de Usuario">
-                <div class="capa-editar">
-                    <a onclick="abrirModalAdminAvatar()"><img src="<?php echo RUTA_IMG; ?>/iconos/lapiz_blanco.png" class="icono-lapiz-img" alt="Editar"></a>
-                </div>
-
             </figure>
-            <h2 id="nombre-usuario"></h2>
-            <img onclick="abrirModalAdmin('Usuario')" src="<?php echo RUTA_IMG; ?>/iconos/lapiz.png" id="boton-editar-usuario" alt="Editar">
+            <h2 id="nombre-usuario" class="h4"></h2>
+            <div class="d-flex justify-content-center gap-2">
+                <button class="btn btn-sm btn-outline-primary" onclick="abrirModalAdminAvatar()">Avatar</button>
+                <button class="btn btn-sm btn-outline-primary" onclick="abrirModalAdmin('Usuario')">Usuario</button>
+            </div>
         </div>
-        <br>
         <div>
-            <div class="fila-dato">
-                <h2 class="tipo-dato-usuario">Nombre:</h2>
-                <h2 id="nombre-usuario-edit" class="datos-usuario"></h2>
-                <img onclick="abrirModalAdmin('Nombre')" src="<?php echo RUTA_IMG; ?>/iconos/lapiz.png" class="lapiz-negro" id="boton-editar-nombre" alt="Editar">
+            <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+                <div><strong>Nombre:</strong> <span id="nombre-usuario-edit"></span></div>
+                <button class="btn btn-sm btn-outline-primary" onclick="abrirModalAdmin('Nombre')">Editar</button>
             </div>
-            <br>
-            <div class="fila-dato">
-                <h2 class="tipo-dato-usuario">Apellidos:</h2>
-                <h2 id="apellidos-usuario-edit" class="datos-usuario"></h2>
-                <img onclick="abrirModalAdmin('Apellidos')" src="<?php echo RUTA_IMG; ?>/iconos/lapiz.png" class="lapiz-negro" id="boton-editar-apellidos" alt="Editar">
+            <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+                <div><strong>Apellidos:</strong> <span id="apellidos-usuario-edit"></span></div>
+                <button class="btn btn-sm btn-outline-primary" onclick="abrirModalAdmin('Apellidos')">Editar</button>
             </div>
-            <br>
-            <div class="fila-dato">
-                <h2 class="tipo-dato-usuario">Email:</h2>
-                <h2 id="email-usuario-edit" class="datos-usuario"></h2>
-                <img onclick="abrirModalAdmin('Email')" src="<?php echo RUTA_IMG; ?>/iconos/lapiz.png" class="lapiz-negro" id="boton-editar-email" alt="Editar">
+            <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+                <div><strong>Email:</strong> <span id="email-usuario-edit"></span></div>
+                <button class="btn btn-sm btn-outline-primary" onclick="abrirModalAdmin('Email')">Editar</button>
             </div>
-            <br>
-            <div class="fila-dato">
-                <h2 class="tipo-dato-usuario">Rol:</h2>
-                <h2 id="rol-usuario-edit" class="datos-usuario"></h2>
-                <img onclick="abrirModalAdminRol()" src="<?php echo RUTA_IMG; ?>/iconos/lapiz.png" class="lapiz-negro" id="boton-editar-rol" alt="Editar">
+            <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+                <div><strong>Rol:</strong> <span id="rol-usuario-edit"></span></div>
+                <button class="btn btn-sm btn-outline-primary" onclick="abrirModalAdminRol()">Editar</button>
             </div>
-            <br>
-            <div class="centrado">
-                <button id="boton_aceptar" onclick="abrirModalAdminPassword()">Resetear Contraseña</button>
-                <br>
+            <div class="mt-4">
+                <button class="btn btn-warning" onclick="abrirModalAdminPassword()">Resetear contraseña</button>
             </div>
         </div>
     </div>
@@ -169,35 +171,31 @@ ob_start();
 <div id="modalAdminEditarAvatar" class="modal">
     <div class="modal-contenido">
         <span class="cerrar-modal-avatar">&times;</span>
-        <h3>Editar Avatar</h3>
+        <h3 class="h4 mb-3">Editar Avatar</h3>
         <form action="apoyo/admin_edit.php" class="formEditar" method="POST" enctype="multipart/form-data">
             <input type="hidden" class="input-id-usuario" name="id-usuario" value="">
             <input type="hidden" name="campo-editar" value="Avatar">
-            <div class="seleccion-avatares">
+            <div class="row row-cols-3 row-cols-sm-4 g-3 mb-3">
                 <?php foreach (IMAGENES_BASE as $indice => $archivo): ?>
-                    <label class="opcion-avatar">
-                        <img class="opcion-imagen-avatar" src="<?php echo RUTA_IMG; ?>/perfiles/<?= $archivo; ?>" alt="Avatar <?= $indice; ?>">
-                        <input type="radio" name="foto_perfil" value="<?= $archivo; ?>">
+                    <label class="opcion-avatar col text-center">
+                        <input class="btn-check" type="radio" name="foto_perfil" value="<?= $archivo; ?>">
+                        <span class="btn btn-outline-secondary w-100 p-2">
+                            <img class="rounded-circle object-fit-cover" style="width:54px;height:54px;" src="<?php echo RUTA_IMG; ?>/perfiles/<?= $archivo; ?>" alt="Avatar <?= $indice; ?>">
+                        </span>
                     </label>
                 <?php endforeach; ?>
 
-                <label class="opcion-avatar">
-                    <div class="cuadro-subir-archivo">
-                        <p>Elegir<br>Archivo</p>
-                    </div>
-                    <input type="radio" name="foto_perfil" value="custom" id="radio-custom">
+                <label class="opcion-avatar col text-center">
+                    <input class="btn-check" type="radio" name="foto_perfil" value="custom" id="radio-custom">
+                    <span class="btn btn-outline-secondary w-100 p-3">Subir archivo</span>
                 </label>
             </div>
 
             <div id="archivo-avatar">
-                <br>
-                <input type="file" id="avatar-nuevo" name="foto_perfil" accept="image/*">
-                <br>
-                <br>
-                <br>
+                <input class="form-control mb-3" type="file" id="avatar-nuevo" name="foto_perfil" accept="image/*">
             </div>
 
-            <button type="submit" class="boton-guardar">Guardar cambios</button>
+            <button type="submit" class="btn btn-success">Guardar cambios</button>
         </form>
     </div>
 </div>
@@ -206,13 +204,13 @@ ob_start();
 <div id="modalAdminEditar" class="modal">
     <div class="modal-contenido">
         <span class="cerrar-modal">&times;</span>
-        <h3>Editar <span id="campo-a-editar"></span></h3>
+        <h3 class="h4 mb-3">Editar <span id="campo-a-editar"></span></h3>
         <form action="apoyo/admin_edit.php" class="formEditar" method="POST">
             <input type="hidden" class="input-id-usuario" name="id-usuario" value="">
             <input type="hidden" id="campo-editar" name="campo-editar" value="error">
-            <label id="label-nuevo-valor"></label>
-            <input type="text" id="nuevo-valor" name="nuevo-valor" required>
-            <button type="submit" class="boton-guardar">Guardar cambios</button>
+            <label class="form-label" id="label-nuevo-valor"></label>
+            <input class="form-control mb-3" type="text" id="nuevo-valor" name="nuevo-valor" required>
+            <button type="submit" class="btn btn-success">Guardar cambios</button>
         </form>
     </div>
 </div>
@@ -221,18 +219,18 @@ ob_start();
 <div id="modalAdminEditarRol" class="modal">
     <div class="modal-contenido">
         <span class="cerrar-modal-rol">&times;</span>
-        <h3>Editar Rol</h3>
+        <h3 class="h4 mb-3">Editar Rol</h3>
         <form action="apoyo/admin_edit.php" class="formEditar" method="POST" novalidate>
             <input type="hidden" class="input-id-usuario" name="id-usuario" value="">
             <input type="hidden" name="campo-editar" value="Rol">
-            <label>Rol:</label>
-            <select name="nuevo-valor" id="select-rol-usuario">
+            <label class="form-label">Rol</label>
+            <select class="form-select mb-3" name="nuevo-valor" id="select-rol-usuario">
                 <option value="gerente">Gerente</option>
                 <option value="cocinero">Cocinero</option>
                 <option value="camarero">Camarero</option>
                 <option value="cliente">Cliente</option>
             </select>
-            <button type="submit" class="boton-guardar">Guardar cambios</button>
+            <button type="submit" class="btn btn-success">Guardar cambios</button>
         </form>
     </div>
 </div>
@@ -241,14 +239,13 @@ ob_start();
 <div id="modalAdminEditarPassword" class="modal">
     <div class="modal-contenido">
         <span class="cerrar-modal-pass">&times;</span>
-        <h3>Estas seguro que deseas resetear la contraseña de <span id="usuario-reset-contrasena"></span>?</h3>
-        <br>
+        <h3 class="h4 mb-3">¿Seguro que deseas resetear la contraseña de <span id="usuario-reset-contrasena"></span>?</h3>
         <form action="apoyo/admin_edit.php" id="formEditarPassword" method="POST">
             <input type="hidden" class="input-id-usuario" name="id-usuario" value="">
             <input type="hidden" name="campo-editar" value="Password">
-            <div class="contenedor-botones">
-                <button type="submit" class="boton-guardar">Si</button>
-                <button type="button" onclick="btnCerrarPassword.click()" class="boton-cancelar">No</button>
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-warning">Sí</button>
+                <button type="button" onclick="btnCerrarPassword.click()" class="btn btn-outline-secondary">No</button>
             </div>
         </form>
     </div>

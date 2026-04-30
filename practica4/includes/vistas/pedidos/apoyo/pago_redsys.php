@@ -67,14 +67,24 @@ $firmaGenerada = getSignature($paramsBase64, $orderId, $claveSecreta);
 // 8. Redirigir al usuario a la pasarela de pago con los parámetros necesarios
 ?>
 <!DOCTYPE html>
-<html>
-    <link rel="stylesheet" type="text/css" href="<?= RUTA_CSS ?>/movil.css" media="only screen and (max-width: 600px)" />
-    <link rel="stylesheet" type="text/css" href="<?= RUTA_CSS ?>/tablet.css" media="only screen and (min-width: 601px) and (max-width: 1023px)" />
-    <link rel="stylesheet" type="text/css" href="<?= RUTA_CSS ?>/pc.css" media="only screen and (min-width: 1024px)" />
-
-<body onload="document.forms[0].submit()">
-    <div class="contenedor-centro">
-        <p>Redirigiendo a la pasarela de pago segura...</p>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirigiendo a Redsys</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light min-vh-100 d-flex align-items-center" onload="document.forms[0].submit()">
+    <div class="container">
+        <div class="card shadow-sm mx-auto text-center" style="max-width: 520px;">
+            <div class="card-body p-5">
+                <div class="spinner-border text-primary mb-3" role="status">
+                    <span class="visually-hidden">Cargando...</span>
+                </div>
+                <h1 class="h4">Redirigiendo a la pasarela de pago segura...</h1>
+                <p class="text-secondary mb-0">No cierres esta ventana.</p>
+            </div>
+        </div>
     </div>
     <form action="https://sis-t.redsys.es:25443/sis/realizarPago" method="POST">
         <input type="hidden" name="Ds_SignatureVersion" value="HMAC_SHA256_V1" />

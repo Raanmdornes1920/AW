@@ -10,7 +10,7 @@ $pedidoSA = new PedidoSA($db_connection);
 $pedidos = $pedidoSA->obtenerPedidosCocinero(); 
 
 $tituloPagina = "Panel de Cocina";
-$css = [RAIZ_APP . "/css/default.css"];
+$css = [];
 $header = "../comun/header.php";
 $claseMain = "contenedor-fullwidth";
 $js = [(RAIZ_APP . "/js/pedidos.js"), (RAIZ_APP . "/js/script.js")];
@@ -18,9 +18,9 @@ $js = [(RAIZ_APP . "/js/pedidos.js"), (RAIZ_APP . "/js/script.js")];
 $htmlTabla = "";
 
 if (empty($pedidos)) {
-    $htmlTabla = "<p>¡Buen trabajo! No hay pedidos pendientes en cocina.</p>";
+    $htmlTabla = "<div class='alert alert-success mb-0'>¡Buen trabajo! No hay pedidos pendientes en cocina.</div>";
 } else {
-    $htmlTabla .= '<table class="tabla-gestion">
+    $htmlTabla .= '<div class="table-responsive"><table class="table table-striped table-hover align-middle mb-0">
         <thead>
             <tr>
                 <th>Nº Pedido</th>
@@ -43,29 +43,31 @@ if (empty($pedidos)) {
         
         if ($estado === 'en_preparacion') {
             $botonAccion = "
-                <a href='pedido_detalle.php?id={$id}' class='boton-editar' style='display:block; text-align:center; margin-bottom:8px;'>Ver detalle</a>
+                <div class='d-grid gap-2'>
+                <a href='pedido_detalle.php?id={$id}' class='btn btn-outline-primary btn-lg'>Ver detalle</a>
                 <form action='apoyo/procesar_estado_pedido.php' method='POST'>
                     <input type='hidden' name='id_pedido' value='$id'>
                     <input type='hidden' name='nuevo_estado' value='cocinando'>
-                    <button type='submit' class='boton-nuevo' style='background-color:#E91E63;'>Empezar a Cocinar</button>
-                </form>";
+                    <button type='submit' class='btn btn-primary btn-lg w-100'>Empezar a cocinar</button>
+                </form>
+                </div>";
         } elseif ($estado === 'cocinando') {
-            $botonAccion = "<a href='pedido_detalle.php?id={$id}' class='boton-nuevo' style='display:block; text-align:center;'>Abrir comanda</a>";
+            $botonAccion = "<a href='pedido_detalle.php?id={$id}' class='btn btn-success btn-lg w-100'>Abrir comanda</a>";
         }
 
         $estadoVisual = ucfirst(str_replace('_', ' ', $estado));
 
         $htmlTabla .= "<tr>
-            <td><strong style='font-size: 1.4em; color: #d32f2f;'>#$num</strong></td>
+            <td><strong class='fs-4 text-danger'>#$num</strong></td>
             <td>$fecha</td>
             <td>$tipo</td>
-            <td><span class='badge'>$estadoVisual</span></td>
+            <td><span class='badge text-bg-secondary'>$estadoVisual</span></td>
             <td>$botonAccion</td>
         </tr>";
     }
-    $htmlTabla .= "</tbody></table>";
+    $htmlTabla .= "</tbody></table></div>";
 }
 
-$contenidoPrincipal = "<h1>👩‍🍳 Comandas de Cocina 👨‍🍳</h1>" . $htmlTabla;
+$contenidoPrincipal = "<section class='card shadow-sm'><div class='card-body'><h1 class='h2 mb-4'>Comandas de Cocina</h1>" . $htmlTabla . "</div></section>";
 require("../comun/plantilla.php");
 ?>

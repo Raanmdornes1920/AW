@@ -9,7 +9,6 @@ class FormularioCrearCategoria extends formularioBase {
     public function __construct() {
         global $db_connection;
         parent::__construct('formCrearCategoria', [
-            'action' => RAIZ_APP . '/includes/vistas/categorias/apoyo/procesar_categoria.php',
             'enctype' => 'multipart/form-data',
             'urlRedireccion' => RAIZ_APP . '/includes/vistas/categorias/categorias_gerente.php'
         ]);
@@ -17,34 +16,42 @@ class FormularioCrearCategoria extends formularioBase {
     }
 
     protected function generaCamposFormulario(&$datos) {
-        $nombre = $datos['nombre'] ?? '';
-        $descripcion = $datos['descripcion'] ?? '';
+        $nombre = htmlspecialchars($datos['nombre'] ?? '', ENT_QUOTES, 'UTF-8');
+        $descripcion = htmlspecialchars($datos['descripcion'] ?? '', ENT_QUOTES, 'UTF-8');
 
         $htmlErroresGlobales = self::generaListaErroresGlobales($this->errores);
         $erroresCampos = self::generaErroresCampos(['nombre', 'descripcion', 'imagen'], $this->errores);
 
         return <<<EOF
         $htmlErroresGlobales
-        <div class="form-estilizado">
+        <div class="card shadow-sm mx-auto" style="max-width: 760px;">
+        <div class="card-body p-4">
             <input type="hidden" name="accion" value="crear">
-            <h2>Crear Nueva Categoría</h2>
+            <h1 class="h3 mb-4">Crear nueva categoría</h1>
             
-            <label>Nombre:</label>
-            <input type="text" name="nombre" value="$nombre" required>
+            <div class="mb-3">
+            <label class="form-label">Nombre</label>
+            <input class="form-control" type="text" name="nombre" value="$nombre" required>
             {$erroresCampos['nombre']}
-            
-            <label>Descripción:</label>
-            <textarea name="descripcion" rows="3" required>$descripcion</textarea>
-            {$erroresCampos['descripcion']}
-
-            <label>Imagen (Opcional):</label>
-            <input type="file" name="imagen" accept="image/*">
-            {$erroresCampos['imagen']}
-            
-            <div class="acciones">
-                <button type="submit">Guardar Categoría</button>
-                <a href="../categorias_gerente.php" class="boton-borrar">Cancelar</a>
             </div>
+            
+            <div class="mb-3">
+            <label class="form-label">Descripción</label>
+            <textarea class="form-control" name="descripcion" rows="3" required>$descripcion</textarea>
+            {$erroresCampos['descripcion']}
+            </div>
+
+            <div class="mb-4">
+            <label class="form-label">Imagen opcional</label>
+            <input class="form-control" type="file" name="imagen" accept="image/*">
+            {$erroresCampos['imagen']}
+            </div>
+            
+            <div class="d-flex flex-wrap gap-2">
+                <button class="btn btn-success" type="submit">Guardar categoría</button>
+                <a href="../categorias_gerente.php" class="btn btn-outline-secondary">Cancelar</a>
+            </div>
+        </div>
         </div>
 EOF;
     }
@@ -69,9 +76,20 @@ EOF;
 
         $nombreImagen = 'categoria_default.jpg';
 
-        // Procesar imagen
-        if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
-            $ext = pathinfo($_FILES['imagen']['name'], PATHINFO_EXTENSION);
+        if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] !== UPLOAD_ERR_NO_FILE) {
+            if ($_FILES['imagen']['error'] !== UPLOAD_ERR_OK) {
+                $this->errores['imagen'] = "No se pudo subir la imagen.";
+                return;
+            }
+
+            $ext = strtolower(pathinfo($_FILES['imagen']['name'], PATHINFO_EXTENSION));
+            $extensionesPermitidas = ['jpg', 'jpeg', 'png', 'webp', 'avif'];
+
+            if (!in_array($ext, $extensionesPermitidas, true) || getimagesize($_FILES['imagen']['tmp_name']) === false) {
+                $this->errores['imagen'] = "El archivo debe ser una imagen válida.";
+                return;
+            }
+
             $nombreNuevo = uniqid('cat_') . '.' . $ext;
             $rutaDestino = DIR_RAIZ . "/img/categorias/" . $nombreNuevo;
 

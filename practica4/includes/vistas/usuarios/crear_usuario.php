@@ -10,17 +10,23 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true || $_SESSION['usua
 }
 
 $tituloPagina = "Gestionar Usuarios - Bistro FDI";
-$css = [(RAIZ_APP . "/css/default.css"), (RAIZ_APP . "/css/modales.css")];
+$css = [];
 $header = (DIR_RAIZ . "/includes/vistas/comun/header.php");
 $claseMain = "contenedor-centro";
 
 $form = new FormularioCrearUsuario();
 $htmlForm = $form->gestiona();
 $contenidoPrincipal = <<<EOF
-        <section class="contenedor-centro" id="contenido">
-            <h1 id="titulo-registro">Nuevo Usuario</h1>
-            $htmlForm
-        </section>
+<div class="row justify-content-center">
+    <div class="col-12 col-lg-8">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <h1 class="h3 mb-4">Nuevo Usuario</h1>
+                $htmlForm
+            </div>
+        </div>
+    </div>
+</div>
 EOF;
 
 $js = [(RAIZ_APP . "/js/script.js")];
