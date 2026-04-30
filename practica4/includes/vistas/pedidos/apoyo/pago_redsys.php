@@ -35,8 +35,8 @@ $params = [
     "DS_MERCHANT_TERMINAL" => $terminal,
     "DS_MERCHANT_MERCHANTURL" => $urlTienda,
     "DS_MERCHANT_URLOK" => $urlActual . "/procesar_carrito.php?accion=confirmar&metodo_pago=tarjeta",
-    "DS_MERCHANT_URLKO" => $urlActual . "/procesar_carrito.php?accion=confirmar&metodo_pago=tarjeta",
-    "DS_MERCHANT_MERCHANTDATA" => $_POST['tipo_pedido']
+    "DS_MERCHANT_URLKO" => $urlActual . "/../carrito.php?error=pago_cancelado",
+    "DS_MERCHANT_MERCHANTDATA" => $_POST['tipo_pedido'] ?? 'local'
 ];
 
 // 5. Convertir a JSON y Base64

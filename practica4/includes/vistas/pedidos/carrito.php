@@ -131,10 +131,13 @@ EOF;
         $checkLocal = "checked";
     }
 
+    $totalCentimos = round($resumenOfertas['total_final'] * 100);
+
     $htmlLineas .= <<<EOF
-    <form action="apoyo/procesar_carrito.php" method="POST" class="card shadow-sm">
+    <form action="apoyo/pago_redsys.php" method="POST" id="form-pedido" class="card shadow-sm">
         <div class="card-body">
         <input type="hidden" name="accion" value="confirmar">
+        <input type="hidden" name="amount" value="{$totalCentimos}">
 
         <h2 class="h4">Detalles del pedido</h2>
         <div class="mb-4">
@@ -160,10 +163,6 @@ EOF;
             </div>
         </div>
 
-        <div id="seccion-tarjeta" class="mb-4">
-            <label class="form-label" for="input-tarjeta">Número de tarjeta</label>
-            <input class="form-control" type="text" id="input-tarjeta" placeholder="1234 5678 9101 1121" pattern="\d{16}" title="Debe contener 16 dígitos numéricos" required>
-        </div>
 
         <div class="d-flex flex-wrap gap-2">
             <button type="submit" class="btn btn-success btn-lg">Confirmar y pagar</button>
@@ -174,14 +173,11 @@ EOF;
 
     <script>
     function togglePago(metodo) {
-        var seccionTarjeta = document.getElementById('seccion-tarjeta');
-        var inputTarjeta = document.getElementById('input-tarjeta');
+        var form = document.getElementById('form-pedido');
         if (metodo === 'camarero') {
-            seccionTarjeta.style.display = 'none';
-            inputTarjeta.removeAttribute('required');
+            form.action = 'apoyo/procesar_carrito.php';
         } else {
-            seccionTarjeta.style.display = 'block';
-            inputTarjeta.setAttribute('required', 'required');
+            form.action = 'apoyo/pago_redsys.php';
         }
     }
     </script>
