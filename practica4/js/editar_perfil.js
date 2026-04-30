@@ -1,3 +1,121 @@
+$(document).ready(function()
+{
+    $("#botonGetUsuariosTest").on("click", showUsersTest);
+
+    $("#botonGetUsuarios").on("click", showUsers);
+})
+
+function showUsersTest()
+{
+    $.ajax({
+        url: 'https://reqres.in/api/users?per_page=12',
+        method: 'GET',
+        headers: 
+        {
+            'x-api-key': 'reqres_aec19625519d45d58e805f33e24c9ad3'
+        },
+        success: function (response) 
+        {
+            $("#listaUsuariosTest").empty();
+            
+            var usersList = $("#listaUsuariosTest");
+
+            $.each(response.data, function(index, element)
+            {
+                usersList.append(
+                    '<div class="col-6 col-md-4 col-lg-3">'
+                    +       '<p>' + element.first_name + '</p>'
+                    +       '<img src="https://i.pravatar.cc/150?u=' + element.id + '">'
+                    + '</div>'
+                );
+            });
+        },
+        error: function (err) 
+        {
+            console.error(err.responseText);
+        }
+    });
+}
+
+function showUsers()
+{
+
+    $.get('http://localhost/Ejemplo1V2/includes/Apis/userApi.php', {"action" : "getAllUsers" }, function(response)
+    {
+        var htmlTable = 
+            '<table class="table table-bordered">'
+          + '   <thead>'
+          + '       <tr>'
+          + '           <th>Id</th>'
+          + '           <th>Usuario</th>'
+          + '           <th>Nombre</th>'
+          + '           <th>Acciones</th>'
+          + '        </tr>'
+          + '   </thead>'
+          + '   <tbody>';
+
+        $.each(response, function(index, element)
+        {
+            htmlTable += '<tr name="' + element.id + '">';
+
+            htmlTable += '<td>' + element.id + '</td>';
+            htmlTable += '<td>' + element.nombreUsuario + '</td>';
+            htmlTable += '<td>' + element.nombre + '</td>';
+            htmlTable += '<td>' 
+                      +       '<a class="btn btn-primary btn-sm mx-1" href="updateUser.php?id=' + element.id + '">'
+                      +             'Actualizar'
+                      +       '</a>'
+                      +       '<a class="btn btn-warning btn-sm mx-1" href="enableUser.php?id=' + element.id + '">'
+                      +             'Habilitar'
+                      +       '</a>'
+                      +       '<a id="btnEliminarUser" name="' + element.id + '" class="btn btn-danger btn-sm" role="button">'
+                      +             'Eliminar'
+                      +       '</a>'
+                      + '</td>';
+
+            htmlTable += '</tr>';
+        });
+
+        htmlTable += '</tbody></table>';
+
+        $("#listaUsuariosTest").empty();
+
+        var usersList = $("#listaUsuariosTest");
+        
+        usersList.append(htmlTable);
+    });
+}
+
+$(document).on("click", "#btnEliminarUser", function(event)
+{
+    var userId = event.currentTarget.name;
+    
+    DeleteUser(userId);
+});
+
+var DeleteUser = function(userId)
+{
+    $.post('http://localhost/Class10/Ejemplo1V2/includes/Apis/userApi.php', {"action" : "deleteUser", "idUser" : userId }, function(result)
+    {
+        if (result == "success")
+        {
+            $('tr[name="' + userId + '"]').hide("slow");
+        }
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Variables globales
 let modal, modalEditarAvatar, btnCerrarAvatar, btnCerrar, spanCampo, modalPassword;
 let btnCerrarPassword, modalError, btnCerrarError, btnCerrarEditAdmin, modalEditarUsuario;
