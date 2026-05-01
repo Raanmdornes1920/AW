@@ -8,7 +8,7 @@ if (!isset($_SESSION['login']) || $_SESSION['usuario']->rol() !== 'cliente') {
 }
 
 $ofertaSA = new OfertaSA($db_connection);
-$carrito  = $_SESSION['carrito']           ?? [];
+$carrito = $_SESSION['carrito'] ?? [];
 $activadas = $_SESSION['ofertas_aplicadas'] ?? [];
 
 // Ofertas activas con info de aplicabilidad respecto al carrito actual
@@ -18,14 +18,14 @@ $ofertasInfo = $ofertaSA->obtenerActivasConAplicabilidad($carrito);
 $resumen = $ofertaSA->aplicarOfertasACarrito($carrito, $activadas);
 $aplicadasPorId = [];
 foreach ($resumen['ofertas_aplicadas'] as $aplicada) {
-    $aplicadasPorId[(int)$aplicada['id']] = $aplicada;
+    $aplicadasPorId[(int) $aplicada['id']] = $aplicada;
 }
 
 $tituloPagina = "Ofertas Disponibles";
 $css = [];
-$header     = "../comun/header.php";
-$claseMain  = "contenedor-cliente";
-$js         = [RAIZ_APP . "/js/script.js"];
+$header = "../comun/header.php";
+$claseMain = "contenedor-cliente";
+$js = [RAIZ_APP . "/js/script.js"];
 
 // Mensaje de feedback (e.g. "no aplicable")
 $flash = "";
@@ -41,32 +41,32 @@ if (isset($_GET['ok'])) {
 // Tarjetas de ofertas
 $tarjetas = "";
 foreach ($ofertasInfo as $info) {
-    $oferta    = $info['oferta'];
+    $oferta = $info['oferta'];
     $aplicable = $info['aplicable'];
-    $veces     = $info['veces'];
+    $veces = $info['veces'];
 
-    $id        = $oferta->getId();
-    $nombre    = htmlspecialchars($oferta->getNombre());
-    $desc      = htmlspecialchars($oferta->getDescripcion());
+    $id = $oferta->getId();
+    $nombre = htmlspecialchars($oferta->getNombre());
+    $desc = htmlspecialchars($oferta->getDescripcion());
     $descuento = number_format($oferta->getDescuento(), 2);
     $precioPack = number_format($oferta->getPrecioPackSinDescuento(), 2);
     $precioFinal = number_format($oferta->getPrecioPackConDescuento(), 2);
-    $ahorro    = number_format($oferta->getAhorroDescuento(), 2);
-    $hasta     = date('d/m/Y', strtotime($oferta->getFechaFin()));
+    $ahorro = number_format($oferta->getAhorroDescuento(), 2);
+    $hasta = date('d/m/Y', strtotime($oferta->getFechaFin()));
 
     // Lista de productos del pack
     $listaProds = "<ul class='list-group list-group-flush mb-3'>";
     foreach ($oferta->getProductos() as $p) {
-        $listaProds .= "<li class='list-group-item px-0'>" . (int)$p['cantidad'] . "x " . htmlspecialchars($p['nombre']) . "</li>";
+        $listaProds .= "<li class='list-group-item px-0'>" . (int) $p['cantidad'] . "x " . htmlspecialchars($p['nombre']) . "</li>";
     }
     $listaProds .= "</ul>";
 
     // Estado actual: ya aplicada, aplicable, o no aplicable
-    $yaAplicada = in_array((int)$id, array_map('intval', $activadas), true);
+    $yaAplicada = in_array((int) $id, array_map('intval', $activadas), true);
     if ($yaAplicada) {
-        $vecesAplicada = isset($aplicadasPorId[(int)$id]) ? (int)$aplicadasPorId[(int)$id]['veces'] : 0;
+        $vecesAplicada = isset($aplicadasPorId[(int) $id]) ? (int) $aplicadasPorId[(int) $id]['veces'] : 0;
         $textoBadge = $vecesAplicada > 0 ? "Aplicada x{$vecesAplicada}" : "Activada, pendiente";
-        $badge  = "<span class='badge text-bg-success'>{$textoBadge}</span>";
+        $badge = "<span class='badge text-bg-success'>{$textoBadge}</span>";
         $accion = "<form class='form-accion-oferta' method='POST' action='" . RUTA_VISTAS . "/pedidos/apoyo/procesar_oferta.php'>
                        <input type='hidden' name='accion' value='quitar'>
                        <input type='hidden' name='id_oferta' value='{$id}'>
@@ -74,7 +74,7 @@ foreach ($ofertasInfo as $info) {
                    </form>";
         $estadoTarjeta = "border-success";
     } elseif ($aplicable) {
-        $badge  = "<span class='badge text-bg-success'>¡Aplicable x{$veces}!</span>";
+        $badge = "<span class='badge text-bg-success'>¡Aplicable x{$veces}!</span>";
         $accion = "<form class='form-accion-oferta' method='POST' action='" . RUTA_VISTAS . "/pedidos/apoyo/procesar_oferta.php'>
                        <input type='hidden' name='accion' value='aplicar'>
                        <input type='hidden' name='id_oferta' value='{$id}'>
@@ -82,8 +82,8 @@ foreach ($ofertasInfo as $info) {
                    </form>";
         $estadoTarjeta = "border-success";
     } else {
-        $badge  = "<span class='badge text-bg-secondary'>No aplicable aún</span>";
-        $accion = "<a href='" . RUTA_VISTAS . "/productos/productos_cliente.php' class='btn btn-outline-primary w-100'>Ver productos necesarios</a>";
+        $badge = "<span class='badge text-bg-secondary'>No aplicable aún</span>";
+        $accion = "<a href='" . RUTA_VISTAS . "/productos/productos_oferta.php?id_oferta={$id}' class='btn btn-outline-primary w-100'>Ver productos necesarios</a>";
         $estadoTarjeta = "";
     }
 
@@ -138,9 +138,9 @@ if (empty($tarjetas)) {
 // Resumen de descuento actual (si hay ofertas aplicadas)
 $resumenHtml = "";
 if (!empty($activadas)) {
-    $totalSin    = number_format($resumen['total_sin_descuento'], 2);
-    $descTotal   = number_format($resumen['descuento_total'], 2);
-    $totalFinal  = number_format($resumen['total_final'], 2);
+    $totalSin = number_format($resumen['total_sin_descuento'], 2);
+    $descTotal = number_format($resumen['descuento_total'], 2);
+    $totalFinal = number_format($resumen['total_final'], 2);
     $resumenHtml = <<<EOF
         <aside class="card shadow-sm mb-4">
             <div class="card-body">

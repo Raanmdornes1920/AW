@@ -19,7 +19,7 @@ if (!$oferta || !$oferta->estaActiva()) {
 $carrito = $_SESSION['carrito'] ?? [];
 $activadas = $_SESSION['ofertas_aplicadas'] ?? [];
 $resumen = $ofertaSA->aplicarOfertasACarrito($carrito, $activadas);
-$yaAplicada = in_array((int)$oferta->getId(), array_map('intval', $activadas), true);
+$yaAplicada = in_array((int) $oferta->getId(), array_map('intval', $activadas), true);
 $veces = $ofertaSA->vecesAplicable($oferta, $carrito);
 
 $tituloPagina = $oferta->getNombre();
@@ -29,7 +29,7 @@ $claseMain = "contenedor-cliente";
 $js = [RAIZ_APP . "/js/script.js"];
 
 $nombre = htmlspecialchars($oferta->getNombre());
-$idOferta = (int)$oferta->getId();
+$idOferta = (int) $oferta->getId();
 $descripcion = htmlspecialchars($oferta->getDescripcion());
 $descuento = number_format($oferta->getDescuento(), 2);
 $precioPack = number_format($oferta->getPrecioPackSinDescuento(), 2);
@@ -40,9 +40,9 @@ $fechaFin = date('d/m/Y', strtotime($oferta->getFechaFin()));
 
 $productosHtml = "";
 foreach ($oferta->getProductos() as $producto) {
-    $idProducto = (int)$producto['id_producto'];
-    $cantidadNecesaria = (int)$producto['cantidad'];
-    $cantidadCarrito = isset($carrito[$idProducto]) ? (int)$carrito[$idProducto] : 0;
+    $idProducto = (int) $producto['id_producto'];
+    $cantidadNecesaria = (int) $producto['cantidad'];
+    $cantidadCarrito = isset($carrito[$idProducto]) ? (int) $carrito[$idProducto] : 0;
     $nombreProducto = htmlspecialchars($producto['nombre']);
     $precio = number_format($producto['precio_con_iva'], 2);
     $estadoProducto = $cantidadCarrito >= $cantidadNecesaria
@@ -78,7 +78,7 @@ EOF;
     </form>
 EOF;
 } else {
-    $accion = "<a href='../productos/productos_cliente.php' class='btn btn-outline-primary'>Añadir productos necesarios</a>";
+    $accion = "<a href='../productos/productos_oferta.php?id_oferta={$idOferta}' class='btn btn-outline-primary'>Añadir productos necesarios</a>";
 }
 
 $aplicableTexto = $veces > 0

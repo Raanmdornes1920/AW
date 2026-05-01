@@ -32,8 +32,8 @@ if (empty($productos)) {
         $precio = number_format($p->getPrecioFinal(), 2);
         $imagen = RAIZ_APP . "/img/productos/" . $p->getImagen();
         $idProd = $p->getId();
-        $tipo = (isset($_GET['tipo'])?"&tipo=".$_GET['tipo']:"");
-        $_tipo = (isset($_GET['tipo'])?"?tipo=".$_GET['tipo']:"");
+        $tipo = (isset($_GET['tipo']) ? "&tipo=" . $_GET['tipo'] : "");
+        $_tipo = (isset($_GET['id_categoria']) ? "?id_categoria=" . $_GET['id_categoria'] . (isset($_GET['tipo']) ? "&tipo=" . $_GET['tipo'] : "") : (isset($_GET['tipo']) ? "?tipo=" . $_GET['tipo'] : ""));
 
         $htmlProductos .= <<<EOF
         <div class="col">
@@ -59,7 +59,7 @@ EOF;
     }
 }
 
-$tipo = (isset($_GET['tipo'])?"?tipo=".$_GET['tipo']:"");
+$tipo = (isset($_GET['tipo']) ? "?tipo=" . $_GET['tipo'] : "");
 
 $contenidoPrincipal = <<<EOF
 <div class="row g-4">
