@@ -20,14 +20,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $valor = $_POST['nuevo-valor'];
     }
 
-
     // Validamos si el id corresponde al usuario actual
     $usuario_actual = ($_SESSION['usuario']->id() == $id?true:false);
     try {
         $img_actual = $SA->obtenerImagen($id);
     } catch (\Exception $e) {
-        $_SESSION['error_editar_perfil'] = $e->getMessage();
-        header("Location: " . RUTA_VISTAS . "/usuarios/ajustes_admin.php");
+        echo json_encode(['error_editar_perfil' => $e->getMessage()]);
         exit();
     }
 
@@ -44,8 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($usuarioExistente = $SA->buscaUsuario($valor)) {
                     if($usuarioExistente->id() !== $id && $usuarioExistente->usuario() === $valor){
                         // Usuario existente con id diferente
-                        $_SESSION['error_editar_perfil'] = "El usuario ".$valor." ya existe.";
-                        header("Location: " . RUTA_VISTAS . "/usuarios/ajustes_admin.php");
+                        echo json_encode(['error_editar_perfil' => "El usuario ".$valor." ya existe."]);
                         exit();
                     }
                 }
@@ -94,19 +91,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             break;
                     }
                 }
-
-                $_SESSION['cambio'] = ucfirst($campo);
-                $_SESSION['error_editar_perfil'] = "Ninguno";
+                
+                echo json_encode(['cambio' => ucfirst($campo), 'error_editar_perfil' => "Ninguno", 'nuevo_valor' => $valor]);
             }
             else{
-                $_SESSION['error_editar_perfil'] = "Error al intentar modificar ".ucfirst($campo)." a '".$valor."'.";
-                header("Location: " . RUTA_VISTAS . "/usuarios/ajustes_admin.php");
+                echo json_encode(['error_editar_perfil' => "Error al intentar modificar ".ucfirst($campo)." a '".$valor."'."]);
                 exit();
             }
 
         } catch (\CampoInexistenteException $th) {
-            $_SESSION['error_editar_perfil'] = "Error al intentar modificar ".ucfirst($campo)." a '".$valor."'.";
-                header("Location: " . RUTA_VISTAS . "/usuarios/ajustes_admin.php");
+            echo json_encode(['error_editar_perfil' => "Error al intentar modificar ".ucfirst($campo)." a '".$valor."'."]);
                 exit();
         }
     }
@@ -121,14 +115,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Si el usuario es el de la sesión
                 if($usuario_actual){
                     // Corregimos sesion
-                    $_SESSION['usuario']->set_value('avatar',$nombreImagen);
+                    $_SESSION['usuario']->modificarUsuario('avatar',$nombreImagen);
                 }
-                $_SESSION['cambio'] = 'Avatar';
-                $_SESSION['error_editar_perfil'] = "Ninguno";
+                echo json_encode(['cambio' => 'Avatar', 'error_editar_perfil' => "Ninguno", 'nuevo_valor' => $nombreImagen]);
             }
             else{
-                $_SESSION['error_editar_perfil'] = "Error al subir la imagen.";
-                header("Location: " . RUTA_VISTAS . "/usuarios/ajustes_admin.php");
+                echo json_encode(['error_editar_perfil' => "Error al subir la imagen."]);
                 exit();
             }
 
@@ -164,12 +156,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         // Corregimos sesion
                         $_SESSION['usuario']->set_avatar($nombreImagen);
                     }
-                    $_SESSION['cambio'] = 'Avatar';
-                    $_SESSION['error_editar_perfil'] = "Ninguno";
+                    echo json_encode(['cambio' => 'Avatar', 'error_editar_perfil' => "Ninguno", 'nuevo_valor' => $nombreImagen]);
                 }
                 else{
-                    $_SESSION['error_editar_perfil'] = "Error al subir la imagen.";
-                    header("Location: " . RUTA_VISTAS . "/usuarios/ajustes_admin.php");
+                    echo json_encode(['error_editar_perfil' => "Error al subir la imagen."]);
                     exit();
                 }
 
@@ -186,8 +176,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
             else {
-                $_SESSION['error_editar_perfil'] = "Error al subir la imagen.";
-                header("Location: " . RUTA_VISTAS . "/usuarios/ajustes_admin.php");
+                echo json_encode(['error_editar_perfil' => "Error al subir la imagen."]);
                 exit();
             }
         }

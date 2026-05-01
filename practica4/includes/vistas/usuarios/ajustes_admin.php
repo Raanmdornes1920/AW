@@ -134,13 +134,23 @@ ob_start();
         <span class="cerrar-modal-edit-admin">&times;</span>
         <h1 class="h3 mb-4">Editar Perfil</h1>
         <div class="text-center mb-4">
-            <figure class="d-inline-block position-relative">
-                <img id="Logo-Usuario" src="" alt="Logo de Usuario">
-            </figure>
-            <h2 id="nombre-usuario" class="h4"></h2>
-            <div class="d-flex justify-content-center gap-2">
-                <button class="btn btn-sm btn-outline-primary" onclick="abrirModalAdminAvatar()">Avatar</button>
-                <button class="btn btn-sm btn-outline-primary" onclick="abrirModalAdmin('Usuario')">Usuario</button>
+            <div class="position-relative d-inline-block">
+                <figure id="contenedor-avatar" class="position-relative d-inline-block rounded-circle overflow-hidden shadow-sm" style="width: 150px; height: 150px; cursor: pointer;" onclick="abrirModalAdminAvatar()">
+                    <img id="Logo-Usuario" class="w-100 h-100 img-fluid object-fit-cover" src="<?php echo RUTA_IMG . '/perfiles/' . $_SESSION['usuario']->avatar(); ?>" alt="Logo de Usuario">
+                    <div class="capa-editar">
+                        <i class="bi bi-pencil-fill text-white fs-2"></i>
+                    </div>
+                </figure>
+                
+                <div class="d-lg-none position-absolute bottom-0 end-0 border-0 bg-white rounded-circle d-flex align-items-center justify-content-center" 
+                    style="margin-bottom: 10px; margin-left: 10px; width: 150px; height: 150px; border: 3px solid white; transform: translate(-5%, -5%); pointer-events: none; --bs-bg-opacity: .40;">
+                    <i class="bi bi-pencil-fill text-back" style="font-size: 3rem; margin-left: 10px;"></i>
+                </div>
+            </div>
+
+            <div class="d-block position-relative d-inline-block mt-3">
+                <h2 id="nombre-usuario" class="h4 m-0 d-inline-block"><?php echo htmlspecialchars($_SESSION['usuario']->usuario()); ?></h2>
+                <button id="btn-editar-usuario" class="btn btn-sm btn-outline-none position-absolute top-50 translate-middle-y ms-2 btn-editar-usuario" onclick="abrirModalAdmin('Usuario')"><i class="bi bi-pencil-fill fs-5"></i></button>
             </div>
         </div>
         <div>
