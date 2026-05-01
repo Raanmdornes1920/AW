@@ -73,8 +73,8 @@ ob_start(); ?>
     <div class="modal-contenido">
         <span class="cerrar-modal-avatar">&times;</span>
         <h3 class="h4 mb-3">Editar Avatar</h3>
-        <form action="apoyo/editar_avatar.php" id="formEditar" method="POST" enctype="multipart/form-data">
-
+        <form onsubmit="enviarDatosFormulario(event)" id="formEditar" method="POST" enctype="multipart/form-data">
+            <input type="hidden" id="campo-editar-avatar" autocomplete="off" name="campo-editar" value="Avatar">
             <div class="row row-cols-3 row-cols-sm-4 g-3 mb-3">
                 <?php $primerAvatarSeleccionado = true; ?>
                 <?php if($_SESSION['usuario']->rol() === 'cliente'){
@@ -126,7 +126,7 @@ ob_start(); ?>
         <span class="cerrar-modal">&times;</span>
         <h3 class="h4 mb-3">Editar <span id="campo-a-editar"></span></h3>
         <form onsubmit="enviarDatosFormulario(event)" id="formEditar" method="POST">
-            <input type="hidden" id="campo-editar" autocomplete="off" name="campo-editar" value="error">
+            <input type="hidden" id="campo-editar-dato" autocomplete="off" name="campo-editar" value="error">
             <label class="form-label" id="label-nuevo-valor"></label>
             <input class="form-control mb-3" type="text" id="nuevo-valor" name="nuevo-valor">
             <button type="submit" class="btn btn-success">Guardar cambios</button>
@@ -137,7 +137,8 @@ ob_start(); ?>
     <div class="modal-contenido">
         <span class="cerrar-modal-pass">&times;</span>
         <h3 class="h4 mb-3">Editar Contraseña</h3>
-        <form action="apoyo/editar_password.php" id="formEditarPassword" method="POST">
+        <form onsubmit="enviarDatosFormulario(event)" id="formEditarPassword" method="POST">
+            <input type="hidden" id="campo-editar-password" autocomplete="off" name="campo-editar" value="Password">
             <input type="text" autocomplete="username" name="usuario" value="<?php echo $_SESSION['usuario']->usuario(); ?>" hidden>
             <label class="form-label">Contraseña actual</label>
             <input class="form-control mb-3" type="password" id="contrasena" autocomplete="current-password" name="contrasena" placeholder="Contraseña actual" required>
