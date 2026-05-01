@@ -50,7 +50,7 @@ define('AVATARES_INICIALES', ['default.png', 'base/base1.png', 'base/base2.png',
 $user = "root";
 $db = "database";
 
-$db_connection = mysqli_connect($host, $user, $pass, $db);
+$db_connection = mysqli_connect($host, $user, $pass, $db, 3308);
 
 // Incluimos todo dentro de carpeta clases
 define('DIR_CLASES', __DIR__ . '/clases');

@@ -45,7 +45,8 @@ if (isset($_SESSION['carrito']) && is_array($_SESSION['carrito'])) {
                 <ul class="dropdown-menu dropdown-menu-end shadow">
                     <li>
                         <h6 class="dropdown-header">
-                            <?php echo strtoupper(htmlspecialchars($_SESSION['usuario']->usuario())); ?></h6>
+                            <?php echo strtoupper(htmlspecialchars($_SESSION['usuario']->usuario())); ?>
+                        </h6>
                     </li>
                     <li><a class="dropdown-item" href="<?php echo RUTA_VISTAS; ?>/usuarios/editar_perfil.php"><i
                                 class="bi bi-person-circle"></i> Mi Perfil</a></li>
@@ -100,6 +101,14 @@ if (isset($_SESSION['carrito']) && is_array($_SESSION['carrito'])) {
                         <li class="nav-item"><a
                                 class="nav-link <?php echo clase_activa('mis_pedidos.php', $pagina_actual); ?>"
                                 href="<?php echo RUTA_VISTAS; ?>/pedidos/mis_pedidos.php">Mis Pedidos</a></li>
+                    <?php elseif ($_SESSION['usuario']->rol() === 'camarero'): ?>
+                        <li class="nav-item"><a
+                                class="nav-link <?php echo clase_activa('pedidos_camarero.php', $pagina_actual); ?>"
+                                href="<?php echo RUTA_VISTAS; ?>/pedidos/pedidos_camarero.php">Supervisar Pedidos</a></li>
+                    <?php elseif ($_SESSION['usuario']->rol() === 'cocinero'): ?>
+                        <li class="nav-item"><a
+                                class="nav-link <?php echo clase_activa('pedidos_cocinero.php', $pagina_actual); ?>"
+                                href="<?php echo RUTA_VISTAS; ?>/pedidos/pedidos_cocinero.php">Comandas (Cocina)</a></li>
                     <?php endif; ?>
                 </ul>
             </div>
