@@ -19,43 +19,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($SA->validarPasswordUsuario($user, $pass)) {
             // Contraseñas No coinciden
             if($nuevaPass !== $confirmarPass){
-                $_SESSION['error_editar_perfil'] = "Las contraseñas no coinciden.";
-                header("Location: " . RUTA_VISTAS . "/usuarios/editar_perfil.php");
+                echo json_encode(['error_editar_perfil' => "Las contraseñas no coinciden."]);
                 exit();
             }
             // Contraseñas coinciden
             else{
                 if ($SA->cambiarPasswordUsuario($user, $nuevaPass)) {
-                    $_SESSION['cambio'] = 'Password';
-                    $_SESSION['error_editar_perfil'] = "Ninguno";
+                    echo json_encode(['error_editar_perfil' => "Ninguno", 'cambio' => "Password"]);
                 } else {
-                    $_SESSION['error_editar_perfil'] = "No se ha podido actualizar la contraseña.";
-                    header("Location: " . RUTA_VISTAS . "/usuarios/editar_perfil.php");
+                    echo json_encode(['error_editar_perfil' => "No se ha podido actualizar la contraseña."]);
                     exit();
                 }
             }
         }
         // Contraseña actual incorrecta
         else{
-            $_SESSION['error_editar_perfil'] = "Contraseña actual incorrecta.";
-            header("Location: " . RUTA_VISTAS . "/usuarios/editar_perfil.php");
+            echo json_encode(['error_editar_perfil' => "Contraseña actual incorrecta."]);
             exit();
         }
     }
     catch (UsuarioNoExisteException $e){
-        $_SESSION['error_editar_perfil'] = "Usuario no encontrado.";
-        header("Location: " . RUTA_VISTAS . "/usuarios/editar_perfil.php");
+        echo json_encode(['error_editar_perfil' => "Usuario no encontrado."]);
         exit();
     }
     catch (Exception $e){
-        $_SESSION['error_editar_perfil'] = "Error al cambiar la contraseña.";
-        header("Location: " . RUTA_VISTAS . "/usuarios/editar_perfil.php");
+        echo json_encode(['error_editar_perfil' => "Error al cambiar la contraseña."]);
         exit();
     }
 
 } else {
     echo json_encode(['success' => false, 'message' => 'Método no permitido']);
 }
-header("Location: " . RUTA_VISTAS . "/usuarios/editar_perfil.php");
 exit();
 ?>

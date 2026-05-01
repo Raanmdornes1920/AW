@@ -161,16 +161,22 @@ function abrirModalAvatar() {
 function abrirModal(nombreCampo, valorBase64) {
     spanCampo.innerText = nombreCampo; // Cambia el título dinámicamente
     document.getElementById("label-nuevo-valor").innerText = nombreCampo + ": ";
-    document.getElementById("campo-editar").value = nombreCampo;
+    
+    if(nombreCampo == "Usuario" || nombreCampo == "Email"){
+        document.getElementById("nuevo-valor").required = true;
+    } else {
+        document.getElementById("nuevo-valor").required = false;
+    }
+    
+    document.getElementById("campo-editar-dato").value = nombreCampo;
 
     if(nombreCampo == "Usuario"){
-        document.getElementById("campo-editar").autocomplete = "username";
+        document.getElementById("campo-editar-dato").autocomplete = "username";
     }
 
     // Decodificar valorBase64 y para no romper con caracteres especiales
     document.getElementById("nuevo-valor").value = decodeURIComponent(window.atob(valorBase64));
     modal.style.display = "block";
-
 }
 
 function abrirModalPassword() {
@@ -261,3 +267,149 @@ function abrirConfirmacionDelete(id, usuario, usuarioLogueado){
 
     document.getElementById("modalAdminEliminarusuario").style.display = "block";
 }
+
+
+// ----------------------------------- Funciones AJAX -----------------------------------
+
+let alertaTimer = null; // Timer de alerta Bootstrap
+
+// Funcion AJAX para editar datos
+function enviarDatosFormulario(event) {
+    event.preventDefault(); // Evita que la página se recargue
+    
+    const formulario = event.target;
+    const formData = new FormData(formulario); // Captura todos los inputs automáticamente
+
+    switch(formData.get("campo-editar")){
+        
+        case "Avatar":
+            fetch('apoyo/editar_avatar.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {// Validamos la respuesta AJAX
+                if (!response.ok) throw new Error('Error en la red');
+                return response.json(); // Si todo OK, lanzamos respuesta json al siguiente paso
+            })
+            .then(data => { // Operamos con datos json
+                
+                // 1. Cerrar el modal
+                modalEditarAvatar.style.display = "none";
+
+                // 2. Refrescar la parte del perfil que cambió y lanzar mensaje:
+                if (data['error_editar_perfil'] === "Ninguno" && data['cambio'] === "Avatar") {
+                    const elementoDato = document.getElementById('Logo-Usuario');
+                    elementoDato.src = "../../../img/perfiles/" + data['nuevo_valor'];
+                }
+
+                timerAlertasBootstrap((data['error_editar_perfil'] === "Ninguno") ? (data['cambio'] === 'Password' ? 'Contraseña actualizada correctamente.' : data['cambio'] + ' actualizado correctamente.') : data['error_editar_perfil'], (data['error_editar_perfil'] === "Ninguno") ? 'success' : 'danger');
+                
+            })
+            .catch(error => {
+                
+                console.error('Error:', error);
+                //alert('Ocurrió un error al guardar los datos');
+            });
+            break;
+        
+        case "Password":
+            fetch('apoyo/editar_password.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {// Validamos la respuesta AJAX
+                if (!response.ok) throw new Error('Error en la red');
+                return response.json(); // Si todo OK, lanzamos respuesta json al siguiente paso
+            })
+            .then(data => { // Operamos con datos json
+                
+                // 1. Cerrar el modal
+                document.getElementById("contrasena").value = "";
+                document.getElementById("nueva-contrasena").value = "";
+                document.getElementById("confirmar-contrasena").value = "";
+                modalPassword.style.display = "none";
+
+                // 2. No hay que refrescar nada, porque Password no se muestra en el perfil
+                console.log(data);
+                timerAlertasBootstrap((data['error_editar_perfil'] === "Ninguno") ? (data['cambio'] === 'Password' ? 'Contraseña actualizada correctamente.' : data['cambio'] + ' actualizado correctamente.') : data['error_editar_perfil'], (data['error_editar_perfil'] === "Ninguno") ? 'success' : 'danger');
+                
+            })
+            .catch(error => {
+                
+                console.error('Error:', error);
+                //alert('Ocurrió un error al guardar los datos');
+            });
+            break;
+        
+        default:
+            fetch('apoyo/editar_dato.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {// Validamos la respuesta AJAX
+                if (!response.ok) throw new Error('Error en la red');
+                return response.json(); // Si todo OK, lanzamos respuesta json al siguiente paso
+            })
+            .then(data => { // Operamos con datos json
+                
+                // 1. Cerrar el modal y limpiar el campo
+                document.getElementById("nuevo-valor").value = "";
+                modal.style.display = "none";
+                if(data['error_editar_perfil'] === "Ninguno"){
+                    document.getElementById(`btn-editar-${data['cambio'].toLowerCase()}`).onclick = function() { abrirModal(data['cambio'], btoa(data['nuevo_valor'])); };
+                }
+
+                // 2. Refrescar la parte del perfil que cambió y lanzar mensaje:
+                if (data['error_editar_perfil'] === "Ninguno" && data['cambio'] !== "Password" && data['cambio'] !== "Avatar") {
+                    const elementoDato = document.getElementById(`${data['cambio'].toLowerCase()}-perfil-usuario`);
+                    elementoDato.innerText = data['nuevo_valor'];
+                }
+                else if(data['error_editar_perfil'] === "Ninguno" && data['cambio'] === "Avatar"){
+                    const elementoAvatar = document.getElementById(`Logo-Usuario`);
+                    elementoAvatar.src = "../../../img/perfiles/" + data['nuevo_valor'];
+                }
+
+                timerAlertasBootstrap((data['error_editar_perfil'] === "Ninguno") ? (data['cambio'] === 'Password' ? 'Contraseña actualizada correctamente.' : data['cambio'] + ' actualizado correctamente.') : data['error_editar_perfil'], (data['error_editar_perfil'] === "Ninguno") ? 'success' : 'danger');
+                
+            })
+            .catch(error => {
+                
+                console.error('Error:', error);
+                //alert('Ocurrió un error al guardar los datos');
+            });
+            break;
+    }               
+}
+
+function cerrarAlertaBootstrap(){
+    const alerta = document.getElementById('alerta-perfil');
+    alerta.classList.remove('show');
+    alerta.classList.add('d-none');
+    clearTimeout(alertaTimer);
+}
+
+// Establece el timer de 10 segundos para cerrar la alerta de Bootstrap
+function timerAlertasBootstrap(mensaje, tipo = 'success') {
+    const alerta = document.getElementById('alerta-perfil');
+    if (!alerta.classList.contains('d-none')) {
+        clearTimeout(alertaTimer);
+    }
+    const texto = document.getElementById('alerta-mensaje');
+    
+    // 1. Configurar mensaje y colores
+    texto.innerHTML = `<strong>${mensaje}</strong>`;
+    alerta.className = `alert alert-${tipo} alert-dismissible fade show mx-auto mb-3`; // Aplicamos clases de Bootstrap
+    alerta.classList.remove('d-none'); // La hacemos visible
+
+    // 2. Auto-cierre tras 10 segundos
+    alertaTimer = setTimeout(() => {
+        // Usamos el objeto de Bootstrap para cerrarla con animación
+        const bsAlert = bootstrap.Alert.getOrCreateInstance(alerta);
+        if (alerta.classList.contains('show')) {
+            alerta.classList.remove('show');
+            alerta.classList.add('d-none')
+        }
+    }, 10000);
+}
+
+// ----------------------------------- Funciones AJAX -----------------------------------

@@ -17,8 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $rutaAntiguo = DIR_RAIZ . "/img/perfiles/" . $antiguoAvatar;
 
         if (!$SA->modificarUsuario($_SESSION['usuario']->id(), 'avatar', $nombreImagen)) {
-            $_SESSION['error_editar_perfil'] = "Error al cambiar la imagen en la base de datos.";
-            header("Location: " . RUTA_VISTAS . "/usuarios/editar_perfil.php");
+            echo json_encode(['error_editar_perfil' => "Error al cambiar la imagen en la base de datos."]);
             exit();
         } else {
             $_SESSION['usuario']->set_avatar($nombreImagen);
@@ -45,8 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             chmod($dest_path, 0666);
 
             if (!$SA->modificarUsuario($_SESSION['usuario']->id(), 'avatar', $nombreImagen)) {
-                $_SESSION['error_editar_perfil'] = "Error al actualizar la base de datos.";
-                header("Location: " . RUTA_VISTAS . "/usuarios/editar_perfil.php");
+                echo json_encode(['error_editar_perfil' => "Error al actualizar la base de datos."]);
                 exit();
             } else {
                 $_SESSION['usuario']->set_avatar($nombreImagen);
@@ -56,19 +54,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
         } else {
-            $_SESSION['error_editar_perfil'] = "Error al mover el archivo al servidor.";
-            header("Location: " . RUTA_VISTAS . "/usuarios/editar_perfil.php");
+            echo json_encode(['error_editar_perfil' => "Error al mover el archivo al servidor."]);
             exit();
         }
     } else {
-        $_SESSION['error_editar_perfil'] = "Error al subir la imagen.";
-        header("Location: " . RUTA_VISTAS . "/usuarios/editar_perfil.php");
+        echo json_encode(['error_editar_perfil' => "Error al subir la imagen."]);
         exit();
     }
 } else {
     echo json_encode(['success' => false, 'message' => 'Método no permitido']);
 }
-$_SESSION['cambio'] = "Avatar";
-$_SESSION['error_editar_perfil'] = "Ninguno";
-header("Location: " . RUTA_VISTAS . "/usuarios/editar_perfil.php");
+echo json_encode(['cambio' => "Avatar", 'nuevo_valor' => $nombreImagen, 'error_editar_perfil' => 'Ninguno']);
 exit();
