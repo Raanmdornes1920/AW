@@ -16,7 +16,7 @@ if ($posIncludes !== false) {
 $basePath = rtrim($basePath, '/');
 
 if ($es_local) {
-    define('RAIZ_APP', '/AW/practica4');
+    define('RAIZ_APP', $basePath);
     define('DIR_RAIZ', dirname(__DIR__));
 
     $host = "127.0.0.1";

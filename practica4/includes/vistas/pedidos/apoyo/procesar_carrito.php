@@ -26,10 +26,14 @@ if (!isset($_SESSION['ofertas_aplicadas']) || !is_array($_SESSION['ofertas_aplic
 $variables = "";
 if (isset($_GET['id_producto']) || isset($_GET['id_categoria']) || isset($_GET['tipo']) || isset($_GET['id_oferta'])) {
     $variables = "?"
-        . (isset($_GET['id_producto']) ? "id=" . filter_input(INPUT_GET, 'id_producto', FILTER_SANITIZE_NUMBER_INT) : "")
-        . (isset($_GET['id_categoria']) ? "&id_categoria=" . filter_input(INPUT_GET, 'id_categoria', FILTER_SANITIZE_NUMBER_INT) : "")
-        . (isset($_GET['id_oferta']) ? "&id_oferta=" . filter_input(INPUT_GET, 'id_oferta', FILTER_SANITIZE_NUMBER_INT) : "")
-        . (isset($_GET['tipo']) ? "&tipo=" . urlencode(filter_input(INPUT_GET, 'tipo', FILTER_SANITIZE_SPECIAL_CHARS)) : "");
+        . (isset($_GET['id_producto']) ? "id=" .
+            filter_input(INPUT_GET, 'id_producto', FILTER_SANITIZE_NUMBER_INT) : "")
+        . (isset($_GET['id_categoria']) ? "&id_categoria=" .
+            filter_input(INPUT_GET, 'id_categoria', FILTER_SANITIZE_NUMBER_INT) : "")
+        . (isset($_GET['id_oferta']) ? "&id_oferta=" .
+            filter_input(INPUT_GET, 'id_oferta', FILTER_SANITIZE_NUMBER_INT) : "")
+        . (isset($_GET['tipo']) ? "&tipo=" .
+            urlencode(filter_input(INPUT_GET, 'tipo', FILTER_SANITIZE_SPECIAL_CHARS)) : "");
     $variables = str_replace("?&", "?", $variables);
 }
 
