@@ -46,6 +46,38 @@ switch ($accion) {
                 $_SESSION['carrito'][$id_producto] = $cantidad;
             }
         }
+
+        if (isset($_REQUEST['ajax']) && $_REQUEST['ajax'] == 1) {
+            header('content-Type: application/json');
+            //Que hace esta linea? -> Establece que la respuesta será en formato JSON.
+            //1.Preparar variable por defceto
+            $veces_aplicable = 0;
+            //2.comporbar si se han enviado el id de la oferta
+            $id_oferta = filter_input(INPUT_GET, 'id_oferta', FILTER_SANITIZE_NUMBER_INT);
+            //3. SI HAY OFERTA CALCULAMOS LAS VECES QUE SE PUEDE APLICAR
+            if ($id_oferta) {
+                $ofertaSA = new OfertaSA($db_connection);
+                $oferta = $ofertaSA->buscarPorId($id_oferta);
+                if ($oferta) {
+                    $veces_aplicable = $ofertaSA->vecesAplicable($oferta, $_SESSION['carrito']);
+                }
+            }
+
+            // Calcular num_items_carrito
+            $num_items_carrito = 0;
+            if (isset($_SESSION['carrito']) && is_array($_SESSION['carrito'])) {
+                $num_items_carrito = array_sum($_SESSION['carrito']);
+            }
+
+            //4. Enviar el JSON añadiendo el nuevo dato
+            echo json_encode([
+                'status' => 'success',
+                'veces_aplicable' => $veces_aplicable,
+                'num_items_carrito' => $num_items_carrito
+            ]);
+            exit;
+        }
+
         if (isset($_SERVER['HTTP_REFERER'])) {
             $url_limpia = parse_url($_SERVER['HTTP_REFERER'], PHP_URL_PATH) . $variables;
             header("Location: " . $url_limpia);

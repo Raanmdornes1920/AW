@@ -36,9 +36,9 @@ if (isset($_SESSION['carrito']) && is_array($_SESSION['carrito'])) {
                     <span class="position-relative">
                         <img src="<?php echo RUTA_IMG . '/perfiles/' . $_SESSION['usuario']->avatar(); ?>"
                             alt="Icono de usuario" class="avatar-img rounded-circle">
-                        <?php if ($_SESSION['usuario']->rol() === 'cliente' && $num_items_carrito > 0): ?>
-                            <span
-                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"><?php echo $num_items_carrito; ?></span>
+                        <?php if ($_SESSION['usuario']->rol() === 'cliente'): ?>
+                            <span id="contador-carrito-badge"
+                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger <?= ($num_items_carrito > 0) ? '' : 'd-none' ?>"><?php echo $num_items_carrito; ?></span>
                         <?php endif; ?>
                     </span>
                 </button>
@@ -54,7 +54,7 @@ if (isset($_SESSION['carrito']) && is_array($_SESSION['carrito'])) {
                         <li><a class="dropdown-item"
                                 href="<?php echo RUTA_VISTAS; ?>/pedidos/carrito.php<?= (isset($_GET['tipo']) ? "?tipo=" . $_GET['tipo'] : ""); ?>"><i
                                     class="bi bi-cart3"></i> Mi Carrito
-                                <?= ($num_items_carrito > 0) ? "($num_items_carrito)" : "" ?></a></li>
+                                <span id="contador-carrito-texto"><?= ($num_items_carrito > 0) ? "($num_items_carrito)" : "" ?></span></a></li>
                     <?php endif; ?>
                     <?php if ($_SESSION['usuario']->rol() === 'gerente'): ?>
                         <li><a class="dropdown-item" href="<?php echo RUTA_VISTAS; ?>/usuarios/ajustes_admin.php"><i

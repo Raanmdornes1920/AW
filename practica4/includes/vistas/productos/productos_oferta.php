@@ -60,11 +60,11 @@ if (empty($productos)) {
                 </div>
             </a>
             <div class="card-footer bg-white border-0 pt-0">
-            <form action="../pedidos/apoyo/procesar_carrito.php$_tipo" method="POST">
-                <input type="hidden" name="accion" value="add">
-                <input type="hidden" name="id_producto" value="$idProd">
-                <input type="hidden" name="cantidad" value="1">
-                <button type="submit" class="btn btn-primary w-100 touch-action">Añadir</button>
+            <form class="form-ajax-carrito" action="../pedidos/apoyo/procesar_carrito.php$_tipo" method="POST">
+            <input type="hidden" name="accion" value="add">
+            <input type="hidden" name="id_producto" value="$idProd">
+            <input type="hidden" name="cantidad" value="1">
+            <button type="submit" class="btn btn-primary w-100 touch-action">Añadir</button>
             </form>
             </div>
         </article>
@@ -112,7 +112,9 @@ $contenidoPrincipal = <<<EOF
             <h1 class="h2 mb-0">$tituloPagina</h1>
             <a href="../ofertas/ofertas_cliente.php" class="btn btn-outline-secondary">Volver a ofertas</a>
         </div>
-        $accionOferta
+        <div id="contenedor-banner-oferta">
+            $accionOferta
+        </div>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-3 g-4">
             $htmlProductos
         </div>

@@ -47,7 +47,7 @@ $contenidoPrincipal = <<<EOF
     </div>
 
     <div class="col-12 col-lg-5">
-        <form class="card shadow-sm" action="../pedidos/apoyo/procesar_carrito.php$variables" method="POST">
+        <form class="card shadow-sm form-ajax-carrito" action="../pedidos/apoyo/procesar_carrito.php$variables" method="POST">
             <div class="card-body">
                 <h1 class="card-title">{$producto->getNombre()}</h1>
                 <p class="card-text text-secondary">{$producto->getDescripcion()}</p>

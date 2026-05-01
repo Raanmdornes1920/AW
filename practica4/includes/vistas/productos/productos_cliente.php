@@ -46,7 +46,7 @@ if (empty($productos)) {
                 </div>
             </a>
             <div class="card-footer bg-white border-0 pt-0">
-            <form action="../pedidos/apoyo/procesar_carrito.php$_tipo" method="POST">
+            <form class="form-ajax-carrito" action="../pedidos/apoyo/procesar_carrito.php$_tipo" method="POST">
                 <input type="hidden" name="accion" value="add">
                 <input type="hidden" name="id_producto" value="$idProd">
                 <input type="hidden" name="cantidad" value="1">
