@@ -29,7 +29,7 @@ if (isset($_SESSION['carrito']) && is_array($_SESSION['carrito'])) {
             <div class="dropdown order-3">
                 <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center gap-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <span class="position-relative">
-                        <img src="<?php echo RUTA_IMG . '/perfiles/' . $_SESSION['usuario']->avatar(); ?>" alt="Icono de usuario" class="avatar-img rounded-circle">
+                        <img id='Logo-Usuario-Logueado-Perfil' src="<?php echo RUTA_IMG . '/perfiles/' . $_SESSION['usuario']->avatar(); ?>" alt="Icono de usuario" class="avatar-img rounded-circle">
                         <?php if($_SESSION['usuario']->rol() === 'cliente' && $num_items_carrito > 0): ?>
                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"><?php echo $num_items_carrito; ?></span>
                         <?php endif; ?>

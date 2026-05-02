@@ -92,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     }
                 }
                 
-                echo json_encode(['cambio' => ucfirst($campo), 'error_editar_perfil' => "Ninguno", 'nuevo_valor' => $valor]);
+                echo json_encode(['cambio' => ucfirst($campo), 'error_editar_perfil' => "Ninguno", 'nuevo_valor' => $valor, 'id' => $id, 'usuario_propio' => $usuario_actual]);
             }
             else{
                 echo json_encode(['error_editar_perfil' => "Error al intentar modificar ".ucfirst($campo)." a '".$valor."'."]);
@@ -117,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     // Corregimos sesion
                     $_SESSION['usuario']->modificarUsuario('avatar',$nombreImagen);
                 }
-                echo json_encode(['cambio' => 'Avatar', 'error_editar_perfil' => "Ninguno", 'nuevo_valor' => $nombreImagen]);
+                echo json_encode(['cambio' => 'Avatar', 'error_editar_perfil' => "Ninguno", 'nuevo_valor' => $nombreImagen, 'id' => $id, 'usuario_propio' => $usuario_actual]);
             }
             else{
                 echo json_encode(['error_editar_perfil' => "Error al subir la imagen."]);
@@ -156,7 +156,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         // Corregimos sesion
                         $_SESSION['usuario']->set_avatar($nombreImagen);
                     }
-                    echo json_encode(['cambio' => 'Avatar', 'error_editar_perfil' => "Ninguno", 'nuevo_valor' => $nombreImagen]);
+                    echo json_encode(['cambio' => 'Avatar', 'error_editar_perfil' => "Ninguno", 'nuevo_valor' => $nombreImagen, 'id' => $id, 'usuario_propio' => $usuario_actual]);
                 }
                 else{
                     echo json_encode(['error_editar_perfil' => "Error al subir la imagen."]);
@@ -181,7 +181,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
     }
-    header("Location: " . RUTA_VISTAS . "/usuarios/ajustes_admin.php");
     exit();
 }
 

@@ -85,6 +85,7 @@ window.onload = function(){
             });
 
             modalEditarUsuario.style.display = "none";
+            cerrarAlertaBootstrap();
         }
         if (event.target == modalEliminarusuario) {
             document.getElementById("span-nombre-usuario").innerText = null;
@@ -149,6 +150,7 @@ window.onload = function(){
         btnCerrarEditAdmin.addEventListener('click', function() {
             // Añadir Vaciar valores de los campos
             document.getElementById('contenedor-centro-edit-admin').style.display = "none";
+            cerrarAlertaBootstrap();
         });
     }
 }
@@ -191,7 +193,7 @@ function abrirModalEditarUsuario(id, usuario){
     });
 
     document.getElementById('Logo-Usuario').src = "../../../img/perfiles/" + usuario['avatar'];
-    document.getElementById('nombre-usuario').innerText = usuario['nombre_usuario'];
+    document.getElementById('usuario-usuario-edit').innerText = usuario['nombre_usuario'];
     document.getElementById('nombre-usuario-edit').innerText = usuario['nombre'];
     document.getElementById('apellidos-usuario-edit').innerText = usuario['apellidos'];
     document.getElementById('email-usuario-edit').innerText = usuario['email'];
@@ -300,6 +302,8 @@ function enviarDatosFormulario(event) {
                 if (data['error_editar_perfil'] === "Ninguno" && data['cambio'] === "Avatar") {
                     const elementoDato = document.getElementById('Logo-Usuario');
                     elementoDato.src = "../../../img/perfiles/" + data['nuevo_valor'];
+
+                    document.getElementById('Logo-Usuario-Logueado-Perfil').src = "../../../img/perfiles/" + data['nuevo_valor'];
                 }
 
                 timerAlertasBootstrap((data['error_editar_perfil'] === "Ninguno") ? (data['cambio'] === 'Password' ? 'Contraseña actualizada correctamente.' : data['cambio'] + ' actualizado correctamente.') : data['error_editar_perfil'], (data['error_editar_perfil'] === "Ninguno") ? 'success' : 'danger');
@@ -330,7 +334,6 @@ function enviarDatosFormulario(event) {
                 modalPassword.style.display = "none";
 
                 // 2. No hay que refrescar nada, porque Password no se muestra en el perfil
-                console.log(data);
                 timerAlertasBootstrap((data['error_editar_perfil'] === "Ninguno") ? (data['cambio'] === 'Password' ? 'Contraseña actualizada correctamente.' : data['cambio'] + ' actualizado correctamente.') : data['error_editar_perfil'], (data['error_editar_perfil'] === "Ninguno") ? 'success' : 'danger');
                 
             })
@@ -363,11 +366,180 @@ function enviarDatosFormulario(event) {
                 if (data['error_editar_perfil'] === "Ninguno" && data['cambio'] !== "Password" && data['cambio'] !== "Avatar") {
                     const elementoDato = document.getElementById(`${data['cambio'].toLowerCase()}-perfil-usuario`);
                     elementoDato.innerText = data['nuevo_valor'];
+                    
+                    if (data['cambio'] === "Usuario") {
+                        document.getElementsByClassName('dropdown-header')[0].innerText = data['nuevo_valor'].toUpperCase();
+                    }
                 }
                 else if(data['error_editar_perfil'] === "Ninguno" && data['cambio'] === "Avatar"){
                     const elementoAvatar = document.getElementById(`Logo-Usuario`);
                     elementoAvatar.src = "../../../img/perfiles/" + data['nuevo_valor'];
                 }
+
+                timerAlertasBootstrap((data['error_editar_perfil'] === "Ninguno") ? (data['cambio'] === 'Password' ? 'Contraseña actualizada correctamente.' : data['cambio'] + ' actualizado correctamente.') : data['error_editar_perfil'], (data['error_editar_perfil'] === "Ninguno") ? 'success' : 'danger');
+                
+            })
+            .catch(error => {
+                
+                console.error('Error:', error);
+                //alert('Ocurrió un error al guardar los datos');
+            });
+            break;
+    }               
+}
+
+// Funcion AJAX para editar datos como Admin
+function enviarDatosFormularioAdmin(event) { // TODO: Terminar de adaptar a admin edit
+    event.preventDefault(); // Evita que la página se recargue
+    
+    const formulario = event.target;
+    const formData = new FormData(formulario); // Captura todos los inputs automáticamente
+
+    switch(formData.get("campo-editar")){
+        
+        case "Avatar":
+            fetch('apoyo/admin_edit.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {// Validamos la respuesta AJAX
+                if (!response.ok) throw new Error('Error en la red');
+                return response.json(); // Si todo OK, lanzamos respuesta json al siguiente paso
+            })
+            .then(data => { // Operamos con datos json
+                
+                // 1. Cerrar el modal
+                modalAdminEditarAvatar.style.display = "none";
+
+                // 2. Refrescar la parte del perfil que cambió y lanzar mensaje:
+                if (data['error_editar_perfil'] === "Ninguno" && data['cambio'] === "Avatar") {
+                    const elementoDato = document.getElementById('Logo-Usuario');
+                    elementoDato.src = "../../../img/perfiles/" + data['nuevo_valor'];
+
+                    let info = document.getElementById(`btn-editar-${data['id']}`).getAttribute('onclick');
+                    info = JSON.parse('{' + info.split('{')[1].split('}')[0].trim() + '}'); // Extraemos el contenido dentro de las llaves
+                    
+                    info[`${(data['cambio'].toLowerCase()==='usuario'?'nombre_usuario':data['cambio'].toLowerCase())}`] = data['nuevo_valor'];
+                    document.getElementById(`btn-editar-${data['id']}`).onclick = function() { abrirModalEditarUsuario(info['id'], info); };
+                    diccionario_usuarios[data['id']][`${(data['cambio'].toLowerCase()==='usuario'?'nombre_usuario':data['cambio'].toLowerCase())}`] = data['nuevo_valor'];
+                    if (data['usuario_propio']) {
+                        document.getElementById('Logo-Usuario-Logueado-Perfil').src = "../../../img/perfiles/" + data['nuevo_valor'];
+                    }
+                }
+
+                timerAlertasBootstrap((data['error_editar_perfil'] === "Ninguno") ? (data['cambio'] === 'Password' ? 'Contraseña actualizada correctamente.' : data['cambio'] + ' actualizado correctamente.') : data['error_editar_perfil'], (data['error_editar_perfil'] === "Ninguno") ? 'success' : 'danger');
+                
+            })
+            .catch(error => {
+                
+                console.error('Error:', error);
+                //alert('Ocurrió un error al guardar los datos');
+            });
+            break;
+        
+        case "Password":
+            fetch('apoyo/admin_edit.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {// Validamos la respuesta AJAX
+                if (!response.ok) throw new Error('Error en la red');
+                return response.json(); // Si todo OK, lanzamos respuesta json al siguiente paso
+            })
+            .then(data => { // Operamos con datos json
+                
+                // 1. Cerrar el modal
+                modalAdminPassword.style.display = "none";
+
+                // 2. No hay que refrescar nada, porque Password no se muestra en el perfil
+                timerAlertasBootstrap((data['error_editar_perfil'] === "Ninguno") ? (data['cambio'] === 'Password' ? 'Contraseña actualizada correctamente.' : data['cambio'] + ' actualizado correctamente.') : data['error_editar_perfil'], (data['error_editar_perfil'] === "Ninguno") ? 'success' : 'danger');
+                
+            })
+            .catch(error => {
+                
+                console.error('Error:', error);
+                //alert('Ocurrió un error al guardar los datos');
+            });
+            break;
+        
+        case "Rol":
+            fetch('apoyo/admin_edit.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {// Validamos la respuesta AJAX
+                if (!response.ok) throw new Error('Error en la red');
+                return response.json(); // Si todo OK, lanzamos respuesta json al siguiente paso
+            })
+            .then(data => { // Operamos con datos json
+                
+                // 1. Cerrar el modal y limpiar el campo
+                document.getElementById("nuevo-valor").value = "";
+                modalAdminEditarRol.style.display = "none";
+                if(data['error_editar_perfil'] === "Ninguno"){
+                    let info = document.getElementById(`btn-editar-${data['id']}`).getAttribute('onclick');
+                    info = JSON.parse('{' + info.split('{')[1].split('}')[0].trim() + '}'); // Extraemos el contenido dentro de las llaves
+                    
+                    info[`${(data['cambio'].toLowerCase()==='usuario'?'nombre_usuario':data['cambio'].toLowerCase())}`] = data['nuevo_valor'];
+                    document.getElementById(`btn-editar-${data['id']}`).onclick = function() { abrirModalEditarUsuario(info['id'], info); };
+                    diccionario_usuarios[data['id']][`${(data['cambio'].toLowerCase()==='usuario'?'nombre_usuario':data['cambio'].toLowerCase())}`] = data['nuevo_valor'];
+                    reubicarFila(data['id'], data['nuevo_valor']);
+                    actualizarInterfazTabla(data['id'], data['cambio'].toLowerCase(), data['nuevo_valor'])
+                }
+
+                // 2. Refrescar la parte del perfil que cambió y lanzar mensaje:
+                if (data['error_editar_perfil'] === "Ninguno") {
+                    const elementoDato = document.getElementById('rol-usuario-edit');
+                    elementoDato.innerText = data['nuevo_valor'];
+                }
+
+                timerAlertasBootstrap((data['error_editar_perfil'] === "Ninguno") ? (data['cambio'] === 'Password' ? 'Contraseña actualizada correctamente.' : data['cambio'] + ' actualizado correctamente.') : data['error_editar_perfil'], (data['error_editar_perfil'] === "Ninguno") ? 'success' : 'danger');
+                
+            })
+            .catch(error => {
+                
+                console.error('Error:', error);
+                //alert('Ocurrió un error al guardar los datos');
+            });
+            break;
+
+        default:
+            fetch('apoyo/admin_edit.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {// Validamos la respuesta AJAX
+                if (!response.ok) throw new Error('Error en la red');
+                return response.json(); // Si todo OK, lanzamos respuesta json al siguiente paso
+            })
+            .then(data => { // Operamos con datos json
+                console.log(data);  
+                // 1. Cerrar el modal y limpiar el campo
+                document.getElementById("nuevo-valor").value = "";
+                modalAdmin.style.display = "none";
+
+                if(data['error_editar_perfil'] === "Ninguno"){
+                    let info = document.getElementById(`btn-editar-${data['id']}`).getAttribute('onclick');
+                    info = JSON.parse('{' + info.split('{')[1].split('}')[0].trim() + '}'); // Extraemos el contenido dentro de las llaves
+                    
+                    info[`${(data['cambio'].toLowerCase()==='usuario'?'nombre_usuario':data['cambio'].toLowerCase())}`] = data['nuevo_valor'];
+                    document.getElementById(`btn-editar-${data['id']}`).onclick = function() { abrirModalEditarUsuario(info['id'], info); };
+                    diccionario_usuarios[data['id']][`${(data['cambio'].toLowerCase()==='usuario'?'nombre_usuario':data['cambio'].toLowerCase())}`] = data['nuevo_valor'];
+                    actualizarInterfazTabla(data['id'], data['cambio'].toLowerCase(), data['nuevo_valor'])
+                }
+
+
+                // 2. Refrescar la parte del perfil que cambió y lanzar mensaje:
+                if (data['error_editar_perfil'] === "Ninguno" && data['cambio'] !== "Password" && data['cambio'] !== "Avatar") {
+                    const elementoDato = document.getElementById(`${data['cambio'].toLowerCase()}-usuario-edit`);
+                    elementoDato.innerText = data['nuevo_valor'];
+                    
+                    if (data['cambio'] === "Usuario" && data['usuario_propio']) {
+                        document.getElementsByClassName('dropdown-header')[0].innerText = data['nuevo_valor'];
+                    }
+                }
+
+                
 
                 timerAlertasBootstrap((data['error_editar_perfil'] === "Ninguno") ? (data['cambio'] === 'Password' ? 'Contraseña actualizada correctamente.' : data['cambio'] + ' actualizado correctamente.') : data['error_editar_perfil'], (data['error_editar_perfil'] === "Ninguno") ? 'success' : 'danger');
                 
@@ -410,6 +582,70 @@ function timerAlertasBootstrap(mensaje, tipo = 'success') {
             alerta.classList.add('d-none')
         }
     }, 10000);
+}
+
+function actualizarInterfazTabla(userId, campoCambiado, nuevoValor) {
+    // 1. Identificar la fila completa
+    const fila = document.getElementById(`fila-usuario-${userId}`);
+    if (!fila) return; // Seguridad: si la fila no existe, salimos
+    // 3. Actualizar el texto de la celda correspondiente
+    const celda = fila.querySelector(`.col-${campoCambiado}`);
+    
+    if (celda) {
+        if (campoCambiado === 'rol') {
+            // Si es el Rol, actualizamos el texto dentro del badge
+            const badge = celda.querySelector('.badge');
+            if (badge) badge.innerText = nuevoValor;
+        } else {
+            // Para el resto (nombre, email, etc), actualizamos el texto directamente
+            celda.innerText = nuevoValor;
+        }
+    }
+}
+
+function reubicarFila(userId, nuevoRol) {
+    const fila = document.getElementById(`fila-usuario-${userId}`);
+    if (!fila) return;
+
+    // Actualizamos el atributo para futuras comparaciones
+    fila.setAttribute('data-rol', nuevoRol);
+
+    const esCliente = (nuevoRol === 'cliente');
+    const idDestino = esCliente ? 'body-clientes' : 'body-empleados';
+    const destino = document.getElementById(idDestino);
+
+    if (!destino) return;
+
+    const filasExistentes = Array.from(destino.querySelectorAll('tr'));
+    
+    // Buscamos el punto exacto de inserción (ORDER BY rol DESC, id ASC)
+    const filaSiguiente = filasExistentes.find(f => {
+        const rolFila = f.getAttribute('data-rol');
+        const idFila = parseInt(f.getAttribute('data-id'));
+
+        // 1. Lógica para ROL (DESC): 
+        // Si el rol de la fila de la tabla es "menor" que el nuestro, 
+        // nosotros debemos ir ANTES que ella.
+        if (rolFila < nuevoRol) {
+            return true;
+        }
+
+        // 2. Lógica para ID (ASC) si el rol es el mismo:
+        // Si el ID de la fila es mayor que el nuestro, 
+        // nosotros debemos ir ANTES que ella.
+        if (rolFila === nuevoRol && idFila > userId) {
+            return true;
+        }
+
+        return false;
+    });
+
+    if (filaSiguiente) {
+        destino.insertBefore(fila, filaSiguiente);
+    } else {
+        // Si no hay fila siguiente, va al final de su tabla
+        destino.appendChild(fila);
+    }
 }
 
 // ----------------------------------- Funciones AJAX -----------------------------------
