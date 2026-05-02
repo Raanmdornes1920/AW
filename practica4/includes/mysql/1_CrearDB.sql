@@ -75,6 +75,8 @@ CREATE TABLE IF NOT EXISTS `pedidos` (
   `estado` enum('recibido','en_preparacion','cocinando','listo_cocina','terminado','entregado','cancelado') DEFAULT 'recibido',
   `tipo` enum('local','llevar') NOT NULL,
   `total` decimal(10,2) NOT NULL,
+  `total_sin_descuento` decimal(10,2) DEFAULT NULL,
+  `descuento_aplicado` decimal(10,2) DEFAULT 0.00,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_pedido_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
