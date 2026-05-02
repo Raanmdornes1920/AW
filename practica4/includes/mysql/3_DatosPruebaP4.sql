@@ -1,6 +1,6 @@
 -- =====================================================
 -- Datos de prueba adicionales para la entrega final
--- Ejecutar después de 1_CrearDB.sql, 2_PoblarDB.sql y 3_MigracionOfertas.sql
+-- Ejecutar después de 1_CrearDB.sql, 2_PoblarDB.sql
 -- =====================================================
 
 INSERT INTO `productos` (`id_categoria`, `nombre`, `descripcion`, `precio_base`, `iva`, `disponible`, `ofertado`, `cocinable`)
