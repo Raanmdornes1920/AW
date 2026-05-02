@@ -16,27 +16,29 @@ if (isset($_SESSION['carrito']) && is_array($_SESSION['carrito'])) {
 }
 ?>
 <header class="sticky-top shadow-sm">
-    <nav class="navbar navbar-expand-lg bg-white position-relative" aria-label="Navegación principal">
+    <nav class="navbar navbar-expand-lg bg-white" aria-label="Navegación principal">
         <div class="container-fluid px-3 px-lg-4">
-            
-            <button class="navbar-toggler order-1 position-relative z-3" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal" aria-controls="menuPrincipal" aria-expanded="false" aria-label="Abrir menú">
+
+            <button class="navbar-toggler order-1" type="button" data-bs-toggle="collapse"
+                data-bs-target="#menuPrincipal" aria-controls="menuPrincipal" aria-expanded="false"
+                aria-label="Abrir menú">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <a class="navbar-brand d-flex d-lg-none position-absolute top-0 start-50 translate-middle-x mt-2" href="<?php echo RAIZ_APP; ?>/">
+            <a class="navbar-brand d-flex align-items-center gap-2 order-2 order-lg-1 mx-auto mx-lg-0"
+                href="<?php echo RAIZ_APP; ?>/">
                 <img class="brand-logo" src="<?php echo RUTA_IMG; ?>/logo1.png" alt="Logo de Bistro FDI">
             </a>
 
-            <a class="navbar-brand d-none d-lg-flex align-items-center gap-2 order-lg-1 mx-lg-0" href="<?php echo RAIZ_APP; ?>/">
-                <img class="brand-logo" src="<?php echo RUTA_IMG; ?>/logo1.png" alt="Logo de Bistro FDI">
-            </a>
-
-            <div class="dropdown order-3 position-relative z-3">
-                <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center gap-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <div class="dropdown order-3">
+                <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center gap-2" type="button"
+                    data-bs-toggle="dropdown" aria-expanded="false">
                     <span class="position-relative">
-                        <img id='Logo-Usuario-Logueado-Perfil' src="<?php echo RUTA_IMG . '/perfiles/' . $_SESSION['usuario']->avatar(); ?>" alt="Icono de usuario" class="avatar-img rounded-circle">
-                        <?php if($_SESSION['usuario']->rol() === 'cliente' && $num_items_carrito > 0): ?>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"><?php echo $num_items_carrito; ?></span>
+                        <img src="<?php echo RUTA_IMG . '/perfiles/' . $_SESSION['usuario']->avatar(); ?>"
+                            alt="Icono de usuario" class="avatar-img rounded-circle">
+                        <?php if ($_SESSION['usuario']->rol() === 'cliente'): ?>
+                            <span id="contador-carrito-badge"
+                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger <?= ($num_items_carrito > 0) ? '' : 'd-none' ?>"><?php echo $num_items_carrito; ?></span>
                         <?php endif; ?>
                     </span>
                 </button>
