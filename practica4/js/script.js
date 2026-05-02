@@ -64,4 +64,50 @@ window.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
+
+    // TODO: Ajax para añadir producto al carrito
+    const formsIncluirCarrito = document.querySelectorAll('.form-incluir-carrito');
+    const formDetalleProducto = document.getElementById('form-detalle-producto');
+
+    if(formsIncluirCarrito) {
+        formsIncluirCarrito.forEach(form => {
+            form.addEventListener('submit', function(event) {
+                actualizarNumItemsCarrito(event);
+            });
+        });
+    }
+
+    if(formDetalleProducto) {
+        formDetalleProducto.addEventListener('submit', function(event) {
+            actualizarNumItemsCarrito(event);
+        });
+    }
 });
+
+function actualizarNumItemsCarrito(event) {
+    event.preventDefault();
+
+    const formulario = event.target;
+    const formData = new FormData(formulario); // Captura todos los inputs automáticamente
+    
+    fetch('../pedidos/apoyo/procesar_carrito.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {// Validamos la respuesta AJAX
+        if (!response.ok) throw new Error('Error en la red');
+        return response.json(); // Si todo OK, lanzamos respuesta json al siguiente paso
+    })
+    .then(data => { // Operamos con datos json
+        // Actualizamos el número de elementos en el carrito
+        const numItemsCarrito = document.getElementById('num-items-carrito');
+        const liCarrito = document.getElementById('li-carrito');
+        if (data.carrito > 0) {
+            numItemsCarrito.classList.remove('d-none');
+            numItemsCarrito.innerText = data.carrito;
+            liCarrito.innerHTML = `<i class="bi bi-cart3"></i> Mi Carrito ${(data.carrito > 0) ? "("+data.carrito+")" : ""}`;
+        } else {
+            numItemsCarrito.classList.add('d-none');
+        }
+    });
+}

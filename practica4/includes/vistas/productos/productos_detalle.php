@@ -47,13 +47,16 @@ $contenidoPrincipal = <<<EOF
     </div>
 
     <div class="col-12 col-lg-5">
-        <form class="card shadow-sm" action="../pedidos/apoyo/procesar_carrito.php$variables" method="POST">
+        <form id="form-detalle-producto" class="card shadow-sm" method="POST">
             <div class="card-body">
                 <h1 class="card-title">{$producto->getNombre()}</h1>
                 <p class="card-text text-secondary">{$producto->getDescripcion()}</p>
                 <p class="display-6 fw-semibold text-success">{$producto->getPrecioFinal()} €</p>
-
                 <label class="form-label fw-semibold" for="cantidad">Cantidad</label>
+                
+                <input type="hidden" name="id_producto" value="$id">
+                <input type="hidden" name="accion" value="add">
+                
                 <div class="input-group input-group-lg mb-3">
                     <button class="btn btn-outline-secondary" type="button" onclick="modificarCantidad(-1)">-</button>
                     <input type="number" class="form-control text-center" id="cantidad" name="cantidad" value="1" min="1" readonly>

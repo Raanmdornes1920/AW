@@ -19,7 +19,7 @@ if ($id_cat) {
 }
 
 $css = [];
-$js = [];
+$js = [RAIZ_APP . "/js/script.js"];
 $header = __DIR__ . "/../comun/header.php";
 $claseMain = "contenedor-centro";
 
@@ -46,7 +46,7 @@ if (empty($productos)) {
                 </div>
             </a>
             <div class="card-footer bg-white border-0 pt-0">
-            <form action="../pedidos/apoyo/procesar_carrito.php$_tipo" method="POST">
+            <form class="form-incluir-carrito" method="POST">
                 <input type="hidden" name="accion" value="add">
                 <input type="hidden" name="id_producto" value="$idProd">
                 <input type="hidden" name="cantidad" value="1">
@@ -81,5 +81,4 @@ $contenidoPrincipal = <<<EOF
 </div>
 EOF;
 
-$js = [RAIZ_APP . "/js/script.js"];
 require("../comun/plantilla.php");

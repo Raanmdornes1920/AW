@@ -41,12 +41,7 @@ switch ($accion) {
             } else {
                 $_SESSION['carrito'][$id_producto] = $cantidad;
             }
-        }
-        if (isset($_SERVER['HTTP_REFERER'])) {
-            $url_limpia = parse_url($_SERVER['HTTP_REFERER'], PHP_URL_PATH) . $variables;
-            header("Location: " . $url_limpia);
-        } else {
-            header("Location: ../../productos/productos_cliente.php" . $variables);
+            echo json_encode(['carrito' => array_sum($_SESSION['carrito'])]);
         }
         break;
 
