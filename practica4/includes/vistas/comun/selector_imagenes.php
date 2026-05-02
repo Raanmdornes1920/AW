@@ -16,6 +16,6 @@
     </label>
 </div>
 
-<div id="archivo-avatar">
+<div id="archivo-avatar" style="display: none;">
     <input class="form-control" type="file" name="avatar-custom" accept="image/*">
 </div>

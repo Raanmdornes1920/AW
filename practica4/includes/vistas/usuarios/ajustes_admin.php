@@ -42,7 +42,7 @@ ob_start(); // Capturamos el contenido del include
             <th>Opciones</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody id="body-empleados">
         <?php
         $usuarios_por_id = [];
         $lista_usuarios = $SA->getListaUsuarios();
@@ -53,14 +53,23 @@ ob_start(); // Capturamos el contenido del include
                 if ($rolActual !== 'cliente') {
                     $usuarios_por_id[$usuario->id()] = $usuario;
         ?>
-                    <tr>
-                        <td><?php echo htmlspecialchars($usuario->usuario()); ?></td>
-                        <td><?php echo htmlspecialchars($usuario->nombre()); ?></td>
-                        <td><?php echo htmlspecialchars($usuario->apellidos()); ?></td>
-                        <td><?php echo htmlspecialchars($usuario->email()); ?></td>
-                        <td><span class="badge text-bg-secondary"><?php echo htmlspecialchars($rolActual); ?></span></td>
+                    <tr id="fila-usuario-<?php echo $usuario->id(); ?>" 
+                        data-rol="<?php echo htmlspecialchars($rolActual); ?>" 
+                        data-id="<?php echo $usuario->id(); ?>">
+                        
+                        <td class="col-usuario"><?php echo htmlspecialchars($usuario->usuario()); ?></td>
+                        <td class="col-nombre"><?php echo htmlspecialchars($usuario->nombre()); ?></td>
+                        <td class="col-apellidos"><?php echo htmlspecialchars($usuario->apellidos()); ?></td>
+                        <td class="col-email"><?php echo htmlspecialchars($usuario->email()); ?></td>
+                        <td class="col-rol">
+                            <span class="badge text-bg-secondary"><?php echo htmlspecialchars($rolActual); ?></span>
+                        </td>
                         <td>
-                            <button class="btn btn-sm btn-outline-primary" onclick='abrirModalEditarUsuario(<?php echo $usuario->id() . ", " . json_encode($usuario); ?>)'>Editar</button>
+                            <button id="btn-editar-<?php echo $usuario->id(); ?>" 
+                                    class="btn btn-sm btn-outline-primary" 
+                                    onclick='abrirModalEditarUsuario(<?php echo $usuario->id() . ", " . json_encode($usuario); ?>)'>
+                                Editar
+                            </button>
                         </td>
                     </tr>
         <?php
@@ -92,7 +101,7 @@ ob_start(); // Capturamos el contenido del include
             <th>Opciones</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody id="body-clientes">
         <?php
         if ($lista_usuarios) {
             foreach ($lista_usuarios as $usuario) {
@@ -101,14 +110,20 @@ ob_start(); // Capturamos el contenido del include
                 if ($rolActual === 'cliente') {
                     $usuarios_por_id[$usuario->id()] = $usuario;
         ?>
-                    <tr>
-                        <td><?php echo htmlspecialchars($usuario->usuario()); ?></td>
-                        <td><?php echo htmlspecialchars($usuario->nombre()); ?></td>
-                        <td><?php echo htmlspecialchars($usuario->apellidos()); ?></td>
-                        <td><?php echo htmlspecialchars($usuario->email()); ?></td>
-                        <td><span class="badge text-bg-secondary"><?php echo htmlspecialchars($rolActual); ?></span></td>
+                    <tr id="fila-usuario-<?php echo $usuario->id(); ?>" data-rol="cliente" data-id="<?php echo $usuario->id(); ?>">
+                        <td class="col-usuario"><?php echo htmlspecialchars($usuario->usuario()); ?></td>
+                        <td class="col-nombre"><?php echo htmlspecialchars($usuario->nombre()); ?></td>
+                        <td class="col-apellidos"><?php echo htmlspecialchars($usuario->apellidos()); ?></td>
+                        <td class="col-email"><?php echo htmlspecialchars($usuario->email()); ?></td>
+                        <td class="col-rol">
+                            <span class="badge text-bg-secondary">cliente</span>
+                        </td>
                         <td>
-                            <button class="btn btn-sm btn-outline-primary" onclick='abrirModalEditarUsuario(<?php echo $usuario->id() . ", " . json_encode($usuario); ?>)'>Editar</button>
+                            <button id="btn-editar-<?php echo $usuario->id(); ?>" 
+                                    class="btn btn-sm btn-outline-primary" 
+                                    onclick='abrirModalEditarUsuario(<?php echo $usuario->id() . ", " . json_encode($usuario); ?>)'>
+                                Editar
+                            </button>
                         </td>
                     </tr>
         <?php
@@ -130,17 +145,32 @@ ob_start();
 ?>
 <!-- Interfaz para editar usuarios -->
 <section id="contenedor-centro-edit-admin">
+     <!-- Mostrar mensaje de error o éxito si existe -->
+    <div id="alerta-perfil" class="alert alert-dismissible fade mx-auto mb-3 d-none" style="max-width: 760px;" role="alert">
+        <span id="alerta-mensaje"></span>
+        <button type="button" class="btn-close" onclick="cerrarAlertaBootstrap()"></button>
+    </div>
     <div class="perfil-container-edit-admin">
         <span class="cerrar-modal-edit-admin">&times;</span>
         <h1 class="h3 mb-4">Editar Perfil</h1>
         <div class="text-center mb-4">
-            <figure class="d-inline-block position-relative">
-                <img id="Logo-Usuario" src="" alt="Logo de Usuario">
-            </figure>
-            <h2 id="nombre-usuario" class="h4"></h2>
-            <div class="d-flex justify-content-center gap-2">
-                <button class="btn btn-sm btn-outline-primary" onclick="abrirModalAdminAvatar()">Avatar</button>
-                <button class="btn btn-sm btn-outline-primary" onclick="abrirModalAdmin('Usuario')">Usuario</button>
+            <div class="position-relative d-inline-block">
+                <figure id="contenedor-avatar" class="position-relative d-inline-block rounded-circle overflow-hidden shadow-sm" style="width: 150px; height: 150px; cursor: pointer;" onclick="abrirModalAdminAvatar()">
+                    <img id="Logo-Usuario" class="w-100 h-100 img-fluid object-fit-cover" src="<?php echo RUTA_IMG . '/perfiles/' . $_SESSION['usuario']->avatar(); ?>" alt="Logo de Usuario">
+                    <div class="capa-editar">
+                        <i class="bi bi-pencil-fill text-white fs-2"></i>
+                    </div>
+                </figure>
+                
+                <div class="d-lg-none position-absolute bottom-0 end-0 border-0 bg-white rounded-circle d-flex align-items-center justify-content-center" 
+                    style="margin-bottom: 10px; margin-left: 10px; width: 150px; height: 150px; border: 3px solid white; transform: translate(-5%, -5%); pointer-events: none; --bs-bg-opacity: .40;">
+                    <i class="bi bi-pencil-fill text-back" style="font-size: 3rem; margin-left: 10px;"></i>
+                </div>
+            </div>
+
+            <div class="d-block position-relative d-inline-block mt-3">
+                <h2 id="usuario-usuario-edit" class="h4 m-0 d-inline-block"><?php echo htmlspecialchars($_SESSION['usuario']->usuario()); ?></h2>
+                <button id="btn-editar-usuario" class="btn btn-sm btn-outline-none position-absolute top-50 translate-middle-y ms-2 btn-editar-usuario" onclick="abrirModalAdmin('Usuario')"><i class="bi bi-pencil-fill fs-5"></i></button>
             </div>
         </div>
         <div>
@@ -172,13 +202,14 @@ ob_start();
     <div class="modal-contenido">
         <span class="cerrar-modal-avatar">&times;</span>
         <h3 class="h4 mb-3">Editar Avatar</h3>
-        <form action="apoyo/admin_edit.php" class="formEditar" method="POST" enctype="multipart/form-data">
+        <form onsubmit="enviarDatosFormularioAdmin(event)" class="formEditar" method="POST" enctype="multipart/form-data">
             <input type="hidden" class="input-id-usuario" name="id-usuario" value="">
             <input type="hidden" name="campo-editar" value="Avatar">
             <div class="row row-cols-3 row-cols-sm-4 g-3 mb-3">
-                <?php foreach (IMAGENES_BASE as $indice => $archivo): ?>
+                <?php $primerAvatarSeleccionado = true;
+                foreach (IMAGENES_BASE as $indice => $archivo): ?>
                     <label class="opcion-avatar col text-center">
-                        <input class="btn-check" type="radio" name="foto_perfil" value="<?= $archivo; ?>">
+                        <input class="btn-check" type="radio" name="foto_perfil" value="<?= $archivo; ?>" <?= $primerAvatarSeleccionado ? 'checked' : ''; $primerAvatarSeleccionado = false;?>>
                         <span class="btn btn-outline-secondary w-100 p-2">
                             <img class="rounded-circle object-fit-cover" style="width:54px;height:54px;" src="<?php echo RUTA_IMG; ?>/perfiles/<?= $archivo; ?>" alt="Avatar <?= $indice; ?>">
                         </span>
@@ -191,7 +222,7 @@ ob_start();
                 </label>
             </div>
 
-            <div id="archivo-avatar">
+            <div id="archivo-avatar" style="display: none;">
                 <input class="form-control mb-3" type="file" id="avatar-nuevo" name="foto_perfil" accept="image/*">
             </div>
 
@@ -205,7 +236,7 @@ ob_start();
     <div class="modal-contenido">
         <span class="cerrar-modal">&times;</span>
         <h3 class="h4 mb-3">Editar <span id="campo-a-editar"></span></h3>
-        <form action="apoyo/admin_edit.php" class="formEditar" method="POST">
+        <form onsubmit="enviarDatosFormularioAdmin(event)" class="formEditar" method="POST">
             <input type="hidden" class="input-id-usuario" name="id-usuario" value="">
             <input type="hidden" id="campo-editar" name="campo-editar" value="error">
             <label class="form-label" id="label-nuevo-valor"></label>
@@ -220,7 +251,7 @@ ob_start();
     <div class="modal-contenido">
         <span class="cerrar-modal-rol">&times;</span>
         <h3 class="h4 mb-3">Editar Rol</h3>
-        <form action="apoyo/admin_edit.php" class="formEditar" method="POST" novalidate>
+        <form onsubmit="enviarDatosFormularioAdmin(event)" class="formEditar" method="POST" novalidate>
             <input type="hidden" class="input-id-usuario" name="id-usuario" value="">
             <input type="hidden" name="campo-editar" value="Rol">
             <label class="form-label">Rol</label>
@@ -240,10 +271,10 @@ ob_start();
     <div class="modal-contenido">
         <span class="cerrar-modal-pass">&times;</span>
         <h3 class="h4 mb-3">¿Seguro que deseas resetear la contraseña de <span id="usuario-reset-contrasena"></span>?</h3>
-        <form action="apoyo/admin_edit.php" id="formEditarPassword" method="POST">
+        <form onsubmit="enviarDatosFormularioAdmin(event)" id="formEditarPassword" method="POST">
             <input type="hidden" class="input-id-usuario" name="id-usuario" value="">
             <input type="hidden" name="campo-editar" value="Password">
-            <div class="d-flex gap-2">
+            <div class="d-flex align-items-center justify-content-center gap-2">
                 <button type="submit" class="btn btn-warning">Sí</button>
                 <button type="button" onclick="btnCerrarPassword.click()" class="btn btn-outline-secondary">No</button>
             </div>

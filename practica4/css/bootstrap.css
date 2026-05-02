@@ -116,6 +116,7 @@
 #contenedor-centro-edit-admin, #modalAdminEliminarusuario {
     display: none;
     position: fixed;
+    flex-direction: column;
     inset: 0;
     z-index: 1055;
 }
