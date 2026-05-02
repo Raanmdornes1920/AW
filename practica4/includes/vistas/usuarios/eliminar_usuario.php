@@ -128,7 +128,7 @@ ob_start(); // Capturamos el contenido del include
             <input type="hidden" id="input-id-eliminar" name="id-usuario" value="">
             <input type="hidden" name="volver" value="<?php echo htmlspecialchars(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : RAIZ_APP . "/"); ?>">
             <input type="hidden" name="modo-admin" value="Verdadero">
-            <div class="d-flex gap-2">
+            <div class="d-flex align-items-center justify-content-center gap-2">
                 <button type="submit" class="btn btn-danger">Sí</button>
                 <button type="button" onclick="CerrarEliminarUsuario()" class="btn btn-outline-secondary">No</button>
             </div>
