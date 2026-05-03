@@ -1,0 +1,83 @@
+# Feedback de la P2 Grupo 2 Revisión. Nota: 8.5
+
+## Funcionalidades implementadas
+
+- [X] Funcionalidad 0: Gestión de Usuarios
+- [X] Funcionalidad 1: Gestión de Productos
+- [X] Funcionalidad 2: Gestión de Pedidos
+
+## Prototipo del Proyecto
+
+### RESUMEN:
+- Se requiere sanear los datos de entrada: por ejemplo con filter_var
+- Se requiere utilizar sentencias preparadas en todos los casos
+- Se requiere utilizar POO en la gestión de formularios
+- Se requiere vistas diferenciadas para estado "Recibido" y "Listo cocina"
+
+#### Despliegue correcto en VPS
+- Desplegado correctamente en VPS.
+#### GitHub
+- No se ha podido acceder a los datos
+#### Memoria
+- Memoria completa
+
+
+### Funcionalidad 0: Gestión de Usuarios
+Cliente:
+- [ ] Registro de usuarios: registro.php
+	Se requiere aplicar validaciones a nivel de servidor: campos obligatorios y contraseñas no iguales no se validan
+	Se requiere sanear los datos de entrada: por ejemplo con filter_var
+	Se requiere utilizar sentencias preparadas
+	
+- [ ] Login de usuarios: login.php
+	Se requiere sanear los datos de entrada: por ejemplo con filter_var
+	Se requiere utilizar sentencias preparadas
+
+- [X] Actualización de usuarios: editar_perfil.php
+
+
+Gerente:
+- [X] Listado de usuarios (gerente): ajustes_admin.php
+	Se sugiere utilizar script de apoyo para las vistas
+- [X] Actualización de usuarios (gerente): admin_edit.php
+
+
+### Funcionalidad 1: Gestión de Productos
+- [X] Listado de categorias: categorias_gerente.php
+	Se sugiere utilizar script de apoyo para las vistas
+- [ ] Creación de categorias: categoria_crear.php
+	Se requiere utilizar POO en la gestión del formulario: la clase "FormularioCrearCategoria" debe heredar de "formularioBase" para gestionar todo el ciclo de la petición.
+- [ ] Actualización de categorias: categoria_actualizar.php
+	Se requiere utilizar POO en la gestión del formulario: la clase "FormularioActualizarCategoria" debe heredar de "formularioBase" para gestionar todo el ciclo de la petición.
+- [X] Eliminación categoria: categoria_borrar.php
+- [X] Listado de productos: productos_gerente.php
+	se sugiere utilizar script de apoyo para las vistas
+- [ ] Creación de productos: productos_crear.php
+	Se requiere utilizar POO en la gestión del formulario: la clase "FormularioCrearProducto" debe heredar de "formularioBase" para gestionar todo el ciclo de la petición.
+- [ ] Actualización de productos: productos_actualizar.php
+	Se requiere utilizar POO en la gestión del formulario: la clase "FormularioActualizarProducto" debe heredar de "formularioBase" para gestionar todo el ciclo de la petición.
+- [X] Eliminación de productos: productos_borrar.php
+
+
+### Funcionalidad 2: Gestión de Pedidos
+Cliente:
+- [X] Selección de opción "local/llevar": index.php/incio.php
+	Se sugiere utilizar script de apoyo para las vistas en inicio.php
+- [X] Selección de productos y cantidades (organizados por categorías, buscador de productos): categorias_cliente.php/productos_cliente.php
+	Se sugiere utilizar script de apoyo para las vistas en inicio.php	
+- [X] Ver detalle del producto: productos_detalle.php
+- [X] Ver detalle del pedido completo: carrito.php
+	se sugiere utilizar script de apoyo para las vistas	
+- [X] Seleccionar forma de pago: No implementado
+- [X] Consultar estado del pedido: mis_pedidos.php
+	se sugiere utilizar script de apoyo para las vistas		
+
+Camarero:
+- [X] Consultar pedidos en estado "Recibido": pedidos_camarero.php
+	se sugiere utilizar script de apoyo para las vistas	
+- [X] Cobrar pedidos en estado "Recibido"
+- [X] Consultar pedidos en estado "Listo cocina": pedidoslist.php
+- [X] Consutar detalles del pedido y pasar a estado "Terminado": pedidos_camarero.php
+- [X] Consultar pedidos en estado "Terminado" y pasar a estado "Entregado": pedidos_camarero.php
+
+
