@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 
 $httpHost = $_SERVER['HTTP_HOST'] ?? '';
 $remoteAddr = $_SERVER['REMOTE_ADDR'] ?? '';
-$es_local = ($remoteAddr == '127.0.0.1' || str_starts_with($httpHost, 'localhost') || str_starts_with($httpHost, '127.0.0.1'));
+$es_local = true;//($remoteAddr == '127.0.0.1' || str_starts_with($httpHost, 'localhost') || str_starts_with($httpHost, '127.0.0.1'));
 
 $scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
 $basePath = str_replace('\\', '/', dirname($scriptName));
