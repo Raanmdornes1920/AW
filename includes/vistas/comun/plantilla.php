@@ -9,9 +9,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Bootstrap 5.3 (CSS) -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?php echo RUTA_CSS; ?>/bootstrapMin.css" rel="stylesheet">
     <!-- Bootstrap Icons (opcional, por si los usamos) -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="<?php echo RUTA_CSS; ?>/bootstrap-icons.css" rel="stylesheet">
     <!-- Estilos personalizados -->
     <link href="<?php echo RUTA_CSS; ?>/bootstrap.css" rel="stylesheet">
 
@@ -48,7 +48,7 @@
     ?>
 
     <!-- Bootstrap 5.3 (JS bundle con Popper) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="<?php echo RUTA_JS; ?>/bootstrap.js"></script>
 </body>
 
 </html>
